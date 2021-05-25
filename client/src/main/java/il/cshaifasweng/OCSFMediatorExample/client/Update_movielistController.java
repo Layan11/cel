@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.TupleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -49,6 +49,7 @@ public class Update_movielistController {
 
 	@FXML // fx:id="back_to_home"
 	private Button back_to_home; // Value injected by FXMLLoader
+
 	@FXML // fx:id="movie_name"
 	private TextField movie_name; // Value injected by FXMLLoader
 
@@ -61,12 +62,16 @@ public class Update_movielistController {
 		movie.setHebName(new_time);
 		ArrayList<Movie> list = new ArrayList<Movie>();
 		list.add(movie);
-		TupleObject to = new TupleObject("Add Screening Time", list);
+		TripleObject to = new TripleObject("Add Screening Time", list, null);
 		try {
 			SimpleClient.getClient().sendToServer(to);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if (SimpleClient.msg.equals("i")) {
+			invalidDelete_label.setText("BLABOLA");
+			newTime_box1.clear();
 		}
 	}
 

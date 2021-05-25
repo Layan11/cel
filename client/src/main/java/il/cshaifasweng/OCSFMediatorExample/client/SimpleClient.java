@@ -1,16 +1,17 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.TupleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 
 public class SimpleClient extends AbstractClient {
-	private static int num = 0;
-	private Controller controller;
 	private static SimpleClient client = null;
+	public static ArrayList<Movie> moviesList;
+	public static ArrayList<MovieTimes> movieTimes;
+	public static String msg = "i";
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -18,24 +19,37 @@ public class SimpleClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		TupleObject tuple_msg = (TupleObject) msg;
-		System.out.println("entered handleMessageFromServer");
+		TripleObject triple_msg = (TripleObject) msg;
+		String myMsg = triple_msg.getMsg();
+//		if (msg.getClass().equals(Warning.class)) {
+//			EventBus.getDefault().post(new WarningEvent((Warning) msg));
+//		}
 
-		if (tuple_msg.getMsg().equals("no such movie")) {
-
-			// Update_movielistController.static_invalidDelete_label.setText("Sorry, no such
-			// movie");
+		if (myMsg.equals("no such movie")) {
+			msg = ("no such movie");
 		}
-		if (tuple_msg.getMsg().equals("All Movies")) {
-			ArrayList<Movie> movies = new ArrayList<Movie>();
-			movies = tuple_msg.getMovies();
-			System.out.println("Size in client" + movies.size());
-			if (movies != null) {
-				System.out.println("movies not nullllll");
 
+		if (myMsg.equals("All Movies")) {
+			ArrayList<Movie> movies = new ArrayList<Movie>();
+			movies = triple_msg.getMovies();
+			if (movies != null) {
+				moviesList = new ArrayList<Movie>();
+				moviesList = movies;
 				// System.out.println(movies.get(1).getEngName());
 			} else {
-				System.out.println("movies is nullllll");
+				System.out.println("movies is null");
+			}
+		}
+
+		if (myMsg.equals("All Movies Times")) {
+			ArrayList<MovieTimes> MT = new ArrayList<MovieTimes>();
+			MT = triple_msg.getMovieTimes();
+			if (MT != null) {
+				movieTimes = new ArrayList<MovieTimes>();
+				movieTimes = MT;
+				System.out.println("IN SIMPLE CLIENT: " + movieTimes.get(0).getTimes());
+			} else {
+				System.out.println("MT is null");
 			}
 		}
 	}
@@ -46,13 +60,4 @@ public class SimpleClient extends AbstractClient {
 		}
 		return client;
 	}
-
-	public static int getNum() {
-		return num;
-	}
-
-	public void setNum(int num) {
-		SimpleClient.num = num;
-	}
-
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="351.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrimaryController">
+<VBox alignment="CENTER" prefHeight="351.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrimaryController">
    <children>
       <AnchorPane cacheShape="false" centerShape="false" prefHeight="342.0" prefWidth="630.0">
          <children>
@@ -16,17 +16,12 @@
                <image>
                   <Image url="@option2.jpeg" />
                </image></ImageView>
-            <Button fx:id="Browse_movie_list" layoutX="80.0" layoutY="199.0" mnemonicParsing="false" onAction="#gotobrowse_movies" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-color: #730606; -fx-background-radius: 40;" text="Browse_movie_list" textFill="#fffefc">
+            <Button fx:id="Browse_movie_list" layoutX="154.0" layoutY="199.0" mnemonicParsing="false" onAction="#gotobrowse_movies" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-color: #730606; -fx-background-radius: 40;" text="Browse_movie_list" textFill="#fffefc">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="Filling_a_complaint" layoutX="256.0" layoutY="199.0" mnemonicParsing="false" onAction="#gotoFillingacomplaint" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-radius: 40; -fx-background-color: #730606;" text="Filling_a_complaint" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="Update_movie_list" layoutX="429.0" layoutY="199.0" mnemonicParsing="false" onAction="#gotobrowse_movies" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-radius: 40; -fx-background-color: #730606;" text="Update_movie_list" textFill="WHITE">
+            <Button fx:id="Filling_a_complaint" layoutX="330.0" layoutY="199.0" mnemonicParsing="false" onAction="#gotoFillingacomplaint" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-radius: 40; -fx-background-color: #730606;" text="Filling_a_complaint" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
