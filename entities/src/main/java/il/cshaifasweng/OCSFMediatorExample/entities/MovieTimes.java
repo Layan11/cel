@@ -21,8 +21,6 @@ public class MovieTimes implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name = "My_MovieTimes_id")
-
 	private int id;
 	@ElementCollection
 	private List<String> time;

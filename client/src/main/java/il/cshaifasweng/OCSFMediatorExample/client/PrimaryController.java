@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.TupleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 //import java.awt.event.ActionEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,14 +22,11 @@ import javafx.stage.Window;
 
 public class PrimaryController {
 
-	@FXML // fx:id="Update_movie_list"
-	private Button Update_movie_list; // Value injected by FXMLLoader
+	@FXML
+	private Button Browse_movie_list;
 
-	@FXML // fx:id="Browse_movie_list"
-	private Button Browse_movie_list; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Filling_a_complaint"
-	private Button Filling_a_complaint; // Value injected by FXMLLoader
+	@FXML
+	private Button Filling_a_complaint;
 
 	@FXML
 	void gotoFillingacomplaint(ActionEvent event) throws IOException {
@@ -47,22 +44,22 @@ public class PrimaryController {
 
 	}
 
-	@FXML
-	void gotoLogin(ActionEvent event) throws IOException {
-
-		Window window = ((Node) (event.getSource())).getScene().getWindow();
-		if (window instanceof Stage) {
-			((Stage) window).close();
-		}
-
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Log in");
-		primaryStage.show();
-
-	}
+//	@FXML
+//	void gotoLogin(ActionEvent event) throws IOException {
+//
+//		Window window = ((Node) (event.getSource())).getScene().getWindow();
+//		if (window instanceof Stage) {
+//			((Stage) window).close();
+//		}
+//
+//		Stage primaryStage = new Stage();
+//		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+//		Scene scene = new Scene(root);
+//		primaryStage.setScene(scene);
+//		primaryStage.setTitle("Log in");
+//		primaryStage.show();
+//
+//	}
 
 	@FXML
 	void gotobrowse_movies(ActionEvent event) throws Exception {
@@ -72,7 +69,7 @@ public class PrimaryController {
 			((Stage) window).close();
 		}
 		ArrayList<Movie> movie = new ArrayList<Movie>();
-		TupleObject msg = new TupleObject("Browse movies", movie);
+		TripleObject msg = new TripleObject("Browse movies", movie, null);
 		SimpleClient.getClient().sendToServer(msg);
 		Stage primaryStage = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("browse_movies.fxml"));

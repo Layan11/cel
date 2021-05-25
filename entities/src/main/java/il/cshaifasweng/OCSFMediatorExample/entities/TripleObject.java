@@ -3,17 +3,19 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TupleObject implements Serializable {
+public class TripleObject implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	String msg;
 	ArrayList<Movie> movies;
+	ArrayList<MovieTimes> movieTimes;
 
-	public TupleObject(String msg, ArrayList<Movie> movies) {
+	public TripleObject(String msg, ArrayList<Movie> movies, ArrayList<MovieTimes> movieTimes) {
 		this.msg = msg;
 		this.movies = movies;
+		this.movieTimes = movieTimes;
 	}
 
 	public String getMsg() {
@@ -26,6 +28,14 @@ public class TupleObject implements Serializable {
 
 	public ArrayList<Movie> getMovies() {
 		return movies;
+	}
+
+	public void setMoviesTimes(ArrayList<MovieTimes> movieTimes) {
+		this.movieTimes = movieTimes;
+	}
+
+	public ArrayList<MovieTimes> getMovieTimes() {
+		return movieTimes;
 	}
 
 	public void setMovies(ArrayList<Movie> movies) {

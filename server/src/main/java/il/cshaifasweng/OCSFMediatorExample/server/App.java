@@ -42,7 +42,8 @@ public class App {
 
 	private static void generateData() throws Exception {
 //Aladdin
-		// byte[] AladdinImage = Files.readAllBytes(Paths.get(null));
+//		byte[] AladdinImage = Files
+//				.readAllBytes(Paths.get("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg"));
 		List<String> AladdinActorsList = new ArrayList<String>();
 		List<String> AladdinTimes = new ArrayList<String>();
 		AladdinActorsList.add("Mena Massoud");
@@ -52,11 +53,12 @@ public class App {
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
 		session.save(AladdinMovieTimes);
 		Movie AladdinMovie = new Movie("Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
-				"Jonathan Eirich", 20, AladdinMovieTimes);
+				"Jonathan Eirich", 20, /* AladdinImage, */ AladdinMovieTimes);
 		session.save(AladdinMovie);
 		session.flush();
 
 //Shrek
+//		byte[] ShrekImage = Files.readAllBytes(Paths.get("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Shrek.jpg"));
 		List<String> ShrekActorsList = new ArrayList<String>();
 		List<String> ShrekTimes = new ArrayList<String>();
 		ShrekActorsList.add("Shrek");
@@ -65,10 +67,12 @@ public class App {
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
 		session.save(ShrekMovieTimes);
 		Movie ShrekMovie = new Movie("Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
-				"John H. Williams", 35, ShrekMovieTimes);
+				"John H. Williams", 35, /* ShrekImage, */ ShrekMovieTimes);
 		session.save(ShrekMovie);
 		session.flush();
 //Snow White
+//		byte[] SnowWhiteImage = Files
+//				.readAllBytes(Paths.get("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\SnowWhite.jpg"));
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
 		List<String> SnowWhiteTimes = new ArrayList<String>();
 		SnowWhiteActorsList.add("Snow White");
@@ -77,11 +81,13 @@ public class App {
 		MovieTimes SnowWhiteMovieTimes = new MovieTimes(SnowWhiteTimes);
 		session.save(SnowWhiteMovieTimes);
 		Movie SnowWhiteMovie = new Movie("Snow White", SnowWhiteActorsList, 88, "שלגייה",
-				"insert snow white movie summary", "Walt Disney", 4, SnowWhiteMovieTimes);
+				"insert snow white movie summary", "Walt Disney", 4, /* SnowWhiteImage, */ SnowWhiteMovieTimes);
 		session.save(SnowWhiteMovie);
 		session.flush();
 
 //Fast and Furious
+//		byte[] FnFImage = Files
+//				.readAllBytes(Paths.get("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg"));
 		List<String> FnFActorsList = new ArrayList<String>();
 		List<String> FnFTimes = new ArrayList<String>();
 		FnFActorsList.add("Vin Diesel");
@@ -91,11 +97,12 @@ public class App {
 		MovieTimes FnFMovieTimes = new MovieTimes(FnFTimes);
 		session.save(FnFMovieTimes);
 		Movie FastAndFuriousMovie = new Movie("Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
-				"insert fast and furious movie summary", "Neal H. Moritz", 45, FnFMovieTimes);
+				"insert fast and furious movie summary", "Neal H. Moritz", 45, /* FnFImage, */ FnFMovieTimes);
 		session.save(FastAndFuriousMovie);
 		session.flush();
 
 //Dumbo
+//		byte[] DumboImage = Files.readAllBytes(Paths.get("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Dumbo.jpg"));
 		List<String> DumboActorsList = new ArrayList<String>();
 		List<String> DumboTimes = new ArrayList<String>();
 		DumboActorsList.add("Eva Green");
@@ -105,7 +112,7 @@ public class App {
 		MovieTimes DumboMovieTimes = new MovieTimes(DumboTimes);
 		session.save(DumboMovieTimes);
 		Movie DumboMovie = new Movie("Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary", "Tim Burton ",
-				25, DumboMovieTimes);
+				25, /* DumboImage, */DumboMovieTimes);
 		session.save(DumboMovie);
 		session.flush();
 

@@ -40,14 +40,14 @@ public class Movie implements Serializable {
 	@OneToOne()
 	@JoinColumn(name = "MovieTimes_id")
 	private MovieTimes Times;
-	private byte[] image;
+	// private byte[] image;
 
 	public Movie() {
 
 	}
 
 	public Movie(String EngName, List<String> actors, int len, String HebName, String summary, String producer,
-			int price, MovieTimes times) {
+			int price, /* byte[] image, */ MovieTimes times) {
 		super();
 		this.EngName = EngName;
 		this.Length = len;
@@ -56,6 +56,7 @@ public class Movie implements Serializable {
 		this.Summary = summary;
 		this.Producer = producer;
 		this.Price = price;
+		// this.image = image;
 		this.Times = times;
 	}
 
@@ -161,12 +162,12 @@ public class Movie implements Serializable {
 		return myStr;
 	}
 
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
+//	public byte[] getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(byte[] image) {
+//		this.image = image;
+//	}
 
 }

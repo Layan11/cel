@@ -11,7 +11,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.TupleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
@@ -25,10 +26,10 @@ public class SimpleServer extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		System.out.println("beinning of FUNCCCCCCCCCCCCCCCC");
-		TupleObject tuple_msg = (TupleObject) msg;
-		// String msgString = msg.toString();
-		if (tuple_msg.getMsg().startsWith("#warning")) {
+		TripleObject tuple_msg = (TripleObject) msg;
+		String ObjctMsg = tuple_msg.getMsg();
+
+		if (ObjctMsg.startsWith("#warning")) {
 			Warning warning = new Warning("Warning from server!");
 			try {
 				client.sendToClient(warning);
@@ -37,53 +38,64 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		if (tuple_msg.getMsg().startsWith("Delete movie ")) {
-			System.out.println("in delete movieeeeeeeeeeeee");
+
+		if (ObjctMsg.startsWith("Delete movie ")) {
 			boolean x = deleteMovie(msg);
 			if (x == false) {
-				// try {
-				// client.sendToClient("no such movie");
 				try {
-					client.sendToClient(new TupleObject("no such movie", null));
+					client.sendToClient(new TripleObject("no such movie", null, null));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("KKKKKKKKKKKKKKKKKKKKKKKKKKK");
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-
 			} else {
 				try {
-					// client.sendToClient("found movie");
-					client.sendToClient(new TupleObject("found movie", null));
+					client.sendToClient(new TripleObject("found movie", null, null));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		System.out.println("before the IFFFFFFFFFFFFFFFFFFF");
-		if (tuple_msg.getMsg().startsWith("Browse movies")) {
+
+		if (ObjctMsg.startsWith("Browse movies")) {
 			try {
 				ArrayList<Movie> movies = getMoviesList();
-				System.out.println("size in handle msg from client func: " + movies.size());
-				// System.out.println(movies.get(0).getEngName());
-				client.sendToClient(new TupleObject("All Movies", movies));
-				// client.sendToClient(tuple_msg);
+				client.sendToClient(new TripleObject("All Movies", movies, null));
 			} catch (Exception e) {
-				System.out.println("exceptionnnnnnnnnnnnnnnnnnnnnnnnnnn");
 				e.printStackTrace();
 			}
 		}
-		if (tuple_msg.getMsg().startsWith("Add Screening Time")) {
+
+		if (ObjctMsg.startsWith("Add Screening Time")) {
 			String name = tuple_msg.getMovies().get(0).getEngName();
 			String Newtime = tuple_msg.getMovies().get(0).getHebName();
-			AddScreeningTime(name, Newtime, null);
+			boolean res = AddScreeningTime(name, Newtime, null);
+			if (res == false) {
+				System.out.println("An error has occured");
+			} else {
+				ArrayList<MovieTimes> movieTimes = getMovieTimes();
+				TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
+				to.setMoviesTimes(movieTimes);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		System.out.println("End of handle msg from client func");
+
+		if (ObjctMsg.startsWith("Show Screening Times")) {
+			ArrayList<MovieTimes> movieTimes = getMovieTimes();
+			TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
+			try {
+				client.sendToClient(to);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private boolean deleteMovie(Object msg) {
@@ -115,69 +127,23 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private static ArrayList<Movie> getMoviesList() {
-		System.out.println("beginning of get movie list func (of server)");
-//		ArrayList<Movie> movies = new ArrayList<Movie>();
-//		Movie movie = new Movie();
-//		System.out.println("SELECT* FROM movies");// aw my_moviesssssssss aw databaseforavtipos.movie
-//		Connection c = null;
-//		java.sql.Statement stmt = null;
-//		try {
-//			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
-//			c.setAutoCommit(false);
-//			System.out.println("Opened database successfully");
-//			stmt = c.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT* FROM movies");
-//			while (rs.next()) {
-//				System.out.println("Table contains before everything" + rs.getRow() + " rows");
-//				if (rs.getString("Eng_name") != null && rs.getString("Heb_Name") != null && rs.getInt("lenth") != 0
-//				/* && rs.getObject("My_ActorsNames") != null */ && rs.getString("summary") != null
-//						&& rs.getString("producer") != null && rs.getInt("price") != 0) {
-//					String engName = rs.getString("Eng_name");
-//					System.out.println("ENGNAME = " + engName);
-//					String hebName = rs.getString("Heb_Name");
-//					System.out.println("HEBNAME = " + hebName);
-//					int len = rs.getInt("lenth");
-//					System.out.println("LEN = " + len);
-//					ArrayList<String> actors = new ArrayList<String>();
-//					String summary = rs.getString("summary");
-//					System.out.println("SUMMARY = " + summary);
-//					String producer = rs.getString("producer");
-//					System.out.println("PRODUCER = " + producer);
-//					int price = rs.getInt("price");
-//					System.out.println("PRICE = " + price);
-//					movie = new Movie(engName, actors, len, hebName, summary, producer, price, null);
-//					movies.add(movie);
-//
-//				}
-////				int rowCount = rs.getRow();
-////				for (int row = 1; row <= rowCount; ++row) {
-////					Object movie = rs.getObject(row);
-////					movies.add((Movie) movie);
-////				}
-//				System.out.println("Table contains " + rs.getRow() + " rows");
-//				System.out.println("THe first movie before is: " + movies.get(0).getEngName());
-//			}
-//			stmt.close();
-//			c.close();
-//		} catch (Exception e) {
-//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//			System.exit(0);
-//		}
-//		System.out.println("Operation done successfully");
-//		System.out.println("THe size of movies list after is: " + movies.size());
-//		return movies;
-
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		query.from(Movie.class);
 		List<Movie> data = App.session.createQuery(query).getResultList();
-		System.out.println("SIZE OF MOVIES LIST in get movies func: " + data.size());
-		// System.out.println("FIRST MOVIE: " + data.get(0).getEngName());
 		return (ArrayList<Movie>) data;
 	}
 
-	private void AddScreeningTime(String name, String newTime, String oldTime) {
-		// System.out.println("SELECT FROM movies WHERE EngName = '" + name + "'");
+	private static ArrayList<MovieTimes> getMovieTimes() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
+		query.from(MovieTimes.class);
+		List<MovieTimes> data = App.session.createQuery(query).getResultList();
+		return (ArrayList<MovieTimes>) data;
+	}
+
+	private boolean AddScreeningTime(String name, String newTime, String oldTime) {
+		boolean let_in = false;
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
@@ -185,28 +151,31 @@ public class SimpleServer extends AbstractServer {
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
+			ResultSet movieId = stmt.executeQuery("SELECT FROM movies WHERE EngName = '" + name + "'");
 
 			if (newTime == null) {
-				/* add */}
+				int rs = stmt.executeUpdate("INSERT INTO movietimes_time (MovieTimes_id, times) values ('" + movieId
+						+ "', '" + newTime + "')");
+				if (rs != -1) {
+					let_in = true;
+				}
+			}
 
 			if (oldTime == null) {
-				/* remove */} else {
-//				CriteriaUpdate<Movie> criteriaUpdate = cb.createCriteriaUpdate(Movie.class);
-//				Root<Movie> root = criteriaUpdate.from(Movie.class);
-//				criteriaUpdate.set("itemPrice", newPrice);
-//				criteriaUpdate.where(cb.equal(root.get("itemPrice"), oldPrice));
-//
-//				Transaction transaction = session.beginTransaction();
-//				session.createQuery(criteriaUpdate).executeUpdate();
-//				transaction.commit();
+				int rs = stmt.executeUpdate("DELETE FROM movietimes_time WHERE time = '" + oldTime + "'");
+				if (rs != -1) {
+					let_in = true;
+				}
 			}
-			// before we need a query that takes movie name and returns the movie id and
-			// then we need another query that add/remove/update screening time to the movie
-			// id
-			ResultSet rs = stmt.executeQuery("?????????????????????????????????????????");
-			if (rs != null) {
 
+			else {
+				int rs = stmt.executeUpdate(
+						"UPDATE movietimes_time SET time = '" + newTime + "' WHERE MovieTimes_id = " + movieId);
+				if (rs != -1) {
+					let_in = true;
+				}
 			}
+
 			stmt.close();
 			c.close();
 		} catch (Exception e) {
@@ -214,5 +183,6 @@ public class SimpleServer extends AbstractServer {
 			System.exit(0);
 		}
 		System.out.println("Operation done successfully");
+		return let_in;
 	}
 }
