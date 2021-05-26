@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,17 +64,41 @@ public class update_moviesController implements Initializable {
 
 	@FXML
 	void gotoback(ActionEvent event) throws IOException {
-		Window window = ((Node) (event.getSource())).getScene().getWindow();
-		if (window instanceof Stage) {
-			((Stage) window).close();
-		}
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("Screening_Times.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("List of movies");
-		primaryStage.show();
+//		Window window = ((Node) (event.getSource())).getScene().getWindow();
+//		if (window instanceof Stage) {
+//			((Stage) window).close();
+//		}
+//		Stage primaryStage = new Stage();
+//		Parent root = FXMLLoader.load(getClass().getResource("Screening_Times.fxml"));
+//		Scene scene = new Scene(root);
+//		primaryStage.setScene(scene);
+//		primaryStage.setTitle("List of movies");
+//		primaryStage.show();
+
+		TripleObject msg = new TripleObject("Show Screening Times", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+
 	}
+	
+	@Subscribe
+	public void onData4(GotScreeningTimesEventback event) {
+		//System.out.println("IN onData1");
+		Platform.runLater(() -> {
+
+			//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+			Parent root;
+			try {
+				App.setRoot("Screening_Times");
+				//System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+	}
+		
 
 	@FXML
 	void gotodelete(ActionEvent event) throws IOException {
@@ -101,6 +129,7 @@ public class update_moviesController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		EventBus.getDefault().register(this);
 		// TODO Auto-generated method stub
 
 	}

@@ -33,24 +33,7 @@ public class PrimaryController implements Initializable {
 	@FXML
 	private Button Filling_a_complaint;
 
-	@FXML // fx:id="example"
-	private Button example; // Value injected by FXMLLoader
 
-	@FXML
-	void f1(ActionEvent event) throws Exception {
-		Window window = ((Node) (event.getSource())).getScene().getWindow();
-		if (window instanceof Stage) {
-			((Stage) window).close();
-		}
-
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("BrowseMovies.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Complaints");
-		primaryStage.show();
-
-	}
 
 	@FXML
 	void gotoFillingacomplaint(ActionEvent event) throws IOException {
@@ -102,12 +85,10 @@ public class PrimaryController implements Initializable {
 //			if (window instanceof Stage) {
 //				((Stage) window).close();
 //			}
-			System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
 //			Stage primaryStage = new Stage();
-			Parent root;
+			//Parent root;
 			try {
 				App.setRoot("browse_movies");
-				System.out.println("after the load line of brwose movies in primary");
 //				Scene scene = new Scene(root);
 //				primaryStage.setScene(scene);
 //				primaryStage.setTitle("Browse movies list");
