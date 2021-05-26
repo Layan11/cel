@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="560.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.BrowseMoviesController">
+   <children>
+      <TableView prefHeight="467.0" prefWidth="563.0">
+        <columns>
+          <TableColumn fx:id="c1" prefWidth="75.0" text="C1" />
+          <TableColumn fx:id="c2" prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Button fx:id="show" layoutX="588.0" layoutY="387.0" mnemonicParsing="false" onAction="#gotoshow" text="show" />
+      <Button fx:id="back" layoutX="584.0" layoutY="455.0" mnemonicParsing="false" onAction="#gotoback" text="back" />
+   </children>
+</AnchorPane>

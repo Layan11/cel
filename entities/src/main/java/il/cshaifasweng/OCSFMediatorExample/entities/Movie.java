@@ -40,14 +40,18 @@ public class Movie implements Serializable {
 	@OneToOne()
 	@JoinColumn(name = "MovieTimes_id")
 	private MovieTimes Times;
-	// private byte[] image;
+//	@Lob
+//	@Column(columnDefinition = "LONGBLOB")
+//	private byte[] image;
+	private String image;
+	private String branch;
 
 	public Movie() {
 
 	}
 
 	public Movie(String EngName, List<String> actors, int len, String HebName, String summary, String producer,
-			int price, /* byte[] image, */ MovieTimes times) {
+			int price, String image, MovieTimes times, String branch) {
 		super();
 		this.EngName = EngName;
 		this.Length = len;
@@ -56,8 +60,9 @@ public class Movie implements Serializable {
 		this.Summary = summary;
 		this.Producer = producer;
 		this.Price = price;
-		// this.image = image;
+		this.setImage(image);
 		this.Times = times;
+		this.setBranch(branch);
 	}
 
 	public String getEngName() {
@@ -162,12 +167,20 @@ public class Movie implements Serializable {
 		return myStr;
 	}
 
-//	public byte[] getImage() {
-//		return image;
-//	}
-//
-//	public void setImage(byte[] image) {
-//		this.image = image;
-//	}
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
 
 }
