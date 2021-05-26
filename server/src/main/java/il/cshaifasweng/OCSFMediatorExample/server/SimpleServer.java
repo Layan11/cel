@@ -40,6 +40,7 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		if (ObjctMsg.startsWith("Delete movie ")) {
+			App.session = App.sessionFactory.openSession();
 			boolean x = deleteMovie(msg);
 			if (x == false) {
 				try {
@@ -56,25 +57,36 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			App.session.close();
 		}
 
 		if (ObjctMsg.startsWith("Browse movies")) {
+			System.out.println("in browse movies in server");
 			try {
-				ArrayList<Movie> movies = getMoviesList();
+				App.session = App.sessionFactory.openSession();
+				List<Movie> movies = getMoviesList();
+				System.out.println("after get movies list in server print first movie from this list: "
+						+ movies.get(0).getEngName());
 				client.sendToClient(new TripleObject("All Movies", movies, null));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			App.session.close();
 		}
 
-		if (ObjctMsg.startsWith("Add Screening Time")) {
+		if (ObjctMsg.startsWith("Add Screening Time") || ObjctMsg.startsWith("Delete Screening Time")
+				|| ObjctMsg.startsWith("Update Screening Time")) {
+			App.session = App.sessionFactory.openSession();
 			String name = tuple_msg.getMovies().get(0).getEngName();
 			String Newtime = tuple_msg.getMovies().get(0).getHebName();
-			boolean res = AddScreeningTime(name, Newtime, null);
+			String oldTime = tuple_msg.getMovies().get(0).getProducer();
+			boolean res = editScreeningTime(name, Newtime, oldTime);
 			if (res == false) {
 				System.out.println("An error has occured");
 			} else {
-				ArrayList<MovieTimes> movieTimes = getMovieTimes();
+				List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
+				movieTimes.get(0).SetMovieTimes(getMovieTimes(name));
+				System.out.println("CHECKKKKKKKKKKKK: " + movieTimes.get(0).getTimes());
 				TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
 				to.setMoviesTimes(movieTimes);
 				try {
@@ -84,10 +96,12 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			App.session.close();
 		}
 
 		if (ObjctMsg.startsWith("Show Screening Times")) {
-			ArrayList<MovieTimes> movieTimes = getMovieTimes();
+			App.session = App.sessionFactory.openSession();
+			List<MovieTimes> movieTimes = getAllMovieTimes();
 			TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
 			try {
 				client.sendToClient(to);
@@ -96,6 +110,7 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		App.session.close();
 	}
 
 	private boolean deleteMovie(Object msg) {
@@ -126,23 +141,52 @@ public class SimpleServer extends AbstractServer {
 		// TODO: add close connection
 	}
 
-	private static ArrayList<Movie> getMoviesList() {
+	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		query.from(Movie.class);
 		List<Movie> data = App.session.createQuery(query).getResultList();
-		return (ArrayList<Movie>) data;
+		return data;
 	}
 
-	private static ArrayList<MovieTimes> getMovieTimes() {
+	private static List<MovieTimes> getAllMovieTimes() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
 		query.from(MovieTimes.class);
 		List<MovieTimes> data = App.session.createQuery(query).getResultList();
-		return (ArrayList<MovieTimes>) data;
+		return data;
 	}
 
-	private boolean AddScreeningTime(String name, String newTime, String oldTime) {
+	private static List<String> getMovieTimes(String name) {
+		List<String> times = new ArrayList<String>();
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet RS = stmt.executeQuery("SELECT FROM movies WHERE EngName = '" + name + "'");
+			if (RS == null) {
+				System.out.print("Error, movie not found");
+				return null;
+			}
+			int movieId = RS.getInt("id");
+			ResultSet rs = stmt.executeQuery("SELECT FROM movietimes_time WHERE id = '" + movieId + "'");
+			if (rs != null) {
+				times = (List<String>) rs;
+			}
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		return times;
+	}
+
+	private boolean editScreeningTime(String name, String newTime, String oldTime) {
 		boolean let_in = false;
 		Connection c = null;
 		java.sql.Statement stmt = null;

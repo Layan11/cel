@@ -1,7 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 public class TripleObject implements Serializable {
 	/**
@@ -9,10 +9,10 @@ public class TripleObject implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	String msg;
-	ArrayList<Movie> movies;
-	ArrayList<MovieTimes> movieTimes;
+	List<Movie> movies;
+	List<MovieTimes> movieTimes;
 
-	public TripleObject(String msg, ArrayList<Movie> movies, ArrayList<MovieTimes> movieTimes) {
+	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;
 		this.movies = movies;
 		this.movieTimes = movieTimes;
@@ -26,19 +26,19 @@ public class TripleObject implements Serializable {
 		this.msg = msg;
 	}
 
-	public ArrayList<Movie> getMovies() {
+	public List<Movie> getMovies() {
 		return movies;
 	}
 
-	public void setMoviesTimes(ArrayList<MovieTimes> movieTimes) {
+	public void setMoviesTimes(List<MovieTimes> movieTimes) {
 		this.movieTimes = movieTimes;
 	}
 
-	public ArrayList<MovieTimes> getMovieTimes() {
+	public List<MovieTimes> getMovieTimes() {
 		return movieTimes;
 	}
 
-	public void setMovies(ArrayList<Movie> movies) {
+	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
 	}
 
