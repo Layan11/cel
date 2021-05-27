@@ -43,7 +43,7 @@ public class App {
 
 	private static void generateData() throws Exception {
 //Aladdin
-		String AladdinImage = ("C:\\\\Users\\\\Layan\\\\git\\\\cel\\\\server\\\\movie pics\\\\Aladdin_poster_1992.jpg");
+		String AladdinImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg");
 		List<String> AladdinActorsList = new ArrayList<String>();
 		List<String> AladdinTimes = new ArrayList<String>();
 		AladdinActorsList.add("Mena Massoud");
@@ -58,7 +58,7 @@ public class App {
 		session.flush();
 
 //Shrek
-		String ShrekImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Shrek.jpg");
+		String ShrekImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Shrek.jpg");
 		List<String> ShrekActorsList = new ArrayList<String>();
 		List<String> ShrekTimes = new ArrayList<String>();
 		ShrekActorsList.add("Shrek");
@@ -71,7 +71,7 @@ public class App {
 		session.save(ShrekMovie);
 		session.flush();
 //Snow White
-		String SnowWhiteImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
+		String SnowWhiteImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
 		List<String> SnowWhiteTimes = new ArrayList<String>();
 		SnowWhiteActorsList.add("Snow White");
@@ -85,7 +85,7 @@ public class App {
 		session.flush();
 
 //Fast and Furious
-		String FnFImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
+		String FnFImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
 		List<String> FnFActorsList = new ArrayList<String>();
 		List<String> FnFTimes = new ArrayList<String>();
 		FnFActorsList.add("Vin Diesel");
@@ -100,7 +100,7 @@ public class App {
 		session.flush();
 
 //Dumbo
-		String DumboImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Dumbo.jpg");
+		String DumboImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Dumbo.jpg");
 		List<String> DumboActorsList = new ArrayList<String>();
 		List<String> DumboTimes = new ArrayList<String>();
 		DumboActorsList.add("Eva Green");

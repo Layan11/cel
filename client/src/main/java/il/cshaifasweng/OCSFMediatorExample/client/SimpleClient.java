@@ -53,6 +53,8 @@ public class SimpleClient extends AbstractClient {
 			if (MT != null) {
 				movieTimes = new ArrayList<MovieTimes>();
 				movieTimes = MT;
+				System.out.println("printing screening times in client:" + movieTimes.get(0).getTimes());
+				EventBus.getDefault().post(new GotScreeningTimesEvent());
 			} else {
 				System.out.println("MT is null");
 			}

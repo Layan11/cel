@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="410.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Screening_TimesController">
+<AnchorPane prefHeight="410.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Screening_TimesController">
    <children>
       <VBox prefHeight="410.0" prefWidth="514.0" />
       <AnchorPane prefHeight="410.0" prefWidth="514.0">
@@ -19,6 +19,6 @@
             <TableColumn fx:id="Branch" prefWidth="119.0" text="Branch" />
         </columns>
       </TableView>
-      <Button fx:id="back" layoutX="414.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoback" text="back" />
+      <Button fx:id="back" layoutX="414.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoback" prefHeight="26.0" prefWidth="61.0" text="back" />
    </children>
 </AnchorPane>

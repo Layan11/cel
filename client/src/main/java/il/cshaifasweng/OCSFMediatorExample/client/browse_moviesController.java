@@ -10,8 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,46 +63,65 @@ public class browse_moviesController implements Initializable {
 	@FXML // fx:id="image5"
 	private ImageView image5; // Value injected by FXMLLoader
 
-	public static Movie selectedMovie = new Movie();
+	public static Movie selectedMovie;
 
 	@FXML
 	void gobacktoprimary(ActionEvent event) throws IOException {
-		Window window = ((Node) (event.getSource())).getScene().getWindow();
-		if (window instanceof Stage) {
-			((Stage) window).close();
-		}
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("List of movies");
-		primaryStage.show();
+//		Window window = ((Node) (event.getSource())).getScene().getWindow();
+//		if (window instanceof Stage) {
+//			((Stage) window).close();
+//		}
+//		Stage primaryStage = new Stage();
+//		Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
+//		Scene scene = new Scene(root);
+//		primaryStage.setScene(scene);
+//		primaryStage.setTitle("List of movies");
+//		primaryStage.show();
+		Platform.runLater(() -> {
+		Parent root;
+		try {
+			App.setRoot("primary");
+			//System.out.println("after the load line of brwose movies in primary");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}});
+
+
 
 	}
 
 	@FXML
 	void gotoShow_screening_time(ActionEvent event) throws IOException {
-		Window window = ((Node) (event.getSource())).getScene().getWindow();
-		if (window instanceof Stage) {
-			((Stage) window).close();
-		}
 		Movie selected = tableView.getSelectionModel().getSelectedItem();
-		// selectedMovie = new Movie();
 		selectedMovie = selected;
 		TripleObject msg = new TripleObject("Show Screening Times", null, null);
 		SimpleClient.getClient().sendToServer(msg);
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("Screening_Times.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Screening_Times");
-		primaryStage.show();
 
+	}
+	
+	@Subscribe
+	public void onData1(GotScreeningTimesEvent event) {
+		//System.out.println("IN onData1");
+		Platform.runLater(() -> {
+
+			//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+			Parent root;
+			try {
+				App.setRoot("Screening_Times");
+				//System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
 	}
 
 	// this method will return an observableList of movie
 	public void getMovies(/* ArrayList<Movie> movies */) {
-		System.out.println("SimpleClient.moviesList.get(0).getEngName()");
 		final ObservableList<Movie> movie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));
@@ -111,8 +134,9 @@ public class browse_moviesController implements Initializable {
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
-		System.out.println("in initialize in browse movies controller : ");// +
-																			// SimpleClient.moviesList.get(0).getEngName());
+		System.out.println("in initialize in browse movies controller : ");
+																			
+		EventBus.getDefault().register(this);
 		getMovies();
 		InputStream stream;
 		try {
