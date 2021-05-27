@@ -13,7 +13,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
 	public static List<Movie> moviesList;// = new ArrayList<Movie>();
-	public static List<MovieTimes> movieTimes;// = new ArrayList<MovieTimes>();
+	public static List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -51,9 +51,18 @@ public class SimpleClient extends AbstractClient {
 			List<MovieTimes> MT = new ArrayList<MovieTimes>();
 			MT = triple_msg.getMovieTimes();
 			if (MT != null) {
-				movieTimes = new ArrayList<MovieTimes>();
+				EventBus.getDefault().post(new GotScreeningTimesEvent());
+				//List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
+				//movieTimes = new ArrayList<MovieTimes>();
 				movieTimes = MT;
-				System.out.println("printing screening times in client:" + movieTimes.get(0).getTimes());
+				System.out.println("printing screening times in client :" + movieTimes.get(0).getTimes());
+				System.out.println("printing screening times in client1 :" + movieTimes.get(1).getTimes());
+				System.out.println("printing screening times in client2 :" + movieTimes.get(2).getTimes());
+				System.out.println("printing screening times in client3 :" + movieTimes.get(3).getTimes());
+				System.out.println("printing screening times in client4 :" + movieTimes.get(4).getTimes());
+				//System.out.println("printing selected movie times in client: " + browse_moviesController.selectedMovie.getMovieTimes().getTimes());
+				//System.out.println("printing screening times in client MT:" + movieTimes.get(0).getTimes());
+				//System.out.println("printing screening times in client MT2:" + movieTimes.get(1).getTimes());
 				EventBus.getDefault().post(new GotScreeningTimesEvent());
 			} else {
 				System.out.println("MT is null");

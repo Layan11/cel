@@ -17,6 +17,7 @@ import java.util.List;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+//import il.cshaifasweng.OCSFMediatorExample.server.App;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,23 +32,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public class Screening_TimesController implements Initializable {
-	@FXML // fx:id="edit"
-	private Button edit; // Value injected by FXMLLoader
 
-	@FXML
-	private TableView<MovieTimes> tableView;
+    @FXML // fx:id="edit"
+    private Button edit; // Value injected by FXMLLoader
 
-	@FXML
-	private TableColumn<MovieTimes, List<String>> Screening_Times;
-	@FXML // fx:id="Branch"
-	private TableColumn<MovieTimes, String> Branch; // Value injected by FXMLLoader
-	@FXML // fx:id="back"
-	private Button back; // Value injected by FXMLLoader
+    @FXML // fx:id="text_Screening_times"
+    private TextArea text_Screening_times; // Value injected by FXMLLoader
+
+    @FXML // fx:id="back"
+    private Button back; // Value injected by FXMLLoader
+
 
 	
 	@FXML
@@ -108,8 +108,20 @@ public class Screening_TimesController implements Initializable {
 
 	public void getInfo() {
 		MovieTimes K = browse_moviesController.selectedMovie.getMovieTimes();
-		ArrayList<MovieTimes> list = new ArrayList<MovieTimes>();
-		list.add(K);
+	//	text_Screening_times.setText("trying");
+	//	String txt = browse_moviesController.selectedMovie.getMovieTimes().getTimes().get(1);
+	//	text_Screening_times.setText(txt);
+	//	List<String> Klist = new ArrayList<String>(); 
+	//	Klist=	K.getTimes();
+     //	System.out.println( "in screening times"+ Klist);
+	//	text_Screening_times.setText(Klist.get(1));
+	/*	for(int i = 0; i<K.getTimes().size();i++)
+		{
+			text_Screening_times.setText(K.getTimes().get(i));
+		}*/
+		
+//		ArrayList<MovieTimes> list = new ArrayList<MovieTimes>();
+//		list.add(K);
 //		
 //		tableView.getColumns().addAll(Screening_Times);
 //		Screening_Times.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -119,11 +131,11 @@ public class Screening_TimesController implements Initializable {
 //		}
 
 
-		final ObservableList<MovieTimes> movieTimes = FXCollections.observableArrayList(list);
-		tableView.setEditable(true);
-	   Screening_Times.setCellValueFactory(new PropertyValueFactory<MovieTimes,List<String>>("times"));
-	   tableView.getColumns().setAll(Screening_Times);
-	   tableView.setItems(movieTimes);
+//		final ObservableList<MovieTimes> movieTimes = FXCollections.observableArrayList(list);
+//		tableView.setEditable(true);
+//	   Screening_Times.setCellValueFactory(new PropertyValueFactory<MovieTimes,List<String>>("times"));
+//	   tableView.getColumns().setAll(Screening_Times);
+//	   tableView.setItems(movieTimes);
 	/*	int Lsize = movieTimes.size();
 		for( int i = 0; i < Lsize; i++)
 		{
@@ -146,7 +158,33 @@ public class Screening_TimesController implements Initializable {
 		// TODO Auto-generated method stub
 		//System.out.println(SimpleClient.movieTimes.get(0).getTimes());
 		EventBus.getDefault().register(this);
-		getInfo();
+		if(SimpleClient.movieTimes!=null)
+		{
+		//text_Screening_times.setText( "trying22" + SimpleClient.movieTimes.get(0).getTimes() );
+		//System.out.println("TRYING!!!!!!!!!!!!!!");
+		System.out.println("Printing Screening in Screenings id = "+browse_moviesController.selectedMovie.getId());
+		int indx = browse_moviesController.selectedMovie.getId()-1;
+		System.out.println("indx = " + indx);
+		System.out.println(SimpleClient.movieTimes.get(0).getTimes());
+		System.out.println("should print the id of 3 " + SimpleClient.movieTimes.get(2).getId());
+		System.out.println("should print the Screenings of 2 " + SimpleClient.movieTimes.get(2).getTimes());
+		System.out.println("should print the Screenings of Selected movie " + SimpleClient.movieTimes.get(indx).getTimes());
+		text_Screening_times.setText( "Times : " +SimpleClient.movieTimes.get(indx).getTimes() );
+		
+		}
+		else
+		{
+			System.out.println("movieTimes is null!!!!!!!!!!!!!!!!!!");
+		}
+		
+		//MovieTimes toprnt = new MovieTimes();
+		//toprnt = SimpleClient.movieTimes.get(indx);
+		//System.out.println("toprnt = " + toprnt);
+		
+		//System.out.println( " = " + SimpleClient.movieTimes.get(indx).getTimes());
+		//System.out.println( " = " + SimpleClient.movieTimes.get(1).getTimes());
+		//System.out.println("Printing Screening in Screenings"+browse_moviesController.selectedMovie.getMovieTimes().getTimes());
+		//getInfo();
 	}
 
 }

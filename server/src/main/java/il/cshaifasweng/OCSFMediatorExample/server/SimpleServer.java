@@ -101,9 +101,13 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Show Screening Times")) {
 			App.session = App.sessionFactory.openSession();
-			List<MovieTimes> movieTimes = getAllMovieTimes();
+			List<MovieTimes> movieTimes = getAllMovieTimes();	
 			TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
 			System.out.println("printing screening times in server:" + movieTimes.get(0).getTimes());
+			System.out.println("printing screening times in server 2: " + movieTimes.get(1).getTimes());
+			System.out.println("printing screening times in server 3:" + movieTimes.get(2).getTimes());
+			System.out.println("printing screening times in server 4: " + movieTimes.get(3).getTimes());
+			System.out.println("printing screening times in server 5: " + movieTimes.get(4).getTimes());
 			
 			try {
 				client.sendToClient(to);
@@ -156,6 +160,8 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
 		query.from(MovieTimes.class);
 		List<MovieTimes> data = App.session.createQuery(query).getResultList();
+		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
+		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
 		return data;
 	}
 
