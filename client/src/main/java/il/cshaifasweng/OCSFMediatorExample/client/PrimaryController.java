@@ -70,41 +70,23 @@ public class PrimaryController implements Initializable {
 
 	@FXML
 	void gotobrowse_movies(ActionEvent event) throws Exception {
-		System.out.println("in gotobrowse movies in primary");
-
-		TripleObject msg = new TripleObject("Browse movies", null, null);
-		SimpleClient.getClient().sendToServer(msg);
-
-	}
-
-	@Subscribe
-	public void onData(GotMoviesEvent event) {
-		System.out.println("IN onData");
+		//System.out.println("in gotobrowse movies in primary");
 		Platform.runLater(() -> {
-//			Window window = Browse_movie_list.getScene().getWindow();
-//			if (window instanceof Stage) {
-//				((Stage) window).close();
-//			}
-//			Stage primaryStage = new Stage();
-			//Parent root;
-			try {
-				App.setRoot("browse_movies");
-//				Scene scene = new Scene(root);
-//				primaryStage.setScene(scene);
-//				primaryStage.setTitle("Browse movies list");
-//				primaryStage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    		Parent root;
+    		try {
+    			App.setRoot("choose_type_to_browse");
 
-		});
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}});
+
+//		TripleObject msg = new TripleObject("Browse movies", null, null);
+//		SimpleClient.getClient().sendToServer(msg);
 
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		EventBus.getDefault().register(this);
 	}
 }
