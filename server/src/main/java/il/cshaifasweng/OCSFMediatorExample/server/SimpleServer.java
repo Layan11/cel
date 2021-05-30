@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,12 +60,40 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Coming_Soon_Movies"))
+		{
+			try {
+				App.session = App.sessionFactory.openSession();
+				List<Movie> Helper_list = getMoviesList();
+				List<Movie> Coming_Soon_Movies = new ArrayList<Movie>();
+				for(int i = 0; i < Helper_list.size(); i++)
+				{
+					if(Helper_list.get(i).getType()==true)
+					{
+						Coming_Soon_Movies.add(Helper_list.get(i));
+					}
+				}
+				client.sendToClient(new TripleObject("All Coming Soon Movies", Coming_Soon_Movies, null));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
 
 		if (ObjctMsg.startsWith("Browse movies")) {
 			System.out.println("in browse movies in server");
 			try {
 				App.session = App.sessionFactory.openSession();
-				List<Movie> movies = getMoviesList();
+				List<Movie> Helper_list = getMoviesList();
+				List<Movie> movies = new ArrayList<Movie>();
+				for(int i = 0; i < Helper_list.size(); i++)
+				{
+					if(Helper_list.get(i).getType()==false)
+					{
+						movies.add(Helper_list.get(i));
+					}
+				}
 				System.out.println("after get movies list in server print first movie from this list: "
 						+ movies.get(0).getEngName());
 				client.sendToClient(new TripleObject("All Movies", movies, null));
@@ -76,7 +105,7 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Add Screening Time") || ObjctMsg.startsWith("Delete Screening Time")
 				|| ObjctMsg.startsWith("Update Screening Time")) {
-			App.session = App.sessionFactory.openSession();
+		App.session = App.sessionFactory.openSession();
 			String name = tuple_msg.getMovies().get(0).getEngName();
 			String Newtime = tuple_msg.getMovies().get(0).getHebName();
 			String oldTime = tuple_msg.getMovies().get(0).getProducer();
@@ -101,14 +130,14 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Show Screening Times")) {
 			App.session = App.sessionFactory.openSession();
-			List<MovieTimes> movieTimes = getAllMovieTimes();	
+			List<MovieTimes> movieTimes = getAllMovieTimes();
 			TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
 			System.out.println("printing screening times in server:" + movieTimes.get(0).getTimes());
 			System.out.println("printing screening times in server 2: " + movieTimes.get(1).getTimes());
 			System.out.println("printing screening times in server 3:" + movieTimes.get(2).getTimes());
 			System.out.println("printing screening times in server 4: " + movieTimes.get(3).getTimes());
 			System.out.println("printing screening times in server 5: " + movieTimes.get(4).getTimes());
-			
+
 			try {
 				client.sendToClient(to);
 			} catch (IOException e) {
@@ -197,33 +226,41 @@ public class SimpleServer extends AbstractServer {
 	private boolean editScreeningTime(String name, String newTime, String oldTime) {
 		boolean let_in = false;
 		Connection c = null;
-		java.sql.Statement stmt = null;
+		Statement stmt = null;
+		int id = -1;
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
-			c.setAutoCommit(false);
+			//c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
-			ResultSet movieId = stmt.executeQuery("SELECT FROM movies WHERE EngName = '" + name + "'");
-
-			if (newTime == null) {
-				int rs = stmt.executeUpdate("INSERT INTO movietimes_time (MovieTimes_id, times) values ('" + movieId
-						+ "', '" + newTime + "')");
-				if (rs != -1) {
+			System.out.println("SELECT* FROM movies WHERE EngName = '" + name + "';");
+			ResultSet rs = stmt.executeQuery("SELECT* FROM movies WHERE EngName = " + name );
+			if (rs.next()) {
+				id = rs.getInt("id");
+			}
+			if (oldTime == null) {
+				List<String> newl = getMovieTimes(name);
+				newl.add(newTime);
+				MovieTimes newMT = new MovieTimes(newl);
+				
+				int rs2 = stmt.executeUpdate("INSERT INTO movietimes_time (MovieTimes_id, time) values (" + id
+						+ ", '" + newl + "')");
+				if (rs2 != -1) {
 					let_in = true;
 				}
 			}
 
-			if (oldTime == null) {
-				int rs = stmt.executeUpdate("DELETE FROM movietimes_time WHERE time = '" + oldTime + "'");
-				if (rs != -1) {
+			if (newTime == null) {
+				int rs2 = stmt.executeUpdate("DELETE FROM movietimes_time WHERE time = '" + oldTime + "'");
+				if (rs2 != -1) {
 					let_in = true;
 				}
 			}
 
 			else {
-				int rs = stmt.executeUpdate(
-						"UPDATE movietimes_time SET time = '" + newTime + "' WHERE MovieTimes_id = " + movieId);
-				if (rs != -1) {
+				int rs2 = stmt.executeUpdate(
+						"UPDATE movietimes_time SET time = '" + newTime + "' WHERE MovieTimes_id = " + id);
+				if (rs2 != -1) {
 					let_in = true;
 				}
 			}

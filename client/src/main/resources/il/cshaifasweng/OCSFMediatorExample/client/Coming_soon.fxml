@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Coming_soonController">
+   <children>
+      <AnchorPane layoutX="-234.0" layoutY="-120.0" prefHeight="624.0" prefWidth="840.0">
+         <children>
+            <TextField fx:id="Movie_Name1" layoutX="254.0" layoutY="168.0" />
+            <TextField fx:id="Movie_Name2" layoutX="629.0" layoutY="168.0" />
+            <TextField fx:id="Movie_Name3" layoutX="254.0" layoutY="376.0" />
+            <TextField fx:id="Movie_Name4" layoutX="629.0" layoutY="376.0" />
+            <ImageView fx:id="Movie_Image1" fitHeight="150.0" fitWidth="200.0" layoutX="242.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Movie_Image2" fitHeight="150.0" fitWidth="200.0" layoutX="603.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Movie_Image3" fitHeight="150.0" fitWidth="200.0" layoutX="242.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="Movie_Image4" fitHeight="150.0" fitWidth="200.0" layoutX="603.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="Back" layoutX="501.0" layoutY="554.0" mnemonicParsing="false" onAction="#goback" text="Back" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

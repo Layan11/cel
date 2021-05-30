@@ -42,6 +42,7 @@ public class App {
 	}
 
 	private static void generateData() throws Exception {
+		//Now broadcast in branches
 //Aladdin
 		String AladdinImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\Aladdin_poster_1992.jpg");
 		List<String> AladdinActorsList = new ArrayList<String>();
@@ -52,7 +53,7 @@ public class App {
 		AladdinTimes.add("20:00");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
 		session.save(AladdinMovieTimes);
-		Movie AladdinMovie = new Movie("Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
+		Movie AladdinMovie = new Movie(false,"Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
 				"Jonathan Eirich", 20, AladdinImage, AladdinMovieTimes, "Haifa");
 		session.save(AladdinMovie);
 		session.flush();
@@ -66,7 +67,7 @@ public class App {
 		ShrekTimes.add("17:30");
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
 		session.save(ShrekMovieTimes);
-		Movie ShrekMovie = new Movie("Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
+		Movie ShrekMovie = new Movie(false,"Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
 				"John H. Williams", 35, ShrekImage, ShrekMovieTimes, "Haifa");
 		session.save(ShrekMovie);
 		session.flush();
@@ -79,7 +80,7 @@ public class App {
 		SnowWhiteTimes.add("20:15");
 		MovieTimes SnowWhiteMovieTimes = new MovieTimes(SnowWhiteTimes);
 		session.save(SnowWhiteMovieTimes);
-		Movie SnowWhiteMovie = new Movie("Snow White", SnowWhiteActorsList, 88, "שלגייה",
+		Movie SnowWhiteMovie = new Movie(false,"Snow White", SnowWhiteActorsList, 88, "שלגייה",
 				"insert snow white movie summary", "Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
 		session.save(SnowWhiteMovie);
 		session.flush();
@@ -94,7 +95,7 @@ public class App {
 		FnFTimes.add("21:30");
 		MovieTimes FnFMovieTimes = new MovieTimes(FnFTimes);
 		session.save(FnFMovieTimes);
-		Movie FastAndFuriousMovie = new Movie("Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
+		Movie FastAndFuriousMovie = new Movie(false,"Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
 				"insert fast and furious movie summary", "Neal H. Moritz", 45, FnFImage, FnFMovieTimes, "Shefa-Amr");
 		session.save(FastAndFuriousMovie);
 		session.flush();
@@ -109,10 +110,54 @@ public class App {
 		DumboTimes.add("21:30");
 		MovieTimes DumboMovieTimes = new MovieTimes(DumboTimes);
 		session.save(DumboMovieTimes);
-		Movie DumboMovie = new Movie("Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary", "Tim Burton ",
+		Movie DumboMovie = new Movie(false,"Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary", "Tim Burton ",
 				25, DumboImage, DumboMovieTimes, "Haifa");
 		session.save(DumboMovie);
 		session.flush();
+		
+		//coming soon 
+		
+//minions
+		String MinionsImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\Minions.jpg");
+		Movie minionsMovie = new Movie();
+		minionsMovie.setType(true);
+		minionsMovie.setEngName("Minions");
+		minionsMovie.setHebName("המיניונים");
+		minionsMovie.setImage(MinionsImage);
+		session.save(minionsMovie);
+		session.flush();
+		
+//Madagascar
+		String MadagascarImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
+		Movie MadagascarMovie = new Movie();
+		MadagascarMovie.setType(true);
+		MadagascarMovie.setEngName("Madagascar");
+		MadagascarMovie.setHebName("מדגסקר");
+		MadagascarMovie.setImage(MadagascarImage);
+		session.save(MadagascarMovie);
+		session.flush();
+		
+//IronMan
+		String IronManImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
+		Movie IronManMovie = new Movie();
+		IronManMovie.setType(true);
+		IronManMovie.setEngName("IronMan");
+		IronManMovie.setHebName("איש הברזל");
+		IronManMovie.setImage(IronManImage);
+		session.save(IronManMovie);
+		session.flush();
+		
+//KungFuPanda
+		String KungFuPandaImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
+		Movie KungFuPandaMovie = new Movie();
+		KungFuPandaMovie.setType(true);
+		KungFuPandaMovie.setEngName("KungFuPanda");
+		KungFuPandaMovie.setHebName("קונק פו פנדה");
+		KungFuPandaMovie.setImage(KungFuPandaImage);
+		session.save(KungFuPandaMovie);
+		session.flush();
+		
+		
 
 	}
 
@@ -125,7 +170,14 @@ public class App {
 	}
 
 	private static void printAllMovies() throws Exception {
-		List<Movie> movies = getAllMovies();
+		List<Movie> movies = new ArrayList<Movie>();
+		List<Movie> tmp = getAllMovies();
+		for(int i=0; i<tmp.size(); i++)
+		{
+			if(tmp.get(i).getType() == false) {
+				movies.add(tmp.get(i));
+			}
+		}
 		for (Movie movie : movies) {
 			System.out.print("****************************Movie id: ");
 			System.out.print(movie.getId());

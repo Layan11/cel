@@ -29,6 +29,7 @@ public class Movie implements Serializable {
 	// @Column(name = "My_Movies_id")
 
 	private int id;
+	private Boolean Type; // Type=0 for now broadcasting,type=1 for coming soon 
 	private String EngName;
 	private String HebName;
 	private int Length;
@@ -42,7 +43,7 @@ public class Movie implements Serializable {
 	//@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MovieTimes_id")
    // @OneToMany(fetch = FetchType.LAZY)
-	@OneToMany
+	@OneToOne
 	private MovieTimes Times;
 //	@Lob
 //	@Column(columnDefinition = "LONGBLOB")
@@ -54,9 +55,10 @@ public class Movie implements Serializable {
 
 	}
 
-	public Movie(String EngName, List<String> actors, int len, String HebName, String summary, String producer,
+	public Movie(Boolean Type, String EngName, List<String> actors, int len, String HebName, String summary, String producer,
 			int price, String image, MovieTimes times, String branch) {
 		super();
+		this.Type = Type;
 		this.EngName = EngName;
 		this.Length = len;
 		this.ActorsNames = actors;
@@ -67,6 +69,14 @@ public class Movie implements Serializable {
 		this.setImage(image);
 		this.Times = times;
 		this.setBranch(branch);
+	}
+	
+	public Boolean getType() {
+		return Type;
+	}
+
+	public void setType(Boolean type) {
+		this.Type = type;
 	}
 
 	public String getEngName() {

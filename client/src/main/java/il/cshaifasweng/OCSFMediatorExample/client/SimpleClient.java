@@ -30,6 +30,21 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("no such movie")) {
 			msg = ("no such movie");
 		}
+		
+		if (myMsg.equals("All Coming Soon Movies"))
+		{
+			List<Movie> CSmovies = triple_msg.getMovies();
+			CSmovies = triple_msg.getMovies();
+			if (CSmovies != null) {
+				// moviesList = new ArrayList<Movie>();
+				moviesList = CSmovies;
+				//System.out.println("First element: " + moviesList.get(0).getEngName());
+				//System.out.println("Second element: " + moviesList.get(1).getEngName());
+				EventBus.getDefault().post(new GotComingSoonEvent());
+			} else {
+				System.out.println("CSmovies is null");
+			}
+		}
 
 		if (myMsg.equals("All Movies")) {
 //			System.out.println("in all movies in client");

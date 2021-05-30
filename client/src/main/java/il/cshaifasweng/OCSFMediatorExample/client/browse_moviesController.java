@@ -80,7 +80,7 @@ public class browse_moviesController implements Initializable {
 		Platform.runLater(() -> {
 		Parent root;
 		try {
-			App.setRoot("primary");
+			App.setRoot("choose_type_to_browse");
 			//System.out.println("after the load line of brwose movies in primary");
 
 		} catch (IOException e) {
