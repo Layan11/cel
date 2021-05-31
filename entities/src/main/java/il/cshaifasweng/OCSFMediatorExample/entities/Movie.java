@@ -179,7 +179,7 @@ public class Movie implements Serializable {
 			myStr = myStr + "\n";
 		}
 		return myStr;
-	}
+	} 
 
 	public String getImage() {
 		return image;
