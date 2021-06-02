@@ -18,7 +18,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
-
 /**
  * Hello world!
  *
@@ -38,7 +37,6 @@ public class App {
 		configuration.addAnnotatedClass(MovieTimes.class);
 		configuration.addAnnotatedClass(User.class);
 
-
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -46,9 +44,9 @@ public class App {
 	}
 
 	private static void generateData() throws Exception {
-		//Now broadcast in branches
+		// Now broadcast in branches
 //Aladdin
-		String AladdinImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\Aladdin_poster_1992.jpg");
+		String AladdinImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\Aladdin_poster_1992.jpg");
 		List<String> AladdinActorsList = new ArrayList<String>();
 		List<String> AladdinTimes = new ArrayList<String>();
 		AladdinActorsList.add("Mena Massoud");
@@ -57,13 +55,13 @@ public class App {
 		AladdinTimes.add("20:00");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
 		session.save(AladdinMovieTimes);
-		Movie AladdinMovie = new Movie(0,"Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
+		Movie AladdinMovie = new Movie(0, "Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
 				"Jonathan Eirich", 20, AladdinImage, AladdinMovieTimes, "Haifa");
 		session.save(AladdinMovie);
 		session.flush();
 
 //Shrek
-		String ShrekImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\Shrek.jpg");
+		String ShrekImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\Shrek.jpg");
 		List<String> ShrekActorsList = new ArrayList<String>();
 		List<String> ShrekTimes = new ArrayList<String>();
 		ShrekActorsList.add("Shrek");
@@ -71,12 +69,12 @@ public class App {
 		ShrekTimes.add("17:30");
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
 		session.save(ShrekMovieTimes);
-		Movie ShrekMovie = new Movie(0,"Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
+		Movie ShrekMovie = new Movie(0, "Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
 				"John H. Williams", 35, ShrekImage, ShrekMovieTimes, "Haifa");
 		session.save(ShrekMovie);
 		session.flush();
 //Snow White
-		String SnowWhiteImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\SnowWhite.jpg");
+		String SnowWhiteImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\SnowWhite.jpg");
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
 		List<String> SnowWhiteTimes = new ArrayList<String>();
 		SnowWhiteActorsList.add("Snow White");
@@ -84,13 +82,13 @@ public class App {
 		SnowWhiteTimes.add("20:15");
 		MovieTimes SnowWhiteMovieTimes = new MovieTimes(SnowWhiteTimes);
 		session.save(SnowWhiteMovieTimes);
-		Movie SnowWhiteMovie = new Movie(0,"Snow White", SnowWhiteActorsList, 88, "שלגייה",
+		Movie SnowWhiteMovie = new Movie(0, "Snow White", SnowWhiteActorsList, 88, "שלגייה",
 				"insert snow white movie summary", "Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
 		session.save(SnowWhiteMovie);
 		session.flush();
 
 //Fast and Furious
-		String FnFImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\FastAndTheFurious.jpg");
+		String FnFImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\FastAndTheFurious.jpg");
 		List<String> FnFActorsList = new ArrayList<String>();
 		List<String> FnFTimes = new ArrayList<String>();
 		FnFActorsList.add("Vin Diesel");
@@ -99,13 +97,13 @@ public class App {
 		FnFTimes.add("21:30");
 		MovieTimes FnFMovieTimes = new MovieTimes(FnFTimes);
 		session.save(FnFMovieTimes);
-		Movie FastAndFuriousMovie = new Movie(0,"Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
+		Movie FastAndFuriousMovie = new Movie(0, "Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
 				"insert fast and furious movie summary", "Neal H. Moritz", 45, FnFImage, FnFMovieTimes, "Shefa-Amr");
 		session.save(FastAndFuriousMovie);
 		session.flush();
 
 //Dumbo
-		String DumboImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\Dumbo.jpg");
+		String DumboImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\Dumbo.jpg");
 		List<String> DumboActorsList = new ArrayList<String>();
 		List<String> DumboTimes = new ArrayList<String>();
 		DumboActorsList.add("Eva Green");
@@ -114,15 +112,15 @@ public class App {
 		DumboTimes.add("21:30");
 		MovieTimes DumboMovieTimes = new MovieTimes(DumboTimes);
 		session.save(DumboMovieTimes);
-		Movie DumboMovie = new Movie(0,"Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary", "Tim Burton ",
-				25, DumboImage, DumboMovieTimes, "Haifa");
+		Movie DumboMovie = new Movie(0, "Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary",
+				"Tim Burton ", 25, DumboImage, DumboMovieTimes, "Haifa");
 		session.save(DumboMovie);
 		session.flush();
-		
-		//coming soon 
-		
+
+		// coming soon
+
 //minions
-		String MinionsImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\Minions.jpg");
+		String MinionsImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\Minions.jpg");
 		Movie minionsMovie = new Movie();
 		minionsMovie.setType(1);
 		minionsMovie.setEngName("Minions");
@@ -138,9 +136,9 @@ public class App {
 		minionsMovie.setImage(MinionsImage);
 		session.save(minionsMovie);
 		session.flush();
-		
+
 //Madagascar
-		String MadagascarImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
+		String MadagascarImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
 		Movie MadagascarMovie = new Movie();
 		MadagascarMovie.setType(1);
 		MadagascarMovie.setEngName("Madagascar");
@@ -156,9 +154,9 @@ public class App {
 		MadagascarMovie.setImage(MadagascarImage);
 		session.save(MadagascarMovie);
 		session.flush();
-		
+
 //IronMan
-		String IronManImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
+		String IronManImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
 		Movie IronManMovie = new Movie();
 		IronManMovie.setType(1);
 		IronManMovie.setEngName("IronMan");
@@ -174,9 +172,9 @@ public class App {
 		IronManMovie.setImage(IronManImage);
 		session.save(IronManMovie);
 		session.flush();
-		
+
 //KungFuPanda
-		String KungFuPandaImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
+		String KungFuPandaImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
 		Movie KungFuPandaMovie = new Movie();
 		KungFuPandaMovie.setType(1);
 		KungFuPandaMovie.setEngName("KungFuPanda");
@@ -192,11 +190,11 @@ public class App {
 		KungFuPandaMovie.setImage(KungFuPandaImage);
 		session.save(KungFuPandaMovie);
 		session.flush();
-		
-		//watch at home
-		
+
+		// watch at home
+
 //badboys		
-		String BadBoysImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
+		String BadBoysImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
 		Movie BadBoysMovie = new Movie();
 		BadBoysMovie.setType(2);
 		BadBoysMovie.setEngName("BadBoys");
@@ -212,9 +210,9 @@ public class App {
 		BadBoysMovie.setImage(BadBoysImage);
 		session.save(BadBoysMovie);
 		session.flush();
-		
+
 //JohnnyEnglish		
-		String JohnnyEnglishImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
+		String JohnnyEnglishImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
 		Movie JohnnyEnglishMovie = new Movie();
 		JohnnyEnglishMovie.setType(2);
 		JohnnyEnglishMovie.setEngName("JohnnyEnglish");
@@ -230,9 +228,9 @@ public class App {
 		JohnnyEnglishMovie.setImage(JohnnyEnglishImage);
 		session.save(JohnnyEnglishMovie);
 		session.flush();
-		
+
 //KarateKid
-		String KarateKidImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
+		String KarateKidImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
 		Movie KarateKidMovie = new Movie();
 		KarateKidMovie.setType(2);
 		KarateKidMovie.setEngName("KarateKid");
@@ -248,9 +246,9 @@ public class App {
 		KarateKidMovie.setImage(KarateKidImage);
 		session.save(KarateKidMovie);
 		session.flush();
-		
+
 //TheSmurfs
-		String TheSmurfsImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
+		String TheSmurfsImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
 		Movie TheSmurfsMovie = new Movie();
 		TheSmurfsMovie.setType(2);
 		TheSmurfsMovie.setEngName("TheSmurfs");
@@ -266,35 +264,30 @@ public class App {
 		TheSmurfsMovie.setImage(TheSmurfsImage);
 		session.save(TheSmurfsMovie);
 		session.flush();
-		
 
 //Users
-		User NM = new User("Regina Phalange",  "1111",  0,  false);
-		User CM1 = new User ("Princess Consuela",  "2222",  1,  false);
-		User CM2 = new User("Ursula",  "3333",  1,  false);
-		User CSE1 = new User("Marcel",  "4444",  2,  false);
-		User CSE2 = new User("Gunther",  "5555",  2,  false);
+		User NM = new User("Regina Phalange", "1111");
+		NM.setRole(0);
+		NM.setIs_Logged_In(false);
+		User CM1 = new User("Princess Consuela", "2222");
+		CM1.setRole(1);
+		CM1.setIs_Logged_In(false);
+		User CM2 = new User("Ursula", "3333");
+		CM2.setRole(1);
+		CM2.setIs_Logged_In(false);
+		User CSE1 = new User("Marcel", "4444");
+		CSE1.setRole(2);
+		CSE1.setIs_Logged_In(false);
+		User CSE2 = new User("Gunther", "5555");
+		CSE2.setRole(2);
+		CSE2.setIs_Logged_In(false);
 		session.save(NM);
 		session.save(CM1);
 		session.save(CM2);
 		session.save(CSE1);
 		session.save(CSE2);
 		session.flush();
-		
-		/*Network_Manager NM = new Network_Manager( "Regina Phalange",  "1111",  false,  0);
-		session.save(NM);
-		session.flush();
-		Content_Manager CM1 = new  Content_Manager( "Princess Consuela",  "2222",  false,  1);
-		Content_Manager CM2 = new  Content_Manager( "Ursula",  "3333",  false,  1);
-		session.save(CM1);
-		session.save(CM2);
-		session.flush();
-		Costumer_Services_Employee CSE1= new Costumer_Services_Employee( "Marcel",  "4444",  false,  2);
-		Costumer_Services_Employee CSE2= new Costumer_Services_Employee( "Gunther",  "5555",  false,  2);
-		session.save(CSE1);
-		session.save(CSE2);
-		session.flush();
-*/
+
 	}
 
 	private static List<Movie> getAllMovies() throws Exception {
@@ -308,9 +301,8 @@ public class App {
 	private static void printAllMovies() throws Exception {
 		List<Movie> movies = new ArrayList<Movie>();
 		List<Movie> tmp = getAllMovies();
-		for(int i=0; i<tmp.size(); i++)
-		{
-			if(tmp.get(i).getType() == 0) {
+		for (int i = 0; i < tmp.size(); i++) {
+			if (tmp.get(i).getType() == 0) {
 				movies.add(tmp.get(i));
 			}
 		}

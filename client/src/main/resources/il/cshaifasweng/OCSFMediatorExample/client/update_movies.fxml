@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.update_moviesController">
+<AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.update_moviesController">
    <children>
       <ImageView fitHeight="583.0" fitWidth="747.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -18,6 +18,7 @@
          </image>
       </ImageView>
       <VBox layoutX="160.0" layoutY="116.0" prefHeight="351.0" prefWidth="388.0" style="-fx-background-color: #7ac1ff;" />
+      <Label fx:id="invalidUpdate" layoutX="259.0" layoutY="402.0" textFill="RED" />
       <Button fx:id="Add_Screening_Time" layoutX="285.0" layoutY="167.0" mnemonicParsing="false" onAction="#gotoadd" style="-fx-background-color: #3c3c3c;" text="Add_Screening_Time" textFill="WHITE" />
       <Label layoutX="168.0" layoutY="140.0" text="New screening time">
          <font>
@@ -49,5 +50,6 @@
       <TextField fx:id="old_time" layoutX="285.0" layoutY="297.0" />
       <TextField fx:id="new_time" layoutX="285.0" layoutY="332.0" />
       <Button fx:id="Update_Screening_Time" layoutX="285.0" layoutY="368.0" mnemonicParsing="false" onAction="#gotoupdate" style="-fx-background-color: #3c3c3c;" text="Update_Screening_Time" textFill="WHITE" />
+      <Label fx:id="invalidDelete" layoutX="261.0" layoutY="274.0" textFill="RED" />
    </children>
 </AnchorPane>

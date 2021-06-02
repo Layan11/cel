@@ -3,17 +3,20 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.HibernateException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
@@ -60,9 +63,8 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		
-		if (ObjctMsg.startsWith("Save new Movie"))
-		{
+
+		if (ObjctMsg.startsWith("Save new Movie")) {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
@@ -73,7 +75,7 @@ public class SimpleServer extends AbstractServer {
 				newMovie = tuple_msg.getMovies().get(0);
 				newMovie.setMovieTimes(MTimes);
 				App.session.save(newMovie);
-				//App.session.flush();
+				// App.session.flush();
 				App.session.getTransaction().commit();
 				client.sendToClient(new TripleObject("Movie saved", null, null));
 			} catch (Exception e) {
@@ -81,9 +83,8 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		
-		if (ObjctMsg.startsWith("Show More info"))
-		{
+
+		if (ObjctMsg.startsWith("Show More info")) {
 			try {
 				App.session = App.sessionFactory.openSession();
 				List<Movie> Helper_list = getMoviesList();
@@ -92,13 +93,11 @@ public class SimpleServer extends AbstractServer {
 				mn = tuple_msg.getMovies().get(0);
 				Movie wanted_movie = new Movie();
 				List<Movie> wanted_list = new ArrayList<Movie>();
-				for(int i = 0; i < Helper_list.size(); i++)
-				{
+				for (int i = 0; i < Helper_list.size(); i++) {
 					System.out.println("in the for in server ");
 					System.out.println("NAME: " + Helper_list.get(i).getEngName());
-					if(Helper_list.get(i).getEngName().equalsIgnoreCase(mn.getEngName()))
-					{
-						
+					if (Helper_list.get(i).getEngName().equalsIgnoreCase(mn.getEngName())) {
+
 						System.out.println("in the if in for in server ");
 						wanted_movie = Helper_list.get(i);
 						wanted_list.add(wanted_movie);
@@ -106,7 +105,7 @@ public class SimpleServer extends AbstractServer {
 				}
 				System.out.println("selected eng name : " + mn.getEngName());
 				System.out.println("movieList size: " + wanted_list.size());
-				
+
 				client.sendToClient(new TripleObject("More Info Movie", wanted_list, null));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -114,17 +113,14 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 
 		}
-		
-		if (ObjctMsg.startsWith("Watch At Home"))
-		{
+
+		if (ObjctMsg.startsWith("Watch At Home")) {
 			try {
 				App.session = App.sessionFactory.openSession();
 				List<Movie> Helperl = getMoviesList();
 				List<Movie> Watch_At_Home_Movies = new ArrayList<Movie>();
-				for(int i = 0; i < Helperl.size(); i++)
-				{
-					if(Helperl.get(i).getType()==2)
-					{
+				for (int i = 0; i < Helperl.size(); i++) {
+					if (Helperl.get(i).getType() == 2) {
 						Watch_At_Home_Movies.add(Helperl.get(i));
 					}
 				}
@@ -136,16 +132,13 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
-		if (ObjctMsg.startsWith("Coming_Soon_Movies"))
-		{
+		if (ObjctMsg.startsWith("Coming_Soon_Movies")) {
 			try {
 				App.session = App.sessionFactory.openSession();
 				List<Movie> Helper_list2 = getMoviesList();
 				List<Movie> Coming_Soon_Movies = new ArrayList<Movie>();
-				for(int i = 0; i < Helper_list2.size(); i++)
-				{
-					if(Helper_list2.get(i).getType()==1)
-					{
+				for (int i = 0; i < Helper_list2.size(); i++) {
+					if (Helper_list2.get(i).getType() == 1) {
 						Coming_Soon_Movies.add(Helper_list2.get(i));
 					}
 				}
@@ -158,20 +151,15 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		if (ObjctMsg.startsWith("Browse movies")) {
-			System.out.println("in browse movies in server");
 			try {
 				App.session = App.sessionFactory.openSession();
 				List<Movie> Helper_list3 = getMoviesList();
 				List<Movie> movies = new ArrayList<Movie>();
-				for(int i = 0; i < Helper_list3.size(); i++)
-				{
-					if(Helper_list3.get(i).getType()==0)
-					{
+				for (int i = 0; i < Helper_list3.size(); i++) {
+					if (Helper_list3.get(i).getType() == 0) {
 						movies.add(Helper_list3.get(i));
 					}
 				}
-				System.out.println("after get movies list in server print first movie from this list: "
-						+ movies.get(0).getEngName());
 				client.sendToClient(new TripleObject("All Movies", movies, null));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -179,31 +167,89 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
-		if (ObjctMsg.startsWith("Add Screening Time") || ObjctMsg.startsWith("Delete Screening Time")
-				|| ObjctMsg.startsWith("Update Screening Time")) {
-		App.session = App.sessionFactory.openSession();
-			String name = tuple_msg.getMovies().get(0).getEngName();
-			String Newtime = tuple_msg.getMovies().get(0).getHebName();
-			String oldTime = tuple_msg.getMovies().get(0).getProducer();
-			boolean res = editScreeningTime(name, Newtime, oldTime);
-			if (res == false) {
-				System.out.println("An error has occured");
-			} else {
-				List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
-				movieTimes.get(0).SetMovieTimes(getMovieTimes(name));
-				System.out.println("CHECKKKKKKKKKKKK: " + movieTimes.get(0).getTimes());
-				TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
-				to.setMoviesTimes(movieTimes);
-				try {
-					client.sendToClient(to);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if (ObjctMsg.startsWith("Add Screening Time")) {
+			Movie movie = tuple_msg.getMovies().get(0);
+			String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				List<String> hlpr = movie.getMovieTimes().getTimes();
+				hlpr.add(Newtime);
+				Movie movieToUpdate = App.session.get(Movie.class, movie.getId());
+				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
 			}
 			App.session.close();
 		}
-
+		if (ObjctMsg.startsWith("Delete Screening Time")) {
+			Movie movie = tuple_msg.getMovies().get(0);
+			String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movieToUpdate = App.session.get(Movie.class, movie.getId());
+				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
+				boolean x = false;
+				for (int i = 0; i < hlpr.size(); i++) {
+					if (hlpr.get(i).equals(oldTime)) {
+						x = true;
+						hlpr.remove(i);
+					}
+				}
+				if (x == false) {
+					try {
+						client.sendToClient(new TripleObject("No such screening time to delete", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Update Screening Time")) {
+			Movie movie = tuple_msg.getMovies().get(0);
+			String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);// old time is in place 0 new time is in
+																				// place 1
+			String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(1);
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movieToUpdate = App.session.get(Movie.class, movie.getId());
+				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
+				boolean x = false;
+				for (int i = 0; i < hlpr.size(); i++) {
+					if (hlpr.get(i).equals(oldTime)) {
+						x = true;
+						hlpr.remove(i);
+					}
+				}
+				if (x == true) {
+					hlpr.add(Newtime);
+					movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
+				} else {
+					try {
+						client.sendToClient(new TripleObject("No such screening time to update", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Show Screening Times")) {
 			App.session = App.sessionFactory.openSession();
 			List<MovieTimes> movieTimes = getAllMovieTimes();
@@ -220,8 +266,34 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			App.session.close();
 		}
-		App.session.close();
+		if (ObjctMsg.equals("Login")) {
+			String username = tuple_msg.getMovies().get(0).getEngName();
+			String pass = tuple_msg.getMovies().get(0).getHebName();
+			User user = new User();
+			user.setUser_Name(username);
+			user.setPassword(pass);
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				List<User> ans = getUser(username, pass);
+				if (ans.size() == 0) {
+					try {
+						client.sendToClient(new TripleObject("No such user", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+
 	}
 
 	private boolean deleteMovie(Object msg) {
@@ -231,7 +303,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -260,6 +332,18 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
+	private static List<User> getUser(String username, String pass) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<User> query = builder.createQuery(User.class);
+		Root<User> userRoot = query.from(User.class);
+		Predicate predicateForUsername = builder.equal(userRoot.get("User_Name"), username);
+		Predicate predicateForPass = builder.equal(userRoot.get("Password"), pass);
+		Predicate predicateForUser = builder.and(predicateForUsername, predicateForPass);
+		query.where(predicateForUser);
+		List<User> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
 	private static List<MovieTimes> getAllMovieTimes() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
@@ -268,86 +352,5 @@ public class SimpleServer extends AbstractServer {
 		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
 		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
 		return data;
-	}
-
-	private static List<String> getMovieTimes(String name) {
-		List<String> times = new ArrayList<String>();
-		Connection c = null;
-		java.sql.Statement stmt = null;
-		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
-			c.setAutoCommit(false);
-			System.out.println("Opened database successfully");
-			stmt = c.createStatement();
-			ResultSet RS = stmt.executeQuery("SELECT FROM movies WHERE EngName = '" + name + "'");
-			if (RS == null) {
-				System.out.print("Error, movie not found");
-				return null;
-			}
-			int movieId = RS.getInt("id");
-			ResultSet rs = stmt.executeQuery("SELECT FROM movietimes_time WHERE id = '" + movieId + "'");
-			if (rs != null) {
-				times = (List<String>) rs;
-			}
-			stmt.close();
-			c.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
-		System.out.println("Operation done successfully");
-		return times;
-	}
-
-	private boolean editScreeningTime(String name, String newTime, String oldTime) {
-		boolean let_in = false;
-		Connection c = null;
-		Statement stmt = null;
-		int id = -1;
-		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
-			//c.setAutoCommit(false);
-			System.out.println("Opened database successfully");
-			stmt = c.createStatement();
-			System.out.println("SELECT* FROM movies WHERE EngName = '" + name + "';");
-			ResultSet rs = stmt.executeQuery("SELECT* FROM movies WHERE EngName = " + name );
-			if (rs.next()) {
-				id = rs.getInt("id");
-			}
-			if (oldTime == null) {
-				List<String> newl = getMovieTimes(name);
-				newl.add(newTime);
-				MovieTimes newMT = new MovieTimes(newl);
-				
-				int rs2 = stmt.executeUpdate("INSERT INTO movietimes_time (MovieTimes_id, time) values (" + id
-						+ ", '" + newl + "')");
-				if (rs2 != -1) {
-					let_in = true;
-				}
-			}
-
-			if (newTime == null) {
-				int rs2 = stmt.executeUpdate("DELETE FROM movietimes_time WHERE time = '" + oldTime + "'");
-				if (rs2 != -1) {
-					let_in = true;
-				}
-			}
-
-			else {
-				int rs2 = stmt.executeUpdate(
-						"UPDATE movietimes_time SET time = '" + newTime + "' WHERE MovieTimes_id = " + id);
-				if (rs2 != -1) {
-					let_in = true;
-				}
-			}
-
-			stmt.close();
-			c.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
-		System.out.println("Operation done successfully");
-		return let_in;
 	}
 }
