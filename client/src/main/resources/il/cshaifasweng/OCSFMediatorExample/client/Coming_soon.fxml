@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 
@@ -10,15 +10,15 @@
    <children>
       <AnchorPane layoutX="-234.0" layoutY="-120.0" prefHeight="624.0" prefWidth="840.0">
          <children>
-            <TextField fx:id="Movie_Name1" layoutX="254.0" layoutY="168.0" />
-            <TextField fx:id="Movie_Name2" layoutX="629.0" layoutY="168.0" />
-            <TextField fx:id="Movie_Name3" layoutX="254.0" layoutY="376.0" />
-            <TextField fx:id="Movie_Name4" layoutX="629.0" layoutY="376.0" />
-            <ImageView fx:id="Movie_Image1" fitHeight="150.0" fitWidth="200.0" layoutX="242.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="Movie_Image2" fitHeight="150.0" fitWidth="200.0" layoutX="603.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="Movie_Image3" fitHeight="150.0" fitWidth="200.0" layoutX="242.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="Movie_Image4" fitHeight="150.0" fitWidth="200.0" layoutX="603.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="Back" layoutX="501.0" layoutY="554.0" mnemonicParsing="false" onAction="#goback" text="Back" />
+            <Button fx:id="Back" layoutX="697.0" layoutY="539.0" mnemonicParsing="false" onAction="#goback" text="Back" />
+            <TableView fx:id="tableView" layoutX="256.0" layoutY="168.0" prefHeight="371.0" prefWidth="236.0">
+              <columns>
+                <TableColumn fx:id="EngC" prefWidth="124.00006103515625" text="ENG Name" />
+                <TableColumn fx:id="HebC" prefWidth="110.39996337890625" text="HEB Name" />
+              </columns>
+            </TableView>
+            <Button fx:id="Show" layoutX="692.0" layoutY="486.0" mnemonicParsing="false" onAction="#ShowMovie" text="Show" />
+            <Button fx:id="Edit" layoutX="700.0" layoutY="439.0" mnemonicParsing="false" onAction="#gotoEditMovie" text="Edit" />
          </children>
       </AnchorPane>
    </children>

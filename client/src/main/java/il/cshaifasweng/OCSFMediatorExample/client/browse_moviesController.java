@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,8 +64,45 @@ public class browse_moviesController implements Initializable {
 
 	@FXML // fx:id="image5"
 	private ImageView image5; // Value injected by FXMLLoader
+	
+    @FXML // fx:id="More_Info"
+    private Button More_Info; // Value injected by FXMLLoader
 
 	public static Movie selectedMovie;
+	
+
+    @FXML
+    void show_More_Info(ActionEvent event) throws Exception {
+    	Movie selected = tableView.getSelectionModel().getSelectedItem();
+    	selectedMovie = selected;
+		System.out.println("selected name in browseM : " + selectedMovie.getEngName());
+		Movie mv = new Movie();
+		List<Movie> mvlist = new ArrayList<Movie>();
+		mv.setEngName(selected.getEngName());
+		mvlist.add(mv);
+		System.out.println("mv size : " + mvlist.size());
+		TripleObject msg = new TripleObject("Show More info", mvlist, null);
+		SimpleClient.getClient().sendToServer(msg);
+    }
+
+    @Subscribe
+	public void onData22(GotMoreInfoEvent event) {
+		Platform.runLater(() -> {
+
+			//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+			Parent root;
+			try {
+				App.setRoot("More_Info");
+				//System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+	}
+
 
 	@FXML
 	void gobacktoprimary(ActionEvent event) throws IOException {
@@ -138,6 +177,7 @@ public class browse_moviesController implements Initializable {
 																			
 		EventBus.getDefault().register(this);
 		getMovies();
+		/*
 		InputStream stream;
 		try {
 			stream = new FileInputStream(SimpleClient.moviesList.get(0).getImage());
@@ -198,5 +238,5 @@ public class browse_moviesController implements Initializable {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	*/}
 }

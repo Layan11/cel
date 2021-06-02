@@ -16,6 +16,8 @@ import org.hibernate.service.ServiceRegistry;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
+
 
 /**
  * Hello world!
@@ -34,6 +36,8 @@ public class App {
 		// Add ALL of your entities here. You can also try adding a whole package.
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(MovieTimes.class);
+		configuration.addAnnotatedClass(User.class);
+
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -53,7 +57,7 @@ public class App {
 		AladdinTimes.add("20:00");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
 		session.save(AladdinMovieTimes);
-		Movie AladdinMovie = new Movie(false,"Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
+		Movie AladdinMovie = new Movie(0,"Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
 				"Jonathan Eirich", 20, AladdinImage, AladdinMovieTimes, "Haifa");
 		session.save(AladdinMovie);
 		session.flush();
@@ -67,7 +71,7 @@ public class App {
 		ShrekTimes.add("17:30");
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
 		session.save(ShrekMovieTimes);
-		Movie ShrekMovie = new Movie(false,"Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
+		Movie ShrekMovie = new Movie(0,"Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
 				"John H. Williams", 35, ShrekImage, ShrekMovieTimes, "Haifa");
 		session.save(ShrekMovie);
 		session.flush();
@@ -80,7 +84,7 @@ public class App {
 		SnowWhiteTimes.add("20:15");
 		MovieTimes SnowWhiteMovieTimes = new MovieTimes(SnowWhiteTimes);
 		session.save(SnowWhiteMovieTimes);
-		Movie SnowWhiteMovie = new Movie(false,"Snow White", SnowWhiteActorsList, 88, "שלגייה",
+		Movie SnowWhiteMovie = new Movie(0,"Snow White", SnowWhiteActorsList, 88, "שלגייה",
 				"insert snow white movie summary", "Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
 		session.save(SnowWhiteMovie);
 		session.flush();
@@ -95,7 +99,7 @@ public class App {
 		FnFTimes.add("21:30");
 		MovieTimes FnFMovieTimes = new MovieTimes(FnFTimes);
 		session.save(FnFMovieTimes);
-		Movie FastAndFuriousMovie = new Movie(false,"Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
+		Movie FastAndFuriousMovie = new Movie(0,"Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
 				"insert fast and furious movie summary", "Neal H. Moritz", 45, FnFImage, FnFMovieTimes, "Shefa-Amr");
 		session.save(FastAndFuriousMovie);
 		session.flush();
@@ -110,7 +114,7 @@ public class App {
 		DumboTimes.add("21:30");
 		MovieTimes DumboMovieTimes = new MovieTimes(DumboTimes);
 		session.save(DumboMovieTimes);
-		Movie DumboMovie = new Movie(false,"Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary", "Tim Burton ",
+		Movie DumboMovie = new Movie(0,"Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary", "Tim Burton ",
 				25, DumboImage, DumboMovieTimes, "Haifa");
 		session.save(DumboMovie);
 		session.flush();
@@ -120,9 +124,17 @@ public class App {
 //minions
 		String MinionsImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\Minions.jpg");
 		Movie minionsMovie = new Movie();
-		minionsMovie.setType(true);
+		minionsMovie.setType(1);
 		minionsMovie.setEngName("Minions");
 		minionsMovie.setHebName("המיניונים");
+		minionsMovie.setLength(86);
+		minionsMovie.setProducer("Mireille Soria");
+		minionsMovie.setPrice(80);
+		minionsMovie.setSummary("minions summary");
+		List<String> minionsActorsList = new ArrayList<String>();
+		minionsActorsList.add("Ben Stiller");
+		minionsActorsList.add("Chris Rock");
+		minionsMovie.setActors(minionsActorsList);
 		minionsMovie.setImage(MinionsImage);
 		session.save(minionsMovie);
 		session.flush();
@@ -130,9 +142,17 @@ public class App {
 //Madagascar
 		String MadagascarImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
 		Movie MadagascarMovie = new Movie();
-		MadagascarMovie.setType(true);
+		MadagascarMovie.setType(1);
 		MadagascarMovie.setEngName("Madagascar");
 		MadagascarMovie.setHebName("מדגסקר");
+		MadagascarMovie.setLength(86);
+		MadagascarMovie.setProducer("Mireille Soria");
+		MadagascarMovie.setPrice(80);
+		MadagascarMovie.setSummary("Madagascar summary");
+		List<String> MadagascarActorsList = new ArrayList<String>();
+		MadagascarActorsList.add("Ben Stiller");
+		MadagascarActorsList.add("Chris Rock");
+		MadagascarMovie.setActors(MadagascarActorsList);
 		MadagascarMovie.setImage(MadagascarImage);
 		session.save(MadagascarMovie);
 		session.flush();
@@ -140,9 +160,17 @@ public class App {
 //IronMan
 		String IronManImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
 		Movie IronManMovie = new Movie();
-		IronManMovie.setType(true);
+		IronManMovie.setType(1);
 		IronManMovie.setEngName("IronMan");
 		IronManMovie.setHebName("איש הברזל");
+		IronManMovie.setLength(126);
+		IronManMovie.setProducer("Avi Arad");
+		IronManMovie.setPrice(65);
+		IronManMovie.setSummary("IronMan summary");
+		List<String> IronManActorsList = new ArrayList<String>();
+		IronManActorsList.add(" Robert Downey Jr. ");
+		IronManActorsList.add(" Terrence Howard");
+		IronManMovie.setActors(IronManActorsList);
 		IronManMovie.setImage(IronManImage);
 		session.save(IronManMovie);
 		session.flush();
@@ -150,15 +178,123 @@ public class App {
 //KungFuPanda
 		String KungFuPandaImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
 		Movie KungFuPandaMovie = new Movie();
-		KungFuPandaMovie.setType(true);
+		KungFuPandaMovie.setType(1);
 		KungFuPandaMovie.setEngName("KungFuPanda");
-		KungFuPandaMovie.setHebName("קונק פו פנדה");
+		KungFuPandaMovie.setHebName("קונג פו פנדה");
+		KungFuPandaMovie.setLength(92);
+		KungFuPandaMovie.setProducer("Melissa Cobb");
+		KungFuPandaMovie.setPrice(70);
+		KungFuPandaMovie.setSummary("KungFuPanda summary");
+		List<String> KungFuPandaActorsList = new ArrayList<String>();
+		KungFuPandaActorsList.add("Jack Black");
+		KungFuPandaActorsList.add("Dustin Hoffman");
+		KungFuPandaMovie.setActors(KungFuPandaActorsList);
 		KungFuPandaMovie.setImage(KungFuPandaImage);
 		session.save(KungFuPandaMovie);
 		session.flush();
 		
+		//watch at home
+		
+//badboys		
+		String BadBoysImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
+		Movie BadBoysMovie = new Movie();
+		BadBoysMovie.setType(2);
+		BadBoysMovie.setEngName("BadBoys");
+		BadBoysMovie.setHebName("בחורים רעים");
+		BadBoysMovie.setLength(119);
+		BadBoysMovie.setProducer("Don Simpson");
+		BadBoysMovie.setPrice(50);
+		BadBoysMovie.setSummary("badboys summary");
+		List<String> BadBoysActorsList = new ArrayList<String>();
+		BadBoysActorsList.add("Will Smith");
+		BadBoysActorsList.add(" Martin Lawrence");
+		BadBoysMovie.setActors(BadBoysActorsList);
+		BadBoysMovie.setImage(BadBoysImage);
+		session.save(BadBoysMovie);
+		session.flush();
+		
+//JohnnyEnglish		
+		String JohnnyEnglishImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
+		Movie JohnnyEnglishMovie = new Movie();
+		JohnnyEnglishMovie.setType(2);
+		JohnnyEnglishMovie.setEngName("JohnnyEnglish");
+		JohnnyEnglishMovie.setHebName("גוני אינגלש");
+		JohnnyEnglishMovie.setLength(88);
+		JohnnyEnglishMovie.setProducer("Tim Bevan");
+		JohnnyEnglishMovie.setPrice(59);
+		JohnnyEnglishMovie.setSummary("JohnnyEnglish summary");
+		List<String> JohnnyEnglishActorsList = new ArrayList<String>();
+		JohnnyEnglishActorsList.add("Rowan Atkinson");
+		JohnnyEnglishActorsList.add(" Ben Miller");
+		JohnnyEnglishMovie.setActors(JohnnyEnglishActorsList);
+		JohnnyEnglishMovie.setImage(JohnnyEnglishImage);
+		session.save(JohnnyEnglishMovie);
+		session.flush();
+		
+//KarateKid
+		String KarateKidImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
+		Movie KarateKidMovie = new Movie();
+		KarateKidMovie.setType(2);
+		KarateKidMovie.setEngName("KarateKid");
+		KarateKidMovie.setHebName("קראטה קיד");
+		KarateKidMovie.setLength(127);
+		KarateKidMovie.setProducer("Jerry Weintraub");
+		KarateKidMovie.setPrice(40);
+		KarateKidMovie.setSummary("KarateKid summary");
+		List<String> KarateKidActorsList = new ArrayList<String>();
+		KarateKidActorsList.add("Ralph Macchio");
+		KarateKidActorsList.add("Noriyuki-Pat-Morita");
+		KarateKidMovie.setActors(KarateKidActorsList);
+		KarateKidMovie.setImage(KarateKidImage);
+		session.save(KarateKidMovie);
+		session.flush();
+		
+//TheSmurfs
+		String TheSmurfsImage = ("C:\\Users\\carol\\git\\cellastone\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
+		Movie TheSmurfsMovie = new Movie();
+		TheSmurfsMovie.setType(2);
+		TheSmurfsMovie.setEngName("TheSmurfs");
+		TheSmurfsMovie.setHebName("הדרדסים");
+		TheSmurfsMovie.setLength(103);
+		TheSmurfsMovie.setProducer("Jordan Kerner");
+		TheSmurfsMovie.setPrice(42);
+		TheSmurfsMovie.setSummary("TheSmurfs summary");
+		List<String> TheSmurfsActorsList = new ArrayList<String>();
+		TheSmurfsActorsList.add("Neil Patrick Harris");
+		TheSmurfsActorsList.add("Sofia Vergara");
+		TheSmurfsMovie.setActors(TheSmurfsActorsList);
+		TheSmurfsMovie.setImage(TheSmurfsImage);
+		session.save(TheSmurfsMovie);
+		session.flush();
 		
 
+//Users
+		User NM = new User("Regina Phalange",  "1111",  0,  false);
+		User CM1 = new User ("Princess Consuela",  "2222",  1,  false);
+		User CM2 = new User("Ursula",  "3333",  1,  false);
+		User CSE1 = new User("Marcel",  "4444",  2,  false);
+		User CSE2 = new User("Gunther",  "5555",  2,  false);
+		session.save(NM);
+		session.save(CM1);
+		session.save(CM2);
+		session.save(CSE1);
+		session.save(CSE2);
+		session.flush();
+		
+		/*Network_Manager NM = new Network_Manager( "Regina Phalange",  "1111",  false,  0);
+		session.save(NM);
+		session.flush();
+		Content_Manager CM1 = new  Content_Manager( "Princess Consuela",  "2222",  false,  1);
+		Content_Manager CM2 = new  Content_Manager( "Ursula",  "3333",  false,  1);
+		session.save(CM1);
+		session.save(CM2);
+		session.flush();
+		Costumer_Services_Employee CSE1= new Costumer_Services_Employee( "Marcel",  "4444",  false,  2);
+		Costumer_Services_Employee CSE2= new Costumer_Services_Employee( "Gunther",  "5555",  false,  2);
+		session.save(CSE1);
+		session.save(CSE2);
+		session.flush();
+*/
 	}
 
 	private static List<Movie> getAllMovies() throws Exception {
@@ -174,7 +310,7 @@ public class App {
 		List<Movie> tmp = getAllMovies();
 		for(int i=0; i<tmp.size(); i++)
 		{
-			if(tmp.get(i).getType() == false) {
+			if(tmp.get(i).getType() == 0) {
 				movies.add(tmp.get(i));
 			}
 		}

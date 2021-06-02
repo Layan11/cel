@@ -163,7 +163,8 @@ public class Screening_TimesController implements Initializable {
 		//text_Screening_times.setText( "trying22" + SimpleClient.movieTimes.get(0).getTimes() );
 		//System.out.println("TRYING!!!!!!!!!!!!!!");
 		System.out.println("Printing Screening in Screenings id = "+browse_moviesController.selectedMovie.getId());
-		int indx = browse_moviesController.selectedMovie.getId()-1;
+		System.out.println("Printing the size of SimpleClient.movieTimes" + SimpleClient.movieTimes.size());
+		int indx = browse_moviesController.selectedMovie.getMovieTimes().getId()-1;
 		System.out.println("indx = " + indx);
 		System.out.println(SimpleClient.movieTimes.get(0).getTimes());
 		System.out.println("should print the id of 3 " + SimpleClient.movieTimes.get(2).getId());

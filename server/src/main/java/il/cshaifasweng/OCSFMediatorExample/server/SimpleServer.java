@@ -60,17 +60,93 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		if (ObjctMsg.startsWith("Coming_Soon_Movies"))
+		
+		if (ObjctMsg.startsWith("Save new Movie"))
+		{
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie newMovie = new Movie();
+				MovieTimes MTimes = new MovieTimes();
+				MTimes = tuple_msg.getMovieTimes().get(0);
+				App.session.save(MTimes);
+				newMovie = tuple_msg.getMovies().get(0);
+				newMovie.setMovieTimes(MTimes);
+				App.session.save(newMovie);
+				//App.session.flush();
+				App.session.getTransaction().commit();
+				client.sendToClient(new TripleObject("Movie saved", null, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+		
+		if (ObjctMsg.startsWith("Show More info"))
 		{
 			try {
 				App.session = App.sessionFactory.openSession();
 				List<Movie> Helper_list = getMoviesList();
-				List<Movie> Coming_Soon_Movies = new ArrayList<Movie>();
+				System.out.println("HelperList size: " + Helper_list.size());
+				Movie mn = new Movie();
+				mn = tuple_msg.getMovies().get(0);
+				Movie wanted_movie = new Movie();
+				List<Movie> wanted_list = new ArrayList<Movie>();
 				for(int i = 0; i < Helper_list.size(); i++)
 				{
-					if(Helper_list.get(i).getType()==true)
+					System.out.println("in the for in server ");
+					System.out.println("NAME: " + Helper_list.get(i).getEngName());
+					if(Helper_list.get(i).getEngName().equalsIgnoreCase(mn.getEngName()))
 					{
-						Coming_Soon_Movies.add(Helper_list.get(i));
+						
+						System.out.println("in the if in for in server ");
+						wanted_movie = Helper_list.get(i);
+						wanted_list.add(wanted_movie);
+					}
+				}
+				System.out.println("selected eng name : " + mn.getEngName());
+				System.out.println("movieList size: " + wanted_list.size());
+				
+				client.sendToClient(new TripleObject("More Info Movie", wanted_list, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+
+		}
+		
+		if (ObjctMsg.startsWith("Watch At Home"))
+		{
+			try {
+				App.session = App.sessionFactory.openSession();
+				List<Movie> Helperl = getMoviesList();
+				List<Movie> Watch_At_Home_Movies = new ArrayList<Movie>();
+				for(int i = 0; i < Helperl.size(); i++)
+				{
+					if(Helperl.get(i).getType()==2)
+					{
+						Watch_At_Home_Movies.add(Helperl.get(i));
+					}
+				}
+				client.sendToClient(new TripleObject("All Watch At Home Movies Movies", Watch_At_Home_Movies, null));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+
+		if (ObjctMsg.startsWith("Coming_Soon_Movies"))
+		{
+			try {
+				App.session = App.sessionFactory.openSession();
+				List<Movie> Helper_list2 = getMoviesList();
+				List<Movie> Coming_Soon_Movies = new ArrayList<Movie>();
+				for(int i = 0; i < Helper_list2.size(); i++)
+				{
+					if(Helper_list2.get(i).getType()==1)
+					{
+						Coming_Soon_Movies.add(Helper_list2.get(i));
 					}
 				}
 				client.sendToClient(new TripleObject("All Coming Soon Movies", Coming_Soon_Movies, null));
@@ -85,13 +161,13 @@ public class SimpleServer extends AbstractServer {
 			System.out.println("in browse movies in server");
 			try {
 				App.session = App.sessionFactory.openSession();
-				List<Movie> Helper_list = getMoviesList();
+				List<Movie> Helper_list3 = getMoviesList();
 				List<Movie> movies = new ArrayList<Movie>();
-				for(int i = 0; i < Helper_list.size(); i++)
+				for(int i = 0; i < Helper_list3.size(); i++)
 				{
-					if(Helper_list.get(i).getType()==false)
+					if(Helper_list3.get(i).getType()==0)
 					{
-						movies.add(Helper_list.get(i));
+						movies.add(Helper_list3.get(i));
 					}
 				}
 				System.out.println("after get movies list in server print first movie from this list: "

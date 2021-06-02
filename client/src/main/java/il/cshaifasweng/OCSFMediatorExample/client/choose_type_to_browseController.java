@@ -114,9 +114,38 @@ public class choose_type_to_browseController implements Initializable{
     }
 
     @FXML
-    void gotowatchathome(ActionEvent event) {
+    void gotowatchathome(ActionEvent event) throws Exception {
+    	TripleObject msg = new TripleObject("Watch At Home", null, null);
+		SimpleClient.getClient().sendToServer(msg);
 
     }
+    
+	@Subscribe
+	public void onData112(GotWatchAtHomeEvent event) {
+		//System.out.println("IN onData");
+		Platform.runLater(() -> {
+//			Window window = Browse_movie_list.getScene().getWindow();
+//			if (window instanceof Stage) {
+//				((Stage) window).close();
+//			}
+//			Stage primaryStage = new Stage();
+			//Parent root;
+			try {
+				App.setRoot("Watch_At_Home");
+//				Scene scene = new Scene(root);
+//				primaryStage.setScene(scene);s
+//				primaryStage.setTitle("Browse movies list");
+//				primaryStage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+
+    }
+
+
 
     
 	@Override

@@ -29,7 +29,7 @@ public class Movie implements Serializable {
 	// @Column(name = "My_Movies_id")
 
 	private int id;
-	private Boolean Type; // Type=0 for now broadcasting,type=1 for coming soon 
+	private int Type; // Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at home
 	private String EngName;
 	private String HebName;
 	private int Length;
@@ -40,22 +40,23 @@ public class Movie implements Serializable {
 	private String Summary;
 	private String Producer;
 	private int Price;
-	//@OneToMany(fetch = FetchType.EAGER)
+	//@OneToMany
 	@JoinColumn(name = "MovieTimes_id")
-   // @OneToMany(fetch = FetchType.LAZY)
-	@OneToOne
+   // @OneToMany(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	private MovieTimes Times;
 //	@Lob
 //	@Column(columnDefinition = "LONGBLOB")
 //	private byte[] image;
 	private String image;
 	private String branch;
+	private String link;
 
 	public Movie() {
 
 	}
 
-	public Movie(Boolean Type, String EngName, List<String> actors, int len, String HebName, String summary, String producer,
+	public Movie(int Type, String EngName, List<String> actors, int len, String HebName, String summary, String producer,
 			int price, String image, MovieTimes times, String branch) {
 		super();
 		this.Type = Type;
@@ -71,11 +72,11 @@ public class Movie implements Serializable {
 		this.setBranch(branch);
 	}
 	
-	public Boolean getType() {
+	public int getType() {
 		return Type;
 	}
 
-	public void setType(Boolean type) {
+	public void setType(int type) {
 		this.Type = type;
 	}
 
@@ -195,6 +196,14 @@ public class Movie implements Serializable {
 
 	public void setBranch(String branch) {
 		this.branch = branch;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 }

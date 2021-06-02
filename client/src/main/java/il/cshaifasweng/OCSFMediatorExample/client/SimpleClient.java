@@ -12,7 +12,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
-	public static List<Movie> moviesList;// = new ArrayList<Movie>();
+	public static List<Movie> moviesList = new ArrayList<Movie>();
 	public static List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
 
 	private SimpleClient(String host, int port) {
@@ -29,6 +29,42 @@ public class SimpleClient extends AbstractClient {
 
 		if (myMsg.equals("no such movie")) {
 			msg = ("no such movie");
+		}
+		
+		if (myMsg.equals("Movie saved"))
+		{
+			EventBus.getDefault().post(new GotcsnewMovieEvent());
+		}
+		
+		if (myMsg.equals("More Info Movie"))
+		{
+			List<Movie> moreinfo_movies = triple_msg.getMovies();
+			moreinfo_movies = triple_msg.getMovies();
+			if (moreinfo_movies != null) {
+				// moviesList = new ArrayList<Movie>();
+				moviesList = moreinfo_movies;
+				System.out.println("movieList size: " + moviesList.size());
+				//System.out.println("First element: " + moviesList.get(0).getEngName());
+				//System.out.println("Second element: " + moviesList.get(1).getEngName());
+				EventBus.getDefault().post(new GotMoreInfoEvent());
+			} else {
+				System.out.println("MOREINFO_movies is null");
+			}
+		}
+		
+		if (myMsg.equals("All Watch At Home Movies Movies"))
+		{
+			List<Movie> Homemovies = triple_msg.getMovies();
+			Homemovies = triple_msg.getMovies();
+			if (Homemovies != null) {
+				// moviesList = new ArrayList<Movie>();
+				moviesList = Homemovies;
+				//System.out.println("First element: " + moviesList.get(0).getEngName());
+				//System.out.println("Second element: " + moviesList.get(1).getEngName());
+				EventBus.getDefault().post(new GotWatchAtHomeEvent());
+			} else {
+				System.out.println("Homemovies is null");
+			}
 		}
 		
 		if (myMsg.equals("All Coming Soon Movies"))
@@ -75,6 +111,13 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("printing screening times in client2 :" + movieTimes.get(2).getTimes());
 				System.out.println("printing screening times in client3 :" + movieTimes.get(3).getTimes());
 				System.out.println("printing screening times in client4 :" + movieTimes.get(4).getTimes());
+				
+				System.out.println("printing the size og movietimes in client" + movieTimes.size());
+				if(movieTimes.size()>5)
+				{
+					System.out.println("in the if in client");
+					System.out.println("printing 6th element of movietimes " + movieTimes.get(5).getId());
+				}
 				//System.out.println("printing selected movie times in client: " + browse_moviesController.selectedMovie.getMovieTimes().getTimes());
 				//System.out.println("printing screening times in client MT:" + movieTimes.get(0).getTimes());
 				//System.out.println("printing screening times in client MT2:" + movieTimes.get(1).getTimes());
