@@ -64,7 +64,7 @@ public class More_InfoController implements Initializable{
 //			Stage primaryStage = new Stage();
 			//Parent root;
 			try {
-				App.setRoot("Coming_soon");
+				App.setRoot("choose_type_to_browse");
 //				Scene scene = new Scene(root);
 //				primaryStage.setScene(scene);
 //				primaryStage.setTitle("Browse movies list");
