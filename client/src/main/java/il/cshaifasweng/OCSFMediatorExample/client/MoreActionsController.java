@@ -117,9 +117,30 @@ public class MoreActionsController implements Initializable {
 	private Label invalidAddLabel; // Value injected by FXMLLoader
 	@FXML // fx:id="invalidMovie"
 	private Label invalidMovie; // Value injected by FXMLLoader
+	@FXML // fx:id="back"
+	private Button back; // Value injected by FXMLLoader
+
+	@FXML
+	void goBack(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Browse movies", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onData(GotMoviesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("browse_movies");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	}
 
 	@FXML
 	void gotoAddMovie(ActionEvent event) {
+		invalidMovie.setText("");
 		if (engName.getText().equals("") || hebName.getText().equals("") || summary.getText().equals("")
 				|| producer.getText().equals("") || actors.getText().equals("") || len.getText().equals("")
 				|| price.getText().equals("") || screeningTimes.getText().equals("") || branch.getText().equals("")
@@ -181,6 +202,7 @@ public class MoreActionsController implements Initializable {
 
 	@FXML
 	void gotoAddNewToWatchAtHome(ActionEvent event) {
+		invalidMovie.setText("");
 		if (engName.getText().equals("") || hebName.getText().equals("") || summary.getText().equals("")
 				|| producer.getText().equals("") || actors.getText().equals("") || len.getText().equals("")
 				|| price.getText().equals("") || image.getText().equals("") || link.getText().equals("")) {
@@ -247,6 +269,7 @@ public class MoreActionsController implements Initializable {
 
 	@FXML
 	void gotoAddToComingSoon(ActionEvent event) {
+		invalidMovie.setText("");
 		if (engName.getText().equals("") || hebName.getText().equals("") || summary.getText().equals("")
 				|| producer.getText().equals("") || actors.getText().equals("") || len.getText().equals("")
 				|| price.getText().equals("") || image.getText().equals("")) {

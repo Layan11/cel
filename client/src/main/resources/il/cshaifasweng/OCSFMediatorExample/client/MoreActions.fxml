@@ -18,7 +18,7 @@
                   <Image url="@newPics/Utitled5.png" />
                </image>
             </ImageView>
-            <Button fx:id="addNewToWatchAtHome" layoutX="275.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddNewToWatchAtHome" text="Add movie to watch at home" />
+            <Button fx:id="addNewToWatchAtHome" layoutX="265.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddNewToWatchAtHome" text="Add movie to watch at home" />
             <Button fx:id="deleteMovie" layoutX="402.0" layoutY="149.0" mnemonicParsing="false" onAction="#gotoDeleteMovie" text="Delete movie" />
             <TextField fx:id="movieName" layoutX="326.0" layoutY="50.0" />
             <Button fx:id="updatePrice" layoutX="241.0" layoutY="149.0" mnemonicParsing="false" onAction="#gotoUpdatePrice" prefHeight="17.0" prefWidth="85.0" text="Update price" />
@@ -27,7 +27,7 @@
                <font>
                   <Font name="System Bold" size="16.0" />
                </font></Label>
-            <Button fx:id="addToComingSoon" layoutX="513.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddToComingSoon" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Add movie to coming soon" textFill="WHITE" />
+            <Button fx:id="addToComingSoon" layoutX="475.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddToComingSoon" text="Add movie to coming soon" />
             <Button fx:id="addOldToWatchAtHome" layoutX="29.0" layoutY="149.0" mnemonicParsing="false" onAction="#gotoAddOldToWatchAtHome" text="Add to watch at home" />
             <TextField fx:id="engName" layoutX="103.0" layoutY="242.0" />
             <Label layoutX="11.0" layoutY="14.0" prefHeight="72.0" prefWidth="361.0" text="If the movie you want to update already exists, you only need to write it's english name:" wrapText="true">
@@ -87,13 +87,13 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label layoutX="354.0" layoutY="369.0" prefHeight="25.0" prefWidth="190.0" text="please use &quot;,&quot; to separate actors" textFill="#3603c3" wrapText="true">
+            <Label layoutX="354.0" layoutY="369.0" prefHeight="25.0" prefWidth="190.0" text="Please use &quot;,&quot; to separate actors" textFill="#3700cd" wrapText="true">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
             <TextArea fx:id="actors" layoutX="360.0" layoutY="316.0" prefHeight="54.0" prefWidth="176.0" wrapText="true" />
-            <Label layoutX="61.0" layoutY="420.0" text="please use &quot;,&quot; to separate screening times" textFill="#1f006f">
+            <Label layoutX="61.0" layoutY="420.0" text="Please use &quot;,&quot; to separate screening times" textFill="#3700cd">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
@@ -152,7 +152,7 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="invalidMovie" layoutX="324.0" layoutY="78.0" textFill="RED">
+            <Label fx:id="invalidMovie" layoutX="342.0" layoutY="78.0" textFill="RED">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -169,6 +169,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
+            <Button fx:id="back" layoutX="687.0" layoutY="551.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="52.0" text="Back" />
          </children>
       </AnchorPane>
    </children>
