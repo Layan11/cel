@@ -89,7 +89,7 @@ public class Coming_soonController implements Initializable{
     	Platform.runLater(() -> {
     		Parent root;
     		try {
-    			App.setRoot("Edit_Coming_Soon_Movie");
+    			App.setRoot("LoginToComingSoon");
 
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
