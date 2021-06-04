@@ -11,35 +11,32 @@
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="643.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController">
    <children>
-      <VBox prefHeight="531.0" prefWidth="652.0">
+      <VBox prefHeight="531.0" prefWidth="652.0" />
+      <AnchorPane layoutX="8.0" layoutY="4.0" prefHeight="527.0" prefWidth="646.0" style="-fx-background-color: #000000;">
          <children>
-            <AnchorPane prefHeight="527.0" prefWidth="643.0" style="-fx-background-color: #730606;">
-               <children>
-                  <TableView fx:id="tableView" layoutX="-9.0" layoutY="82.0" prefHeight="445.0" prefWidth="253.0" style="-fx-fixed-cell-size: 80px; -fx-font-size: 16;">
-                    <columns>
-                      <TableColumn fx:id="firstNameColumn" prefWidth="140.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Movie name" />
-                        <TableColumn fx:id="priceColumn" prefWidth="109.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Price" />
-                    </columns>
-                  </TableView>
-                  <Button fx:id="Go_back" layoutX="493.0" layoutY="408.0" mnemonicParsing="false" onAction="#gobacktoprimary" prefHeight="25.0" prefWidth="141.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Go back" />
-                  <ImageView fitHeight="37.0" fitWidth="130.0" layoutX="253.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" scaleX="5.0" scaleY="2.5">
-                     <image>
-                        <Image url="@movie-banners-vector-illustration-46569846.jpg" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="Show_screening_time" layoutX="493.0" layoutY="254.0" mnemonicParsing="false" onAction="#gotoShow_screening_time" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Show Screening Time" wrapText="true" />
-                  <ImageView fx:id="image1" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="image2" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="image3" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="image4" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="image5" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="More_Info" layoutX="493.0" layoutY="374.0" mnemonicParsing="false" onAction="#show_More_Info" prefHeight="25.0" prefWidth="141.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="More Info" />
-                  <Button fx:id="add_Movie" layoutX="493.0" layoutY="289.0" mnemonicParsing="false" onAction="#gotoAddMovie" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Add movie" />
-                  <Button fx:id="Add_to_watch_at_home_list" layoutX="481.0" layoutY="333.0" mnemonicParsing="false" onAction="#Add_To_WatchAtHome_List" text="Add to watch at home list" />
-                  <ChoiceBox fx:id="ChoiceBox" layoutX="357.0" layoutY="93.0" prefWidth="150.0" />
-                  <Button fx:id="Show" layoutX="518.0" layoutY="93.0" mnemonicParsing="false" onAction="#Show" text="Show" />
-               </children>
-            </AnchorPane>
-         </children></VBox>
+            <ImageView fitHeight="273.0" fitWidth="402.0" layoutX="245.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@movie-popcorn.jpg" />
+               </image>
+            </ImageView>
+            <TableView fx:id="tableView" layoutX="-9.0" layoutY="82.0" prefHeight="445.0" prefWidth="310.0" style="-fx-fixed-cell-size: 80px; -fx-font-size: 18; -fx-text-fill: white; -fx-background-radius: 40; -fx-alignment: center;">
+              <columns>
+                <TableColumn fx:id="firstNameColumn" prefWidth="159.0" style="-fx-background-color: #f8e9bb; -fx-text-fill: black; -fx-font-size: 18; -fx-font-style: italic; -fx-font-weight: bold; -fx-background-radius: 40; -fx-alignment: center-left;" text="Movie name" />
+                  <TableColumn fx:id="priceColumn" prefWidth="149.0" style="-fx-background-color: #f8e9bb; -fx-text-fill: black; -fx-font-size: 18; -fx-background-radius: 40; -fx-font-style: italic; -fx-alignment: center-left;" text="Price" />
+              </columns>
+            </TableView>
+            <ImageView fitHeight="37.0" fitWidth="130.0" layoutX="253.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" scaleX="5.0" scaleY="2.5">
+               <image>
+                  <Image url="@movie-banners-vector-illustration-46569846.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="Show_screening_time" layoutX="454.0" layoutY="151.0" mnemonicParsing="false" onAction="#gotoShow_screening_time" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Show Screening Time" wrapText="true" />
+            <Button fx:id="More_Info" layoutX="454.0" layoutY="225.0" mnemonicParsing="false" onAction="#show_More_Info" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="More Info" />
+            <Button fx:id="MoreActions" layoutX="454.0" layoutY="187.0" mnemonicParsing="false" onAction="#gotoMoreActions" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="More Actions" />
+            <Button fx:id="Go_back" layoutX="453.0" layoutY="260.0" mnemonicParsing="false" onAction="#gobacktoprimary" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Go back" />
+            <ChoiceBox fx:id="ChoiceBox" layoutX="352.0" layoutY="116.0" prefWidth="150.0" />
+            <Button fx:id="Show" layoutX="542.0" layoutY="106.0" mnemonicParsing="false" onAction="#Show" text="Show" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -59,7 +59,7 @@ public class Edit_Watch_At_Home_MovieController implements Initializable{
     	helperMovie.setLength(selectedID);
     	List<Movie> helperList = new ArrayList<Movie>();
     	helperList.add(helperMovie);
-    	TripleObject msg = new TripleObject("Delete Movie", helperList,null );
+    	TripleObject msg = new TripleObject("Delete Movie Selected", helperList,null );
 		SimpleClient.getClient().sendToServer(msg);
     }
     

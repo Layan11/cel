@@ -133,6 +133,12 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("Movie Deleted")) {
 			EventBus.getDefault().post(new GotMovieDeletedEvent());
 		}
+		if (myMsg.startsWith("User found")) {
+			EventBus.getDefault().post(new UserFoundEvent(myMsg));
+		}
+		if (myMsg.equals("Got the wanted movie")) {
+			EventBus.getDefault().post(new gotMovieActorsEvent(triple_msg.getList()));
+		}
 	}
 
 	public static SimpleClient getClient() {

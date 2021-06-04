@@ -22,11 +22,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.*;
 
 public class browse_moviesController implements Initializable {
 	@FXML
@@ -42,52 +41,31 @@ public class browse_moviesController implements Initializable {
 	@FXML // fx:id="Show_screening_time"
 	private Button Show_screening_time; // Value injected by FXMLLoader
 
-	@FXML // fx:id="image1"
-	private ImageView image1; // Value injected by FXMLLoader
-
-	@FXML // fx:id="image2"
-	private ImageView image2; // Value injected by FXMLLoader
-
-	@FXML // fx:id="image3"
-	private ImageView image3; // Value injected by FXMLLoader
-
-	@FXML // fx:id="image4"
-	private ImageView image4; // Value injected by FXMLLoader
-
-	@FXML // fx:id="image5"
-	private ImageView image5; // Value injected by FXMLLoader
-
 	@FXML // fx:id="More_Info"
 	private Button More_Info; // Value injected by FXMLLoader
 	@FXML // fx:id="add_Movie"
-	private Button add_Movie; // Value injected by FXMLLoader
-	
-	@FXML // fx:id="Add_to_watch_at_home_list"
-    private Button Add_to_watch_at_home_list; // Value injected by FXMLLoader
-	
+	private Button MoreActions; // Value injected by FXMLLoader
+	@FXML // fx:id="ChoiceBox"
+	private ChoiceBox<String> ChoiceBox; // Value injected by FXMLLoader
 
-    @FXML // fx:id="ChoiceBox"
-    private ChoiceBox<String> ChoiceBox; // Value injected by FXMLLoader
-
-    @FXML // fx:id="Show"
-    private Button Show; // Value injected by FXMLLoader
-
+	@FXML // fx:id="Show"
+	private Button Show; // Value injected by FXMLLoader
 
 	public static Movie selectedMovie;
-	
-    @FXML
-    void Show(ActionEvent event) throws Exception {
-    	String selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();
+
+	@FXML
+	void Show(ActionEvent event) throws Exception {
+		String selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();
 		TripleObject msg = new TripleObject(selectedBranch, null, null);
 		SimpleClient.getClient().sendToServer(msg);
-    }
-    
+	}
+
 	@Subscribe
 	public void onData(GotfilteredMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("FilteredMovies");
-				
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -95,22 +73,7 @@ public class browse_moviesController implements Initializable {
 
 		});
 
-    }
-	
-    @FXML
-    void Add_To_WatchAtHome_List(ActionEvent event) throws Exception {
-    	Movie selected = tableView.getSelectionModel().getSelectedItem();
-		selectedMovie = selected;
-		Movie mv = new Movie();
-		mv = selectedMovie;
-		mv.setType(2);
-		List<Movie> ListnewMovie = new ArrayList<Movie>();
-		ListnewMovie.add(mv);
-		TripleObject msg = new TripleObject("Save new Movie", ListnewMovie,null);
-		SimpleClient.getClient().sendToServer(msg);
-		
-
-    }
+	}
 
 	@FXML
 	void show_More_Info(ActionEvent event) throws Exception {
@@ -169,7 +132,7 @@ public class browse_moviesController implements Initializable {
 	}
 
 	@FXML
-	void gotoAddMovie(ActionEvent event) {
+	void gotoMoreActions(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("login");
@@ -182,12 +145,7 @@ public class browse_moviesController implements Initializable {
 
 	@Subscribe
 	public void onData1(GotScreeningTimesEvent event) {
-		// System.out.println("IN onData1");
 		Platform.runLater(() -> {
-
-			// System.out.println("before load: " +
-			// SimpleClient.moviesList.get(0).getEngName());
-			Parent root;
 			try {
 				App.setRoot("Screening_Times");
 				// System.out.println("after the load line of brwose movies in primary");
@@ -214,38 +172,10 @@ public class browse_moviesController implements Initializable {
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
-		System.out.println("in initialize in browse movies controller : ");
-
 		EventBus.getDefault().register(this);
 		getMovies();
 		ChoiceBox.getItems().add("Haifa");
 		ChoiceBox.getItems().add("Shefa-Amr");
-		/*
-		 * InputStream stream; try { stream = new
-		 * FileInputStream(SimpleClient.moviesList.get(0).getImage());
-		 * System.out.println(stream); Image img = new Image(stream);
-		 * image1.setImage(img); image1.setFitWidth(90); image1.setFitHeight(85);
-		 * image1.setPreserveRatio(true); } catch (FileNotFoundException e) {
-		 * e.printStackTrace(); } InputStream stream1; try { stream1 = new
-		 * FileInputStream(SimpleClient.moviesList.get(1).getImage());
-		 * System.out.println(stream1); Image img2 = new Image(stream1);
-		 * image2.setImage(img2); image2.setFitWidth(90); image2.setFitHeight(85);
-		 * image2.setPreserveRatio(true); } catch (FileNotFoundException e) {
-		 * e.printStackTrace(); } InputStream stream2; try { stream2 = new
-		 * FileInputStream(SimpleClient.moviesList.get(2).getImage());
-		 * System.out.println(stream2); Image img3 = new Image(stream2);
-		 * image3.setImage(img3); image3.setFitWidth(90); image3.setFitHeight(85);
-		 * image3.setPreserveRatio(true); } catch (FileNotFoundException e) {
-		 * e.printStackTrace(); } InputStream stream3; try { stream3 = new
-		 * FileInputStream(SimpleClient.moviesList.get(3).getImage());
-		 * System.out.println(stream3); Image img4 = new Image(stream3);
-		 * image4.setImage(img4); image4.setFitWidth(90); image4.setFitHeight(85);
-		 * image4.setPreserveRatio(true); } catch (FileNotFoundException e) {
-		 * e.printStackTrace(); } InputStream stream4; try { stream4 = new
-		 * FileInputStream(SimpleClient.moviesList.get(4).getImage());
-		 * System.out.println(stream4); Image img5 = new Image(stream4);
-		 * image5.setImage(img5); image5.setFitWidth(90); image5.setFitHeight(85);
-		 * image5.setPreserveRatio(true); } catch (FileNotFoundException e) {
-		 * e.printStackTrace(); }
-		 */}
+
+	}
 }
