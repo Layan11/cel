@@ -127,6 +127,12 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("No such user")) {
 			EventBus.getDefault().post(new NoSuchUserEvent());
 		}
+		if (myMsg.equals("user found")) {
+			EventBus.getDefault().post(new PermessionEvent());
+		}
+		if (myMsg.equals("Movie Deleted")) {
+			EventBus.getDefault().post(new GotMovieDeletedEvent());
+		}
 	}
 
 	public static SimpleClient getClient() {

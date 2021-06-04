@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
 
 public class browse_moviesController implements Initializable {
 	@FXML
@@ -60,8 +61,56 @@ public class browse_moviesController implements Initializable {
 	private Button More_Info; // Value injected by FXMLLoader
 	@FXML // fx:id="add_Movie"
 	private Button add_Movie; // Value injected by FXMLLoader
+	
+	@FXML // fx:id="Add_to_watch_at_home_list"
+    private Button Add_to_watch_at_home_list; // Value injected by FXMLLoader
+	
+
+    @FXML // fx:id="ChoiceBox"
+    private ChoiceBox<String> ChoiceBox; // Value injected by FXMLLoader
+
+    @FXML // fx:id="Show"
+    private Button Show; // Value injected by FXMLLoader
+
 
 	public static Movie selectedMovie;
+	
+    @FXML
+    void Show(ActionEvent event) throws Exception {
+    	String selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();
+		TripleObject msg = new TripleObject(selectedBranch, null, null);
+		SimpleClient.getClient().sendToServer(msg);
+    }
+    
+	@Subscribe
+	public void onData(GotfilteredMoviesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("FilteredMovies");
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+
+    }
+	
+    @FXML
+    void Add_To_WatchAtHome_List(ActionEvent event) throws Exception {
+    	Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selectedMovie = selected;
+		Movie mv = new Movie();
+		mv = selectedMovie;
+		mv.setType(2);
+		List<Movie> ListnewMovie = new ArrayList<Movie>();
+		ListnewMovie.add(mv);
+		TripleObject msg = new TripleObject("Save new Movie", ListnewMovie,null);
+		SimpleClient.getClient().sendToServer(msg);
+		
+
+    }
 
 	@FXML
 	void show_More_Info(ActionEvent event) throws Exception {
@@ -169,6 +218,8 @@ public class browse_moviesController implements Initializable {
 
 		EventBus.getDefault().register(this);
 		getMovies();
+		ChoiceBox.getItems().add("Haifa");
+		ChoiceBox.getItems().add("Shefa-Amr");
 		/*
 		 * InputStream stream; try { stream = new
 		 * FileInputStream(SimpleClient.moviesList.get(0).getImage());

@@ -48,8 +48,11 @@ public class Edit_Coming_Soon_MovieController implements Initializable{
 
     @FXML
     void Addmovie(ActionEvent event) throws Exception {
+    	int selectedID = Coming_soonController.selected_coming_soon_Movie.getId();
     	Movie newMovie = new Movie();
 		newMovie = Coming_soonController.selected_coming_soon_Movie;
+		Movie helperMovie = new Movie();
+		helperMovie.setLength(selectedID);
 		//System.out.println("selected name in edit : " + Coming_soonController.selected_coming_soon_Movie.getEngName());
 		newMovie.setType(0);
 		newMovie.setBranch(branchtxt.getText());
@@ -63,6 +66,7 @@ public class Edit_Coming_Soon_MovieController implements Initializable{
 		//newMovie.setMovieTimes(MTimes);
 		List<Movie> ListnewMovie = new ArrayList<Movie>();
 		ListnewMovie.add(newMovie);
+		ListnewMovie.add(helperMovie);
 		TripleObject msg = new TripleObject("Save new Movie", ListnewMovie,MTimeslist );
 		SimpleClient.getClient().sendToServer(msg);
 

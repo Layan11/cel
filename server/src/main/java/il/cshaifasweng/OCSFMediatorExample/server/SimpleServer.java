@@ -43,7 +43,7 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 
-		if (ObjctMsg.startsWith("Delete movie ")) {
+		/*if (ObjctMsg.startsWith("Delete movie ")) {
 			App.session = App.sessionFactory.openSession();
 			boolean x = deleteMovie(msg);
 			if (x == false) {
@@ -62,6 +62,22 @@ public class SimpleServer extends AbstractServer {
 				}
 			}
 			App.session.close();
+		}*/
+		
+		if (ObjctMsg.startsWith("Delete Movie")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie helperMovie = new Movie();
+				helperMovie = tuple_msg.getMovies().get(0);
+				Movie MovieToDelete = App.session.get(Movie.class, helperMovie.getLength());
+				App.session.remove(MovieToDelete);
+				App.session.getTransaction().commit();
+				client.sendToClient(new TripleObject("Movie Deleted", null, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
 		}
 
 		if (ObjctMsg.startsWith("Save new Movie")) {
@@ -70,12 +86,28 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				Movie newMovie = new Movie();
 				MovieTimes MTimes = new MovieTimes();
-				MTimes = tuple_msg.getMovieTimes().get(0);
-				App.session.save(MTimes);
+				Movie helperMovie = new Movie();
 				newMovie = tuple_msg.getMovies().get(0);
-				newMovie.setMovieTimes(MTimes);
+				if(tuple_msg.getMovieTimes()!=null)
+				{
+					MTimes = tuple_msg.getMovieTimes().get(0);
+				    App.session.save(MTimes);
+				    newMovie.setMovieTimes(MTimes);
+				}
 				App.session.save(newMovie);
 				// App.session.flush();
+				if(tuple_msg.getMovies().size()>1)
+				{
+					helperMovie = tuple_msg.getMovies().get(1);
+					Movie movieToDelete = App.session.get(Movie.class, helperMovie.getLength());
+					if(movieToDelete.getType()==1)
+					{
+						App.session.remove(movieToDelete);
+					}
+					
+				}
+				
+					
 				App.session.getTransaction().commit();
 				client.sendToClient(new TripleObject("Movie saved", null, null));
 			} catch (Exception e) {
@@ -286,6 +318,14 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
+				else {
+					try {
+						client.sendToClient(new TripleObject("user found", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -303,7 +343,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
