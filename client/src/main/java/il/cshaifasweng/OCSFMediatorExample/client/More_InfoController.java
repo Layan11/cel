@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,74 +27,106 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class More_InfoController implements Initializable{
+public class More_InfoController implements Initializable {
 
-    @FXML // fx:id="EngNametxt"
-    private TextField EngNametxt; // Value injected by FXMLLoader
+	@FXML // fx:id="EngNametxt"
+	private TextField EngNametxt; // Value injected by FXMLLoader
 
-    @FXML // fx:id="movie_img"
-    private ImageView movie_img; // Value injected by FXMLLoader
+	@FXML // fx:id="movie_img"
+	private ImageView movie_img; // Value injected by FXMLLoader
 
-    @FXML // fx:id="HebNametxt"
-    private TextField HebNametxt; // Value injected by FXMLLoader
+	@FXML // fx:id="HebNametxt"
+	private TextField HebNametxt; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Producertxt"
-    private TextField Producertxt; // Value injected by FXMLLoader
+	@FXML // fx:id="Producertxt"
+	private TextField Producertxt; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Summarytxt"
-    private TextArea Summarytxt; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="Back"
-    private Button Back; // Value injected by FXMLLoader
+	@FXML // fx:id="Summarytxt"
+	private TextArea Summarytxt; // Value injected by FXMLLoader
 
-    @FXML
-    void goback(ActionEvent event) throws Exception {
-    	TripleObject msg = new TripleObject("Coming_Soon_Movies", null, null);
+	@FXML // fx:id="Back"
+	private Button Back; // Value injected by FXMLLoader
+
+	@FXML // fx:id="ArbNametxt"
+	private TextField ArbNametxt; // Value injected by FXMLLoader
+
+	@FXML // fx:id="Lentxt"
+	private TextField Lentxt; // Value injected by FXMLLoader
+
+	@FXML // fx:id="ActorsTxt"
+	private TextArea ActorsTxt; // Value injected by FXMLLoader
+
+	@FXML
+	void goback(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Coming_Soon_Movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 
-    }
-    
+	}
+
 	@Subscribe
 	public void onData111(GotComingSoonEvent event) {
-		//System.out.println("IN onData");
 		Platform.runLater(() -> {
-//			Window window = Browse_movie_list.getScene().getWindow();
-//			if (window instanceof Stage) {
-//				((Stage) window).close();
-//			}
-//			Stage primaryStage = new Stage();
-			//Parent root;
 			try {
 				App.setRoot("choose_type_to_browse");
-//				Scene scene = new Scene(root);
-//				primaryStage.setScene(scene);
-//				primaryStage.setTitle("Browse movies list");
-//				primaryStage.show();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		});
+	}
+
+	@Subscribe
+	public void onGotMovieActors(gotMovieActorsEvent event) {
+		Platform.runLater(() -> {
+			List<String> actors = event.getMovieActors();
+			System.out.println("THE ACTORS: ");
+			System.out.println(actors);
+			String delim = "\n";
+
+			StringBuilder sb = new StringBuilder();
+
+			int i = 0;
+			while (i < actors.size() - 1) {
+				sb.append(actors.get(i));
+				sb.append(delim);
+				i++;
+			}
+			sb.append(actors.get(i));
+
+			String res = sb.toString();
+			System.out.println(res);
+			ActorsTxt.setText(res);
+			// for (int i = 0; i < actors.size(); i++) {
+			// ActorsTxt.setText(actors.get(i) + "\n");
+			// }
 
 		});
-
-    }
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
-		
+
 		Movie chosen_movie = new Movie();
 		chosen_movie = SimpleClient.moviesList.get(0);
-		
-		
+
 		EngNametxt.setText(chosen_movie.getEngName());
 		HebNametxt.setText(chosen_movie.getHebName());
 		Producertxt.setText(chosen_movie.getProducer());
 		Summarytxt.setText(chosen_movie.getSummary());
-		//Producertxt.setText(chosen_movie.getProducer());
-		//Summarytxt.setText(chosen_movie.getSummary());
-		
+		if (chosen_movie.getArbName() != null) {
+			ArbNametxt.setText(chosen_movie.getArbName());
+		}
+		Lentxt.setText(Integer.toString(chosen_movie.getLength()) + " mins");
+		TripleObject msg = new TripleObject("Get movie actors " + chosen_movie.getEngName(), null, null);
+		try {
+			SimpleClient.getClient().sendToServer(msg);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		InputStream stream1;
 		try {
 			stream1 = new FileInputStream(chosen_movie.getImage());
@@ -104,9 +137,7 @@ public class More_InfoController implements Initializable{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-    }
-
-
+}

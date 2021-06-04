@@ -23,12 +23,9 @@ public class SimpleClient extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
-//		if (msg.getClass().equals(Warning.class)) {
-//			EventBus.getDefault().post(new WarningEvent((Warning) msg));
-//		}
 
 		if (myMsg.equals("no such movie")) {
-			msg = ("no such movie");
+			EventBus.getDefault().post(new NoSuchMovieEvent());
 		}
 
 		if (myMsg.equals("Movie saved")) {
@@ -39,11 +36,8 @@ public class SimpleClient extends AbstractClient {
 			List<Movie> moreinfo_movies = triple_msg.getMovies();
 			moreinfo_movies = triple_msg.getMovies();
 			if (moreinfo_movies != null) {
-				// moviesList = new ArrayList<Movie>();
 				moviesList = moreinfo_movies;
 				System.out.println("movieList size: " + moviesList.size());
-				// System.out.println("First element: " + moviesList.get(0).getEngName());
-				// System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotMoreInfoEvent());
 			} else {
 				System.out.println("MOREINFO_movies is null");
@@ -54,10 +48,7 @@ public class SimpleClient extends AbstractClient {
 			List<Movie> Homemovies = triple_msg.getMovies();
 			Homemovies = triple_msg.getMovies();
 			if (Homemovies != null) {
-				// moviesList = new ArrayList<Movie>();
 				moviesList = Homemovies;
-				// System.out.println("First element: " + moviesList.get(0).getEngName());
-				// System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotWatchAtHomeEvent());
 			} else {
 				System.out.println("Homemovies is null");
@@ -68,10 +59,7 @@ public class SimpleClient extends AbstractClient {
 			List<Movie> CSmovies = triple_msg.getMovies();
 			CSmovies = triple_msg.getMovies();
 			if (CSmovies != null) {
-				// moviesList = new ArrayList<Movie>();
 				moviesList = CSmovies;
-				// System.out.println("First element: " + moviesList.get(0).getEngName());
-				// System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotComingSoonEvent());
 			} else {
 				System.out.println("CSmovies is null");
@@ -79,15 +67,12 @@ public class SimpleClient extends AbstractClient {
 		}
 
 		if (myMsg.equals("All Movies")) {
-//			System.out.println("in all movies in client");
-//			ArrayList<Movie> movies = new ArrayList<Movie>();
 			List<Movie> movies = triple_msg.getMovies();
 			movies = triple_msg.getMovies();
 			if (movies != null) {
-				// moviesList = new ArrayList<Movie>();
 				moviesList = movies;
-				System.out.println("First element: " + moviesList.get(0).getEngName());
-				System.out.println("Second element: " + moviesList.get(1).getEngName());
+//				System.out.println("First element: " + moviesList.get(0).getEngName());
+//				System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotMoviesEvent());
 			} else {
 				System.out.println("movies is null");
@@ -99,8 +84,6 @@ public class SimpleClient extends AbstractClient {
 			MT = triple_msg.getMovieTimes();
 			if (MT != null) {
 				EventBus.getDefault().post(new GotScreeningTimesEvent());
-				// List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
-				// movieTimes = new ArrayList<MovieTimes>();
 				movieTimes = MT;
 				System.out.println("printing screening times in client :" + movieTimes.get(0).getTimes());
 				System.out.println("printing screening times in client1 :" + movieTimes.get(1).getTimes());
@@ -126,6 +109,12 @@ public class SimpleClient extends AbstractClient {
 		}
 		if (myMsg.equals("No such user")) {
 			EventBus.getDefault().post(new NoSuchUserEvent());
+		}
+		if (myMsg.startsWith("User found")) {
+			EventBus.getDefault().post(new UserFoundEvent(myMsg));
+		}
+		if (myMsg.equals("Got the wanted movie")) {
+			EventBus.getDefault().post(new gotMovieActorsEvent(triple_msg.getList()));
 		}
 	}
 

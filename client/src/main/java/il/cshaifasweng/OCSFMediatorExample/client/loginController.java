@@ -35,6 +35,8 @@ public class loginController implements Initializable {
 	private TextField password_box;
 	@FXML // fx:id="invalid_label"
 	private Label invalid_label; // Value injected by FXMLLoader
+	@FXML // fx:id="invalid_label2"
+	private Label invalid_label2; // Value injected by FXMLLoader
 
 	@FXML
 	void gotoLogin(ActionEvent event) {
@@ -61,6 +63,24 @@ public class loginController implements Initializable {
 	public void onNoUser(NoSuchUserEvent event) {
 		Platform.runLater(() -> {
 			invalid_label.setText("Sorry, invalid user");
+		});
+	}
+
+	@Subscribe
+	public void onFoundUser(UserFoundEvent event) {
+		Platform.runLater(() -> {
+			try {
+				int userRole = event.getRole();// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
+												// Services Employee
+				if (userRole == 1) {
+					App.setRoot("MoreActions");
+				} else {
+					invalid_label2.setText("Sorry, this user does'nt have\npermission to do more actions");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
 
 	}

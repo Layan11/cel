@@ -1,8 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
-import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -33,37 +30,6 @@ public class SimpleServer extends AbstractServer {
 		TripleObject tuple_msg = (TripleObject) msg;
 		String ObjctMsg = tuple_msg.getMsg();
 
-		if (ObjctMsg.startsWith("#warning")) {
-			Warning warning = new Warning("Warning from server!");
-			try {
-				client.sendToClient(warning);
-				System.out.format("Sent warning to client %s\n", client.getInetAddress().getHostAddress());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		if (ObjctMsg.startsWith("Delete movie ")) {
-			App.session = App.sessionFactory.openSession();
-			boolean x = deleteMovie(msg);
-			if (x == false) {
-				try {
-					client.sendToClient(new TripleObject("no such movie", null, null));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else {
-				try {
-					client.sendToClient(new TripleObject("found movie", null, null));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			App.session.close();
-		}
-
 		if (ObjctMsg.startsWith("Save new Movie")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -75,7 +41,6 @@ public class SimpleServer extends AbstractServer {
 				newMovie = tuple_msg.getMovies().get(0);
 				newMovie.setMovieTimes(MTimes);
 				App.session.save(newMovie);
-				// App.session.flush();
 				App.session.getTransaction().commit();
 				client.sendToClient(new TripleObject("Movie saved", null, null));
 			} catch (Exception e) {
@@ -94,24 +59,16 @@ public class SimpleServer extends AbstractServer {
 				Movie wanted_movie = new Movie();
 				List<Movie> wanted_list = new ArrayList<Movie>();
 				for (int i = 0; i < Helper_list.size(); i++) {
-					System.out.println("in the for in server ");
-					System.out.println("NAME: " + Helper_list.get(i).getEngName());
 					if (Helper_list.get(i).getEngName().equalsIgnoreCase(mn.getEngName())) {
-
-						System.out.println("in the if in for in server ");
 						wanted_movie = Helper_list.get(i);
 						wanted_list.add(wanted_movie);
 					}
 				}
-				System.out.println("selected eng name : " + mn.getEngName());
-				System.out.println("movieList size: " + wanted_list.size());
-
 				client.sendToClient(new TripleObject("More Info Movie", wanted_list, null));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			App.session.close();
-
 		}
 
 		if (ObjctMsg.startsWith("Watch At Home")) {
@@ -285,6 +242,15 @@ public class SimpleServer extends AbstractServer {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				} else {
+					ans.get(0).setIs_Logged_In(true);
+					try {
+						int userRole = ans.get(0).getRole();
+						client.sendToClient(new TripleObject("User found " + userRole, null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
@@ -293,35 +259,116 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-
-	}
-
-	private boolean deleteMovie(Object msg) {
-		boolean let_in = false;
-		String message = ((String) msg).substring(13);
-		System.out.println("DELETE FROM movies WHERE EngName = '" + message + "'");
-		Connection c = null;
-		java.sql.Statement stmt = null;
-		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
-			c.setAutoCommit(false);
-			System.out.println("Opened database successfully");
-			stmt = c.createStatement();
-			int rs = stmt.executeUpdate("DELETE FROM movies WHERE EngName = '" + message + "'");
-			if (rs != 0) {
-				let_in = true;
+		if (ObjctMsg.equals("Add new movie")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				if (movietoadd.getMovieTimes() != null) {
+					App.session.save(movietoadd.getMovieTimes());
+				}
+				App.session.save(movietoadd);
+				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
 			}
-			stmt.close();
-			c.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
+			App.session.close();
 		}
-		System.out.println("Operation done successfully");
-		System.out.println(let_in);
-		return let_in;
+		if (ObjctMsg.startsWith("Add exsisting movie to watch at home")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietoadd = new Movie();
+				if (getMovie(ObjctMsg.substring(37)).size() == 0) {
+					try {
+						client.sendToClient(new TripleObject("no such movie", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					Movie tmpMovie = getMovie(ObjctMsg.substring(37)).get(0);
 
-		// TODO: add close connection
+					movietoadd.setType(2);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
+											// home
+					movietoadd.setEngName(tmpMovie.getEngName());
+					movietoadd.setHebName(tmpMovie.getHebName());
+					movietoadd.setArbName(tmpMovie.getArbName());
+					movietoadd.setLength(tmpMovie.getLength());
+					movietoadd.setActors(tmpMovie.getActors());
+					movietoadd.setSummary(tmpMovie.getSummary());
+					movietoadd.setProducer(tmpMovie.getProducer());
+					movietoadd.setPrice(tmpMovie.getPrice());
+					MovieTimes mt = new MovieTimes();
+					movietoadd.setMovieTimes(mt);
+					movietoadd.setImage(tmpMovie.getImage());
+					movietoadd.setBranch(null);
+					movietoadd.setLength(tmpMovie.getLength());
+					movietoadd.setLink("IDKFORNOW");
+					App.session.save(mt);
+					App.session.save(movietoadd);
+					App.session.flush();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Delete movie")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietodelete = new Movie();
+				List<Movie> tmp = getMovie(ObjctMsg.substring(13));
+				if (tmp.size() != 0) {
+					movietodelete = tmp.get(0);
+					// Movie tmp = App.session.find(Movie.class, movietodelete.getId());
+					// App.session.remove(movietodelete.getMovieTimes());
+					App.session.remove(movietodelete);
+				} else {
+					try {
+						client.sendToClient(new TripleObject("no such movie", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Get movie actors ")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String movieName = ObjctMsg.substring(17);
+				Movie movie = getMovie(movieName).get(0);
+				List<String> actors = movie.getActors();
+				try {
+					TripleObject to = new TripleObject("Got the wanted movie", null, null);
+					to.setList(actors);
+					System.out.println("GET LIST IN SERVER: ");
+					System.out.println(to.getList());
+					client.sendToClient(to);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 	}
 
 	private static List<Movie> getMoviesList() {
@@ -341,6 +388,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForUser = builder.and(predicateForUsername, predicateForPass);
 		query.where(predicateForUser);
 		List<User> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<Movie> getMovie(String movieName) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+		Root<Movie> userRoot = query.from(Movie.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("EngName"), movieName);
+		query.where(predicateForMoviename);
+		List<Movie> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

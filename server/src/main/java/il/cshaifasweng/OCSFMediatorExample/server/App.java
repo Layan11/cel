@@ -55,8 +55,11 @@ public class App {
 		AladdinTimes.add("20:00");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
 		session.save(AladdinMovieTimes);
-		Movie AladdinMovie = new Movie(0, "Aladdin", AladdinActorsList, 128, "אלאדין", "insert aladdin movie summary",
+		Movie AladdinMovie = new Movie("Aladdin", AladdinActorsList, 128, "אלאדין",
+				"Aladdin, a kind thief, woos Jasmine, the princess of Agrabah, with the help of Genie. When Jafar, the grand vizier, tries to usurp the king, Jasmine, Aladdin and Genie must stop him from succeeding.",
 				"Jonathan Eirich", 20, AladdinImage, AladdinMovieTimes, "Haifa");
+		AladdinMovie.setType(0);
+		AladdinMovie.setArbName("علاء الدين");
 		session.save(AladdinMovie);
 		session.flush();
 
@@ -69,8 +72,11 @@ public class App {
 		ShrekTimes.add("17:30");
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
 		session.save(ShrekMovieTimes);
-		Movie ShrekMovie = new Movie(0, "Shrek", ShrekActorsList, 95, "שרק", "insert shrek movie summary",
+		Movie ShrekMovie = new Movie("Shrek", ShrekActorsList, 95, "שרק",
+				"Shrek, an ogre, embarks on a journey with a donkey to rescue Princess Fiona from a vile lord and regain his swamp.",
 				"John H. Williams", 35, ShrekImage, ShrekMovieTimes, "Haifa");
+		ShrekMovie.setType(0);
+		ShrekMovie.setArbName("شريك");
 		session.save(ShrekMovie);
 		session.flush();
 //Snow White
@@ -82,8 +88,11 @@ public class App {
 		SnowWhiteTimes.add("20:15");
 		MovieTimes SnowWhiteMovieTimes = new MovieTimes(SnowWhiteTimes);
 		session.save(SnowWhiteMovieTimes);
-		Movie SnowWhiteMovie = new Movie(0, "Snow White", SnowWhiteActorsList, 88, "שלגייה",
-				"insert snow white movie summary", "Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
+		Movie SnowWhiteMovie = new Movie("Snow White", SnowWhiteActorsList, 88, "שלגייה",
+				"When Snow White, a princess, is exiled by her stepmother, an evil queen who wants to kill her, she runs into a forest. Soon, she is rescued by seven dwarfs who form a friendship with her.",
+				"Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
+		SnowWhiteMovie.setType(0);
+		SnowWhiteMovie.setArbName("بيضاء الثلج");
 		session.save(SnowWhiteMovie);
 		session.flush();
 
@@ -97,8 +106,11 @@ public class App {
 		FnFTimes.add("21:30");
 		MovieTimes FnFMovieTimes = new MovieTimes(FnFTimes);
 		session.save(FnFMovieTimes);
-		Movie FastAndFuriousMovie = new Movie(0, "Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
-				"insert fast and furious movie summary", "Neal H. Moritz", 45, FnFImage, FnFMovieTimes, "Shefa-Amr");
+		Movie FastAndFuriousMovie = new Movie("Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
+				"A spate of high-speed robberies in LA brings street racer Dominic Toretto and his crew under the LAPD scanner. FBI agent Brian goes undercover and befriends Toretto in a bid to investigate the matter.",
+				"Neal H. Moritz", 45, FnFImage, FnFMovieTimes, "Shefa-Amr");
+		FastAndFuriousMovie.setType(0);
+		FastAndFuriousMovie.setArbName("السرعة والغضب");
 		session.save(FastAndFuriousMovie);
 		session.flush();
 
@@ -112,8 +124,11 @@ public class App {
 		DumboTimes.add("21:30");
 		MovieTimes DumboMovieTimes = new MovieTimes(DumboTimes);
 		session.save(DumboMovieTimes);
-		Movie DumboMovie = new Movie(0, "Dumbo", DumboActorsList, 112, "דמבו", "insert dumbo movie summary",
+		Movie DumboMovie = new Movie("Dumbo", DumboActorsList, 112, "דמבו",
+				"Holt, a circus performer, is tasked with caring for a baby elephant with oversized ears, Dumbo. But when it is discovered that Dumbo can fly, a few wicked men try to take advantage of the situation.",
 				"Tim Burton ", 25, DumboImage, DumboMovieTimes, "Haifa");
+		DumboMovie.setType(0);
+		DumboMovie.setArbName("دامبو");
 		session.save(DumboMovie);
 		session.flush();
 
@@ -125,10 +140,12 @@ public class App {
 		minionsMovie.setType(1);
 		minionsMovie.setEngName("Minions");
 		minionsMovie.setHebName("המיניונים");
+		minionsMovie.setArbName("مينيونز");
 		minionsMovie.setLength(86);
 		minionsMovie.setProducer("Mireille Soria");
 		minionsMovie.setPrice(80);
-		minionsMovie.setSummary("minions summary");
+		minionsMovie.setSummary(
+				"Minions Kevin, Stuart and Bob decide to find a new master. They embark on a global trip and meet Scarlett Overkill, a female super-villain who recruits them and hatches a plan to take over the world.");
 		List<String> minionsActorsList = new ArrayList<String>();
 		minionsActorsList.add("Ben Stiller");
 		minionsActorsList.add("Chris Rock");
@@ -143,10 +160,12 @@ public class App {
 		MadagascarMovie.setType(1);
 		MadagascarMovie.setEngName("Madagascar");
 		MadagascarMovie.setHebName("מדגסקר");
+		MadagascarMovie.setArbName("مدغشقر");
 		MadagascarMovie.setLength(86);
 		MadagascarMovie.setProducer("Mireille Soria");
 		MadagascarMovie.setPrice(80);
-		MadagascarMovie.setSummary("Madagascar summary");
+		MadagascarMovie.setSummary(
+				"Four spoiled animals from the New York Central Zoo escape with the unintentional help of four fugitive penguins. They subsequently find themselves in Madagascar amidst happy lemurs.");
 		List<String> MadagascarActorsList = new ArrayList<String>();
 		MadagascarActorsList.add("Ben Stiller");
 		MadagascarActorsList.add("Chris Rock");
@@ -161,10 +180,12 @@ public class App {
 		IronManMovie.setType(1);
 		IronManMovie.setEngName("IronMan");
 		IronManMovie.setHebName("איש הברזל");
+		IronManMovie.setArbName("الرجل الحديدي");
 		IronManMovie.setLength(126);
 		IronManMovie.setProducer("Avi Arad");
 		IronManMovie.setPrice(65);
-		IronManMovie.setSummary("IronMan summary");
+		IronManMovie.setSummary(
+				"When Tony Stark, an industrialist, is captured, he constructs a high-tech armoured suit to escape. Once he manages to escape, he decides to use his suit to fight against evil forces to save the world.");
 		List<String> IronManActorsList = new ArrayList<String>();
 		IronManActorsList.add(" Robert Downey Jr. ");
 		IronManActorsList.add(" Terrence Howard");
@@ -179,10 +200,12 @@ public class App {
 		KungFuPandaMovie.setType(1);
 		KungFuPandaMovie.setEngName("KungFuPanda");
 		KungFuPandaMovie.setHebName("קונג פו פנדה");
+		KungFuPandaMovie.setArbName("كونغ فو باندا");
 		KungFuPandaMovie.setLength(92);
 		KungFuPandaMovie.setProducer("Melissa Cobb");
 		KungFuPandaMovie.setPrice(70);
-		KungFuPandaMovie.setSummary("KungFuPanda summary");
+		KungFuPandaMovie.setSummary(
+				"When Po the Panda, a kung fu enthusiast, gets selected as the Dragon Warrior, he decides to team up with the Furious Five and destroy the evil forces that threaten the Valley of Peace.");
 		List<String> KungFuPandaActorsList = new ArrayList<String>();
 		KungFuPandaActorsList.add("Jack Black");
 		KungFuPandaActorsList.add("Dustin Hoffman");
@@ -199,10 +222,12 @@ public class App {
 		BadBoysMovie.setType(2);
 		BadBoysMovie.setEngName("BadBoys");
 		BadBoysMovie.setHebName("בחורים רעים");
+		BadBoysMovie.setArbName("أولاد سيئين");
 		BadBoysMovie.setLength(119);
 		BadBoysMovie.setProducer("Don Simpson");
 		BadBoysMovie.setPrice(50);
-		BadBoysMovie.setSummary("badboys summary");
+		BadBoysMovie.setSummary(
+				"Marcus, a family man, and Mike, a ladies' man, are partners in the Miami police. Things get complicated when they assume each other's identity while investigating a drug deal.");
 		List<String> BadBoysActorsList = new ArrayList<String>();
 		BadBoysActorsList.add("Will Smith");
 		BadBoysActorsList.add(" Martin Lawrence");
@@ -217,10 +242,12 @@ public class App {
 		JohnnyEnglishMovie.setType(2);
 		JohnnyEnglishMovie.setEngName("JohnnyEnglish");
 		JohnnyEnglishMovie.setHebName("גוני אינגלש");
+		JohnnyEnglishMovie.setArbName("جوني انجليش");
 		JohnnyEnglishMovie.setLength(88);
 		JohnnyEnglishMovie.setProducer("Tim Bevan");
 		JohnnyEnglishMovie.setPrice(59);
-		JohnnyEnglishMovie.setSummary("JohnnyEnglish summary");
+		JohnnyEnglishMovie.setSummary(
+				"An evil smuggler plans to steal the Crown Jewels of the United Kingdom. After the country's top agents are killed, the only remaining hope is Johnny English, a rather unintelligent spy.");
 		List<String> JohnnyEnglishActorsList = new ArrayList<String>();
 		JohnnyEnglishActorsList.add("Rowan Atkinson");
 		JohnnyEnglishActorsList.add(" Ben Miller");
@@ -235,10 +262,12 @@ public class App {
 		KarateKidMovie.setType(2);
 		KarateKidMovie.setEngName("KarateKid");
 		KarateKidMovie.setHebName("קראטה קיד");
+		KarateKidMovie.setArbName("فتى الكاراتيه");
 		KarateKidMovie.setLength(127);
 		KarateKidMovie.setProducer("Jerry Weintraub");
 		KarateKidMovie.setPrice(40);
-		KarateKidMovie.setSummary("KarateKid summary");
+		KarateKidMovie.setSummary(
+				"Teenager Daniel LaRusso is bullied by Johnny Lawrence, who is adept at martial arts. In order to defend himself, he tries to learn karate from Mr Miyagi, his apartment's kind handyman.");
 		List<String> KarateKidActorsList = new ArrayList<String>();
 		KarateKidActorsList.add("Ralph Macchio");
 		KarateKidActorsList.add("Noriyuki-Pat-Morita");
@@ -253,10 +282,12 @@ public class App {
 		TheSmurfsMovie.setType(2);
 		TheSmurfsMovie.setEngName("TheSmurfs");
 		TheSmurfsMovie.setHebName("הדרדסים");
+		TheSmurfsMovie.setArbName("السنافر");
 		TheSmurfsMovie.setLength(103);
 		TheSmurfsMovie.setProducer("Jordan Kerner");
 		TheSmurfsMovie.setPrice(42);
-		TheSmurfsMovie.setSummary("TheSmurfs summary");
+		TheSmurfsMovie.setSummary(
+				"While trying to escape the evil wizard Gargamel, the blue-skinned Smurfs get sucked into a vortex that teleports them to New York. Thereafter, they try their best to find a way out.");
 		List<String> TheSmurfsActorsList = new ArrayList<String>();
 		TheSmurfsActorsList.add("Neil Patrick Harris");
 		TheSmurfsActorsList.add("Sofia Vergara");
@@ -267,7 +298,8 @@ public class App {
 
 //Users
 		User NM = new User("Regina Phalange", "1111");
-		NM.setRole(0);
+		NM.setRole(0);// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer Services
+						// Employee
 		NM.setIs_Logged_In(false);
 		User CM1 = new User("Princess Consuela", "2222");
 		CM1.setRole(1);
@@ -281,11 +313,19 @@ public class App {
 		User CSE2 = new User("Gunther", "5555");
 		CSE2.setRole(2);
 		CSE2.setIs_Logged_In(false);
+		User user1 = new User("Joey", "6666");
+		user1.setRole(-1);
+		user1.setIs_Logged_In(false);
+		User user2 = new User("Janice", "7777");
+		user2.setRole(-1);
+		user2.setIs_Logged_In(false);
 		session.save(NM);
 		session.save(CM1);
 		session.save(CM2);
 		session.save(CSE1);
 		session.save(CSE2);
+		session.save(user1);
+		session.save(user2);
 		session.flush();
 
 	}

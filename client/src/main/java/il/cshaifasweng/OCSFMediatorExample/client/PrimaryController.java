@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
 //import java.awt.event.ActionEvent;
 import javafx.event.ActionEvent;
@@ -32,8 +28,6 @@ public class PrimaryController implements Initializable {
 
 	@FXML
 	private Button Filling_a_complaint;
-
-
 
 	@FXML
 	void gotoFillingacomplaint(ActionEvent event) throws IOException {
@@ -70,20 +64,15 @@ public class PrimaryController implements Initializable {
 
 	@FXML
 	void gotobrowse_movies(ActionEvent event) throws Exception {
-		//System.out.println("in gotobrowse movies in primary");
 		Platform.runLater(() -> {
-    		Parent root;
-    		try {
-    			App.setRoot("choose_type_to_browse");
+			try {
+				App.setRoot("choose_type_to_browse");
 
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}});
-
-//		TripleObject msg = new TripleObject("Browse movies", null, null);
-//		SimpleClient.getClient().sendToServer(msg);
-
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 	}
 
 	@Override

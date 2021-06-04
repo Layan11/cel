@@ -11,6 +11,7 @@ public class TripleObject implements Serializable {
 	String msg;
 	List<Movie> movies;
 	List<MovieTimes> movieTimes;
+	List<String> list;
 
 	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;
@@ -42,4 +43,11 @@ public class TripleObject implements Serializable {
 		this.movies = movies;
 	}
 
+	public void setList(List<String> list) {
+		this.list = list;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
 }
