@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,8 +45,35 @@ public class browse_moviesController implements Initializable {
 	private Button More_Info; // Value injected by FXMLLoader
 	@FXML // fx:id="add_Movie"
 	private Button MoreActions; // Value injected by FXMLLoader
+	@FXML // fx:id="ChoiceBox"
+	private ChoiceBox<String> ChoiceBox; // Value injected by FXMLLoader
+
+	@FXML // fx:id="Show"
+	private Button Show; // Value injected by FXMLLoader
 
 	public static Movie selectedMovie;
+
+	@FXML
+	void Show(ActionEvent event) throws Exception {
+		String selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();
+		TripleObject msg = new TripleObject(selectedBranch, null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onData(GotfilteredMoviesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("FilteredMovies");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+
+	}
 
 	@FXML
 	void show_More_Info(ActionEvent event) throws Exception {
@@ -146,5 +174,8 @@ public class browse_moviesController implements Initializable {
 	public void initialize(java.net.URL location, ResourceBundle resources) {
 		EventBus.getDefault().register(this);
 		getMovies();
+		ChoiceBox.getItems().add("Haifa");
+		ChoiceBox.getItems().add("Shefa-Amr");
+
 	}
 }

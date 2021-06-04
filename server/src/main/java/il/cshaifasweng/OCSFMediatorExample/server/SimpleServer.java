@@ -29,6 +29,21 @@ public class SimpleServer extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		TripleObject tuple_msg = (TripleObject) msg;
 		String ObjctMsg = tuple_msg.getMsg();
+		if (ObjctMsg.startsWith("Delete Movie Selected")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie helperMovie = new Movie();
+				helperMovie = tuple_msg.getMovies().get(0);
+				Movie MovieToDelete = App.session.get(Movie.class, helperMovie.getLength());
+				App.session.remove(MovieToDelete);
+				App.session.getTransaction().commit();
+				client.sendToClient(new TripleObject("Movie Deleted", null, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
 
 		if (ObjctMsg.startsWith("Save new Movie")) {
 			try {
