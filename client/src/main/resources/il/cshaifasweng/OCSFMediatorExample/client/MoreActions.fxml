@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -11,66 +13,158 @@
    <children>
       <AnchorPane prefHeight="559.0" prefWidth="727.0">
          <children>
-            <Button fx:id="addNewToWatchAtHome" layoutX="234.0" layoutY="527.0" mnemonicParsing="false" onAction="#gotoAddNewToWatchAtHome" text="Add movie to watch at home" />
-            <Button fx:id="deleteMovie" layoutX="281.0" layoutY="114.0" mnemonicParsing="false" onAction="#gotoDeleteMovie" text="Delete movie" />
-            <TextField fx:id="movieName" layoutX="245.0" layoutY="68.0" />
-            <Button fx:id="updatePrice" layoutX="385.0" layoutY="114.0" mnemonicParsing="false" onAction="#gotoUpdatePrice" text="Update price" />
-            <Button fx:id="addMovie" layoutX="111.0" layoutY="527.0" mnemonicParsing="false" onAction="#gotoAddMovie" text="Add movie" />
-            <Label layoutX="29.0" layoutY="181.0" text="Add/insert movie details:" />
-            <Button fx:id="addToComingSoon" layoutX="472.0" layoutY="527.0" mnemonicParsing="false" onAction="#gotoAddToComingSoon" text="Add movie to coming soon" />
-            <Button fx:id="addOldToWatchAtHome" layoutX="127.0" layoutY="114.0" mnemonicParsing="false" onAction="#gotoAddOldToWatchAtHome" text="Add to watch at home" />
-            <TextField fx:id="engName" layoutX="103.0" layoutY="217.0" />
-            <Label layoutX="34.0" layoutY="36.0" text="if the movie you want to update already exists, you only need to write it's name" />
-            <Label fx:id="engNameLabel" layoutX="77.0" layoutY="221.0" textFill="RED" />
-            <Label fx:id="hebNameLabel" layoutX="72.0" layoutY="258.0" textFill="RED" />
-            <Label layoutX="21.0" layoutY="294.0" text="arb name" />
-            <TextField fx:id="hebName" layoutX="103.0" layoutY="254.0" />
-            <TextField fx:id="arbName" layoutX="103.0" layoutY="297.0" />
-            <TextField fx:id="price" layoutX="347.0" layoutY="217.0" />
-            <Label fx:id="priceLabel" layoutX="332.0" layoutY="221.0" textFill="RED" />
-            <Label fx:id="producerLabel" layoutX="330.0" layoutY="258.0" textFill="RED" />
-            <Label fx:id="actorsLabel" layoutX="326.0" layoutY="293.0" textFill="RED" />
-            <Label fx:id="lenLabel" layoutX="334.0" layoutY="381.0" textFill="RED" />
-            <Label fx:id="sumLabel" layoutX="647.0" layoutY="232.0" textFill="RED" />
-            <TextField fx:id="producer" layoutX="347.0" layoutY="254.0" />
-            <TextField fx:id="len" layoutX="347.0" layoutY="378.0" />
-            <TextArea fx:id="summary" layoutX="540.0" layoutY="253.0" prefHeight="184.0" prefWidth="170.0" wrapText="true" />
-            <TextArea fx:id="screeningTimes" layoutX="95.0" layoutY="344.0" prefHeight="66.0" prefWidth="190.0" wrapText="true" />
-            <Label fx:id="timesLabel" layoutX="87.0" layoutY="348.0" textFill="RED" />
-            <Label fx:id="branchLabel" layoutX="341.0" layoutY="423.0" textFill="RED" />
-            <TextField fx:id="branch" layoutX="349.0" layoutY="420.0" />
-            <TextField fx:id="image" layoutX="352.0" layoutY="457.0" />
-            <Label fx:id="imageLabel" layoutX="341.0" layoutY="457.0" textFill="RED" />
-            <Label layoutX="341.0" layoutY="344.0" prefHeight="25.0" prefWidth="170.0" text="please use &quot;,&quot; to separate actors" textFill="#1f006f" wrapText="true">
+            <ImageView fitHeight="596.0" fitWidth="763.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@newPics/Utitled5.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="addNewToWatchAtHome" layoutX="275.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddNewToWatchAtHome" text="Add movie to watch at home" />
+            <Button fx:id="deleteMovie" layoutX="402.0" layoutY="149.0" mnemonicParsing="false" onAction="#gotoDeleteMovie" text="Delete movie" />
+            <TextField fx:id="movieName" layoutX="326.0" layoutY="50.0" />
+            <Button fx:id="updatePrice" layoutX="241.0" layoutY="149.0" mnemonicParsing="false" onAction="#gotoUpdatePrice" prefHeight="17.0" prefWidth="85.0" text="Update price" />
+            <Button fx:id="addMovie" layoutX="152.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddMovie" text="Add movie" />
+            <Label layoutX="11.0" layoutY="201.0" text="Please add new movie details:">
                <font>
-                  <Font name="System Italic" size="12.0" />
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <Button fx:id="addToComingSoon" layoutX="513.0" layoutY="551.0" mnemonicParsing="false" onAction="#gotoAddToComingSoon" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Add movie to coming soon" textFill="WHITE" />
+            <Button fx:id="addOldToWatchAtHome" layoutX="29.0" layoutY="149.0" mnemonicParsing="false" onAction="#gotoAddOldToWatchAtHome" text="Add to watch at home" />
+            <TextField fx:id="engName" layoutX="103.0" layoutY="242.0" />
+            <Label layoutX="11.0" layoutY="14.0" prefHeight="72.0" prefWidth="361.0" text="If the movie you want to update already exists, you only need to write it's english name:" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <Label fx:id="engNameLabel" layoutX="89.0" layoutY="243.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="hebNameLabel" layoutX="93.0" layoutY="281.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="10.0" layoutY="316.0" text="Arabic Name">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextField fx:id="hebName" layoutX="103.0" layoutY="279.0" />
+            <TextField fx:id="arbName" layoutX="103.0" layoutY="316.0" />
+            <TextField fx:id="price" layoutX="360.0" layoutY="242.0" />
+            <Label fx:id="priceLabel" layoutX="340.0" layoutY="243.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="producerLabel" layoutX="354.0" layoutY="280.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="actorsLabel" layoutX="347.0" layoutY="316.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lenLabel" layoutX="351.0" layoutY="406.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="sumLabel" layoutX="681.0" layoutY="243.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextField fx:id="producer" layoutX="360.0" layoutY="279.0" />
+            <TextField fx:id="len" layoutX="360.0" layoutY="403.0" />
+            <TextArea fx:id="summary" layoutX="569.0" layoutY="261.0" prefHeight="184.0" prefWidth="170.0" wrapText="true" />
+            <TextArea fx:id="screeningTimes" layoutX="103.0" layoutY="353.0" prefHeight="66.0" prefWidth="176.0" wrapText="true" />
+            <Label fx:id="timesLabel" layoutX="95.0" layoutY="354.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="branchLabel" layoutX="350.0" layoutY="441.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextField fx:id="branch" layoutX="360.0" layoutY="440.0" />
+            <TextField fx:id="image" layoutX="360.0" layoutY="477.0" />
+            <Label fx:id="imageLabel" layoutX="346.0" layoutY="478.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="354.0" layoutY="369.0" prefHeight="25.0" prefWidth="190.0" text="please use &quot;,&quot; to separate actors" textFill="#3603c3" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <TextArea fx:id="actors" layoutX="338.0" layoutY="292.0" prefHeight="54.0" prefWidth="176.0" wrapText="true" />
-            <Label layoutX="72.0" layoutY="414.0" text="please use &quot;,&quot; to separate screening times" textFill="#1f006f">
+            <TextArea fx:id="actors" layoutX="360.0" layoutY="316.0" prefHeight="54.0" prefWidth="176.0" wrapText="true" />
+            <Label layoutX="61.0" layoutY="420.0" text="please use &quot;,&quot; to separate screening times" textFill="#1f006f">
                <font>
-                  <Font name="System Italic" size="12.0" />
+                  <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="linkLabel" layoutX="62.0" layoutY="461.0" textFill="RED" />
-            <TextField fx:id="link" layoutX="95.0" layoutY="457.0" />
-            <Label fx:id="invalidAddLabel" layoutX="216.0" layoutY="502.0" textFill="RED">
+            <Label fx:id="linkLabel" layoutX="561.0" layoutY="488.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextField fx:id="link" layoutX="569.0" layoutY="487.0" prefHeight="25.0" prefWidth="170.0" />
+            <Label fx:id="invalidAddLabel" layoutX="257.0" layoutY="526.0" textFill="RED">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="23.0" layoutY="219.0" text="eng name" />
-            <Label layoutX="18.0" layoutY="255.0" text="heb name" />
-            <Label layoutX="3.0" layoutY="346.0" text="screening times" />
-            <Label layoutX="40.0" layoutY="458.0" text="link" />
-            <Label layoutX="303.0" layoutY="219.0" text="price" />
-            <Label layoutX="280.0" layoutY="255.0" text="producer" />
-            <Label layoutX="292.0" layoutY="290.0" text="actors" />
-            <Label layoutX="314.0" layoutY="378.0" text="len" />
-            <Label layoutX="303.0" layoutY="420.0" text="branch" />
-            <Label layoutX="307.0" layoutY="454.0" text="image" />
-            <Label layoutX="597.0" layoutY="229.0" text="summary" />
-            <Label fx:id="invalidMovie" layoutX="260.0" layoutY="93.0" textFill="RED">
+            <Label layoutX="10.0" layoutY="242.0" text="English Name">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="10.0" layoutY="279.0" text="Hebrew Name">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="3.0" layoutY="353.0" text="Screening Times">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="536.0" layoutY="487.0" text="Link">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="310.0" layoutY="242.0" text="Price">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="302.0" layoutY="279.0" text="Producer">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="310.0" layoutY="316.0" text="Actors">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="310.0" layoutY="406.0" text="Length">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="310.0" layoutY="440.0" text="Branch">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="310.0" layoutY="477.0" text="Image">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="627.0" layoutY="242.0" text="Summary">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="invalidMovie" layoutX="324.0" layoutY="78.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField layoutX="11.0" layoutY="119.0" prefHeight="25.0" prefWidth="170.0" />
+            <TextField layoutX="211.0" layoutY="119.0" />
+            <Label layoutX="81.0" layoutY="103.0" text="Link">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="257.0" layoutY="104.0" text="New Price">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
