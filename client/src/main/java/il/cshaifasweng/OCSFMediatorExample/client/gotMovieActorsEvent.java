@@ -3,7 +3,6 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.util.List;
 
 public class gotMovieActorsEvent {
-
 	List<String> actors;
 
 	public gotMovieActorsEvent(List<String> list) {
@@ -12,7 +11,5 @@ public class gotMovieActorsEvent {
 
 	public List<String> getMovieActors() {
 		return this.actors;
-
-
-}
+	}
 }

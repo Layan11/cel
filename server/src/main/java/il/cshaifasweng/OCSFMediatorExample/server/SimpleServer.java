@@ -1,8 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
-import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -32,10 +29,6 @@ public class SimpleServer extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		TripleObject tuple_msg = (TripleObject) msg;
 		String ObjctMsg = tuple_msg.getMsg();
-
-
-
-		
 		if (ObjctMsg.startsWith("Delete Movie Selected")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -58,28 +51,11 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				Movie newMovie = new Movie();
 				MovieTimes MTimes = new MovieTimes();
-				Movie helperMovie = new Movie();
+				MTimes = tuple_msg.getMovieTimes().get(0);
+				App.session.save(MTimes);
 				newMovie = tuple_msg.getMovies().get(0);
-				if(tuple_msg.getMovieTimes()!=null)
-				{
-					MTimes = tuple_msg.getMovieTimes().get(0);
-				    App.session.save(MTimes);
-				    newMovie.setMovieTimes(MTimes);
-				}
+				newMovie.setMovieTimes(MTimes);
 				App.session.save(newMovie);
-				// App.session.flush();
-				if(tuple_msg.getMovies().size()>1)
-				{
-					helperMovie = tuple_msg.getMovies().get(1);
-					Movie movieToDelete = App.session.get(Movie.class, helperMovie.getLength());
-					if(movieToDelete.getType()==1)
-					{
-						App.session.remove(movieToDelete);
-					}
-					
-				}
-				
-					
 				App.session.getTransaction().commit();
 				client.sendToClient(new TripleObject("Movie saved", null, null));
 			} catch (Exception e) {
@@ -98,24 +74,16 @@ public class SimpleServer extends AbstractServer {
 				Movie wanted_movie = new Movie();
 				List<Movie> wanted_list = new ArrayList<Movie>();
 				for (int i = 0; i < Helper_list.size(); i++) {
-					System.out.println("in the for in server ");
-					System.out.println("NAME: " + Helper_list.get(i).getEngName());
 					if (Helper_list.get(i).getEngName().equalsIgnoreCase(mn.getEngName())) {
-
-						System.out.println("in the if in for in server ");
 						wanted_movie = Helper_list.get(i);
 						wanted_list.add(wanted_movie);
 					}
 				}
-				System.out.println("selected eng name : " + mn.getEngName());
-				System.out.println("movieList size: " + wanted_list.size());
-
 				client.sendToClient(new TripleObject("More Info Movie", wanted_list, null));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			App.session.close();
-
 		}
 
 		if (ObjctMsg.startsWith("Watch At Home")) {
@@ -306,7 +274,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		
 		if (ObjctMsg.equals("Add new movie")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -324,7 +291,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-
 		if (ObjctMsg.startsWith("Add exsisting movie to watch at home")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -344,7 +310,7 @@ public class SimpleServer extends AbstractServer {
 											// home
 					movietoadd.setEngName(tmpMovie.getEngName());
 					movietoadd.setHebName(tmpMovie.getHebName());
-					//movietoadd.setArbName(tmpMovie.getArbName());
+					movietoadd.setArbName(tmpMovie.getArbName());
 					movietoadd.setLength(tmpMovie.getLength());
 					movietoadd.setActors(tmpMovie.getActors());
 					movietoadd.setSummary(tmpMovie.getSummary());
@@ -418,11 +384,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-
-
 	}
-
-	
 
 	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
@@ -443,6 +405,7 @@ public class SimpleServer extends AbstractServer {
 		List<User> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
+
 	private static List<Movie> getMovie(String movieName) {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
@@ -452,7 +415,6 @@ public class SimpleServer extends AbstractServer {
 		List<Movie> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
-
 
 	private static List<MovieTimes> getAllMovieTimes() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
