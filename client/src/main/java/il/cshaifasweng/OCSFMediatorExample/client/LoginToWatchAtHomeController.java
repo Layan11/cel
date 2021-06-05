@@ -39,6 +39,8 @@ public class LoginToWatchAtHomeController implements Initializable{
 
     @FXML // fx:id="invalid"
     private Label invalid; // Value injected by FXMLLoader
+    @FXML // fx:id="invalid_label2"
+    private Label invalid_label2; // Value injected by FXMLLoader
 
     @FXML
     void Back(ActionEvent event) throws Exception {
@@ -92,39 +94,32 @@ public class LoginToWatchAtHomeController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-    
-    @Subscribe
-	public void onUser(PermessionEvent event) {
-    	Platform.runLater(() -> {
-//			Window window = Browse_movie_list.getScene().getWindow();
-//			if (window instanceof Stage) {
-//				((Stage) window).close();
-//			}
-//			Stage primaryStage = new Stage();
-			//Parent root;
-			try {
-				App.setRoot("Edit_Watch_At_Home_Movie");
-//				Scene scene = new Scene(root);
-//				primaryStage.setScene(scene);s
-//				primaryStage.setTitle("Browse movies list");
-//				primaryStage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		});
-
-    }
 
 	@Subscribe
 	public void onNoUser(NoSuchUserEvent event) {
 		Platform.runLater(() -> {
 			invalid.setText("Sorry, invalid user");
 		});
+	}
 
+	@Subscribe
+	public void onFoundUser(UserFoundEvent event) {
+		Platform.runLater(() -> {
+			try {
+				int userRole = event.getRole();// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
+												// Services Employee
+				if (userRole == 1) {
+					App.setRoot("Edit_Watch_At_Home_Movie");
+				} else {
+					invalid_label2.setText("Sorry, this user does'nt have\npermission to do more actions");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
-    }
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

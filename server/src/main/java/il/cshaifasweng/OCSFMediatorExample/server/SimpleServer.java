@@ -121,6 +121,41 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		
+		if (ObjctMsg.startsWith("Haifa")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				List<Movie> Helperl = getMoviesList();
+				List<Movie> movies = new ArrayList<Movie>();
+				for (int i = 0; i < Helperl.size(); i++) {
+					if (Helperl.get(i).getBranch().equals("Haifa")) {
+						movies.add(Helperl.get(i));
+					}
+				}
+				client.sendToClient(new TripleObject("Haifa Movies", movies, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+		
+		if (ObjctMsg.startsWith("Shefa-Amr")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				List<Movie> Helperl2 = getMoviesList();
+				List<Movie> movies = new ArrayList<Movie>();
+				for (int i = 0; i < Helperl2.size(); i++) {
+					if (Helperl2.get(i).getBranch().equals("Shefa-Amr")) {
+						movies.add(Helperl2.get(i));
+					}
+				}
+				client.sendToClient(new TripleObject("Shefa-Amr Movies", movies, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+
 
 		if (ObjctMsg.startsWith("Browse movies")) {
 			try {

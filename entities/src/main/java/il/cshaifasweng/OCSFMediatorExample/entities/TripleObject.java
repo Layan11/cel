@@ -52,11 +52,4 @@ public class TripleObject implements Serializable {
 		return list;
 	}
 
-	public void setList(List<String> list) {
-		this.list = list;
-	}
-
-	public List<String> getList() {
-		return list;
-	}
 }
