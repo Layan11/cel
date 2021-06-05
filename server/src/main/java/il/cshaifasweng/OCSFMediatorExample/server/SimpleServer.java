@@ -128,9 +128,15 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> Helperl = getMoviesList();
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl.size(); i++) {
-					if (Helperl.get(i).getBranch().equals("Haifa")) {
+					String branch = Helperl.get(i).getBranch();
+					if(Helperl.get(i).getType()==0)
+					{
+						System.out.println("branch : " + branch);
+						if (branch.equals("Haifa")) {
 						movies.add(Helperl.get(i));
+						}
 					}
+					
 				}
 				client.sendToClient(new TripleObject("Haifa Movies", movies, null));
 			} catch (Exception e) {
@@ -145,8 +151,13 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> Helperl2 = getMoviesList();
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl2.size(); i++) {
-					if (Helperl2.get(i).getBranch().equals("Shefa-Amr")) {
+					String branch = Helperl2.get(i).getBranch();
+					if(Helperl2.get(i).getType()==0)
+					{
+						System.out.println("branch : " + branch);
+						if (branch.equals("Shefa-Amr")) {
 						movies.add(Helperl2.get(i));
+						}
 					}
 				}
 				client.sendToClient(new TripleObject("Shefa-Amr Movies", movies, null));

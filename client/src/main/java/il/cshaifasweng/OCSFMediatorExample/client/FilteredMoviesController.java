@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class FilteredMoviesController implements Initializable{
@@ -37,6 +38,9 @@ public class FilteredMoviesController implements Initializable{
 
     @FXML // fx:id="Back"
     private Button Back; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="titletxt"
+    private TextField titletxt; // Value injected by FXMLLoader
 
     @FXML
     void Back(ActionEvent event) throws Exception {
@@ -74,6 +78,7 @@ public class FilteredMoviesController implements Initializable{
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
 		getMovies();
+		titletxt.setText("Movies in " + SimpleClient.moviesList.get(0).getBranch() +" branch");
 		
 	}
 
