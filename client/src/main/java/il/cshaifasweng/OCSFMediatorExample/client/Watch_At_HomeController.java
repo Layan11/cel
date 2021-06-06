@@ -27,65 +27,65 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class Watch_At_HomeController implements Initializable{
-	
-	 @FXML // fx:id="tableView"
-	    private TableView<Movie> tableView; // Value injected by FXMLLoader
+public class Watch_At_HomeController implements Initializable {
 
-    @FXML // fx:id="Name"
-    private TableColumn<Movie, String> Name; // Value injected by FXMLLoader
+	@FXML // fx:id="tableView"
+	private TableView<Movie> tableView; // Value injected by FXMLLoader
 
-    @FXML // fx:id="price"
-    private TableColumn<Movie, String> price; // Value injected by FXMLLoader
+	@FXML // fx:id="Name"
+	private TableColumn<Movie, String> Name; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Back"
-    private Button Back; // Value injected by FXMLLoader
+	@FXML // fx:id="price"
+	private TableColumn<Movie, String> price; // Value injected by FXMLLoader
 
-    @FXML // fx:id="More_Info"
-    private Button More_Info; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="Edit"
-    private Button Edit; // Value injected by FXMLLoader
-    
-    public static Movie selected_watch_at_home_Movie;
+	@FXML // fx:id="Back"
+	private Button Back; // Value injected by FXMLLoader
 
-    
+	@FXML // fx:id="More_Info"
+	private Button More_Info; // Value injected by FXMLLoader
 
-    @FXML
-    void Edit_HomeMovie(ActionEvent event) {
-    	Movie selected = tableView.getSelectionModel().getSelectedItem();
-    	selected_watch_at_home_Movie = selected;
+	@FXML // fx:id="Edit"
+	private Button Edit; // Value injected by FXMLLoader
+
+	public static Movie selected_watch_at_home_Movie;
+
+	@FXML
+	void Edit_HomeMovie(ActionEvent event) {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selected_watch_at_home_Movie = selected;
 		System.out.println("selected name in WAH : " + selected_watch_at_home_Movie.getEngName());
-    	Platform.runLater(() -> {
-    		Parent root;
-    		try {
-    			App.setRoot("LoginToWatchAtHome");
+		Platform.runLater(() -> {
+			Parent root;
+			try {
+				App.setRoot("LoginToWatchAtHome");
 
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}});
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
-    }
-    
-    @FXML
-    void Back(ActionEvent event) {
-    	Platform.runLater(() -> {
-    		Parent root;
-    		try {
-    			App.setRoot("choose_type_to_browse");
+	}
 
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}});
+	@FXML
+	void Back(ActionEvent event) {
+		Platform.runLater(() -> {
+			Parent root;
+			try {
+				App.setRoot("choose_type_to_browse");
 
-    }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
-    @FXML
-    void More_Info(ActionEvent event) throws Exception {
-    	Movie selected = tableView.getSelectionModel().getSelectedItem();
-    	selected_watch_at_home_Movie = selected;
+	}
+
+	@FXML
+	void More_Info(ActionEvent event) throws Exception {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selected_watch_at_home_Movie = selected;
 		System.out.println("selected name in WAH : " + selected_watch_at_home_Movie.getEngName());
 		Movie mv = new Movie();
 		List<Movie> mvlist = new ArrayList<Movie>();
@@ -94,17 +94,18 @@ public class Watch_At_HomeController implements Initializable{
 		System.out.println("mv size : " + mvlist.size());
 		TripleObject msg = new TripleObject("Show More info", mvlist, null);
 		SimpleClient.getClient().sendToServer(msg);
-    }
+	}
 
-    @Subscribe
+	@Subscribe
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
 
-			//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+			// System.out.println("before load: " +
+			// SimpleClient.moviesList.get(0).getEngName());
 			Parent root;
 			try {
-				App.setRoot("More_Info");
-				//System.out.println("after the load line of brwose movies in primary");
+				App.setRoot("moreInfoToWatchAtHome");
+				// System.out.println("after the load line of brwose movies in primary");
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -113,8 +114,8 @@ public class Watch_At_HomeController implements Initializable{
 
 		});
 	}
-    
-    public void getMovies(/* ArrayList<Movie> movies */) {
+
+	public void getMovies(/* ArrayList<Movie> movies */) {
 		final ObservableList<Movie> CSmovie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);
 		Name.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));
@@ -122,14 +123,14 @@ public class Watch_At_HomeController implements Initializable{
 		tableView.getColumns().setAll(Name, price);
 		tableView.setItems(CSmovie);
 		return;
-    }
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
-		   getMovies();
-		
+		getMovies();
+
 	}
 
 }

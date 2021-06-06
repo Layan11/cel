@@ -27,30 +27,30 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class Coming_soonController implements Initializable{
-	
+public class Coming_soonController implements Initializable {
+
 	@FXML
 	private TableView<Movie> tableView;
 
-    @FXML // fx:id="Back"
-    private Button Back; // Value injected by FXMLLoader
+	@FXML // fx:id="Back"
+	private Button Back; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Show"
-    private Button Show; // Value injected by FXMLLoader
+	@FXML // fx:id="Show"
+	private Button Show; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Edit"
-    private Button Edit; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="EngC"
-    private TableColumn<Movie, String> EngC; // Value injected by FXMLLoader
+	@FXML // fx:id="Edit"
+	private Button Edit; // Value injected by FXMLLoader
 
-    @FXML // fx:id="HebC"
-    private TableColumn<Movie, String> HebC; // Value injected by FXMLLoader
-    public static Movie selected_coming_soon_Movie;
+	@FXML // fx:id="EngC"
+	private TableColumn<Movie, String> EngC; // Value injected by FXMLLoader
 
-    @FXML
-    void ShowMovie(ActionEvent event) throws IOException {
-    	Movie selected = tableView.getSelectionModel().getSelectedItem();
+	@FXML // fx:id="HebC"
+	private TableColumn<Movie, String> HebC; // Value injected by FXMLLoader
+	public static Movie selected_coming_soon_Movie;
+
+	@FXML
+	void ShowMovie(ActionEvent event) throws IOException {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
 		selected_coming_soon_Movie = selected;
 		System.out.println("selected name in cominfsoonC : " + selected_coming_soon_Movie.getEngName());
 		Movie mv = new Movie();
@@ -60,17 +60,18 @@ public class Coming_soonController implements Initializable{
 		System.out.println("mv size : " + mvlist.size());
 		TripleObject msg = new TripleObject("Show More info", mvlist, null);
 		SimpleClient.getClient().sendToServer(msg);
-    }
+	}
 
-    @Subscribe
+	@Subscribe
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
 
-			//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+			// System.out.println("before load: " +
+			// SimpleClient.moviesList.get(0).getEngName());
 			Parent root;
 			try {
-				App.setRoot("More_Info");
-				//System.out.println("after the load line of brwose movies in primary");
+				App.setRoot("moreInfoComingSoon");
+				// System.out.println("after the load line of brwose movies in primary");
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -79,42 +80,41 @@ public class Coming_soonController implements Initializable{
 
 		});
 	}
-    
 
-    @FXML
-    void gotoEditMovie(ActionEvent event) {
-    	Movie selected = tableView.getSelectionModel().getSelectedItem();
+	@FXML
+	void gotoEditMovie(ActionEvent event) {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
 		selected_coming_soon_Movie = selected;
 		System.out.println("selected name in cominfsoonC : " + selected_coming_soon_Movie.getEngName());
-    	Platform.runLater(() -> {
-    		Parent root;
-    		try {
-    			App.setRoot("LoginToComingSoon");
-
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}});
-
-    }
-
-
-
-    @FXML
-    void goback(ActionEvent event) {
 		Platform.runLater(() -> {
-    		Parent root;
-    		try {
-    			App.setRoot("choose_type_to_browse");
+			Parent root;
+			try {
+				App.setRoot("LoginToComingSoon");
 
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}});
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
-    }
+	}
 
-    public void getMovies(/* ArrayList<Movie> movies */) {
+	@FXML
+	void goback(ActionEvent event) {
+		Platform.runLater(() -> {
+			Parent root;
+			try {
+				App.setRoot("choose_type_to_browse");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+
+	}
+
+	public void getMovies(/* ArrayList<Movie> movies */) {
 		final ObservableList<Movie> CSmovie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);
 		EngC.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));
@@ -122,17 +122,15 @@ public class Coming_soonController implements Initializable{
 		tableView.getColumns().setAll(EngC, HebC);
 		tableView.setItems(CSmovie);
 		return;
-		
+
 	}
-    
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
-	   getMovies();
-		
-		
-	}
+		getMovies();
 
+	}
 
 }
