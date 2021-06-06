@@ -1,7 +1,3 @@
-/**
- * Sample Skeleton for 'More_Info.fxml' Controller Class
- */
-
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.FileInputStream;
@@ -27,7 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class More_InfoController implements Initializable {
+public class moreInfoComingSoonController implements Initializable {
 
 	@FXML // fx:id="EngNametxt"
 	private TextField EngNametxt; // Value injected by FXMLLoader
@@ -58,16 +54,16 @@ public class More_InfoController implements Initializable {
 
 	@FXML
 	void goback(ActionEvent event) throws Exception {
-		TripleObject msg = new TripleObject("Browse movies", null, null);
+		TripleObject msg = new TripleObject("Coming_Soon_Movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 
 	}
 
 	@Subscribe
-	public void onData111(GotMoviesEvent event) {
+	public void onData111(GotComingSoonEvent event) {
 		Platform.runLater(() -> {
 			try {
-				App.setRoot("browse_movies");
+				App.setRoot("Coming_soon");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

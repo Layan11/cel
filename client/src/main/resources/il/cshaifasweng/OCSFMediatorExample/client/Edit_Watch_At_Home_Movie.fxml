@@ -33,7 +33,7 @@
             <Button fx:id="Back" layoutX="615.0" layoutY="551.0" mnemonicParsing="false" onAction="#Back" text="Back" />
             <Button fx:id="Add" layoutX="118.0" layoutY="517.0" mnemonicParsing="false" onAction="#Add_to_now_broadcasting" text="Add Movie to broadcasting in the cinema list" />
             <Button fx:id="Delete_Movie" layoutX="572.0" layoutY="207.0" mnemonicParsing="false" onAction="#DeleteMovie" text="Delete Movie" />
-            <TextField fx:id="Movienametxt" layoutX="156.0" layoutY="127.0" prefHeight="42.0" prefWidth="271.0" />
+            <TextField fx:id="Movienametxt" editable="false" layoutX="156.0" layoutY="127.0" prefHeight="42.0" prefWidth="271.0" />
          </children>
       </AnchorPane>
    </children>
