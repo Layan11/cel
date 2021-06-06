@@ -59,7 +59,7 @@ public class Watch_At_HomeController implements Initializable{
     	Platform.runLater(() -> {
     		Parent root;
     		try {
-    			App.setRoot("Edit_Watch_At_Home_Movie");
+    			App.setRoot("LoginToWatchAtHome");
 
     		} catch (IOException e) {
     			// TODO Auto-generated catch block

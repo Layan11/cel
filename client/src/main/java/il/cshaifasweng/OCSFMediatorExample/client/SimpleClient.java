@@ -65,6 +65,32 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("CSmovies is null");
 			}
 		}
+		
+		if (myMsg.equals("Haifa Movies")) {
+			List<Movie> movies = triple_msg.getMovies();
+			movies = triple_msg.getMovies();
+			if (movies != null) {
+				moviesList = movies;
+//				System.out.println("First element: " + moviesList.get(0).getEngName());
+//				System.out.println("Second element: " + moviesList.get(1).getEngName());
+				EventBus.getDefault().post(new GotfilteredMoviesEvent());
+			} else {
+				System.out.println("movies is null");
+			}
+		}
+		if (myMsg.equals("Shefa-Amr Movies")) {
+			List<Movie> movies = triple_msg.getMovies();
+			movies = triple_msg.getMovies();
+			if (movies != null) {
+				moviesList = movies;
+//				System.out.println("First element: " + moviesList.get(0).getEngName());
+//				System.out.println("Second element: " + moviesList.get(1).getEngName());
+				EventBus.getDefault().post(new GotfilteredMoviesEvent());
+			} else {
+				System.out.println("movies is null");
+			}
+		}
+		
 
 		if (myMsg.equals("All Movies")) {
 			List<Movie> movies = triple_msg.getMovies();

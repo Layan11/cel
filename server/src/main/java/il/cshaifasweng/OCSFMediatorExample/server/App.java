@@ -46,7 +46,7 @@ public class App {
 	private static void generateData() throws Exception {
 		// Now broadcast in branches
 //Aladdin
-		String AladdinImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\Aladdin_poster_1992.jpg");
+		String AladdinImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg");
 		List<String> AladdinActorsList = new ArrayList<String>();
 		List<String> AladdinTimes = new ArrayList<String>();
 		AladdinActorsList.add("Mena Massoud");
@@ -64,7 +64,7 @@ public class App {
 		session.flush();
 
 //Shrek
-		String ShrekImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\Shrek.jpg");
+		String ShrekImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Shrek.jpg");
 		List<String> ShrekActorsList = new ArrayList<String>();
 		List<String> ShrekTimes = new ArrayList<String>();
 		ShrekActorsList.add("Shrek");
@@ -80,7 +80,7 @@ public class App {
 		session.save(ShrekMovie);
 		session.flush();
 //Snow White
-		String SnowWhiteImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\SnowWhite.jpg");
+		String SnowWhiteImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
 		List<String> SnowWhiteTimes = new ArrayList<String>();
 		SnowWhiteActorsList.add("Snow White");
@@ -97,7 +97,7 @@ public class App {
 		session.flush();
 
 //Fast and Furious
-		String FnFImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\FastAndTheFurious.jpg");
+		String FnFImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
 		List<String> FnFActorsList = new ArrayList<String>();
 		List<String> FnFTimes = new ArrayList<String>();
 		FnFActorsList.add("Vin Diesel");
@@ -115,7 +115,7 @@ public class App {
 		session.flush();
 
 //Dumbo
-		String DumboImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\Dumbo.jpg");
+		String DumboImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Dumbo.jpg");
 		List<String> DumboActorsList = new ArrayList<String>();
 		List<String> DumboTimes = new ArrayList<String>();
 		DumboActorsList.add("Eva Green");
@@ -135,7 +135,7 @@ public class App {
 		// coming soon
 
 //minions
-		String MinionsImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\Minions.jpg");
+		String MinionsImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\Minions.jpg");
 		Movie minionsMovie = new Movie();
 		minionsMovie.setType(1);
 		minionsMovie.setEngName("Minions");
@@ -155,7 +155,7 @@ public class App {
 		session.flush();
 
 //Madagascar
-		String MadagascarImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
+		String MadagascarImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
 		Movie MadagascarMovie = new Movie();
 		MadagascarMovie.setType(1);
 		MadagascarMovie.setEngName("Madagascar");
@@ -175,7 +175,7 @@ public class App {
 		session.flush();
 
 //IronMan
-		String IronManImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
+		String IronManImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
 		Movie IronManMovie = new Movie();
 		IronManMovie.setType(1);
 		IronManMovie.setEngName("IronMan");
@@ -195,7 +195,7 @@ public class App {
 		session.flush();
 
 //KungFuPanda
-		String KungFuPandaImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
+		String KungFuPandaImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
 		Movie KungFuPandaMovie = new Movie();
 		KungFuPandaMovie.setType(1);
 		KungFuPandaMovie.setEngName("KungFuPanda");
@@ -217,7 +217,7 @@ public class App {
 		// watch at home
 
 //badboys		
-		String BadBoysImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
+		String BadBoysImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
 		Movie BadBoysMovie = new Movie();
 		BadBoysMovie.setType(2);
 		BadBoysMovie.setEngName("BadBoys");
@@ -237,7 +237,7 @@ public class App {
 		session.flush();
 
 //JohnnyEnglish		
-		String JohnnyEnglishImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
+		String JohnnyEnglishImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
 		Movie JohnnyEnglishMovie = new Movie();
 		JohnnyEnglishMovie.setType(2);
 		JohnnyEnglishMovie.setEngName("JohnnyEnglish");
@@ -257,7 +257,7 @@ public class App {
 		session.flush();
 
 //KarateKid
-		String KarateKidImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
+		String KarateKidImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
 		Movie KarateKidMovie = new Movie();
 		KarateKidMovie.setType(2);
 		KarateKidMovie.setEngName("KarateKid");
@@ -277,7 +277,7 @@ public class App {
 		session.flush();
 
 //TheSmurfs
-		String TheSmurfsImage = ("C:\\Users\\Layan\\git\\cel2\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
+		String TheSmurfsImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
 		Movie TheSmurfsMovie = new Movie();
 		TheSmurfsMovie.setType(2);
 		TheSmurfsMovie.setEngName("TheSmurfs");

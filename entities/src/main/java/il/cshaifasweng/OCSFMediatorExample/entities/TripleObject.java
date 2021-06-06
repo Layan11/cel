@@ -42,12 +42,14 @@ public class TripleObject implements Serializable {
 	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
 	}
-
+	
 	public void setList(List<String> list) {
 		this.list = list;
 	}
 
 	public List<String> getList() {
+		// TODO Auto-generated method stub
 		return list;
 	}
+
 }
