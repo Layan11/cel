@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class Edit_Coming_Soon_MovieController implements Initializable{
@@ -42,6 +43,8 @@ public class Edit_Coming_Soon_MovieController implements Initializable{
 
     @FXML // fx:id="Screening3"
     private TextField Screening3; // Value injected by FXMLLoader
+    @FXML // fx:id="namelabel"
+    private Label namelabel; // Value injected by FXMLLoader
     
     @FXML // fx:id="Add"
     private Button Add; // Value injected by FXMLLoader
@@ -125,6 +128,7 @@ public class Edit_Coming_Soon_MovieController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		EventBus.getDefault().register(this);
 		// TODO Auto-generated method stub
+		namelabel.setText("Editing " +Coming_soonController.selected_coming_soon_Movie.getEngName() +" movie");
 	
 	}
 
