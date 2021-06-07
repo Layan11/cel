@@ -46,7 +46,7 @@ public class App {
 	private static void generateData() throws Exception {
 		// Now broadcast in branches
 //Aladdin
-		String AladdinImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg");
+		String AladdinImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg");
 		List<String> AladdinActorsList = new ArrayList<String>();
 		List<String> AladdinTimes = new ArrayList<String>();
 		List<String> AladdinBranches = new ArrayList<String>();
@@ -60,14 +60,14 @@ public class App {
 		session.save(AladdinMovieTimes);
 		Movie AladdinMovie = new Movie("Aladdin", AladdinActorsList, 128, "אלאדין",
 				"Aladdin, a kind thief, woos Jasmine, the princess of Agrabah, with the help of Genie. When Jafar, the grand vizier, tries to usurp the king, Jasmine, Aladdin and Genie must stop him from succeeding.",
-				"Jonathan Eirich", 20, AladdinImage, AladdinMovieTimes,"Haifa");
+				"Jonathan Eirich", 20, AladdinImage, AladdinMovieTimes, "Haifa");
 		AladdinMovie.setType(0);
 		AladdinMovie.setArbName("علاء الدين");
 		session.save(AladdinMovie);
 		session.flush();
 
 //Shrek
-		String ShrekImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Shrek.jpg");
+		String ShrekImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Shrek.jpg");
 		List<String> ShrekActorsList = new ArrayList<String>();
 		List<String> ShrekTimes = new ArrayList<String>();
 		List<String> ShrekBranches = new ArrayList<String>();
@@ -79,13 +79,13 @@ public class App {
 		session.save(ShrekMovieTimes);
 		Movie ShrekMovie = new Movie("Shrek", ShrekActorsList, 95, "שרק",
 				"Shrek, an ogre, embarks on a journey with a donkey to rescue Princess Fiona from a vile lord and regain his swamp.",
-				"John H. Williams", 35, ShrekImage, ShrekMovieTimes,"Haifa");
+				"John H. Williams", 35, ShrekImage, ShrekMovieTimes, "Haifa");
 		ShrekMovie.setType(0);
 		ShrekMovie.setArbName("شريك");
 		session.save(ShrekMovie);
 		session.flush();
 //Snow White
-		String SnowWhiteImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
+		String SnowWhiteImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
 		List<String> SnowWhiteTimes = new ArrayList<String>();
 		List<String> SnowWhiteBranches = new ArrayList<String>();
@@ -97,14 +97,14 @@ public class App {
 		session.save(SnowWhiteMovieTimes);
 		Movie SnowWhiteMovie = new Movie("Snow White", SnowWhiteActorsList, 88, "שלגייה",
 				"When Snow White, a princess, is exiled by her stepmother, an evil queen who wants to kill her, she runs into a forest. Soon, she is rescued by seven dwarfs who form a friendship with her.",
-				"Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes,"Shefa-Amr");
+				"Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
 		SnowWhiteMovie.setType(0);
 		SnowWhiteMovie.setArbName("بيضاء الثلج");
 		session.save(SnowWhiteMovie);
 		session.flush();
 
 //Fast and Furious
-		String FnFImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
+		String FnFImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
 		List<String> FnFActorsList = new ArrayList<String>();
 		List<String> FnFTimes = new ArrayList<String>();
 		List<String> FnFBranches = new ArrayList<String>();
@@ -118,14 +118,14 @@ public class App {
 		session.save(FnFMovieTimes);
 		Movie FastAndFuriousMovie = new Movie("Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
 				"A spate of high-speed robberies in LA brings street racer Dominic Toretto and his crew under the LAPD scanner. FBI agent Brian goes undercover and befriends Toretto in a bid to investigate the matter.",
-				"Neal H. Moritz", 45, FnFImage, FnFMovieTimes,"Shefa-Amr");
+				"Neal H. Moritz", 45, FnFImage, FnFMovieTimes, "Shefa-Amr");
 		FastAndFuriousMovie.setType(0);
 		FastAndFuriousMovie.setArbName("السرعة والغضب");
 		session.save(FastAndFuriousMovie);
 		session.flush();
 
 //Dumbo
-		String DumboImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\Dumbo.jpg");
+		String DumboImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Dumbo.jpg");
 		List<String> DumboActorsList = new ArrayList<String>();
 		List<String> DumboTimes = new ArrayList<String>();
 		List<String> DumboBranches = new ArrayList<String>();
@@ -139,7 +139,7 @@ public class App {
 		session.save(DumboMovieTimes);
 		Movie DumboMovie = new Movie("Dumbo", DumboActorsList, 112, "דמבו",
 				"Holt, a circus performer, is tasked with caring for a baby elephant with oversized ears, Dumbo. But when it is discovered that Dumbo can fly, a few wicked men try to take advantage of the situation.",
-				"Tim Burton ", 25, DumboImage, DumboMovieTimes,"Haifa");
+				"Tim Burton ", 25, DumboImage, DumboMovieTimes, "Haifa");
 		DumboMovie.setType(0);
 		DumboMovie.setArbName("دامبو");
 		session.save(DumboMovie);
@@ -148,7 +148,7 @@ public class App {
 		// coming soon
 
 //minions
-		String MinionsImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\Minions.jpg");
+		String MinionsImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\ComingSoon\\Minions.jpg");
 		Movie minionsMovie = new Movie();
 		minionsMovie.setType(1);
 		minionsMovie.setEngName("Minions");
@@ -168,7 +168,7 @@ public class App {
 		session.flush();
 
 //Madagascar
-		String MadagascarImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
+		String MadagascarImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\ComingSoon\\Madagascar.jpg");
 		Movie MadagascarMovie = new Movie();
 		MadagascarMovie.setType(1);
 		MadagascarMovie.setEngName("Madagascar");
@@ -188,7 +188,7 @@ public class App {
 		session.flush();
 
 //IronMan
-		String IronManImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
+		String IronManImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\ComingSoon\\IronManjpg.jpg");
 		Movie IronManMovie = new Movie();
 		IronManMovie.setType(1);
 		IronManMovie.setEngName("IronMan");
@@ -208,7 +208,7 @@ public class App {
 		session.flush();
 
 //KungFuPanda
-		String KungFuPandaImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
+		String KungFuPandaImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\ComingSoon\\MV5BODJkZTZhKungFuPanda.jpg");
 		Movie KungFuPandaMovie = new Movie();
 		KungFuPandaMovie.setType(1);
 		KungFuPandaMovie.setEngName("KungFuPanda");
@@ -230,7 +230,7 @@ public class App {
 		// watch at home
 
 //badboys		
-		String BadBoysImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
+		String BadBoysImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\WatchAtHome\\BadBoys.jpg");
 		Movie BadBoysMovie = new Movie();
 		BadBoysMovie.setType(2);
 		BadBoysMovie.setEngName("BadBoys");
@@ -250,7 +250,7 @@ public class App {
 		session.flush();
 
 //JohnnyEnglish		
-		String JohnnyEnglishImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
+		String JohnnyEnglishImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\WatchAtHome\\JohnnyEnglish.jpg");
 		Movie JohnnyEnglishMovie = new Movie();
 		JohnnyEnglishMovie.setType(2);
 		JohnnyEnglishMovie.setEngName("JohnnyEnglish");
@@ -270,7 +270,7 @@ public class App {
 		session.flush();
 
 //KarateKid
-		String KarateKidImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
+		String KarateKidImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\WatchAtHome\\KarateKid.jpg");
 		Movie KarateKidMovie = new Movie();
 		KarateKidMovie.setType(2);
 		KarateKidMovie.setEngName("KarateKid");
@@ -290,7 +290,7 @@ public class App {
 		session.flush();
 
 //TheSmurfs
-		String TheSmurfsImage = ("C:\\Users\\carol\\git\\cel\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
+		String TheSmurfsImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\WatchAtHome\\TheSmurfs.jpg");
 		Movie TheSmurfsMovie = new Movie();
 		TheSmurfsMovie.setType(2);
 		TheSmurfsMovie.setEngName("TheSmurfs");

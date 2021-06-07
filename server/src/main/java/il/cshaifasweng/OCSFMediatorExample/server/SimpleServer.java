@@ -121,7 +121,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		
+
 		if (ObjctMsg.startsWith("Haifa")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -129,14 +129,13 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl.size(); i++) {
 					String branch = Helperl.get(i).getBranch();
-					if(Helperl.get(i).getType()==0)
-					{
+					if (Helperl.get(i).getType() == 0) {
 						System.out.println("branch : " + branch);
 						if (branch.equals("Haifa")) {
-						movies.add(Helperl.get(i));
+							movies.add(Helperl.get(i));
 						}
 					}
-					
+
 				}
 				client.sendToClient(new TripleObject("Haifa Movies", movies, null));
 			} catch (Exception e) {
@@ -144,7 +143,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		
+
 		if (ObjctMsg.startsWith("Shefa-Amr")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -152,11 +151,10 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl2.size(); i++) {
 					String branch = Helperl2.get(i).getBranch();
-					if(Helperl2.get(i).getType()==0)
-					{
+					if (Helperl2.get(i).getType() == 0) {
 						System.out.println("branch : " + branch);
 						if (branch.equals("Shefa-Amr")) {
-						movies.add(Helperl2.get(i));
+							movies.add(Helperl2.get(i));
 						}
 					}
 				}
@@ -166,7 +164,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-
 
 		if (ObjctMsg.startsWith("Browse movies")) {
 			try {

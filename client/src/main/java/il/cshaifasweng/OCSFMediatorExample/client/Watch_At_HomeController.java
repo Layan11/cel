@@ -70,7 +70,6 @@ public class Watch_At_HomeController implements Initializable {
 	@FXML
 	void Back(ActionEvent event) {
 		Platform.runLater(() -> {
-			Parent root;
 			try {
 				App.setRoot("choose_type_to_browse");
 
@@ -127,7 +126,10 @@ public class Watch_At_HomeController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
+		{
+			Edit.setVisible(false);
+		}
 		EventBus.getDefault().register(this);
 		getMovies();
 

@@ -127,7 +127,10 @@ public class Coming_soonController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
+		{
+			Edit.setVisible(false);
+		}
 		EventBus.getDefault().register(this);
 		getMovies();
 

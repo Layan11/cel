@@ -37,6 +37,14 @@ public class loginController implements Initializable {
 	private Label invalid_label; // Value injected by FXMLLoader
 	@FXML // fx:id="invalid_label2"
 	private Label invalid_label2; // Value injected by FXMLLoader
+	@FXML
+	private Button back;
+	public static int loginRole;
+
+	@FXML
+	void goBackToPrimary(ActionEvent event) throws Exception {
+		App.setRoot("primary2");
+	}
 
 	@FXML
 	void gotoLogin(ActionEvent event) {
@@ -48,13 +56,10 @@ public class loginController implements Initializable {
 		movie.setHebName(pass);
 		list.add(movie);
 		invalid_label.setText(null);
-//		username_box.clear();
-//		password_box.clear();
 		TripleObject msg = new TripleObject("Login", list, null);
 		try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -62,23 +67,17 @@ public class loginController implements Initializable {
 	@Subscribe
 	public void onNoUser(NoSuchUserEvent event) {
 		Platform.runLater(() -> {
-			invalid_label.setText("Sorry, invalid user");
+			invalid_label.setText("Sorry, invalid user/password");
 		});
 	}
 
 	@Subscribe
 	public void onFoundUser(UserFoundEvent event) {
 		Platform.runLater(() -> {
+			loginRole = event.getRole();// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
 			try {
-				int userRole = event.getRole();// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
-												// Services Employee
-				if (userRole == 1) {
-					App.setRoot("MoreActions");
-				} else {
-					invalid_label2.setText("Sorry, this user does'nt have\npermission to do more actions");
-				}
+				App.setRoot("menu");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -87,7 +86,7 @@ public class loginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
+		back.setVisible(false);
 	}
 }

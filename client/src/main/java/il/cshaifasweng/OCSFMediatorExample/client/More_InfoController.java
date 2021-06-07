@@ -79,8 +79,6 @@ public class More_InfoController implements Initializable {
 	public void onGotMovieActors(gotMovieActorsEvent event) {
 		Platform.runLater(() -> {
 			List<String> actors = event.getMovieActors();
-			System.out.println("THE ACTORS: ");
-			System.out.println(actors);
 			String delim = "\n";
 
 			StringBuilder sb = new StringBuilder();
@@ -96,10 +94,6 @@ public class More_InfoController implements Initializable {
 			String res = sb.toString();
 			System.out.println(res);
 			ActorsTxt.setText(res);
-			// for (int i = 0; i < actors.size(); i++) {
-			// ActorsTxt.setText(actors.get(i) + "\n");
-			// }
-
 		});
 	}
 

@@ -35,7 +35,6 @@ public class Screening_TimesController implements Initializable {
 	void gotoback(ActionEvent event) throws IOException {
 		TripleObject msg = new TripleObject("Browse movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
-
 	}
 
 	@Subscribe
@@ -45,7 +44,6 @@ public class Screening_TimesController implements Initializable {
 				App.setRoot("browse_movies");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -57,7 +55,6 @@ public class Screening_TimesController implements Initializable {
 			try {
 				App.setRoot("update_movies");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -65,7 +62,10 @@ public class Screening_TimesController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
+		{
+			edit.setVisible(false);
+		}
 		EventBus.getDefault().register(this);
 		if (SimpleClient.movieTimes != null) {
 			System.out
@@ -79,10 +79,8 @@ public class Screening_TimesController implements Initializable {
 			System.out.println(
 					"should print the Screenings of Selected movie " + SimpleClient.movieTimes.get(indx).getTimes());
 			text_Screening_times.setText("Times : " + SimpleClient.movieTimes.get(indx).getTimes());
-
 		} else {
 			System.out.println("movieTimes is null!");
 		}
 	}
-
 }

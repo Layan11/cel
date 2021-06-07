@@ -16,7 +16,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 
 public class choose_type_to_browseController implements Initializable {
@@ -36,7 +35,6 @@ public class choose_type_to_browseController implements Initializable {
 	@FXML
 	void goback(ActionEvent event) {
 		Platform.runLater(() -> {
-			Parent root;
 			try {
 				App.setRoot("primary");
 
@@ -45,12 +43,10 @@ public class choose_type_to_browseController implements Initializable {
 				e.printStackTrace();
 			}
 		});
-
 	}
 
 	@FXML
 	void gotocomingsoon(ActionEvent event) throws Exception {
-
 		TripleObject msg = new TripleObject("Coming_Soon_Movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 

@@ -172,6 +172,10 @@ public class browse_moviesController implements Initializable {
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
+		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
+		{
+			MoreActions.setVisible(false);
+		}
 		EventBus.getDefault().register(this);
 		getMovies();
 		ChoiceBox.getItems().add("Haifa");

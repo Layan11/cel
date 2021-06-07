@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.menuController">
+   <children>
+      <Button fx:id="browseMovies" layoutX="81.0" layoutY="188.0" mnemonicParsing="false" onAction="#gotobrowse_movies" text="Browse movies" />
+      <Button fx:id="FileAComplaint" layoutX="79.0" layoutY="246.0" mnemonicParsing="false" text="File a complaint" />
+      <Button fx:id="UpdatePriceRequests" layoutX="251.0" layoutY="188.0" mnemonicParsing="false" text="Show update price requests" />
+      <Button fx:id="ShowComplaints" layoutX="469.0" layoutY="188.0" mnemonicParsing="false" text="Show complaints" />
+      <Button fx:id="back" layoutX="496.0" layoutY="341.0" mnemonicParsing="false" onAction="#goback" text="Back" />
+   </children>
+</AnchorPane>

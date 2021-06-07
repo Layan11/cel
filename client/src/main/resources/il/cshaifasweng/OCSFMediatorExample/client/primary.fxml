@@ -15,12 +15,12 @@
                <image>
                   <Image url="@option2.jpeg" />
                </image></ImageView>
-            <Button fx:id="Browse_movie_list" layoutX="308.0" layoutY="291.0" mnemonicParsing="false" onAction="#gotobrowse_movies" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-color: #730606; -fx-background-radius: 40;" text="Browse Movies" textFill="#fffefc">
+            <Button fx:id="login" layoutX="287.0" layoutY="291.0" mnemonicParsing="false" onAction="#gotoLogin" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-color: #730606; -fx-background-radius: 40;" text="Login" textFill="#fffefc">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="Filling_a_complaint" layoutX="484.0" layoutY="291.0" mnemonicParsing="false" onAction="#gotoFillingacomplaint" opacity="0.7" prefHeight="25.0" prefWidth="140.0" style="-fx-background-radius: 40; -fx-background-color: #730606;" text="File a Complaint" textFill="WHITE">
+            <Button fx:id="noLogin" layoutX="463.0" layoutY="291.0" mnemonicParsing="false" onAction="#gotoNoLogin" opacity="0.7" prefHeight="25.0" prefWidth="153.0" style="-fx-background-radius: 40; -fx-background-color: #730606;" text="Continue without login" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
