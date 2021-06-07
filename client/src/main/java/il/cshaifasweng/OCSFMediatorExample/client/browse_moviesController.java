@@ -135,7 +135,7 @@ public class browse_moviesController implements Initializable {
 	void gotoMoreActions(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
-				App.setRoot("login");
+				App.setRoot("MoreActions");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
