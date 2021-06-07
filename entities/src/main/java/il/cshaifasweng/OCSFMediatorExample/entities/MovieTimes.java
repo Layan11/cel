@@ -25,10 +25,10 @@ public class MovieTimes implements Serializable {
 	private int id;
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> time;
-	
+	/*
 	private List<Hall> hall;
 	private List<String> branch;
-	private List<String> Date;
+	//private List<String> Date;*/
 	
 	
 	public MovieTimes() {
@@ -67,7 +67,7 @@ public class MovieTimes implements Serializable {
 		return str;
 	}
 
-	public List<Hall> getHall() {
+/*	public List<Hall> getHall() {
 		return hall;
 	}
 
@@ -80,9 +80,9 @@ public class MovieTimes implements Serializable {
 	}
 
 	public void setBranch(List<String> branch) {
-		this.branch = branch;
+		this.branch = branch;*/
 	}
-
+/*
 	public List<String> getDate() {
 		return Date;
 	}
@@ -90,5 +90,5 @@ public class MovieTimes implements Serializable {
 	public void setDate(List<String> date) {
 		Date = date;
 	}
-	
-}
+	*/
+//}
