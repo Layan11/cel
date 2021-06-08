@@ -5,6 +5,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +49,7 @@ public class browse_moviesController implements Initializable {
 	@FXML // fx:id="Show_screening_time"
 	private Button Show_screening_time; // Value injected by FXMLLoader
 
+
 	@FXML // fx:id="image1"
 	private ImageView image1; // Value injected by FXMLLoader
 
@@ -64,6 +66,9 @@ public class browse_moviesController implements Initializable {
 	private ImageView image5; // Value injected by FXMLLoader
 
 	public static Movie selectedMovie;
+
+
+	
 
 	@FXML
 	void gobacktoprimary(ActionEvent event) throws IOException {

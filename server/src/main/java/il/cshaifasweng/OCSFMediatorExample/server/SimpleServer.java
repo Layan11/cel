@@ -1,12 +1,16 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.sql.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,6 +21,9 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
+import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
 
 public class SimpleServer extends AbstractServer {
 
@@ -27,9 +34,24 @@ public class SimpleServer extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		TripleObject tuple_msg = (TripleObject) msg;
-		String ObjctMsg = tuple_msg.getMsg();
-
+		TripleObject tuple_msg=null; 
+		DoubleObject tuple_msg2=null; 
+		String ObjctMsg;
+		if(msg.getClass()== DoubleObject.class ) {
+		 tuple_msg2 = (DoubleObject) msg;
+	//System.out.println("i got to here XD");
+		 ObjctMsg = tuple_msg2.getMsg();
+	//	System.out.println("i got to here XD");
+	
+	//	System.out.println("i got to here XD");
+		String ObjctMsg2 = tuple_msg2.getMsg();
+	//	System.out.println("i got to here XD");
+		}
+		else {
+			 tuple_msg= (TripleObject)msg;
+			 ObjctMsg = tuple_msg.getMsg();
+		}
+		
 		if (ObjctMsg.startsWith("#warning")) {
 			Warning warning = new Warning("Warning from server!");
 			try {
@@ -80,7 +102,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-
 		if (ObjctMsg.startsWith("Browse movies")) {
 			System.out.println("in browse movies in server");
 			try {
@@ -145,8 +166,85 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		if (ObjctMsg.startsWith("1Add new link") )  {
+			System.out.println("got to the first part");
+			try {
+			
+				
+			App.session = App.sessionFactory.openSession();
+			System.out.println("Session Opened");
+			link my_link=tuple_msg2.getlinks();
+			System.out.println("Copied the link");
+			App.session.save(my_link);
+			System.out.println("Saved the link");
+			App.session.flush();
+			System.out.println("flish is done");
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("1Add new Ticket ")) {
+			try {
+				
+			App.session = App.sessionFactory.openSession();
+		
+			Ticket my_Ticket=tuple_msg2.gettickets();
+			App.session.save(my_Ticket);
+			App.session.flush();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+		
+		if (ObjctMsg.startsWith("Delete link")) {
+			System.out.println("got to delete");
+			App.session = App.sessionFactory.openSession();
+			boolean x = deletelink(msg,client);
+			if (x == false) {
+				try {
+					client.sendToClient(new TripleObject("no such link", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					client.sendToClient(new TripleObject("found link", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Delete Ticket ")) {
+			System.out.println("i got here");
+			App.session = App.sessionFactory.openSession();
+			boolean x = deleteTicket(msg);
+			if (x == false) {
+				try {
+					client.sendToClient(new TripleObject("no such Ticket", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					client.sendToClient(new TripleObject("found ticket", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			App.session.close();
+		}
+		
 		App.session.close();
 	}
+
+	
 
 	private boolean deleteMovie(Object msg) {
 		boolean let_in = false;
@@ -175,12 +273,133 @@ public class SimpleServer extends AbstractServer {
 
 		// TODO: add close connection
 	}
+	private boolean deleteTicket(Object msg) {
+		TripleObject tuple_msg = (TripleObject) msg;
+		String ObjctMsg = tuple_msg.getMsg();
+		System.out.println("i got here after");
+		boolean let_in = false;
+		String message =  ObjctMsg.substring(14);
+		int x= Integer.parseInt(message);
+		System.out.println("DELETE FROM Ticket WHERE ticket_id = x");
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			int rs = stmt.executeUpdate("DELETE FROM Tickets WHERE ticket_id = '"+x+"'");
+			if (rs != 0) {
+				let_in = true;
+			}
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		System.out.println(let_in);
+		return let_in;
+
+		// TODO: add close connection
+	}
+	private boolean deletelink(Object msg, ConnectionToClient client) {
+		TripleObject tuple_msg = (TripleObject) msg;
+		String ObjctMsg = tuple_msg.getMsg();
+		boolean let_in = false;
+		
+		String message = ObjctMsg.substring(12);
+	
+		
+		System.out.println(message);
+		int x= Integer.parseInt(message);
+	
+		System.out.println("DELETE FROM	links WHERE link_id ="+ x );
+		//Statement stmt2=null;
+		
+		Connection c = null;
+		Statement stmt = null;
+		//ResultSet rs=null;
+		try {
+			
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+		//	stmt2 =c.createStatement();
+			Calendar rightNow = Calendar.getInstance();
+			int hour=3;
+			
+			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
+			System.out.println(hour2);
+		//	 rs= stmt2.executeQuery("SELECT start_time_of_work FROM links WHERE link_id='"+x+"'");
+			// hour= rs.getInt(4);
+			if(hour2-hour >= 3) {
+				try {
+				System.out.println("im in the first if");
+				client.sendToClient(new TripleObject("You get 100% refound", null, null));
+				}catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(hour2-hour>=1 && hour2-hour<3) {
+				try {
+					System.out.println("im in the second if");
+					client.sendToClient(new TripleObject("You get 50% refound", null, null));
+					}catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+			if(hour2-hour<1) {
+				try {
+					System.out.println("im in the third if");
+					client.sendToClient(new TripleObject("You get no refound", null, null));
+					}catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		
+			int rs = stmt.executeUpdate("DELETE FROM links WHERE link_id= ' "+x+"'");
+			if (rs != 0) {
+				let_in = true;
+			}
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		System.out.println(let_in);
+		return let_in;
+
+		// TODO: add close connection
+	}
 
 	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		query.from(Movie.class);
 		List<Movie> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	private static List<Ticket> getTicketList() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+		query.from(Ticket.class);
+		List<Ticket> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	
+	private static List<link> getAlllinks() throws Exception {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<link> query = builder.createQuery(link.class);
+		query.from(link.class);
+		List<link> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.util.ArrayList;
+
+
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -8,12 +10,17 @@ import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+
 
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
 	public static List<Movie> moviesList;// = new ArrayList<Movie>();
 	public static List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
+	private static List<link> links =new ArrayList<link>();
+	private static List<Ticket> tickets =new ArrayList<Ticket>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -61,7 +68,7 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("movies is null");
 			}
 		}
-
+		
 		if (myMsg.equals("All Movies Times")) {
 			List<MovieTimes> MT = new ArrayList<MovieTimes>();
 			MT = triple_msg.getMovieTimes();
@@ -83,7 +90,23 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("MT is null");
 			}
 		}
+		if(myMsg.equals("You get 100% refound")) {
+			msg ="You get 100% refound";
+			System.out.println("100% refund");
+		}
+		if(myMsg.equals("You get 50% refound")) {
+			msg ="You get 50% refound";
+			System.out.println("50% refund");
+			
+		}
+		if(myMsg.equals("You get no refound")) {
+			msg ="You get no refound";
+			System.out.println("no refund pls");
+			
+		}
+		
 	}
+	
 
 	public static SimpleClient getClient() {
 		if (client == null) {

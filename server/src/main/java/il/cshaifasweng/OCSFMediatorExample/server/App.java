@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import org.hibernate.service.ServiceRegistry;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 
 /**
  * Hello world!
@@ -34,6 +37,8 @@ public class App {
 		// Add ALL of your entities here. You can also try adding a whole package.
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(MovieTimes.class);
+		configuration.addAnnotatedClass(link.class);
+		configuration.addAnnotatedClass(Ticket.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -157,8 +162,12 @@ public class App {
 		session.save(KungFuPandaMovie);
 		session.flush();
 		
-		
-
+		link mytestlink= new link(1,"KungFuPanda",5,7);
+		session.save(mytestlink);
+		session.flush();
+		Ticket mytestticket = new Ticket(1,"randomtest","random hall","random time",5);
+		session.save(mytestticket);
+		session.flush();
 	}
 
 	private static List<Movie> getAllMovies() throws Exception {
@@ -168,6 +177,9 @@ public class App {
 		List<Movie> data = session.createQuery(query).getResultList();
 		return data;
 	}
+
+
+
 
 	private static void printAllMovies() throws Exception {
 		List<Movie> movies = new ArrayList<Movie>();

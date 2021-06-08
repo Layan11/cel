@@ -32,6 +32,53 @@ public class choose_type_to_browseController implements Initializable{
 
     @FXML // fx:id="Back"
     private Button Back; // Value injected by FXMLLoader
+	 @FXML
+	 private Button buy_link;
+    @FXML
+    private Button return_tick;
+
+    @FXML
+    private Button return_link;
+
+    @FXML
+    private Button buy_tic;
+
+    @FXML
+    void buy_tic_btn(ActionEvent event) {
+    	//System.out.println("IN onData1");
+		Platform.runLater(() -> {
+
+			//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+			Parent root;
+			try {
+				App.setRoot("Buy_Ticket");
+				//System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		});
+    }
+    @FXML
+	   void buy_link_btn(ActionEvent event)throws IOException {
+	    	//System.out.println("IN onData1");
+			Platform.runLater(() -> {
+
+				//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+				Parent root;
+				try {
+					App.setRoot("Buy_Link");
+					//System.out.println("after the load line of brwose movies in primary");
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			});
+	   }
 
     @FXML
     void goback(ActionEvent event) {
@@ -124,6 +171,53 @@ public class choose_type_to_browseController implements Initializable{
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
 	}
+	  @FXML
+	   void return_link(ActionEvent event) {
+		  Platform.runLater(() -> {
+//				Window window = Browse_movie_list.getScene().getWindow();
+//				if (window instanceof Stage) {
+//					((Stage) window).close();
+//				}
+//				Stage primaryStage = new Stage();
+				//Parent root;
+				try {
+					App.setRoot("Return_Link");
+//					Scene scene = new Scene(root);
+//					primaryStage.setScene(scene);
+//					primaryStage.setTitle("Browse movies list");
+//					primaryStage.show();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			});
+
+	    }
+
+	    @FXML
+	    void return_tick(ActionEvent event) {
+	    	Platform.runLater(() -> {
+//				Window window = Browse_movie_list.getScene().getWindow();
+//				if (window instanceof Stage) {
+//					((Stage) window).close();
+//				}
+//				Stage primaryStage = new Stage();
+				//Parent root;
+				try {
+					App.setRoot("Return_Ticket");
+//					Scene scene = new Scene(root);
+//					primaryStage.setScene(scene);
+//					primaryStage.setTitle("Browse movies list");
+//					primaryStage.show();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			});
+
+	    }
 }
 
 
