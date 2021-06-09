@@ -9,14 +9,19 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.priceRequestsController">
    <children>
-      <TableView fx:id="tableView" layoutX="76.0" layoutY="54.0" prefHeight="329.0" prefWidth="151.0">
+      <TableView fx:id="tableView" layoutX="76.0" layoutY="54.0" prefHeight="329.0" prefWidth="77.0">
         <columns>
-          <TableColumn fx:id="movieName" prefWidth="75.0" text="movie name" />
-          <TableColumn fx:id="newPrice" prefWidth="75.0" text="new price" />
+          <TableColumn fx:id="movieName" editable="false" prefWidth="75.0" text="movie name" />
         </columns>
       </TableView>
       <Label layoutX="82.0" layoutY="29.0" text="pending requests" />
-      <Button layoutX="346.0" layoutY="129.0" mnemonicParsing="false" text="approve" />
-      <Button layoutX="346.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="deny" />
+      <Button fx:id="approve" layoutX="346.0" layoutY="129.0" mnemonicParsing="false" onAction="#gotoApprove" text="approve" />
+      <Button fx:id="deny" layoutX="346.0" layoutY="175.0" mnemonicParsing="false" onAction="#gotoDeny" prefHeight="25.0" prefWidth="60.0" text="deny" />
+      <TableView fx:id="tableView2" layoutX="153.0" layoutY="54.0" prefHeight="329.0" prefWidth="77.0">
+        <columns>
+          <TableColumn fx:id="newPrice" prefWidth="75.0" text="New Price" />
+        </columns>
+      </TableView>
+      <Button fx:id="back" layoutX="490.0" layoutY="327.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
    </children>
 </AnchorPane>
