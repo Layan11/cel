@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-////////////////////////////////////////THIS IS NEW SAVEEEEEEEEEEEEEE//////////////////////
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -118,6 +117,8 @@ public class MoreActionsController implements Initializable {
 	private Label invalidAddLabel; // Value injected by FXMLLoader
 	@FXML // fx:id="invalidMovie"
 	private Label invalidMovie; // Value injected by FXMLLoader
+	@FXML // fx:id="newPrice"
+	private TextField newPrice; // Value injected by FXMLLoader
 	@FXML // fx:id="back"
 	private Button back; // Value injected by FXMLLoader
 
@@ -334,8 +335,16 @@ public class MoreActionsController implements Initializable {
 	}
 
 	@FXML
-	void gotoUpdatePrice(ActionEvent event) {
+	void gotoUpdatePrice(ActionEvent event) throws Exception {
 		invalidMovie.setText("");
+		String name = movieName.getText();
+		String price = newPrice.getText();
+		List<String> tmp = new ArrayList<String>();
+		tmp.add(price);
+		TripleObject msg = new TripleObject("Update price " + name, null, null);
+		msg.setList(tmp);
+		SimpleClient.getClient().sendToServer(msg);
+		// e3ml pop up: a request to za .. has been sent
 	}
 
 	@Subscribe

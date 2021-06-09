@@ -13,6 +13,7 @@ import org.hibernate.HibernateException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
@@ -384,8 +385,6 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> tmp = getMovie(ObjctMsg.substring(13));
 				if (tmp.size() != 0) {
 					movietodelete = tmp.get(0);
-					// Movie tmp = App.session.find(Movie.class, movietodelete.getId());
-					// App.session.remove(movietodelete.getMovieTimes());
 					App.session.remove(movietodelete);
 				} else {
 					try {
@@ -417,6 +416,74 @@ public class SimpleServer extends AbstractServer {
 					client.sendToClient(to);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Update price ")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String movieName = ObjctMsg.substring(13);
+				List<Movie> tmp = getMovie(movieName);
+				if (tmp.size() != 0) {
+					String newPrice = tuple_msg.getList().get(0);
+					PriceRequestsChart chart = App.session.get(PriceRequestsChart.class, 1);
+					chart.getMovieEngName().add(movieName);
+					chart.getNewPrice().add(newPrice);
+				} else {
+					try {
+						client.sendToClient(new TripleObject("no such movie", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Show PRC movies")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				PriceRequestsChart chart = App.session.get(PriceRequestsChart.class, 1);
+				TripleObject to = new TripleObject("PRC movies", null, null);
+				List<String> tmp = chart.getMovieEngName();
+				to.setList(tmp);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+
+		if (ObjctMsg.startsWith("Show PRC prices")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				PriceRequestsChart chart = App.session.get(PriceRequestsChart.class, 1);
+				System.out.println("SIZE: " + chart.getNewPrice().size());
+				TripleObject to = new TripleObject("PRC prices", null, null);
+				to.setList(chart.getNewPrice());
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				App.session.getTransaction().commit();

@@ -66,7 +66,6 @@ public class choose_type_to_browseController implements Initializable {
 
 	@FXML
 	void gotomoviesinbranches(ActionEvent event) throws Exception {
-
 		TripleObject msg = new TripleObject("Browse movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 	}

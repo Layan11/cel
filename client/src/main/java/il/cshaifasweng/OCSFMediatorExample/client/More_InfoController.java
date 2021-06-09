@@ -99,7 +99,6 @@ public class More_InfoController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
 
 		Movie chosen_movie = new Movie();

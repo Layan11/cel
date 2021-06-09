@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,13 +47,29 @@ public class menuController implements Initializable {
 		});
 	}
 
+	@FXML
+	void showRequests(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Show PRC movies", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onData(GotPRCMoviesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("priceRequests");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		if (loginController.loginRole == -1) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
+		EventBus.getDefault().register(this);
+		if (loginController.loginRole == -1) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
 			UpdatePriceRequests.setVisible(false);
 			ShowComplaints.setVisible(false);
-			FileAComplaint.setVisible(false);
 		}
 		if (loginController.loginRole == 0) {
 			ShowComplaints.setVisible(false);
@@ -62,7 +82,7 @@ public class menuController implements Initializable {
 		}
 		if (loginController.loginRole == 2) {
 			UpdatePriceRequests.setVisible(false);
-			ShowComplaints.setVisible(false);
+			FileAComplaint.setVisible(false);
 		}
 	}
 }

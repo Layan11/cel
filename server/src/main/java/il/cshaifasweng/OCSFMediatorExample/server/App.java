@@ -16,12 +16,9 @@ import org.hibernate.service.ServiceRegistry;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
-/**
- * Hello world!
- *
- */
 public class App {
 
 	private static SimpleServer server;
@@ -36,7 +33,7 @@ public class App {
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(MovieTimes.class);
 		configuration.addAnnotatedClass(User.class);
-
+		configuration.addAnnotatedClass(PriceRequestsChart.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -340,7 +337,13 @@ public class App {
 		session.save(user1);
 		session.save(user2);
 		session.flush();
-
+		List<String> movies = new ArrayList<String>();
+		List<String> newPrices = new ArrayList<String>();
+		movies.add("SA");
+		newPrices.add("DD");
+		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
+		session.save(PRC);
+		session.flush();
 	}
 
 	private static List<Movie> getAllMovies() throws Exception {

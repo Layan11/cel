@@ -14,6 +14,8 @@ public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
 	public static List<Movie> moviesList = new ArrayList<Movie>();
 	public static List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
+	public static List<String> PRCMovies = new ArrayList<String>();
+	public static List<String> PRCPrices = new ArrayList<String>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -65,14 +67,12 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("CSmovies is null");
 			}
 		}
-		
+
 		if (myMsg.equals("Haifa Movies")) {
 			List<Movie> movies = triple_msg.getMovies();
 			movies = triple_msg.getMovies();
 			if (movies != null) {
 				moviesList = movies;
-//				System.out.println("First element: " + moviesList.get(0).getEngName());
-//				System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotfilteredMoviesEvent());
 			} else {
 				System.out.println("movies is null");
@@ -83,22 +83,17 @@ public class SimpleClient extends AbstractClient {
 			movies = triple_msg.getMovies();
 			if (movies != null) {
 				moviesList = movies;
-//				System.out.println("First element: " + moviesList.get(0).getEngName());
-//				System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotfilteredMoviesEvent());
 			} else {
 				System.out.println("movies is null");
 			}
 		}
-		
 
 		if (myMsg.equals("All Movies")) {
 			List<Movie> movies = triple_msg.getMovies();
 			movies = triple_msg.getMovies();
 			if (movies != null) {
 				moviesList = movies;
-//				System.out.println("First element: " + moviesList.get(0).getEngName());
-//				System.out.println("Second element: " + moviesList.get(1).getEngName());
 				EventBus.getDefault().post(new GotMoviesEvent());
 			} else {
 				System.out.println("movies is null");
@@ -147,7 +142,15 @@ public class SimpleClient extends AbstractClient {
 		}
 		if (myMsg.equals("Movie Deleted")) {
 			EventBus.getDefault().post(new GotMovieDeletedEvent());
-
+		}
+		if (myMsg.equals("PRC movies")) {
+			System.out.println("HERE");
+			PRCMovies = triple_msg.getList();
+			EventBus.getDefault().post(new GotPRCMoviesEvent());
+		}
+		if (myMsg.equals("PRC prices")) {
+			PRCPrices = triple_msg.getList();
+			EventBus.getDefault().post(new GotPRCPricesEvent());
 		}
 	}
 
