@@ -494,6 +494,74 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Deny request")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String newPrice = ObjctMsg.substring(13);
+				int idx = 0;
+				PriceRequestsChart chart = App.session.get(PriceRequestsChart.class, 1);
+				List<String> hlpr = new ArrayList<String>();
+				hlpr = chart.getNewPrice();
+				for (int i = 0; i < hlpr.size(); i++) {
+					if (hlpr.get(i).equals(newPrice)) {
+						hlpr.remove(i);
+						idx = i;
+					}
+				}
+				chart.setNewPrice(hlpr);
+				chart.getMovieEngName().remove(idx);
+				TripleObject to = new TripleObject("Updated chart movies", null, null);
+				to.setList(chart.getMovieEngName());
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Approve request")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String newPrice = ObjctMsg.substring(16);
+				int idx = 0;
+				PriceRequestsChart chart = App.session.get(PriceRequestsChart.class, 1);
+				List<String> hlpr = new ArrayList<String>();
+				hlpr = chart.getNewPrice();
+				for (int i = 0; i < hlpr.size(); i++) {
+					if (hlpr.get(i).equals(newPrice)) {
+						hlpr.remove(i);
+						idx = i;
+					}
+				}
+				chart.setNewPrice(hlpr);
+				String movieName = chart.getMovieEngName().get(idx);
+				chart.getMovieEngName().remove(idx);
+				List<Movie> movie = getMovie(movieName);
+				movie.get(0).setPrice(Integer.parseInt(newPrice));
+
+				TripleObject to = new TripleObject("Updated chart movies", null, null);
+				to.setList(chart.getMovieEngName());
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 	}
 
 	private static List<Movie> getMoviesList() {

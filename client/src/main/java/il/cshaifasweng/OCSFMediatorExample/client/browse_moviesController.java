@@ -158,8 +158,7 @@ public class browse_moviesController implements Initializable {
 		});
 	}
 
-	// this method will return an observableList of movie
-	public void getMovies(/* ArrayList<Movie> movies */) {
+	public void getMovies() {
 		final ObservableList<Movie> movie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));

@@ -144,13 +144,16 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new GotMovieDeletedEvent());
 		}
 		if (myMsg.equals("PRC movies")) {
-			System.out.println("HERE");
 			PRCMovies = triple_msg.getList();
 			EventBus.getDefault().post(new GotPRCMoviesEvent());
 		}
 		if (myMsg.equals("PRC prices")) {
 			PRCPrices = triple_msg.getList();
 			EventBus.getDefault().post(new GotPRCPricesEvent());
+		}
+		if (myMsg.equals("Updated chart movies")) {
+			PRCMovies = triple_msg.getList();
+			EventBus.getDefault().post(new GotUpdatedChartMoviesEvent());
 		}
 	}
 

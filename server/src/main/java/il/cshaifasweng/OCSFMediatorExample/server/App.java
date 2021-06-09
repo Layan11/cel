@@ -339,8 +339,6 @@ public class App {
 		session.flush();
 		List<String> movies = new ArrayList<String>();
 		List<String> newPrices = new ArrayList<String>();
-		movies.add("SA");
-		newPrices.add("DD");
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
 		session.flush();
