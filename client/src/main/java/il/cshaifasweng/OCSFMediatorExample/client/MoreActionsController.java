@@ -16,11 +16,15 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class MoreActionsController implements Initializable {
 	@FXML // fx:id="addNewToWatchAtHome"
@@ -345,6 +349,17 @@ public class MoreActionsController implements Initializable {
 		msg.setList(tmp);
 		SimpleClient.getClient().sendToServer(msg);
 		// e3ml pop up: a request to za .. has been sent
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
+			Parent Root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene (Root1));
+			stage.show();
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 
 	@Subscribe
