@@ -80,6 +80,9 @@ public class PrimaryController implements Initializable {
 
 	@FXML // fx:id="noLogin"
 	private Button noLogin; // Value injected by FXMLLoader
+	
+	@FXML // fx:id="Signin"
+	private Button Signin; // Value injected by FXMLLoader
 
 	@FXML
 	void gotoLogin(ActionEvent event) throws Exception {
@@ -90,6 +93,11 @@ public class PrimaryController implements Initializable {
 	void gotoNoLogin(ActionEvent event) throws Exception {
 		loginController.loginRole = -1;
 		App.setRoot("menu");
+	}
+	
+	@FXML
+	void gotosignin(ActionEvent event) throws Exception {
+		App.setRoot("signIn");
 	}
 
 	@Override

@@ -1,4 +1,5 @@
 /dependency-reduced-pom.xml
 /.gitignore
+/hs_err_pid15488.log
 /pom.xml
 /src/

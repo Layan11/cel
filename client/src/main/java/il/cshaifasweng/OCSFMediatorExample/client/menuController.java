@@ -67,6 +67,13 @@ public class menuController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		EventBus.getDefault().register(this);
+		//if(SigninController.loginRole==-1) {
+		//	UpdatePriceRequests.setVisible(false);
+		//    ShowComplaints.setVisible(false);
+		//    SigninController.loginRole=0;
+		//}
+		//else
+		//{
 		if (loginController.loginRole == -1) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
 			UpdatePriceRequests.setVisible(false);
 			ShowComplaints.setVisible(false);
@@ -85,4 +92,5 @@ public class menuController implements Initializable {
 			FileAComplaint.setVisible(false);
 		}
 	}
+	//}
 }

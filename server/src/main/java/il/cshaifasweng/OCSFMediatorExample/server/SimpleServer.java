@@ -562,6 +562,25 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.equals("Add new person")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				User newuser=new User(movietoadd.getEngName(),movietoadd.getHebName());
+				newuser.setRole(-1);
+				newuser.setIs_Logged_In(true);
+				//App.session.save(movietoadd.getMovieTimes());
+
+				App.session.save(newuser);
+				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 	}
 
 	private static List<Movie> getMoviesList() {
