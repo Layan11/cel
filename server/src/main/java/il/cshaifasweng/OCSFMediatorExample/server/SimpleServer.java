@@ -330,7 +330,17 @@ public class SimpleServer extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else {
+				} else {//user found
+					if(ans.get(0).isIs_Logged_In()==true)//user is connected 
+					{
+						try {
+							client.sendToClient(new TripleObject("User is already connected",null,null));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					else {
+
 					ans.get(0).setIs_Logged_In(true);
 					try {
 						int userRole = ans.get(0).getRole();
@@ -338,7 +348,7 @@ public class SimpleServer extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
+				}}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();

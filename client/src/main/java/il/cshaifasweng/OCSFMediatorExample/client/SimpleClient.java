@@ -112,6 +112,9 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("No such user")) {
 			EventBus.getDefault().post(new NoSuchUserEvent());
 		}
+		if (myMsg.equals("User is already connected")) {
+			EventBus.getDefault().post(new UserIsConnectedEvent());
+		}
 		if (myMsg.startsWith("User found")) {
 			EventBus.getDefault().post(new UserFoundEvent(myMsg));
 		}

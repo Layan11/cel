@@ -63,6 +63,13 @@ public class loginController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	@Subscribe
+	public void onNoUser(UserIsConnectedEvent event) {
+		Platform.runLater(() -> {
+			invalid_label.setText("Sorry,User is already connected");
+		});
+	}
 
 	@Subscribe
 	public void onNoUser(NoSuchUserEvent event) {

@@ -40,6 +40,8 @@ public class menuController implements Initializable {
 
 	@FXML
 	void goback(ActionEvent event) throws Exception {
+		//log-out
+		
 		App.setRoot("primary");
 	}
 
