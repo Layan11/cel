@@ -66,5 +66,9 @@ public class User implements Serializable {
 	public void setIs_Logged_In(boolean is_Logged_In) {
 		Is_Logged_In = is_Logged_In;
 	}
+	
+	public int getID() {
+		return id;
+	}
 
 }
