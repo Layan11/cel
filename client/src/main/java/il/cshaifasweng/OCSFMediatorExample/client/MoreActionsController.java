@@ -131,6 +131,15 @@ public class MoreActionsController implements Initializable {
 	private Label datesLabel; // Value injected by FXMLLoader
 	@FXML
 	private TextField oldLink;
+	
+    @FXML // fx:id="Menu"
+    private Button Menu; // Value injected by FXMLLoader
+
+    @FXML
+    void backtomenu(ActionEvent event) throws Exception {
+    	App.setRoot("menu");
+
+    }
 
 	@FXML
 	void goBack(ActionEvent event) throws Exception {

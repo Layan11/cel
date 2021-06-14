@@ -336,7 +336,6 @@ public class SimpleServer extends AbstractServer {
 						int userRole = ans.get(0).getRole();
 						client.sendToClient(new TripleObject("User found " + userRole, null, null));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -368,12 +367,11 @@ public class SimpleServer extends AbstractServer {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				Movie movietoadd = new Movie();
+				// Movie movietoadd = new Movie();
 				if (getMovie(ObjctMsg.substring(37)).size() == 0) {
 					try {
 						client.sendToClient(new TripleObject("no such movie", null, null));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
@@ -609,32 +607,6 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> all = new ArrayList<Movie>();
 				Boolean found = false;
 				List<MovieTimes> mtList = new ArrayList<MovieTimes>();
-
-//				SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
-//				Date d1 = null;
-//				try {
-//					d1 = (Date) sdformat.parse("2019-04-15");
-//				} catch (ParseException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//				Date d2 = null;
-//				try {
-//					d2 = (Date) sdformat.parse("2019-08-10");
-//				} catch (ParseException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//				System.out.println("The date 1 is: " + sdformat.format(d1));
-//				System.out.println("The date 2 is: " + sdformat.format(d2));
-//				if (d1.compareTo(d2) > 0) {
-//					System.out.println("Date 1 occurs after Date 2");
-//				} else if (d1.compareTo(d2) < 0) {
-//					System.out.println("Date 1 occurs before Date 2");
-//				} else if (d1.compareTo(d2) == 0) {
-//					System.out.println("Both dates are equal");
-//				}
-
 				for (int i = 0; i < tmp.size(); i++) {
 					if (tmp.get(i).getType() == 0 || tmp.get(i).getType() == 3) {
 						all.add(tmp.get(i));
@@ -646,10 +618,6 @@ public class SimpleServer extends AbstractServer {
 							if (isBigger(all.get(i).getMovieTimes().getDate().get(j), from) == true
 									&& isBigger(all.get(i).getMovieTimes().getDate().get(j), to) == false) {
 								// this date is bigger than from and smaller that to
-
-//								if (all.get(i).getMovieTimes().getDate().get(j).compareTo(from) > 0
-//										&& all.get(i).getMovieTimes().getDate().get(j).compareTo(to) < 0) {
-
 								found = true;
 								filteredMovies.add(all.get(i).getEngName());
 								filteredDates.add(all.get(i).getMovieTimes().getDate().get(j));
@@ -667,9 +635,6 @@ public class SimpleServer extends AbstractServer {
 						for (int j = 0; j < all.get(i).getMovieTimes().getDate().size(); j++) {
 							if (isBigger(all.get(i).getMovieTimes().getDate().get(j), from) == true) {
 								// this date is bigger than from
-
-								// if (all.get(i).getMovieTimes().getDate().get(j).compareTo(from) > 0) {
-
 								found = true;
 								filteredMovies.add(all.get(i).getEngName());
 								filteredDates.add(all.get(i).getMovieTimes().getDate().get(j));
@@ -687,9 +652,6 @@ public class SimpleServer extends AbstractServer {
 						for (int j = 0; j < all.get(i).getMovieTimes().getDate().size(); j++) {
 							if (isBigger(all.get(i).getMovieTimes().getDate().get(j), to) == false) {
 								// this date is smaller than to
-
-								// if (all.get(i).getMovieTimes().getDate().get(j).compareTo(to) < 0) {
-
 								found = true;
 								filteredMovies.add(all.get(i).getEngName());
 								filteredDates.add(all.get(i).getMovieTimes().getDate().get(j));
@@ -731,8 +693,6 @@ public class SimpleServer extends AbstractServer {
 				User newuser = new User(movietoadd.getEngName(), movietoadd.getHebName());
 				newuser.setRole(-1);
 				newuser.setIs_Logged_In(true);
-				// App.session.save(movietoadd.getMovieTimes());
-
 				App.session.save(newuser);
 				App.session.flush();
 				App.session.getTransaction().commit();
@@ -774,15 +734,15 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	private static List<MovieTimes> getAllMovieTimes() {
-		CriteriaBuilder builder = App.session.getCriteriaBuilder();
-		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
-		query.from(MovieTimes.class);
-		List<MovieTimes> data = App.session.createQuery(query).getResultList();
-		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
-		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
-		return data;
-	}
+//	private static List<MovieTimes> getAllMovieTimes() {
+//		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+//		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
+//		query.from(MovieTimes.class);
+//		List<MovieTimes> data = App.session.createQuery(query).getResultList();
+//		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
+//		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
+//		return data;
+//	}
 
 	private static Boolean isBigger(String date1, String date2) {
 		List<String> dates1 = Arrays.asList(date1.split("/"));

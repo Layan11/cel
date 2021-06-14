@@ -30,6 +30,15 @@ public class menuController implements Initializable {
 	private Button back;
 
 	@FXML
+	private Button more_actions;
+
+	@FXML
+	void gotomore_actions(ActionEvent event) throws Exception {
+		App.setRoot("MoreActions");
+
+	}
+
+	@FXML
 	void goback(ActionEvent event) throws Exception {
 		App.setRoot("primary");
 	}
@@ -39,7 +48,6 @@ public class menuController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("choose_type_to_browse");
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -71,10 +79,12 @@ public class menuController implements Initializable {
 												// 3->no account
 			UpdatePriceRequests.setVisible(false);
 			ShowComplaints.setVisible(false);
+			more_actions.setVisible(false);
 		}
 		if (loginController.loginRole == 0) {
 			ShowComplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
+			more_actions.setVisible(false);
 		}
 		if (loginController.loginRole == 1) {
 			ShowComplaints.setVisible(false);
@@ -84,13 +94,14 @@ public class menuController implements Initializable {
 		if (loginController.loginRole == 2) {
 			UpdatePriceRequests.setVisible(false);
 			FileAComplaint.setVisible(false);
+			more_actions.setVisible(false);
 		}
 		if (loginController.loginRole == 3) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS
-												// employee//
-			// 3->no account
+												// employee 3->no account
 			UpdatePriceRequests.setVisible(false);
 			ShowComplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
+			more_actions.setVisible(false);
 		}
 	}
 }

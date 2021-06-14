@@ -61,6 +61,7 @@ public class filteredMovieDatesController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		final ObservableList<String> MovieNames = FXCollections.observableArrayList(SimpleClient.MovieNames);
 		moviesTable.setEditable(true);
+		moviesTable.setSelectionModel(null);
 		movies.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 		moviesTable.getColumns().setAll(movies);
 		moviesTable.setItems(MovieNames);
