@@ -53,7 +53,7 @@ public class Screening_TimesController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				action = "add";
-				App.setRoot("update_movies");
+				App.setRoot("UpdateMovies");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -129,7 +129,7 @@ public class Screening_TimesController implements Initializable {
 			try {
 				action = "edit";
 				selectedScreeningTime = timesTable.getSelectionModel().getSelectedItem();
-				App.setRoot("trying");
+				App.setRoot("UpdateMovies");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -150,6 +150,9 @@ public class Screening_TimesController implements Initializable {
 											// 3->no Account
 		{
 			edit.setVisible(false);
+			add.setVisible(false);
+			delete.setVisible(false);
+
 		}
 	}
 }

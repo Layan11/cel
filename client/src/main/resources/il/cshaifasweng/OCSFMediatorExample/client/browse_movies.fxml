@@ -33,19 +33,15 @@
                   <Image url="@movie-banners-vector-illustration-46569846.jpg" />
                </image>
             </ImageView>
-            <Button fx:id="Show_screening_time" layoutX="321.0" layoutY="197.0" mnemonicParsing="false" onAction="#gotoShow_screening_time" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Show Screening Time" wrapText="true">
+            <Button fx:id="Show_screening_time" layoutX="321.0" layoutY="154.0" mnemonicParsing="false" onAction="#gotoShow_screening_time" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Show Screening Time" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="More_Info" layoutX="321.0" layoutY="239.0" mnemonicParsing="false" onAction="#show_More_Info" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="More Info">
+            <Button fx:id="More_Info" layoutX="321.0" layoutY="196.0" mnemonicParsing="false" onAction="#show_More_Info" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="More Info">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="MoreActions" layoutX="320.0" layoutY="154.0" mnemonicParsing="false" onAction="#gotoMoreActions" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="More Actions">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Button>
-            <Button fx:id="Go_back" layoutX="320.0" layoutY="282.0" mnemonicParsing="false" onAction="#gobacktoprimary" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Go back">
+            <Button fx:id="Go_back" layoutX="320.0" layoutY="240.0" mnemonicParsing="false" onAction="#gobacktoprimary" prefHeight="25.0" prefWidth="141.0" style="-fx-background-color: #f8e9bb;" text="Go back">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>

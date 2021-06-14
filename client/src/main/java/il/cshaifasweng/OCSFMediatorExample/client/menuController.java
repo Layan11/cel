@@ -27,7 +27,7 @@ public class menuController implements Initializable {
 	@FXML
 	private Button ShowComplaints;
 	@FXML
-	private Button back;
+	private Button logout;
 
 	@FXML
 	private Button more_actions;
@@ -39,9 +39,9 @@ public class menuController implements Initializable {
 	}
 
 	@FXML
-	void goback(ActionEvent event) throws Exception {
-		//log-out
-		
+	void gotoLogOut(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("log-out " + loginController.currentUser, null, null);
+		SimpleClient.getClient().sendToServer(msg);
 		App.setRoot("primary");
 	}
 

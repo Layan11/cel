@@ -116,7 +116,7 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new UserIsConnectedEvent());
 		}
 		if (myMsg.startsWith("User found")) {
-			EventBus.getDefault().post(new UserFoundEvent(myMsg));
+			EventBus.getDefault().post(new UserFoundEvent(myMsg, triple_msg.getList()));
 		}
 		if (myMsg.equals("Got the wanted movie")) {
 			EventBus.getDefault().post(new gotMovieActorsEvent(triple_msg.getList()));

@@ -29,122 +29,83 @@ import javafx.stage.Stage;
 public class MoreActionsController implements Initializable {
 	@FXML
 	private Button addNewToWatchAtHome;
-
-	@FXML // fx:id="deleteMovie"
-	private Button deleteMovie; // Value injected by FXMLLoader
-
-	@FXML // fx:id="movieName"
-	private TextField movieName; // Value injected by FXMLLoader
-
-	@FXML // fx:id="updatePrice"
-	private Button updatePrice; // Value injected by FXMLLoader
-
-	@FXML // fx:id="addMovie"
-	private Button addMovie; // Value injected by FXMLLoader
-
-	@FXML // fx:id="addToComingSoon"
-	private Button addToComingSoon; // Value injected by FXMLLoader
-
-	@FXML // fx:id="addOldToWatchAtHome"
-	private Button addOldToWatchAtHome; // Value injected by FXMLLoader
-
-	@FXML // fx:id="engName"
-	private TextField engName; // Value injected by FXMLLoader
-
-	@FXML // fx:id="engNameLabel"
-	private Label engNameLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="hebNameLabel"
-	private Label hebNameLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="hebName"
-	private TextField hebName; // Value injected by FXMLLoader
-
-	@FXML // fx:id="arbName"
-	private TextField arbName; // Value injected by FXMLLoader
-
-	@FXML // fx:id="price"
-	private TextField price; // Value injected by FXMLLoader
-
-	@FXML // fx:id="priceLabel"
-	private Label priceLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="producerLabel"
-	private Label producerLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="actorsLabel"
-	private Label actorsLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="lenLabel"
-	private Label lenLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="sumLabel"
-	private Label sumLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="producer"
-	private TextField producer; // Value injected by FXMLLoader
-
-	@FXML // fx:id="len"
-	private TextField len; // Value injected by FXMLLoader
-
-	@FXML // fx:id="summary"
-	private TextArea summary; // Value injected by FXMLLoader
-
-	@FXML // fx:id="screeningTimes"
-	private TextArea screeningTimes; // Value injected by FXMLLoader
-
-	@FXML // fx:id="timesLabel"
-	private Label timesLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="branchLabel"
-	private Label branchLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="branch"
-	private TextField branch; // Value injected by FXMLLoader
-
-	@FXML // fx:id="image"
-	private TextField image; // Value injected by FXMLLoader
-
-	@FXML // fx:id="imageLabel"
-	private Label imageLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="actors"
-	private TextArea actors; // Value injected by FXMLLoader
-
-	@FXML // fx:id="linkLabel"
-	private Label linkLabel; // Value injected by FXMLLoader
-
-	@FXML // fx:id="link"
-	private TextField link; // Value injected by FXMLLoader
-
-	@FXML // fx:id="invalidAddLabel"
-	private Label invalidAddLabel; // Value injected by FXMLLoader
-	@FXML // fx:id="invalidMovie"
-	private Label invalidMovie; // Value injected by FXMLLoader
-	@FXML // fx:id="newPrice"
-	private TextField newPrice; // Value injected by FXMLLoader
-	@FXML // fx:id="back"
-	private Button back; // Value injected by FXMLLoader
-	@FXML // fx:id="dates"
-	private TextArea dates; // Value injected by FXMLLoader
-	@FXML // fx:id="datesLabel"
-	private Label datesLabel; // Value injected by FXMLLoader
+	@FXML
+	private Button deleteMovie;
+	@FXML
+	private TextField movieName;
+	@FXML
+	private Button updatePrice;
+	@FXML
+	private Button addMovie;
+	@FXML
+	private Button addToComingSoon;
+	@FXML
+	private Button addOldToWatchAtHome;
+	@FXML
+	private TextField engName;
+	@FXML
+	private Label engNameLabel;
+	@FXML
+	private Label hebNameLabel;
+	@FXML
+	private TextField hebName;
+	@FXML
+	private TextField arbName;
+	@FXML
+	private TextField price;
+	@FXML
+	private Label priceLabel;
+	@FXML
+	private Label producerLabel;
+	@FXML
+	private Label actorsLabel;
+	@FXML
+	private Label lenLabel;
+	@FXML
+	private Label sumLabel;
+	@FXML
+	private TextField producer;
+	@FXML
+	private TextField len;
+	@FXML
+	private TextArea summary;
+	@FXML
+	private TextArea screeningTimes;
+	@FXML
+	private Label timesLabel;
+	@FXML
+	private Label branchLabel;
+	@FXML
+	private TextField branch;
+	@FXML
+	private TextField image;
+	@FXML
+	private Label imageLabel;
+	@FXML
+	private TextArea actors;
+	@FXML
+	private Label linkLabel;
+	@FXML
+	private TextField link;
+	@FXML
+	private Label invalidAddLabel;
+	@FXML
+	private Label invalidMovie;
 	@FXML
 	private TextField oldLink;
-	
-    @FXML // fx:id="Menu"
-    private Button Menu; // Value injected by FXMLLoader
-
-    @FXML
-    void backtomenu(ActionEvent event) throws Exception {
-    	App.setRoot("menu");
-
-    }
+	@FXML
+	private TextField newPrice;
+	@FXML
+	private TextArea dates;
+	@FXML
+	private Label datesLabel;
+	@FXML
+	private Button Menu;
 
 	@FXML
-	void goBack(ActionEvent event) throws Exception {
-		TripleObject msg = new TripleObject("Browse movies", null, null);
-		SimpleClient.getClient().sendToServer(msg);
+	void backtomenu(ActionEvent event) throws Exception {
+		App.setRoot("menu");
+
 	}
 
 	@Subscribe

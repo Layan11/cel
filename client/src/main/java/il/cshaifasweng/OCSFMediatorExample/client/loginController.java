@@ -27,19 +27,19 @@ public class loginController implements Initializable {
 
 	@FXML
 	private Button Login;
-
 	@FXML
 	private TextField username_box;
-
 	@FXML
 	private TextField password_box;
-	@FXML // fx:id="invalid_label"
-	private Label invalid_label; // Value injected by FXMLLoader
-	@FXML // fx:id="invalid_label2"
-	private Label invalid_label2; // Value injected by FXMLLoader
+	@FXML
+	private Label invalid_label;
+	@FXML
+	private Label invalid_label2;
 	@FXML
 	private Button back;
+
 	public static int loginRole;
+	public static String currentUser;
 
 	@FXML
 	void goBackToPrimary(ActionEvent event) throws Exception {
@@ -63,7 +63,7 @@ public class loginController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Subscribe
 	public void onNoUser(UserIsConnectedEvent event) {
 		Platform.runLater(() -> {
@@ -82,6 +82,7 @@ public class loginController implements Initializable {
 	public void onFoundUser(UserFoundEvent event) {
 		Platform.runLater(() -> {
 			loginRole = event.getRole();// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
+			currentUser = event.getUserName();
 			try {
 				App.setRoot("menu");
 			} catch (IOException e) {

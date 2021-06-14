@@ -11,9 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Users")
 public class User implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -66,7 +63,7 @@ public class User implements Serializable {
 	public void setIs_Logged_In(boolean is_Logged_In) {
 		Is_Logged_In = is_Logged_In;
 	}
-	
+
 	public int getID() {
 		return id;
 	}

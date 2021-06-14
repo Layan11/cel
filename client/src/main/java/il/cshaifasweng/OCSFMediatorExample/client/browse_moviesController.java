@@ -41,8 +41,6 @@ public class browse_moviesController implements Initializable {
 	@FXML
 	private Button More_Info;
 	@FXML
-	private Button MoreActions;
-	@FXML
 	private ChoiceBox<String> ChoiceBox;
 	@FXML
 	private Button Show;
@@ -139,17 +137,6 @@ public class browse_moviesController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
-	@FXML
-	void gotoMoreActions(ActionEvent event) {
-		Platform.runLater(() -> {
-			try {
-				App.setRoot("MoreActions");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
 	@Subscribe
 	public void onData1(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
@@ -174,10 +161,6 @@ public class browse_moviesController implements Initializable {
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
-		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
-		{
-			MoreActions.setVisible(false);
-		}
 		EventBus.getDefault().register(this);
 		getMovies();
 		ChoiceBox.getItems().add("Haifa");

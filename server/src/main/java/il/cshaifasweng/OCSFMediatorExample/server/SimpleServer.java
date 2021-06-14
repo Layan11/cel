@@ -261,20 +261,20 @@ public class SimpleServer extends AbstractServer {
 				String oldDate = "";
 				Movie movieToUpdate = getMovie(movie).get(0);
 				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
-				System.out.println("OUT HERE");
-				System.out.println("size: " + hlpr.size());
+//				System.out.println("OUT HERE");
+//				System.out.println("size: " + hlpr.size());
 
 				List<String> hlpr2 = movieToUpdate.getMovieTimes().getDate();
 
 				for (int i = 0; i < hlpr.size(); i++) {
 					if (hlpr.get(i).equals(oldTime)) {
-						System.out.println("IN IF HERE");
+//						System.out.println("IN IF HERE");
 						hlpr.remove(i);
 						oldDate = hlpr2.get(i);
 						hlpr2.remove(i);
 					}
 				}
-				System.out.println("NEW DATE = " + NewDate);
+//				System.out.println("NEW DATE = " + NewDate);
 				if (!Newtime.equals("")) {
 					hlpr.add(Newtime);
 				} else {
@@ -330,25 +330,29 @@ public class SimpleServer extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else {//user found
-					if(ans.get(0).isIs_Logged_In()==true)//user is connected 
+				} else {// user found
+					if (ans.get(0).isIs_Logged_In() == true)// user is connected
 					{
 						try {
-							client.sendToClient(new TripleObject("User is already connected",null,null));
+							client.sendToClient(new TripleObject("User is already connected", null, null));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+
+						ans.get(0).setIs_Logged_In(true);
+						try {
+							int userRole = ans.get(0).getRole();
+							TripleObject to = new TripleObject("User found " + userRole, null, null);
+							List<String> tmp = new ArrayList<String>();
+							tmp.add(ans.get(0).getUser_Name());
+							to.setList(tmp);
+							client.sendToClient(to);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
-					else {
-
-					ans.get(0).setIs_Logged_In(true);
-					try {
-						int userRole = ans.get(0).getRole();
-						client.sendToClient(new TripleObject("User found " + userRole, null, null));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}}
+				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -604,7 +608,6 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Filter dates")) {
-			System.out.println("FUCK YOUUUU");
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
@@ -677,7 +680,6 @@ public class SimpleServer extends AbstractServer {
 				}
 				TripleObject res;
 				if (found == false) {
-					System.out.println("IS NULL");
 					res = new TripleObject("Filtered movies by date", null, null);
 				} else {
 					res = new TripleObject("Filtered movies by date", null, mtList);
@@ -704,6 +706,23 @@ public class SimpleServer extends AbstractServer {
 				newuser.setRole(-1);
 				newuser.setIs_Logged_In(true);
 				App.session.save(newuser);
+				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("log-out")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String username = ObjctMsg.substring(8);
+				User tmpUser = getUser(username).get(0);
+				tmpUser.setIs_Logged_In(false);
+
+				App.session.save(tmpUser);
 				App.session.flush();
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
@@ -744,6 +763,15 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
+	private static List<User> getUser(String userName) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<User> query = builder.createQuery(User.class);
+		Root<User> userRoot = query.from(User.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("User_Name"), userName);
+		query.where(predicateForMoviename);
+		List<User> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
 //	private static List<MovieTimes> getAllMovieTimes() {
 //		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 //		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="741.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesController">
+   <children>
+      <ImageView fitHeight="620.0" fitWidth="768.0" layoutX="-3.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@lede-disney-1300x1084.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="168.0" layoutY="122.0" prefHeight="372.0" prefWidth="412.0" style="-fx-background-color: #7ac1ff;">
+         <children>
+            <TextArea fx:id="times" layoutX="145.0" layoutY="42.0" prefHeight="70.0" prefWidth="184.0" />
+            <TextArea fx:id="dates" layoutX="145.0" layoutY="132.0" prefHeight="70.0" prefWidth="184.0" />
+            <Label fx:id="timeLabel" layoutX="14.0" layoutY="42.0" text="New Screening Times">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateLabel" layoutX="14.0" layoutY="132.0" text="New Screening Dates">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="noteLabel" layoutX="14.0" layoutY="251.0" prefHeight="68.0" prefWidth="361.0" text="Note: please use &quot;,&quot; to separate times/dates.  Also please write the screening dates in the same order as the corresponding screening times." textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="updateScreening" layoutX="181.0" layoutY="213.0" mnemonicParsing="false" onAction="#gotoupdate" style="-fx-background-color: #3c3c3c;" text="Update Screening" textFill="WHITE" />
+            <Button fx:id="addScreening" layoutX="175.0" layoutY="327.0" mnemonicParsing="false" onAction="#gotoadd" style="-fx-background-color: #3c3c3c;" text="Add Screening" textFill="WHITE" />
+            <Button layoutX="349.0" layoutY="334.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #3c3c3c;" text="Back" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
