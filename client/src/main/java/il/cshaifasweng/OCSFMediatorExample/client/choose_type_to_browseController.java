@@ -35,7 +35,7 @@ public class choose_type_to_browseController implements Initializable {
 	void goback(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
-				App.setRoot("primary");
+				App.setRoot("menu");
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
