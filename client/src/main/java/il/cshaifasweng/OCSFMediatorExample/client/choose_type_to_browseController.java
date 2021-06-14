@@ -20,17 +20,16 @@ import javafx.scene.control.Button;
 
 public class choose_type_to_browseController implements Initializable {
 
-	@FXML // fx:id="Now_In_Branches"
-	private Button Now_In_Branches; // Value injected by FXMLLoader
+	@FXML
+	private Button Now_In_Branches;
+	@FXML
+	private Button Coming_Soon;
+	@FXML
+	private Button Watch_At_Home;
+	@FXML
+	private Button Back;
 
-	@FXML // fx:id="Coming_Soon"
-	private Button Coming_Soon; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Watch_At_Home"
-	private Button Watch_At_Home; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Back"
-	private Button Back; // Value injected by FXMLLoader
+	public static String browseType = "";
 
 	@FXML
 	void goback(ActionEvent event) {
@@ -47,6 +46,7 @@ public class choose_type_to_browseController implements Initializable {
 
 	@FXML
 	void gotocomingsoon(ActionEvent event) throws Exception {
+		browseType = "Coming Soon";
 		TripleObject msg = new TripleObject("Coming_Soon_Movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 
@@ -84,6 +84,7 @@ public class choose_type_to_browseController implements Initializable {
 
 	@FXML
 	void gotowatchathome(ActionEvent event) throws Exception {
+		browseType = "Watch at Home";
 		TripleObject msg = new TripleObject("Watch At Home", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 

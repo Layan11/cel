@@ -46,14 +46,18 @@ public class App {
 		String AladdinImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg");
 		List<String> AladdinActorsList = new ArrayList<String>();
 		List<String> AladdinTimes = new ArrayList<String>();
+		List<String> AladdinDates = new ArrayList<String>();
 		List<String> AladdinBranches = new ArrayList<String>();
 		AladdinActorsList.add("Mena Massoud");
 		AladdinActorsList.add("Naomi Scott");
 		AladdinTimes.add("18:00");
 		AladdinTimes.add("20:00");
+		AladdinDates.add("21/08/2021");
+		AladdinDates.add("06/02/2021");
 		AladdinBranches.add("Haifa");
 		AladdinBranches.add("Haifa");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
+		AladdinMovieTimes.setDate(AladdinDates);
 		session.save(AladdinMovieTimes);
 		Movie AladdinMovie = new Movie("Aladdin", AladdinActorsList, 128, "אלאדין",
 				"Aladdin, a kind thief, woos Jasmine, the princess of Agrabah, with the help of Genie. When Jafar, the grand vizier, tries to usurp the king, Jasmine, Aladdin and Genie must stop him from succeeding.",
@@ -67,12 +71,15 @@ public class App {
 		String ShrekImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Shrek.jpg");
 		List<String> ShrekActorsList = new ArrayList<String>();
 		List<String> ShrekTimes = new ArrayList<String>();
+		List<String> ShrekDates = new ArrayList<String>();
 		List<String> ShrekBranches = new ArrayList<String>();
 		ShrekActorsList.add("Shrek");
 		ShrekActorsList.add("Princess Fiona");
 		ShrekTimes.add("17:30");
 		ShrekBranches.add("Haifa");
+		ShrekDates.add("01/07/2021");
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
+		ShrekMovieTimes.setDate(ShrekDates);
 		session.save(ShrekMovieTimes);
 		Movie ShrekMovie = new Movie("Shrek", ShrekActorsList, 95, "שרק",
 				"Shrek, an ogre, embarks on a journey with a donkey to rescue Princess Fiona from a vile lord and regain his swamp.",
@@ -85,12 +92,15 @@ public class App {
 		String SnowWhiteImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
 		List<String> SnowWhiteTimes = new ArrayList<String>();
+		List<String> SnowWhiteDates = new ArrayList<String>();
 		List<String> SnowWhiteBranches = new ArrayList<String>();
 		SnowWhiteActorsList.add("Snow White");
 		SnowWhiteActorsList.add("Dopey");
 		SnowWhiteTimes.add("20:15");
 		SnowWhiteBranches.add("Shefa-Amr");
+		SnowWhiteDates.add("01/09/2021");
 		MovieTimes SnowWhiteMovieTimes = new MovieTimes(SnowWhiteTimes);
+		SnowWhiteMovieTimes.setDate(SnowWhiteDates);
 		session.save(SnowWhiteMovieTimes);
 		Movie SnowWhiteMovie = new Movie("Snow White", SnowWhiteActorsList, 88, "שלגייה",
 				"When Snow White, a princess, is exiled by her stepmother, an evil queen who wants to kill her, she runs into a forest. Soon, she is rescued by seven dwarfs who form a friendship with her.",
@@ -104,6 +114,7 @@ public class App {
 		String FnFImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
 		List<String> FnFActorsList = new ArrayList<String>();
 		List<String> FnFTimes = new ArrayList<String>();
+		List<String> FnFDates = new ArrayList<String>();
 		List<String> FnFBranches = new ArrayList<String>();
 		FnFActorsList.add("Vin Diesel");
 		FnFActorsList.add("Paul Walker");
@@ -111,7 +122,10 @@ public class App {
 		FnFTimes.add("21:30");
 		FnFBranches.add("Shefa-Amr");
 		FnFBranches.add("Shefa-Amr");
+		FnFDates.add("24/07/2021");
+		FnFDates.add("10/10/2021");
 		MovieTimes FnFMovieTimes = new MovieTimes(FnFTimes);
+		FnFMovieTimes.setDate(FnFDates);
 		session.save(FnFMovieTimes);
 		Movie FastAndFuriousMovie = new Movie("Fast and Furious", FnFActorsList, 107, "מהיר ועצבני",
 				"A spate of high-speed robberies in LA brings street racer Dominic Toretto and his crew under the LAPD scanner. FBI agent Brian goes undercover and befriends Toretto in a bid to investigate the matter.",
@@ -125,6 +139,7 @@ public class App {
 		String DumboImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Dumbo.jpg");
 		List<String> DumboActorsList = new ArrayList<String>();
 		List<String> DumboTimes = new ArrayList<String>();
+		List<String> DumboDates = new ArrayList<String>();
 		List<String> DumboBranches = new ArrayList<String>();
 		DumboActorsList.add("Eva Green");
 		DumboActorsList.add("Colin Farrell");
@@ -132,7 +147,10 @@ public class App {
 		DumboTimes.add("21:30");
 		DumboBranches.add("Haifa");
 		DumboBranches.add("Haifa");
+		DumboDates.add("13/07/2021");
+		DumboDates.add("24/07/2021");
 		MovieTimes DumboMovieTimes = new MovieTimes(DumboTimes);
+		DumboMovieTimes.setDate(DumboDates);
 		session.save(DumboMovieTimes);
 		Movie DumboMovie = new Movie("Dumbo", DumboActorsList, 112, "דמבו",
 				"Holt, a circus performer, is tasked with caring for a baby elephant with oversized ears, Dumbo. But when it is discovered that Dumbo can fly, a few wicked men try to take advantage of the situation.",

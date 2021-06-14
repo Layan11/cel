@@ -20,11 +20,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class browse_moviesController implements Initializable {
@@ -34,22 +34,24 @@ public class browse_moviesController implements Initializable {
 	private TableColumn<Movie, String> firstNameColumn;
 	@FXML
 	private TableColumn<Movie, String> priceColumn;
-
-	@FXML // fx:id="Go_back"
-	private Button Go_back; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Show_screening_time"
-	private Button Show_screening_time; // Value injected by FXMLLoader
-
-	@FXML // fx:id="More_Info"
-	private Button More_Info; // Value injected by FXMLLoader
-	@FXML // fx:id="add_Movie"
-	private Button MoreActions; // Value injected by FXMLLoader
-	@FXML // fx:id="ChoiceBox"
-	private ChoiceBox<String> ChoiceBox; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Show"
-	private Button Show; // Value injected by FXMLLoader
+	@FXML
+	private Button Go_back;
+	@FXML
+	private Button Show_screening_time;
+	@FXML
+	private Button More_Info;
+	@FXML
+	private Button MoreActions;
+	@FXML
+	private ChoiceBox<String> ChoiceBox;
+	@FXML
+	private Button Show;
+	@FXML
+	private TextField from;
+	@FXML
+	private TextField to;
+	@FXML
+	private Button filter;
 
 	public static Movie selectedMovie;
 
@@ -60,6 +62,27 @@ public class browse_moviesController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
+	@FXML
+	void gotoFilter(ActionEvent event) throws Exception {
+		List<String> dates = new ArrayList<String>();
+		dates.add(from.getText());
+		dates.add(to.getText());
+		TripleObject msg = new TripleObject("Filter dates", null, null);
+		msg.setList(dates);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onFiltered(GotFilteredMovieByDatesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("filteredMovieDates");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 	@Subscribe
 	public void onData(GotfilteredMoviesEvent event) {
 		Platform.runLater(() -> {
@@ -67,12 +90,9 @@ public class browse_moviesController implements Initializable {
 				App.setRoot("FilteredMovies");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
-
 	}
 
 	@FXML
@@ -92,32 +112,20 @@ public class browse_moviesController implements Initializable {
 	@Subscribe
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
-
-			// System.out.println("before load: " +
-			// SimpleClient.moviesList.get(0).getEngName());
-			Parent root;
 			try {
 				App.setRoot("More_Info");
-				// System.out.println("after the load line of brwose movies in primary");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
 	}
 
 	@FXML
 	void gobacktoprimary(ActionEvent event) throws IOException {
 		Platform.runLater(() -> {
-			Parent root;
 			try {
 				App.setRoot("choose_type_to_browse");
-				// System.out.println("after the load line of brwose movies in primary");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -127,7 +135,7 @@ public class browse_moviesController implements Initializable {
 	void gotoShow_screening_time(ActionEvent event) throws IOException {
 		Movie selected = tableView.getSelectionModel().getSelectedItem();
 		selectedMovie = selected;
-		TripleObject msg = new TripleObject("Show Screening Times", null, null);
+		TripleObject msg = new TripleObject("Show Screening Times " + selectedMovie.getEngName(), null, null);
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
@@ -137,7 +145,6 @@ public class browse_moviesController implements Initializable {
 			try {
 				App.setRoot("MoreActions");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -148,13 +155,9 @@ public class browse_moviesController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("Screening_Times");
-				// System.out.println("after the load line of brwose movies in primary");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
 	}
 

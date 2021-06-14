@@ -27,8 +27,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class MoreActionsController implements Initializable {
-	@FXML // fx:id="addNewToWatchAtHome"
-	private Button addNewToWatchAtHome; // Value injected by FXMLLoader
+	@FXML
+	private Button addNewToWatchAtHome;
 
 	@FXML // fx:id="deleteMovie"
 	private Button deleteMovie; // Value injected by FXMLLoader
@@ -125,6 +125,12 @@ public class MoreActionsController implements Initializable {
 	private TextField newPrice; // Value injected by FXMLLoader
 	@FXML // fx:id="back"
 	private Button back; // Value injected by FXMLLoader
+	@FXML // fx:id="dates"
+	private TextArea dates; // Value injected by FXMLLoader
+	@FXML // fx:id="datesLabel"
+	private Label datesLabel; // Value injected by FXMLLoader
+	@FXML
+	private TextField oldLink;
 
 	@FXML
 	void goBack(ActionEvent event) throws Exception {
@@ -138,7 +144,6 @@ public class MoreActionsController implements Initializable {
 			try {
 				App.setRoot("browse_movies");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -150,7 +155,7 @@ public class MoreActionsController implements Initializable {
 		if (engName.getText().equals("") || hebName.getText().equals("") || summary.getText().equals("")
 				|| producer.getText().equals("") || actors.getText().equals("") || len.getText().equals("")
 				|| price.getText().equals("") || screeningTimes.getText().equals("") || branch.getText().equals("")
-				|| image.getText().equals("")) {
+				|| image.getText().equals("") || dates.getText().equals("")) {
 			invalidAddLabel.setText("You need to fill the mandatory fields");
 			engNameLabel.setText("*");
 			hebNameLabel.setText("*");
@@ -162,7 +167,7 @@ public class MoreActionsController implements Initializable {
 			timesLabel.setText("*");
 			branchLabel.setText("*");
 			imageLabel.setText("*");
-
+			datesLabel.setText("*");
 		} else {
 			invalidAddLabel.setText("");
 			engNameLabel.setText("");
@@ -175,6 +180,7 @@ public class MoreActionsController implements Initializable {
 			timesLabel.setText("");
 			branchLabel.setText("");
 			imageLabel.setText("");
+			datesLabel.setText("");
 			Movie movie = new Movie();
 			movie.setEngName(engName.getText());
 			List<String> actorsList = Arrays.asList(actors.getText().split("\\s*,\\s*"));
@@ -186,8 +192,11 @@ public class MoreActionsController implements Initializable {
 			movie.setPrice(Integer.parseInt(price.getText()));
 			MovieTimes mt = new MovieTimes();
 			List<String> Times = new ArrayList<String>();
+			List<String> Dates = new ArrayList<String>();
 			Times = Arrays.asList(screeningTimes.getText().split("\\s*,\\s*"));
+			Dates = Arrays.asList(dates.getText().split("\\s*,\\s*"));
 			mt.SetMovieTimes(Times);
+			mt.setDate(Dates);
 			movie.setMovieTimes(mt);
 			movie.setBranch(branch.getText());
 			movie.setArbName(arbName.getText());
@@ -200,7 +209,6 @@ public class MoreActionsController implements Initializable {
 			try {
 				SimpleClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -253,7 +261,6 @@ public class MoreActionsController implements Initializable {
 			try {
 				SimpleClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -264,13 +271,16 @@ public class MoreActionsController implements Initializable {
 		invalidMovie.setText("");
 		String wantedMovie = movieName.getText();
 		TripleObject msg = new TripleObject("Add exsisting movie to watch at home " + wantedMovie, null, null);
+		List<String> link = new ArrayList<String>();
+		link.add(oldLink.getText());
+		msg.setList(link);
 		try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		movieName.setText("");
+		oldLink.setText("");
 	}
 
 	@FXML
@@ -318,7 +328,6 @@ public class MoreActionsController implements Initializable {
 			try {
 				SimpleClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -332,7 +341,6 @@ public class MoreActionsController implements Initializable {
 		try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		movieName.setText("");
@@ -348,16 +356,13 @@ public class MoreActionsController implements Initializable {
 		TripleObject msg = new TripleObject("Update price " + name, null, null);
 		msg.setList(tmp);
 		SimpleClient.getClient().sendToServer(msg);
-		// e3ml pop up: a request to za .. has been sent
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
 			Parent Root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
-			stage.setScene(new Scene (Root1));
+			stage.setScene(new Scene(Root1));
 			stage.show();
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
@@ -367,12 +372,10 @@ public class MoreActionsController implements Initializable {
 		Platform.runLater(() -> {
 			invalidMovie.setText("Sorry, no such movie");
 		});
-
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
 	}
 }

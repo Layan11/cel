@@ -7,15 +7,16 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
 	public static List<Movie> moviesList = new ArrayList<Movie>();
-	public static List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
+	public static List<String> movieTimes = new ArrayList<String>();
 	public static List<String> PRCMovies = new ArrayList<String>();
 	public static List<String> PRCPrices = new ArrayList<String>();
+	public static List<String> MovieDates = new ArrayList<String>();
+	public static List<String> MovieNames = new ArrayList<String>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -30,9 +31,9 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new NoSuchMovieEvent());
 		}
 
-		if (myMsg.equals("Movie saved")) {
-			EventBus.getDefault().post(new GotcsnewMovieEvent());
-		}
+//		if (myMsg.equals("Movie saved")) {
+//			EventBus.getDefault().post(new GotcsnewMovieEvent());
+//		}
 
 		if (myMsg.equals("More Info Movie")) {
 			List<Movie> moreinfo_movies = triple_msg.getMovies();
@@ -100,23 +101,9 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 
-		if (myMsg.equals("All Movies Times")) {
-			List<MovieTimes> MT = new ArrayList<MovieTimes>();
-			MT = triple_msg.getMovieTimes();
-			if (MT != null) {
-				EventBus.getDefault().post(new GotScreeningTimesEvent());
-				movieTimes = MT;
-				System.out.println("printing screening times in client :" + movieTimes.get(0).getTimes());
-				System.out.println("printing screening times in client1 :" + movieTimes.get(1).getTimes());
-				System.out.println("printing screening times in client2 :" + movieTimes.get(2).getTimes());
-				System.out.println("printing screening times in client3 :" + movieTimes.get(3).getTimes());
-				System.out.println("printing screening times in client4 :" + movieTimes.get(4).getTimes());
-
-				System.out.println("printing the size og movietimes in client" + movieTimes.size());
-				if (movieTimes.size() > 5) {
-					System.out.println("in the if in client");
-					System.out.println("printing 6th element of movietimes " + movieTimes.get(5).getId());
-				}
+		if (myMsg.equals("Movie Times")) {
+			movieTimes = triple_msg.getList();
+			if (movieTimes != null) {
 				EventBus.getDefault().post(new GotScreeningTimesEvent());
 			} else {
 				System.out.println("MT is null");
@@ -154,6 +141,21 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("Updated chart movies")) {
 			PRCMovies = triple_msg.getList();
 			EventBus.getDefault().post(new GotUpdatedChartMoviesEvent());
+		}
+		if (myMsg.equals("Dates")) {
+			MovieDates = triple_msg.getList();
+			EventBus.getDefault().post(new GotMovieDatesEvent());
+		}
+		if (myMsg.equals("Deleted screening time")) {
+			EventBus.getDefault().post(new GotUpdatedScreeningsEvent());
+		}
+		if (myMsg.equals("Filtered movies by date")) {
+			if (triple_msg.getMovieTimes().size() > 0) {
+				MovieNames = triple_msg.getList();
+				movieTimes = triple_msg.getMovieTimes().get(0).getTimes();
+				MovieDates = triple_msg.getMovieTimes().get(0).getDate();
+			}
+			EventBus.getDefault().post(new GotFilteredMovieByDatesEvent());
 		}
 	}
 

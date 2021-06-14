@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -50,15 +51,26 @@ public class SimpleServer extends AbstractServer {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
+				String type = ObjctMsg.substring(15);
 				Movie newMovie = new Movie();
 				MovieTimes MTimes = new MovieTimes();
 				MTimes = tuple_msg.getMovieTimes().get(0);
 				App.session.save(MTimes);
 				newMovie = tuple_msg.getMovies().get(0);
 				newMovie.setMovieTimes(MTimes);
+				String movieName = newMovie.getEngName();
+
+				if (type.equals("Coming Soon")) {
+					App.session.remove(getMovie(movieName).get(0));
+				}
+				if (type.equals("Watch at Home")) {
+					Movie movie = getMovie(movieName).get(0);
+					String link = movie.getLink();
+					newMovie.setLink(link);
+					App.session.remove(getMovie(movieName).get(0));
+				}
 				App.session.save(newMovie);
 				App.session.getTransaction().commit();
-				client.sendToClient(new TripleObject("Movie saved", null, null));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -93,7 +105,7 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> Helperl = getMoviesList();
 				List<Movie> Watch_At_Home_Movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl.size(); i++) {
-					if (Helperl.get(i).getType() == 2) {
+					if (Helperl.get(i).getType() == 2 || Helperl.get(i).getType() == 3) {
 						Watch_At_Home_Movies.add(Helperl.get(i));
 					}
 				}
@@ -130,7 +142,7 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl.size(); i++) {
 					String branch = Helperl.get(i).getBranch();
-					if (Helperl.get(i).getType() == 0) {
+					if (Helperl.get(i).getType() == 0 || Helperl.get(i).getType() == 3) {
 						System.out.println("branch : " + branch);
 						if (branch.equals("Haifa")) {
 							movies.add(Helperl.get(i));
@@ -152,7 +164,7 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helperl2.size(); i++) {
 					String branch = Helperl2.get(i).getBranch();
-					if (Helperl2.get(i).getType() == 0) {
+					if (Helperl2.get(i).getType() == 0 || Helperl2.get(i).getType() == 3) {
 						System.out.println("branch : " + branch);
 						if (branch.equals("Shefa-Amr")) {
 							movies.add(Helperl2.get(i));
@@ -172,7 +184,7 @@ public class SimpleServer extends AbstractServer {
 				List<Movie> Helper_list3 = getMoviesList();
 				List<Movie> movies = new ArrayList<Movie>();
 				for (int i = 0; i < Helper_list3.size(); i++) {
-					if (Helper_list3.get(i).getType() == 0) {
+					if (Helper_list3.get(i).getType() == 0 || Helper_list3.get(i).getType() == 3) {
 						movies.add(Helper_list3.get(i));
 					}
 				}
@@ -185,14 +197,20 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Add Screening Time")) {
 			Movie movie = tuple_msg.getMovies().get(0);
-			String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);
+			List<String> Newtimes = tuple_msg.getMovieTimes().get(0).getTimes();
+			List<String> NewDates = tuple_msg.getMovieTimes().get(0).getDate();
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				List<String> hlpr = movie.getMovieTimes().getTimes();
-				hlpr.add(Newtime);
+				List<String> newTimesList = new ArrayList<String>();
 				Movie movieToUpdate = App.session.get(Movie.class, movie.getId());
-				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
+				newTimesList.addAll(movieToUpdate.getMovieTimes().getTimes());
+				newTimesList.addAll(Newtimes);
+				movieToUpdate.getMovieTimes().SetMovieTimes(newTimesList);
+				List<String> newDatesList = new ArrayList<String>();
+				newDatesList.addAll(movieToUpdate.getMovieTimes().getDate());
+				newDatesList.addAll(NewDates);
+				movieToUpdate.getMovieTimes().setDate(newDatesList);
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -202,28 +220,28 @@ public class SimpleServer extends AbstractServer {
 		}
 		if (ObjctMsg.startsWith("Delete Screening Time")) {
 			Movie movie = tuple_msg.getMovies().get(0);
-			String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);
+			String wantedTime = ObjctMsg.substring(22);
+			int idx = 0;
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				Movie movieToUpdate = App.session.get(Movie.class, movie.getId());
-				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
-				boolean x = false;
-				for (int i = 0; i < hlpr.size(); i++) {
-					if (hlpr.get(i).equals(oldTime)) {
-						x = true;
-						hlpr.remove(i);
+				List<String> hlpr1 = movieToUpdate.getMovieTimes().getTimes();
+				for (int i = 0; i < hlpr1.size(); i++) {
+					if (hlpr1.get(i).equals(wantedTime)) {
+						hlpr1.remove(i);
+						idx = i;
 					}
 				}
-				if (x == false) {
-					try {
-						client.sendToClient(new TripleObject("No such screening time to delete", null, null));
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				List<String> hlpr2 = movieToUpdate.getMovieTimes().getDate();
+				hlpr2.remove(idx);
+				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr1);
+				movieToUpdate.getMovieTimes().setDate(hlpr2);
+				try {
+					client.sendToClient(new TripleObject("Deleted screening time", null, null));
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -232,33 +250,37 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Update Screening Time")) {
-			Movie movie = tuple_msg.getMovies().get(0);
-			String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);// old time is in place 0 new time is in
-																				// place 1
-			String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(1);
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				Movie movieToUpdate = App.session.get(Movie.class, movie.getId());
+				String movie = ObjctMsg.substring(22);
+				String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);// old time is in place 0 new time
+																					// is in place 1
+				String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(1);
+				String NewDate = tuple_msg.getMovieTimes().get(0).getDate().get(0);
+				String oldDate = "";
+				Movie movieToUpdate = getMovie(movie).get(0);
 				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
-				boolean x = false;
+				System.out.println("OUT HERE");
+				System.out.println("size: " + hlpr.size());
+
+				List<String> hlpr2 = movieToUpdate.getMovieTimes().getDate();
 				for (int i = 0; i < hlpr.size(); i++) {
 					if (hlpr.get(i).equals(oldTime)) {
-						x = true;
+						System.out.println("IN IF HERE");
 						hlpr.remove(i);
+						oldDate = hlpr2.get(i);
+						hlpr2.remove(i);
 					}
 				}
-				if (x == true) {
-					hlpr.add(Newtime);
-					movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
+				hlpr.add(Newtime);
+				if (NewDate.equals("")) {
+					hlpr2.add(oldDate);
 				} else {
-					try {
-						client.sendToClient(new TripleObject("No such screening time to update", null, null));
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					hlpr2.add(NewDate);
 				}
+				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
+				movieToUpdate.getMovieTimes().setDate(hlpr2);
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -267,20 +289,21 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Show Screening Times")) {
-			App.session = App.sessionFactory.openSession();
-			List<MovieTimes> movieTimes = getAllMovieTimes();
-			TripleObject to = new TripleObject("All Movies Times", null, movieTimes);
-			System.out.println("printing screening times in server:" + movieTimes.get(0).getTimes());
-			System.out.println("printing screening times in server 2: " + movieTimes.get(1).getTimes());
-			System.out.println("printing screening times in server 3:" + movieTimes.get(2).getTimes());
-			System.out.println("printing screening times in server 4: " + movieTimes.get(3).getTimes());
-			System.out.println("printing screening times in server 5: " + movieTimes.get(4).getTimes());
-
 			try {
-				client.sendToClient(to);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String movie = ObjctMsg.substring(21);
+				Movie hlpr = getMovie(movie).get(0);
+				TripleObject to = new TripleObject("Movie Times", null, null);
+				to.setList(hlpr.getMovieTimes().getTimes());
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (HibernateException e) {
 				e.printStackTrace();
+				App.session.getTransaction().rollback();
 			}
 			App.session.close();
 		}
@@ -298,7 +321,6 @@ public class SimpleServer extends AbstractServer {
 					try {
 						client.sendToClient(new TripleObject("No such user", null, null));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
@@ -350,25 +372,9 @@ public class SimpleServer extends AbstractServer {
 				} else {
 					Movie tmpMovie = getMovie(ObjctMsg.substring(37)).get(0);
 
-					movietoadd.setType(2);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
-											// home
-					movietoadd.setEngName(tmpMovie.getEngName());
-					movietoadd.setHebName(tmpMovie.getHebName());
-					movietoadd.setArbName(tmpMovie.getArbName());
-					movietoadd.setLength(tmpMovie.getLength());
-					movietoadd.setActors(tmpMovie.getActors());
-					movietoadd.setSummary(tmpMovie.getSummary());
-					movietoadd.setProducer(tmpMovie.getProducer());
-					movietoadd.setPrice(tmpMovie.getPrice());
-					MovieTimes mt = new MovieTimes();
-					movietoadd.setMovieTimes(mt);
-					movietoadd.setImage(tmpMovie.getImage());
-					movietoadd.setBranch(null);
-					movietoadd.setLength(tmpMovie.getLength());
-					movietoadd.setLink("IDKFORNOW");
-					App.session.save(mt);
-					App.session.save(movietoadd);
-					App.session.flush();
+					tmpMovie.setType(3);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
+										// home, type=3 for watch at home & now broadcasting
+					tmpMovie.setLink(tuple_msg.getList().get(0));
 				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
@@ -390,7 +396,6 @@ public class SimpleServer extends AbstractServer {
 					try {
 						client.sendToClient(new TripleObject("no such movie", null, null));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -411,11 +416,10 @@ public class SimpleServer extends AbstractServer {
 				try {
 					TripleObject to = new TripleObject("Got the wanted movie", null, null);
 					to.setList(actors);
-					System.out.println("GET LIST IN SERVER: ");
+					System.out.println("GOT ACTORS LIST IN SERVER: ");
 					System.out.println(to.getList());
 					client.sendToClient(to);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				App.session.getTransaction().commit();
@@ -555,7 +559,157 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Movie dates")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String movie = ObjctMsg.substring(12);
+				MovieTimes MT = getMovie(movie).get(0).getMovieTimes();
+				List<String> dates = MT.getDate();
+				TripleObject to = new TripleObject("Dates", null, null);
+				to.setList(dates);
+				System.out.println("GOT DATES LIST IN SERVER: ");
+				System.out.println(to.getList());
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Filter dates")) {
+			System.out.println("FUCK YOUUUU");
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String from = tuple_msg.getList().get(0);
+				String to = tuple_msg.getList().get(1);
+				List<String> filteredMovies = new ArrayList<String>();
+				List<String> filteredTimes = new ArrayList<String>();
+				List<String> filteredDates = new ArrayList<String>();
+				List<Movie> tmp = getMoviesList();
+				List<Movie> all = new ArrayList<Movie>();
+				Boolean found = false;
+				List<MovieTimes> mtList = new ArrayList<MovieTimes>();
 
+//				SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+//				Date d1 = null;
+//				try {
+//					d1 = (Date) sdformat.parse("2019-04-15");
+//				} catch (ParseException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				Date d2 = null;
+//				try {
+//					d2 = (Date) sdformat.parse("2019-08-10");
+//				} catch (ParseException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				System.out.println("The date 1 is: " + sdformat.format(d1));
+//				System.out.println("The date 2 is: " + sdformat.format(d2));
+//				if (d1.compareTo(d2) > 0) {
+//					System.out.println("Date 1 occurs after Date 2");
+//				} else if (d1.compareTo(d2) < 0) {
+//					System.out.println("Date 1 occurs before Date 2");
+//				} else if (d1.compareTo(d2) == 0) {
+//					System.out.println("Both dates are equal");
+//				}
+
+				for (int i = 0; i < tmp.size(); i++) {
+					if (tmp.get(i).getType() == 0 || tmp.get(i).getType() == 3) {
+						all.add(tmp.get(i));
+					}
+				}
+				if (!from.equals("") && !to.equals("")) {
+					for (int i = 0; i < all.size(); i++) {
+						for (int j = 0; j < all.get(i).getMovieTimes().getDate().size(); j++) {
+							if (isBigger(all.get(i).getMovieTimes().getDate().get(j), from) == true
+									&& isBigger(all.get(i).getMovieTimes().getDate().get(j), to) == false) {
+								// this date is bigger than from and smaller that to
+
+//								if (all.get(i).getMovieTimes().getDate().get(j).compareTo(from) > 0
+//										&& all.get(i).getMovieTimes().getDate().get(j).compareTo(to) < 0) {
+
+								found = true;
+								filteredMovies.add(all.get(i).getEngName());
+								filteredDates.add(all.get(i).getMovieTimes().getDate().get(j));
+								filteredTimes.add(all.get(i).getMovieTimes().getTimes().get(j));
+							}
+						}
+					}
+					if (found == true) {
+						MovieTimes mvt = new MovieTimes(filteredTimes);
+						mvt.setDate(filteredDates);
+						mtList.add(mvt);
+					}
+				} else if (!from.equals("") && to.equals("")) {
+					for (int i = 0; i < all.size(); i++) {
+						for (int j = 0; j < all.get(i).getMovieTimes().getDate().size(); j++) {
+							if (isBigger(all.get(i).getMovieTimes().getDate().get(j), from) == true) {
+								// this date is bigger than from
+
+								// if (all.get(i).getMovieTimes().getDate().get(j).compareTo(from) > 0) {
+
+								found = true;
+								filteredMovies.add(all.get(i).getEngName());
+								filteredDates.add(all.get(i).getMovieTimes().getDate().get(j));
+								filteredTimes.add(all.get(i).getMovieTimes().getTimes().get(j));
+							}
+						}
+					}
+					if (found == true) {
+						MovieTimes mvt = new MovieTimes(filteredTimes);
+						mvt.setDate(filteredDates);
+						mtList.add(mvt);
+					}
+				} else if (from.equals("") && !to.equals("")) {
+					for (int i = 0; i < all.size(); i++) {
+						for (int j = 0; j < all.get(i).getMovieTimes().getDate().size(); j++) {
+							if (isBigger(all.get(i).getMovieTimes().getDate().get(j), to) == false) {
+								// this date is smaller than to
+
+								// if (all.get(i).getMovieTimes().getDate().get(j).compareTo(to) < 0) {
+
+								found = true;
+								filteredMovies.add(all.get(i).getEngName());
+								filteredDates.add(all.get(i).getMovieTimes().getDate().get(j));
+								filteredTimes.add(all.get(i).getMovieTimes().getTimes().get(j));
+							}
+						}
+					}
+					if (found == true) {
+						MovieTimes mvt = new MovieTimes(filteredTimes);
+						mvt.setDate(filteredDates);
+						mtList.add(mvt);
+					}
+				}
+				TripleObject res;
+				if (found == false) {
+					System.out.println("IS NULL");
+					res = new TripleObject("Filtered movies by date", null, null);
+				} else {
+					res = new TripleObject("Filtered movies by date", null, mtList);
+				}
+				res.setList(filteredMovies);
+				try {
+					client.sendToClient(res);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
 				App.session.getTransaction().rollback();
@@ -602,5 +756,22 @@ public class SimpleServer extends AbstractServer {
 		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
 		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
 		return data;
+	}
+
+	private static Boolean isBigger(String date1, String date2) {
+		List<String> dates1 = Arrays.asList(date1.split("/"));
+		List<String> dates2 = Arrays.asList(date2.split("/"));
+		int year1 = Integer.parseInt(dates1.get(2));
+		int year2 = Integer.parseInt(dates2.get(2));
+		int month1 = Integer.parseInt(dates1.get(1));
+		int month2 = Integer.parseInt(dates2.get(1));
+		int day1 = Integer.parseInt(dates1.get(0));
+		int day2 = Integer.parseInt(dates2.get(0));
+
+		if (year1 > year2 || (year1 == year2) && (month1 > month2) || (month1 == month2) && (day1 > day2)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

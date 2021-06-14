@@ -55,9 +55,8 @@ public class Watch_At_HomeController implements Initializable {
 		selected_watch_at_home_Movie = selected;
 		System.out.println("selected name in WAH : " + selected_watch_at_home_Movie.getEngName());
 		Platform.runLater(() -> {
-			Parent root;
 			try {
-				App.setRoot("LoginToWatchAtHome");
+				App.setRoot("Edit_Movie");
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

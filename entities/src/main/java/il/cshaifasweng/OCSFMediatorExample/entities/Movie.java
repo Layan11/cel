@@ -29,7 +29,7 @@ public class Movie implements Serializable {
 
 	private int id;
 	private int Type; // Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
-						// home
+						// home, type=3 for watch at home& now broadcasting
 	private String EngName;
 	private String HebName;
 	private String ArbName; // = null;

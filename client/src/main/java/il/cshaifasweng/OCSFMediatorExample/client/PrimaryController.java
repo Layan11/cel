@@ -88,7 +88,7 @@ public class PrimaryController implements Initializable {
 
 	@FXML
 	void gotoNoLogin(ActionEvent event) throws Exception {
-		loginController.loginRole = -1;
+		loginController.loginRole = 3;
 		App.setRoot("menu");
 	}
 

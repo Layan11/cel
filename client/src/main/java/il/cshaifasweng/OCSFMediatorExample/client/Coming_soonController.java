@@ -21,7 +21,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -65,19 +64,11 @@ public class Coming_soonController implements Initializable {
 	@Subscribe
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
-
-			// System.out.println("before load: " +
-			// SimpleClient.moviesList.get(0).getEngName());
-			Parent root;
 			try {
 				App.setRoot("moreInfoComingSoon");
-				// System.out.println("after the load line of brwose movies in primary");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
 	}
 
@@ -87,34 +78,26 @@ public class Coming_soonController implements Initializable {
 		selected_coming_soon_Movie = selected;
 		System.out.println("selected name in cominfsoonC : " + selected_coming_soon_Movie.getEngName());
 		Platform.runLater(() -> {
-			Parent root;
 			try {
-				App.setRoot("LoginToComingSoon");
-
+				App.setRoot("Edit_Movie");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
-
 	}
 
 	@FXML
 	void goback(ActionEvent event) {
 		Platform.runLater(() -> {
-			Parent root;
 			try {
 				App.setRoot("choose_type_to_browse");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
-
 	}
 
-	public void getMovies(/* ArrayList<Movie> movies */) {
+	public void getMovies() {
 		final ObservableList<Movie> CSmovie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);
 		EngC.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));
@@ -122,7 +105,6 @@ public class Coming_soonController implements Initializable {
 		tableView.getColumns().setAll(EngC, HebC);
 		tableView.setItems(CSmovie);
 		return;
-
 	}
 
 	@Override
@@ -133,7 +115,5 @@ public class Coming_soonController implements Initializable {
 		}
 		EventBus.getDefault().register(this);
 		getMovies();
-
 	}
-
 }

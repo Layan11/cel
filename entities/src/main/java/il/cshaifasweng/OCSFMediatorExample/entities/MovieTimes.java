@@ -1,5 +1,3 @@
-//sofi bntymm
-
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
@@ -25,12 +23,13 @@ public class MovieTimes implements Serializable {
 	private int id;
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> time;
+	@ElementCollection
+	private List<String> date;
 	/*
-	private List<Hall> hall;
-	private List<String> branch;
-	//private List<String> Date;*/
-	
-	
+	 * private List<Hall> hall; private List<String> branch; //private List<String>
+	 * Date;
+	 */
+
 	public MovieTimes() {
 
 	}
@@ -67,28 +66,11 @@ public class MovieTimes implements Serializable {
 		return str;
 	}
 
-/*	public List<Hall> getHall() {
-		return hall;
-	}
-
-	public void setHall(List<Hall> hall) {
-		this.hall = hall;
-	}
-
-	public List<String> getBranch() {
-		return branch;
-	}
-
-	public void setBranch(List<String> branch) {
-		this.branch = branch;*/
-	}
-/*
 	public List<String> getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(List<String> date) {
-		Date = date;
+		this.date = date;
 	}
-	*/
-//}
+}
