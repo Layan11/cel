@@ -129,7 +129,7 @@ public class Screening_TimesController implements Initializable {
 			try {
 				action = "edit";
 				selectedScreeningTime = timesTable.getSelectionModel().getSelectedItem();
-				App.setRoot("update_movies");
+				App.setRoot("trying");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
