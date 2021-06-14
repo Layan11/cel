@@ -265,6 +265,7 @@ public class SimpleServer extends AbstractServer {
 				System.out.println("size: " + hlpr.size());
 
 				List<String> hlpr2 = movieToUpdate.getMovieTimes().getDate();
+
 				for (int i = 0; i < hlpr.size(); i++) {
 					if (hlpr.get(i).equals(oldTime)) {
 						System.out.println("IN IF HERE");
@@ -273,7 +274,12 @@ public class SimpleServer extends AbstractServer {
 						hlpr2.remove(i);
 					}
 				}
-				hlpr.add(Newtime);
+				System.out.println("NEW DATE = " + NewDate);
+				if (!Newtime.equals("")) {
+					hlpr.add(Newtime);
+				} else {
+					hlpr.add(oldTime);
+				}
 				if (NewDate.equals("")) {
 					hlpr2.add(oldDate);
 				} else {
@@ -281,6 +287,7 @@ public class SimpleServer extends AbstractServer {
 				}
 				movieToUpdate.getMovieTimes().SetMovieTimes(hlpr);
 				movieToUpdate.getMovieTimes().setDate(hlpr2);
+
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -721,10 +728,10 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				Movie movietoadd = tuple_msg.getMovies().get(0);
-				User newuser=new User(movietoadd.getEngName(),movietoadd.getHebName());
+				User newuser = new User(movietoadd.getEngName(), movietoadd.getHebName());
 				newuser.setRole(-1);
 				newuser.setIs_Logged_In(true);
-				//App.session.save(movietoadd.getMovieTimes());
+				// App.session.save(movietoadd.getMovieTimes());
 
 				App.session.save(newuser);
 				App.session.flush();

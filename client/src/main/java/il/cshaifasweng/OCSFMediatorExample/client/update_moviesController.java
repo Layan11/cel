@@ -24,18 +24,25 @@ import javafx.scene.control.TextArea;
 public class update_moviesController implements Initializable {
 	@FXML
 	private Button addScreening;
-	@FXML
-	private Button back;
-	@FXML
-	private Button updateScreening;
-	@FXML
-	private TextArea times;
-	@FXML
-	private TextArea dates;
+
 	@FXML
 	private Label timeLabel;
+
+	@FXML
+	private Button back;
+
+	@FXML
+	private Button updateScreening;
+
 	@FXML
 	private Label dateLabel;
+
+	@FXML
+	private TextArea times;
+
+	@FXML
+	private TextArea dates;
+
 	@FXML
 	private Label noteLabel;
 
@@ -66,7 +73,7 @@ public class update_moviesController implements Initializable {
 	}
 
 	@Subscribe
-	public void onData4(GotScreeningTimesEvent event) {
+	public void onGotScreeningTimes(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("Screening_Times");
@@ -76,22 +83,9 @@ public class update_moviesController implements Initializable {
 		});
 	}
 
-//	@Subscribe
-//	public void onUpdateError(NoScreeningTimeToUpdateEvent event) {
-//		Platform.runLater(() -> {
-//			invalidUpdate.setText("there's no such screening time to update");
-//		});
-//	}
-//
-//	@Subscribe
-//	public void onDeleteError(NoScreeningTimeToDeleteEvent event) {
-//		Platform.runLater(() -> {
-//			invalidDelete.setText("there's no such screening time to delete");
-//		});
-//	}
-
 	@FXML
-	void gotoupdate(ActionEvent event) throws IOException {
+	void gotoupdate(ActionEvent event) throws Exception {
+		System.out.println("PPPPPP");
 		List<MovieTimes> hlpr3 = new ArrayList<MovieTimes>();
 		MovieTimes tmp3 = new MovieTimes();
 		List<String> timesList3 = new ArrayList<String>();
@@ -99,6 +93,8 @@ public class update_moviesController implements Initializable {
 																			// 1
 		timesList3.add(times.getText());
 		List<String> datesList3 = new ArrayList<String>();
+		System.out.println("IN update controller. new date = ");
+		System.out.println(dates.getText());
 		datesList3.add(dates.getText());
 		tmp3.SetMovieTimes(timesList3);
 		tmp3.setDate(datesList3);
@@ -108,7 +104,6 @@ public class update_moviesController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 		times.clear();
 		dates.clear();
-
 	}
 
 	@Override

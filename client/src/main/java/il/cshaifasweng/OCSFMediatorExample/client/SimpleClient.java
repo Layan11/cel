@@ -109,12 +109,6 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("MT is null");
 			}
 		}
-		if (myMsg.equals("No such screening time to delete")) {
-			EventBus.getDefault().post(new NoScreeningTimeToDeleteEvent());
-		}
-		if (myMsg.equals("No such screening time to update")) {
-			EventBus.getDefault().post(new NoScreeningTimeToUpdateEvent());
-		}
 		if (myMsg.equals("No such user")) {
 			EventBus.getDefault().post(new NoSuchUserEvent());
 		}

@@ -15,19 +15,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 public class menuController implements Initializable {
-	@FXML // fx:id="browseMovies"
-	private Button browseMovies; // Value injected by FXMLLoader
+	@FXML
+	private Button browseMovies;
 
-	@FXML // fx:id="FileAComplaint"
-	private Button FileAComplaint; // Value injected by FXMLLoader
+	@FXML
+	private Button FileAComplaint;
 
-	@FXML // fx:id="UpdatePriceRequests"
-	private Button UpdatePriceRequests; // Value injected by FXMLLoader
+	@FXML
+	private Button UpdatePriceRequests;
 
-	@FXML // fx:id="ShowComplaints"
-	private Button ShowComplaints; // Value injected by FXMLLoader
-	@FXML // fx:id="back"
-	private Button back; // Value injected by FXMLLoader
+	@FXML
+	private Button ShowComplaints;
+	@FXML
+	private Button back;
 
 	@FXML
 	void goback(ActionEvent event) throws Exception {
@@ -41,7 +41,6 @@ public class menuController implements Initializable {
 				App.setRoot("choose_type_to_browse");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -95,5 +94,3 @@ public class menuController implements Initializable {
 		}
 	}
 }
-
-// }
