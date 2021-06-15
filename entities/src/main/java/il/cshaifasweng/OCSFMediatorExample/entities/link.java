@@ -18,6 +18,7 @@ public class link  implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int link_id;
+	
 	private String movie;
 	private int start_time_of_work;
 	private int end_time_of_work;
@@ -46,4 +47,5 @@ public class link  implements Serializable{
 //	public User get_User() {
 //		return this.user;
 	//}
+	
 }

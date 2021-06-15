@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 import java.io.IOException;
 
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,6 +25,7 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 
 public class SimpleServer extends AbstractServer {
 
@@ -172,6 +174,8 @@ public class SimpleServer extends AbstractServer {
 			
 				
 			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			
 			System.out.println("Session Opened");
 			link my_link=tuple_msg2.getlinks();
 			System.out.println("Copied the link");
@@ -179,6 +183,7 @@ public class SimpleServer extends AbstractServer {
 			System.out.println("Saved the link");
 			App.session.flush();
 			System.out.println("flish is done");
+			client.sendToClient(new TripleObject("Your Link ID is: "+my_link.get_id(), null, null));
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -188,10 +193,26 @@ public class SimpleServer extends AbstractServer {
 			try {
 				
 			App.session = App.sessionFactory.openSession();
-		
+			App.session.beginTransaction();
 			Ticket my_Ticket=tuple_msg2.gettickets();
 			App.session.save(my_Ticket);
 			App.session.flush();
+			client.sendToClient(new TripleObject("Your Ticket ID is: "+my_Ticket.get_id(), null, null));
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Add New Package")) {
+			try {
+				
+			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+
+			Package my_pack=tuple_msg2.getPackage();
+			App.session.save(my_pack);
+			App.session.flush();
+			client.sendToClient(new TripleObject("Your Package ID is: "+my_pack.get_id(), null, null));
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -222,7 +243,7 @@ public class SimpleServer extends AbstractServer {
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
 			System.out.println("i got here");
 			App.session = App.sessionFactory.openSession();
-			boolean x = deleteTicket(msg);
+			boolean x = deleteTicket(msg,client);
 			if (x == false) {
 				try {
 					client.sendToClient(new TripleObject("no such Ticket", null, null));
@@ -240,6 +261,27 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if(ObjctMsg.startsWith("Lesser Pack ")) {
+			
+			App.session = App.sessionFactory.openSession();
+			boolean x = Lesser_Pack(msg,client);
+			if (x == false) {
+				try {
+					client.sendToClient(new TripleObject("no such Package", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					client.sendToClient(new TripleObject("found Package", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			App.session.close();
+			}
 		
 		App.session.close();
 	}
@@ -273,7 +315,65 @@ public class SimpleServer extends AbstractServer {
 
 		// TODO: add close connection
 	}
-	private boolean deleteTicket(Object msg) {
+	private boolean Lesser_Pack(Object msg,ConnectionToClient client) {
+		TripleObject tuple_msg = (TripleObject) msg;
+		String ObjctMsg = tuple_msg.getMsg();
+		System.out.println("i got here after");
+		boolean let_in = false;
+		String message =  ObjctMsg.substring(12);
+		int x= Integer.parseInt(message);
+		System.out.println(x);
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		ResultSet rs1=null;
+		Statement stmt2=null;
+		try {
+			int z=0;
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			stmt2 =c.createStatement();			
+			rs1= stmt2.executeQuery("SELECT * FROM package WHERE package_id=' "+x+"'");
+	
+			while(rs1.next()) {
+				z=rs1.getInt("number_of_ticekts");
+			
+			}
+			if(z==1) {
+			client.sendToClient(new TripleObject("Package have 0 Ticks so Deleted", null, null));
+			int rs = stmt.executeUpdate("DELETE FROM package WHERE package_id = '"+x+"'");
+			if (rs != 0) {
+				let_in = true;
+			}
+			stmt.close();
+			c.close();
+			}
+			else {
+				z=z-1;
+				client.sendToClient(new TripleObject("Tickets Number is now: "+z, null, null));
+				System.out.println("got ot the if");
+				int rs = stmt.executeUpdate("UPDATE package SET number_of_ticekts = '" + z + "' WHERE package_id = '"+ x+"'");
+				if (rs != 0) {
+					let_in = true;
+				}
+				stmt.close();
+				c.close();
+			}
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		
+	
+		System.out.println("Operation done successfully");
+		System.out.println(let_in);
+		return let_in;
+
+		// TODO: add close connection
+	}
+	
+	private boolean deleteTicket(Object msg,ConnectionToClient client) {
 		TripleObject tuple_msg = (TripleObject) msg;
 		String ObjctMsg = tuple_msg.getMsg();
 		System.out.println("i got here after");
@@ -283,11 +383,54 @@ public class SimpleServer extends AbstractServer {
 		System.out.println("DELETE FROM Ticket WHERE ticket_id = x");
 		Connection c = null;
 		java.sql.Statement stmt = null;
+		ResultSet rs1=null;
+		Statement stmt2=null;
+		
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
+			stmt2 =c.createStatement();
+			
+			Calendar rightNow = Calendar.getInstance();
+			int hour=3;
+			
+			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
+			rs1= stmt2.executeQuery("SELECT * FROM tickets WHERE ticket_id=' "+x+"'");
+			System.out.println("passed the selection");
+			while(rs1.next()) {
+			 hour= rs1.getInt("start_time");
+			 System.out.println(hour);
+			}
+			if(hour2-hour >= 3) {
+				try {
+				System.out.println("im in the first if");
+				client.sendToClient(new TripleObject("You get 100% refound", null, null));
+				}catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(hour2-hour>=1 && hour2-hour<3) {
+				try {
+					System.out.println("im in the second if");
+					client.sendToClient(new TripleObject("You get 50% refound", null, null));
+					}catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+			if(hour2-hour<1) {
+				try {
+					System.out.println("im in the third if");
+					client.sendToClient(new TripleObject("You get no refound", null, null));
+					}catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		
 			int rs = stmt.executeUpdate("DELETE FROM Tickets WHERE ticket_id = '"+x+"'");
 			if (rs != 0) {
 				let_in = true;
@@ -316,25 +459,31 @@ public class SimpleServer extends AbstractServer {
 		int x= Integer.parseInt(message);
 	
 		System.out.println("DELETE FROM	links WHERE link_id ="+ x );
-		//Statement stmt2=null;
+		
 		
 		Connection c = null;
 		Statement stmt = null;
-		//ResultSet rs=null;
+		ResultSet rs1=null;
+		Statement stmt2=null;
 		try {
 			
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 			
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
-		//	stmt2 =c.createStatement();
+			stmt2 =c.createStatement();
+		
 			Calendar rightNow = Calendar.getInstance();
 			int hour=3;
 			
 			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
 			System.out.println(hour2);
-		//	 rs= stmt2.executeQuery("SELECT start_time_of_work FROM links WHERE link_id='"+x+"'");
-			// hour= rs.getInt(4);
+			rs1= stmt2.executeQuery("SELECT * FROM links WHERE link_id=' "+x+"'");
+			System.out.println("passed the selection");
+			while(rs1.next()) {
+			 hour= rs1.getInt("start_time_of_work");
+			 System.out.println(hour);
+			}
 			if(hour2-hour >= 3) {
 				try {
 				System.out.println("im in the first if");
@@ -400,6 +549,13 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<link> query = builder.createQuery(link.class);
 		query.from(link.class);
 		List<link> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	private static List<Package> getPackage() throws Exception {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Package> query = builder.createQuery(Package.class);
+		query.from(Package.class);
+		List<Package> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

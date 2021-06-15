@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
+import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 
 /**
  * Hello world!
@@ -39,6 +41,7 @@ public class App {
 		configuration.addAnnotatedClass(MovieTimes.class);
 		configuration.addAnnotatedClass(link.class);
 		configuration.addAnnotatedClass(Ticket.class);
+		configuration.addAnnotatedClass(Package.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -165,7 +168,7 @@ public class App {
 		link mytestlink= new link(1,"KungFuPanda",5,7);
 		session.save(mytestlink);
 		session.flush();
-		Ticket mytestticket = new Ticket(1,"randomtest","random hall","random time",5);
+		Ticket mytestticket = new Ticket("randomtest","random hall",15,5);
 		session.save(mytestticket);
 		session.flush();
 	}

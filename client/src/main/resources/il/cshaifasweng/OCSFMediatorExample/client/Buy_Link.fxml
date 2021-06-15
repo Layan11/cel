@@ -14,5 +14,6 @@
       <Label fx:id="label" layoutX="214.0" layoutY="114.0" text="Fill this 2 only if its ur first purchase" />
       <Button fx:id="purch_btn" layoutX="45.0" layoutY="209.0" mnemonicParsing="false" onAction="#buy_btn" text="Purchace Link" />
       <Button fx:id="back" layoutX="490.0" layoutY="300.0" mnemonicParsing="false" onAction="#backbtn" text="Back" />
+      <TextField fx:id="msglab" layoutX="165.0" layoutY="209.0" visible="false" />
    </children>
 </AnchorPane>

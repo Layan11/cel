@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.util.List;
 
+
 import java.io.Serializable;
 import java.util.List;
 public class DoubleObject  implements Serializable{
@@ -10,12 +11,14 @@ public class DoubleObject  implements Serializable{
 		String msg;
 		link _link;
 		Ticket tickets;
+		Package pack;
 	
 
-		public DoubleObject(String msg, link links,Ticket ticks) {
+		public DoubleObject(String msg, link links,Ticket ticks,Package pack) {
 			this.msg = msg;
 			this._link = links;
 			this.tickets=ticks;
+			this.pack=pack;
 			
 		}
 
@@ -38,6 +41,12 @@ public class DoubleObject  implements Serializable{
 		}
 		public void settickets(Ticket ticket) {
 			this.tickets=ticket;
+		}
+		public void setpackage(Package packe) {
+			this.pack=packe;
+		}
+		public Package getPackage(){
+			return pack;
 		}
 		
 }

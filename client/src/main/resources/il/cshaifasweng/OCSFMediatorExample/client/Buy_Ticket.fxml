@@ -16,5 +16,7 @@
       <Label fx:id="label2" layoutX="203.0" layoutY="148.0" text="Only Enter if first buy" />
       <Label layoutX="220.0" layoutY="70.0" />
       <Button fx:id="back" layoutX="498.0" layoutY="286.0" mnemonicParsing="false" onAction="#back_btn" text="Back" />
+      <TextField fx:id="msglab" layoutX="185.0" layoutY="208.0" visible="false" />
+      <Label fx:id="label3" layoutX="201.0" layoutY="33.0" prefHeight="18.0" prefWidth="135.0" text="Only Enter if not first buy" />
    </children>
 </AnchorPane>

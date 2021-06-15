@@ -13,5 +13,7 @@
       <Button fx:id="return_link" layoutX="254.0" layoutY="296.0" mnemonicParsing="false" onAction="#return_link" prefHeight="26.0" prefWidth="90.0" text="Return_Link" />
       <Button fx:id="buy_link" layoutX="467.0" layoutY="297.0" mnemonicParsing="false" onAction="#buy_link_btn" text="buy_link " />
       <Button fx:id="buy_tic" layoutX="83.0" layoutY="348.0" mnemonicParsing="false" onAction="#buy_tic_btn" text="Buy Ticket" />
+      <Button fx:id="pack_btn" layoutX="254.0" layoutY="348.0" mnemonicParsing="false" onAction="#pack_btn" text="buy package" />
+      <Button fx:id="lesser_pack" layoutX="461.0" layoutY="348.0" mnemonicParsing="false" onAction="#les_pack" text="lesser_package" />
    </children>
 </AnchorPane>

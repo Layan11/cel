@@ -2,55 +2,39 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
+import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
-import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
-import javafx.application.Platform;
+import javafx.scene.control.Label;
 
-public class Buy_LinkController implements Initializable {
-	public static List<link> alllinksbuy;
-    @FXML
-    private TextField user_id;
+public class Buy_Package implements Initializable {
 
     @FXML
-    private TextField Method_pay;
+    private Button back_btn;
 
     @FXML
-    private TextField First_Name;
-
-    @FXML
-    private TextField Last_Name;
-
-    @FXML
-    private Label label;
-
-    @FXML
-    private Button purch_btn;
-    @FXML
-    private Button back;
+    private Button buy_bnt;
     @FXML
     private TextField msglab;
 
-
     @FXML
-    void backbtn(ActionEvent event) {
-     	Platform.runLater(() -> {
+    void back_btn(ActionEvent event) {
+    	Platform.runLater(() -> {
 //			Window window = Browse_movie_list.getScene().getWindow();
 //			if (window instanceof Stage) {
 //				((Stage) window).close();
@@ -69,25 +53,14 @@ public class Buy_LinkController implements Initializable {
 			}
 
 		});
-
     }
 
     @FXML
     void buy_btn(ActionEvent event)throws IOException {
-    	
-    // Movie K = browse_moviesController.selectedMovie;
-    // String time= Screening_TimesController.selected_start_time;
-    // String end_time = Screening_TimesController.selected_end_time;
-    // link addlink =new link(K,10,20);
-    
-    //	DoubleObject msg = new DoubleObject("Add new link",addlink, null);
-		//SimpleClient.getClient().sendToServer(msg);
-    	
-    	link mytestlink= new link(2,"K412312ungFuPanda",5,7);
-    	DoubleObject msg = new DoubleObject("1Add new link ",mytestlink, null,null);
+    	Package myPackge = new Package(20);
+    	DoubleObject msg = new DoubleObject("Add New Package",null, null,myPackge);
     	SimpleClient.getClient().sendToServer(msg);
     	msglab.setVisible(true);
-
     }
     @Subscribe
    	public void onData(TripleObject msg) {

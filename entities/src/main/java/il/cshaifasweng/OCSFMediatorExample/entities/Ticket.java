@@ -26,16 +26,16 @@ public class Ticket implements Serializable {
 	//@OneToMany
 	//User user;
 	int chair_num;
-	String time_of_ticket;
+	int start_time;
 	
 	public Ticket(){
 		
 	}
-	public Ticket (int id,String _movie,String _hall,String time,int _chair_num) {
-		this.ticket_id=id;
+	public Ticket (String _movie,String _hall,int time,int _chair_num) {
+		
 		this.movie_of_tick= _movie;
 		this.hall= _hall;
-		this.time_of_ticket=time;
+		this.start_time=time;
 		this.chair_num= _chair_num;
 	}
 	public String get_hall() {
@@ -43,6 +43,9 @@ public class Ticket implements Serializable {
 	}
 	public String get_movie() {
 		return this.movie_of_tick;
+	}
+	public int get_id() {
+		return this.ticket_id;
 	}
 	//public void set_user(User _user) {
 		//this.user=_userl;

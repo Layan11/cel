@@ -42,6 +42,47 @@ public class choose_type_to_browseController implements Initializable{
 
     @FXML
     private Button buy_tic;
+    @FXML
+    private Button pack_btn;
+
+    @FXML
+    private Button lesser_pack;
+    @FXML
+    void les_pack(ActionEvent event) {
+    	//System.out.println("IN onData1");
+    			Platform.runLater(() -> {
+
+    				//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+    				Parent root;
+    				try {
+    					App.setRoot("Update_Package");
+    					//System.out.println("after the load line of brwose movies in primary");
+
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+
+    			});
+    }
+    @FXML
+    void pack_btn(ActionEvent event) {
+    	//System.out.println("IN onData1");
+    			Platform.runLater(() -> {
+
+    				//System.out.println("before load: " + SimpleClient.moviesList.get(0).getEngName());
+    				Parent root;
+    				try {
+    					App.setRoot("Buy_Package");
+    					//System.out.println("after the load line of brwose movies in primary");
+
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+
+    			});
+    }
 
     @FXML
     void buy_tic_btn(ActionEvent event) {
