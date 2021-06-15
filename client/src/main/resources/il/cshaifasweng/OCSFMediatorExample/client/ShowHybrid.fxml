@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="668.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ShowHybridController">
+   <children>
+      <TableView fx:id="tableView" layoutX="119.0" layoutY="78.0" prefHeight="299.0" prefWidth="189.0">
+        <columns>
+          <TableColumn fx:id="movies" prefWidth="188.0" text="Movies" />
+        </columns>
+      </TableView>
+      <Button layoutX="475.0" layoutY="200.0" mnemonicParsing="false" onAction="#gotoRemoveLink" text="Remove Link" />
+      <Button layoutX="475.0" layoutY="254.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="84.0" text="Back" />
+      <Label layoutX="41.0" prefHeight="84.0" prefWidth="508.0" text="Movies that are now in branches and also watch at home :" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

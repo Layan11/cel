@@ -1,5 +1,3 @@
-//sofi bntymm
-
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
@@ -7,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,8 +21,14 @@ public class MovieTimes implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> time;
+	@ElementCollection
+	private List<String> date;
+	/*
+	 * private List<Hall> hall; private List<String> branch; //private List<String>
+	 * Date;
+	 */
 
 	public MovieTimes() {
 
@@ -59,5 +64,13 @@ public class MovieTimes implements Serializable {
 			str = str + ", ";
 		}
 		return str;
+	}
+
+	public List<String> getDate() {
+		return date;
+	}
+
+	public void setDate(List<String> date) {
+		this.date = date;
 	}
 }

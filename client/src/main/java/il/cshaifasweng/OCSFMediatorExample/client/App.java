@@ -1,12 +1,15 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
 
 /**
  * JavaFX App
@@ -19,7 +22,6 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		// EventBus.getDefault().register(this);
 		client = SimpleClient.getClient();
 		client.openConnection();
 		scene = new Scene(loadFXML("primary"));
@@ -46,17 +48,8 @@ public class App extends Application {
 		super.stop();
 	}
 
-//	@Subscribe
-//	public void onWarningEvent(WarningEvent event) {
-//		Platform.runLater(() -> {
-//			Alert alert = new Alert(AlertType.WARNING, String.format("Message: %s\nTimestamp: %s\n",
-//					event.getWarning().getMessage(), event.getWarning().getTime().toString()));
-//			alert.show();
-//		});
-//
-//	}
-
 	public static void main(String[] args) {
+
 		launch();
 	}
 

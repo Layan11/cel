@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -12,14 +14,27 @@
       <VBox prefHeight="410.0" prefWidth="514.0" />
       <AnchorPane prefHeight="410.0" prefWidth="514.0" style="-fx-background-color: #730606;">
          <children>
-            <Button fx:id="edit" layoutX="313.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoedit" text="edit" />
+            <Button fx:id="edit" layoutX="313.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoedit" prefHeight="25.0" prefWidth="49.0" text="Edit" />
             <TextArea fx:id="text_Screening_times" layoutX="22.0" layoutY="117.0" prefHeight="200.0" prefWidth="426.0" style="-fx-font-size: 18;" />
-            <Button fx:id="back" layoutX="386.0" layoutY="370.0" mnemonicParsing="false" onAction="#gotoback" prefHeight="26.0" prefWidth="61.0" text="back" />
-            <Label layoutX="22.0" layoutY="40.0" text="Today's Screening Times" textFill="WHITE">
+            <Button fx:id="back" layoutX="436.0" layoutY="370.0" mnemonicParsing="false" onAction="#gotoback" prefHeight="26.0" prefWidth="61.0" text="Back" />
+            <Label layoutX="22.0" layoutY="40.0" text="Screening Times" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
+            <TableView fx:id="datesTable" layoutX="22.0" layoutY="117.0" prefHeight="200.0" prefWidth="102.0">
+              <columns>
+                <TableColumn fx:id="dates" prefWidth="101.0" text="Dates" />
+              </columns>
+            </TableView>
+            <TableView fx:id="timesTable" layoutX="124.0" layoutY="117.0" prefHeight="200.0" prefWidth="102.0">
+              <columns>
+                <TableColumn fx:id="times" prefWidth="101.0" text="Times" />
+              </columns>
+            </TableView>
+            <Label layoutX="31.0" layoutY="82.0" text="If you wish to update an already existing screening please select it first" textFill="WHITE" />
+            <Button fx:id="delete" layoutX="248.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoDelete" text="Delete" />
+            <Button fx:id="add" layoutX="113.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoAdd" text="Add new screening" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

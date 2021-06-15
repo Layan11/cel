@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Buy_LinkController">
+   <children>
+      <TextField fx:id="user_id" layoutX="29.0" layoutY="25.0" promptText="Enter Your ID" />
+      <TextField fx:id="Method_pay" layoutX="30.0" layoutY="67.0" promptText="Enter Method of payment" />
+      <TextField fx:id="First_Name" layoutX="31.0" layoutY="110.0" promptText="Enter Your First Name" />
+      <TextField fx:id="Last_Name" layoutX="30.0" layoutY="156.0" promptText="Enter Your Last Name" />
+      <Label fx:id="label" layoutX="214.0" layoutY="114.0" text="Fill this 2 only if its ur first purchase" />
+      <Button fx:id="purch_btn" layoutX="45.0" layoutY="209.0" mnemonicParsing="false" onAction="#buy_btn" text="Purchace Link" />
+      <Button fx:id="back" layoutX="490.0" layoutY="300.0" mnemonicParsing="false" onAction="#backbtn" text="Back" />
+      <TextField fx:id="msglab" layoutX="165.0" layoutY="209.0" visible="false" />
+   </children>
+</AnchorPane>

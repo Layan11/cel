@@ -4,141 +4,116 @@
 
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-public class Coming_soonController implements Initializable{
+public class Coming_soonController implements Initializable {
 
-    @FXML // fx:id="Movie_Name1"
-    private TextField Movie_Name1; // Value injected by FXMLLoader
+	@FXML
+	private TableView<Movie> tableView;
 
-    @FXML // fx:id="Movie_Name2"
-    private TextField Movie_Name2; // Value injected by FXMLLoader
+	@FXML // fx:id="Back"
+	private Button Back; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Movie_Name3"
-    private TextField Movie_Name3; // Value injected by FXMLLoader
+	@FXML // fx:id="Show"
+	private Button Show; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Movie_Name4"
-    private TextField Movie_Name4; // Value injected by FXMLLoader
+	@FXML // fx:id="Edit"
+	private Button Edit; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Movie_Image1"
-    private ImageView Movie_Image1; // Value injected by FXMLLoader
+	@FXML // fx:id="EngC"
+	private TableColumn<Movie, String> EngC; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Movie_Image2"
-    private ImageView Movie_Image2; // Value injected by FXMLLoader
+	@FXML // fx:id="HebC"
+	private TableColumn<Movie, String> HebC; // Value injected by FXMLLoader
+	public static Movie selected_coming_soon_Movie;
 
-    @FXML // fx:id="Movie_Image3"
-    private ImageView Movie_Image3; // Value injected by FXMLLoader
+	@FXML
+	void ShowMovie(ActionEvent event) throws IOException {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selected_coming_soon_Movie = selected;
+		System.out.println("selected name in cominfsoonC : " + selected_coming_soon_Movie.getEngName());
+		Movie mv = new Movie();
+		List<Movie> mvlist = new ArrayList<Movie>();
+		mv.setEngName(selected.getEngName());
+		mvlist.add(mv);
+		System.out.println("mv size : " + mvlist.size());
+		TripleObject msg = new TripleObject("Show More info", mvlist, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
 
-    @FXML // fx:id="Movie_Image4"
-    private ImageView Movie_Image4; // Value injected by FXMLLoader
-
-    @FXML // fx:id="Back"
-    private Button Back; // Value injected by FXMLLoader
-
-    @FXML
-    void goback(ActionEvent event) {
+	@Subscribe
+	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
-    		Parent root;
-    		try {
-    			App.setRoot("choose_type_to_browse");
+			try {
+				App.setRoot("moreInfoComingSoon");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}});
+	@FXML
+	void gotoEditMovie(ActionEvent event) {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selected_coming_soon_Movie = selected;
+		System.out.println("selected name in cominfsoonC : " + selected_coming_soon_Movie.getEngName());
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Edit_Movie");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-    }
+	@FXML
+	void goback(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("choose_type_to_browse");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-    public void getMovies(/* ArrayList<Movie> movies */) {
+	public void getMovies() {
 		final ObservableList<Movie> CSmovie = FXCollections.observableArrayList(SimpleClient.moviesList);
-		Movie_Name1.setText(CSmovie.get(0).getEngName());
-		Movie_Name2.setText(CSmovie.get(1).getEngName());
-		Movie_Name3.setText(CSmovie.get(2).getEngName());
-		Movie_Name4.setText(CSmovie.get(3).getEngName());
-		InputStream stream;
-		try {
-			stream = new FileInputStream(SimpleClient.moviesList.get(0).getImage());
-			System.out.println(stream);
-			Image img = new Image(stream);
-			Movie_Image1.setImage(img);
-			//Movie_Image1.setFitWidth(90);
-			//Movie_Image1.setFitHeight(85);
-			Movie_Image1.setPreserveRatio(true);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		InputStream stream1;
-		try {
-			stream1 = new FileInputStream(SimpleClient.moviesList.get(1).getImage());
-			System.out.println(stream1);
-			Image img1 = new Image(stream1);
-			Movie_Image2.setImage(img1);
-			//Movie_Image1.setFitWidth(90);
-			//Movie_Image1.setFitHeight(85);
-			Movie_Image2.setPreserveRatio(true);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		InputStream stream2;
-		try {
-			stream2 = new FileInputStream(SimpleClient.moviesList.get(2).getImage());
-			System.out.println(stream2);
-			Image img2 = new Image(stream2);
-			Movie_Image3.setImage(img2);
-			//Movie_Image1.setFitWidth(90);
-			//Movie_Image1.setFitHeight(85);
-			Movie_Image3.setPreserveRatio(true);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		InputStream stream3;
-		try {
-			stream3 = new FileInputStream(SimpleClient.moviesList.get(3).getImage());
-			System.out.println(stream3);
-			Image img3 = new Image(stream3);
-			Movie_Image4.setImage(img3);
-			//Movie_Image1.setFitWidth(90);
-			//Movie_Image1.setFitHeight(85);
-			Movie_Image4.setPreserveRatio(true);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		//tableView.setEditable(true);
-		//firstNameColumn.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));
-		//priceColumn.setCellValueFactory(new PropertyValueFactory<Movie, String>("Price"));
-		//tableView.getColumns().setAll(firstNameColumn, priceColumn);
-		//tableView.setItems(movie);
-
+		tableView.setEditable(true);
+		EngC.setCellValueFactory(new PropertyValueFactory<Movie, String>("EngName"));
+		HebC.setCellValueFactory(new PropertyValueFactory<Movie, String>("HebName"));
+		tableView.getColumns().setAll(EngC, HebC);
+		tableView.setItems(CSmovie);
 		return;
 	}
-    
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-	   getMovies();
-		
-		
+		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
+		{
+			Edit.setVisible(false);
+		}
+		EventBus.getDefault().register(this);
+		getMovies();
 	}
-
 }

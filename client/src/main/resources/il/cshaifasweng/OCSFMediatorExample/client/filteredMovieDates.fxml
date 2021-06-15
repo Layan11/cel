@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.filteredMovieDatesController">
+   <children>
+      <TableView fx:id="moviesTable" layoutX="36.0" layoutY="62.0" prefHeight="288.0" prefWidth="122.0">
+        <columns>
+          <TableColumn fx:id="movies" editable="false" prefWidth="121.0" text="Movies" />
+        </columns>
+      </TableView>
+      <TableView fx:id="datesTable" layoutX="158.0" layoutY="62.0" prefHeight="288.0" prefWidth="122.0">
+        <columns>
+          <TableColumn fx:id="dates" editable="false" prefWidth="121.0" text="Screening Dates" />
+        </columns>
+      </TableView>
+      <TableView fx:id="timesTable" layoutX="280.0" layoutY="62.0" prefHeight="288.0" prefWidth="136.0">
+        <columns>
+          <TableColumn fx:id="times" editable="false" prefWidth="142.0" text="Screening Times" />
+        </columns>
+      </TableView>
+      <Button fx:id="back" layoutX="499.0" layoutY="317.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="69.0" text="Back">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+   </children>
+</AnchorPane>

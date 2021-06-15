@@ -3,6 +3,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,36 +29,33 @@ public class Movie implements Serializable {
 	// @Column(name = "My_Movies_id")
 
 	private int id;
-	private Boolean Type; // Type=0 for now broadcasting,type=1 for coming soon 
+	private int Type; // Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
+						// home, type=3 for watch at home& now broadcasting
 	private String EngName;
 	private String HebName;
+	private String ArbName; // = null;
 	private int Length;
-	@ElementCollection
+	@ElementCollection // (fetch = FetchType.EAGER)
 	@Column(name = "My_ActorsNames")
 	private List<String> ActorsNames;
 
 	private String Summary;
 	private String Producer;
 	private int Price;
-	//@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MovieTimes_id")
-   // @OneToMany(fetch = FetchType.LAZY)
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private MovieTimes Times;
-//	@Lob
-//	@Column(columnDefinition = "LONGBLOB")
-//	private byte[] image;
 	private String image;
 	private String branch;
+	private String link;
 
 	public Movie() {
 
 	}
 
-	public Movie(Boolean Type, String EngName, List<String> actors, int len, String HebName, String summary, String producer,
+	public Movie(String EngName, List<String> actors, int len, String HebName, String summary, String producer,
 			int price, String image, MovieTimes times, String branch) {
 		super();
-		this.Type = Type;
 		this.EngName = EngName;
 		this.Length = len;
 		this.ActorsNames = actors;
@@ -70,12 +67,12 @@ public class Movie implements Serializable {
 		this.Times = times;
 		this.setBranch(branch);
 	}
-	
-	public Boolean getType() {
+
+	public int getType() {
 		return Type;
 	}
 
-	public void setType(Boolean type) {
+	public void setType(int type) {
 		this.Type = type;
 	}
 
@@ -195,6 +192,22 @@ public class Movie implements Serializable {
 
 	public void setBranch(String branch) {
 		this.branch = branch;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getArbName() {
+		return ArbName;
+	}
+
+	public void setArbName(String arbName) {
+		ArbName = arbName;
 	}
 
 }

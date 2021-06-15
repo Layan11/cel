@@ -3,6 +3,9 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
+
 public class TripleObject implements Serializable {
 	/**
 	 * 
@@ -11,6 +14,8 @@ public class TripleObject implements Serializable {
 	String msg;
 	List<Movie> movies;
 	List<MovieTimes> movieTimes;
+	@ElementCollection(fetch = FetchType.EAGER)
+	List<String> list;
 
 	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;
@@ -40,6 +45,16 @@ public class TripleObject implements Serializable {
 
 	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
+	}
+	
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
+
+	public List<String> getList() {
+		// TODO Auto-generated method stub
+		return list;
 	}
 
 }

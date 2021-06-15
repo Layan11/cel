@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<AnchorPane prefHeight="411.0" prefWidth="855.0" scaleX="1" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.choose_type_to_browseController">
 
-<AnchorPane prefHeight="515.0" prefWidth="626.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.choose_type_to_browseController">
    <children>
-      <Button fx:id="Now_In_Branches" layoutX="65.0" layoutY="245.0" mnemonicParsing="false" onAction="#gotomoviesinbranches" text="Now_In_Branches" />
-      <Button fx:id="Coming_Soon" layoutX="254.0" layoutY="245.0" mnemonicParsing="false" onAction="#gotocomingsoon" text="Coming_Soon" />
-      <Button fx:id="Watch_At_Home" layoutX="441.0" layoutY="245.0" mnemonicParsing="false" onAction="#gotowatchathome" text="Watch_At_Home" />
-      <Button fx:id="Back" layoutX="530.0" layoutY="464.0" mnemonicParsing="false" onAction="#goback" text="Back" />
+      <ImageView fitHeight="352.0" fitWidth="581.0" layoutX="130.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" scaleX="1.5">
+         <image>
+            <Image url="@Movies1.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="Now_In_Branches" layoutX="366.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotomoviesinbranches" opacity="0.9" prefHeight="17.0" prefWidth="123.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Now In Branches" textFill="WHITE" />
+      <Button fx:id="Coming_Soon" layoutX="526.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotocomingsoon" opacity="0.9" prefHeight="17.0" prefWidth="123.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Coming Soon" textFill="WHITE" />
+      <Button fx:id="Watch_At_Home" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotowatchathome" opacity="0.9" prefHeight="17.0" prefWidth="123.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Watch At Home" textFill="WHITE" />
+      <Button fx:id="Back" layoutX="748.0" layoutY="348.0" mnemonicParsing="false" onAction="#goback" opacity="0.9" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Back" textFill="WHITE" />
+      <Button fx:id="hybrid" layoutX="65.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotoHybrid" opacity="0.9" style="-fx-background-radius: 40; -fx-background-color: black;" text="Show Hybrid Movies" textFill="WHITE" />
+      <Button fx:id="return_tick" layoutX="35.0" layoutY="53.0" mnemonicParsing="false" onAction="#return_tick" prefHeight="26.0" prefWidth="104.0" text="Return_Ticket" />
+      <Button fx:id="return_link" layoutX="224.0" layoutY="53.0" mnemonicParsing="false" onAction="#return_link" prefHeight="26.0" prefWidth="90.0" text="Return_Link" />
+      <Button fx:id="buy_link" layoutX="437.0" layoutY="54.0" mnemonicParsing="false" onAction="#buy_link_btn" text="buy_link " />
+      <Button fx:id="buy_tic" layoutX="53.0" layoutY="105.0" mnemonicParsing="false" onAction="#buy_tic_btn" text="Buy Ticket" />
+      <Button fx:id="pack_btn" layoutX="224.0" layoutY="105.0" mnemonicParsing="false" onAction="#pack_btn" text="buy package" />
+      <Button fx:id="lesser_pack" layoutX="431.0" layoutY="105.0" mnemonicParsing="false" onAction="#les_pack" text="lesser_package" />
    </children>
 </AnchorPane>
