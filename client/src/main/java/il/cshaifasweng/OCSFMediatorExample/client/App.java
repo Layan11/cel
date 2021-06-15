@@ -1,12 +1,15 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
 
 /**
  * JavaFX App
@@ -46,6 +49,7 @@ public class App extends Application {
 	}
 
 	public static void main(String[] args) {
+
 		launch();
 	}
 

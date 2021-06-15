@@ -22,25 +22,89 @@ public class choose_type_to_browseController implements Initializable {
 
 	@FXML
 	private Button Now_In_Branches;
+
 	@FXML
 	private Button Coming_Soon;
+
 	@FXML
 	private Button Watch_At_Home;
+
 	@FXML
 	private Button Back;
+
 	@FXML
 	private Button hybrid;
 
+	@FXML
+	private Button return_tick;
+
+	@FXML
+	private Button return_link;
+
+	@FXML
+	private Button buy_link;
+
+	@FXML
+	private Button buy_tic;
+
+	@FXML
+	private Button pack_btn;
+
+	@FXML
+	private Button lesser_pack;
+
 	public static String browseType = "";
+
+	@FXML
+	void les_pack(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Update_Package");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	void pack_btn(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Buy_Package");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	void buy_tic_btn(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Buy_Ticket");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	void buy_link_btn(ActionEvent event) throws IOException {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Buy_Link");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	@FXML
 	void goback(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("menu");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -60,7 +124,6 @@ public class choose_type_to_browseController implements Initializable {
 			try {
 				App.setRoot("Coming_soon");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -78,7 +141,6 @@ public class choose_type_to_browseController implements Initializable {
 			try {
 				App.setRoot("browse_movies");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -115,6 +177,28 @@ public class choose_type_to_browseController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("ShowHybrid");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	void return_link(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Return_Link");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	void return_tick(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Return_Ticket");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

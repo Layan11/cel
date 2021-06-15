@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class MapChair implements Serializable{
+public class MapChair implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,59 +14,47 @@ public class MapChair implements Serializable{
 	private int rows;
 	private int cols;
 	private int numberavailablechair;
-	private int [][] my_map_chairs;
-	
-	public MapChair() {}
-	
-	
+	private int[][] my_map_chairs;
 
-	public MapChair(int rows, int cols, int numberavailablechair, int[][] my_map_chairs) {
-		super();
+	public MapChair() {
+	}
+
+	public MapChair(int rows, int cols, int numavailable, int[][] map) {
 		this.rows = rows;
 		this.cols = cols;
-		this.numberavailablechair = numberavailablechair;
-		this.my_map_chairs = my_map_chairs;
+		this.numberavailablechair = numavailable;
+		this.my_map_chairs = map;
 	}
-
-
-
-	public int getId() {
-		return id;
-	}
-
 
 	public int getRows() {
-		return rows;
+		return this.rows;
 	}
 
-	public void setRows(int rows) {
-		this.rows = rows;
+	public void setRows(int new_r) {
+		this.rows = new_r;
 	}
 
 	public int getCols() {
-		return cols;
+		return this.cols;
 	}
 
-	public void setCols(int cols) {
-		this.cols = cols;
+	public void setCols(int new_c) {
+		this.cols = new_c;
 	}
 
-	public int getNumberavailablechair() {
-		return numberavailablechair;
+	public int getNmberAvailableChair() {
+		return this.numberavailablechair;
 	}
 
-	public void setNumberavailablechair(int numberavailablechair) {
-		this.numberavailablechair = numberavailablechair;
+	public void setNmberAvailableChair(int new_num) {
+		this.numberavailablechair = new_num;
 	}
 
-	public int[][] getMy_map_chairs() {
-		return my_map_chairs;
+	public int[][] getMapChair() {
+		return this.my_map_chairs;
 	}
 
-	public void setMy_map_chairs(int[][] my_map_chairs) {
-		this.my_map_chairs = my_map_chairs;
+	public void setMapChair(int[][] new_map) {
+		this.my_map_chairs = new_map;
 	}
-	
-	
-
 }

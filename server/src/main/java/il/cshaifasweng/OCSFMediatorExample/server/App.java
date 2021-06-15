@@ -16,8 +16,11 @@ import org.hibernate.service.ServiceRegistry;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
+import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
+import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.link;
 
 public class App {
 
@@ -34,6 +37,10 @@ public class App {
 		configuration.addAnnotatedClass(MovieTimes.class);
 		configuration.addAnnotatedClass(User.class);
 		configuration.addAnnotatedClass(PriceRequestsChart.class);
+		configuration.addAnnotatedClass(link.class);
+		configuration.addAnnotatedClass(Ticket.class);
+		configuration.addAnnotatedClass(Package.class);
+
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -359,6 +366,12 @@ public class App {
 		List<String> newPrices = new ArrayList<String>();
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
+
+		link mytestlink = new link(1, "KungFuPanda", 5, 7);
+		session.save(mytestlink);
+		session.flush();
+		Ticket mytestticket = new Ticket("randomtest", "random hall", 15, 5);
+		session.save(mytestticket);
 		session.flush();
 	}
 

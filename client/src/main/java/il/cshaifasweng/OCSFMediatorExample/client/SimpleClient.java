@@ -105,6 +105,7 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("MT is null");
 			}
 		}
+
 		if (myMsg.equals("No such user")) {
 			EventBus.getDefault().post(new NoSuchUserEvent());
 		}
@@ -154,6 +155,66 @@ public class SimpleClient extends AbstractClient {
 			moviesList = triple_msg.getMovies();
 			EventBus.getDefault().post(new GotHybridMoviesEvent());
 		}
+
+		if (myMsg.equals("You get 100% refound")) {
+			msg = "You get 100% refound";
+			System.out.println("100% refund");
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+
+		}
+		if (myMsg.equals("You get 50% refound")) {
+			msg = "You get 50% refound";
+			System.out.println("50% refund");
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.equals("You get no refound")) {
+			msg = "You get no refound";
+			System.out.println("no refund pls");
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+
+		}
+		if (myMsg.equals("no such link")) {
+			msg = "No Such Link";
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.equals("no such Ticket")) {
+			msg = "no such Ticket";
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.equals("no such Package")) {
+			msg = "no such Package";
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.startsWith("Your Ticket ID is")) {
+
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.startsWith("Your Link ID is")) {
+
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.startsWith("Your Package ID is")) {
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+
+		}
+		if (myMsg.startsWith("Tickets Number")) {
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+		if (myMsg.startsWith("Package have 0 Ticks")) {
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
+
 	}
 
 	public static SimpleClient getClient() {

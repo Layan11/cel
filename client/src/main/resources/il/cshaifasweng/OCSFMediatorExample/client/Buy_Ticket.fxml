@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Buy_Ticket">
+   <children>
+      <TextField fx:id="last_name" layoutX="40.0" layoutY="144.0" promptText="enter your last name" />
+      <TextField fx:id="Id_check" layoutX="39.0" layoutY="29.0" promptText="Enter_ID" />
+      <TextField fx:id="way_to_pay" layoutX="39.0" layoutY="66.0" promptText="Enter the way of payment" />
+      <Button fx:id="Buy_btn" layoutX="52.0" layoutY="208.0" mnemonicParsing="false" onAction="#buy_btn" text="Purchace Ticket" />
+      <TextField fx:id="first_name" layoutX="40.0" layoutY="105.0" promptText="enter your first name" />
+      <Label fx:id="Laber1" layoutX="203.0" layoutY="109.0" text="Only Enter if first buy" />
+      <Label fx:id="label2" layoutX="203.0" layoutY="148.0" text="Only Enter if first buy" />
+      <Label layoutX="220.0" layoutY="70.0" />
+      <Button fx:id="back" layoutX="498.0" layoutY="286.0" mnemonicParsing="false" onAction="#back_btn" text="Back" />
+      <TextField fx:id="msglab" layoutX="185.0" layoutY="208.0" visible="false" />
+      <Label fx:id="label3" layoutX="201.0" layoutY="33.0" prefHeight="18.0" prefWidth="135.0" text="Only Enter if not first buy" />
+   </children>
+</AnchorPane>

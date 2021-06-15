@@ -3,6 +3,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -175,7 +176,7 @@ public class Movie implements Serializable {
 			myStr = myStr + "\n";
 		}
 		return myStr;
-	}
+	} 
 
 	public String getImage() {
 		return image;

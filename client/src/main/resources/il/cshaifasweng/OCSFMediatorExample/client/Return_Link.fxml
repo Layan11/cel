@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Return_link">
+   <children>
+      <TextField fx:id="Ret_Link_Label" layoutX="41.0" layoutY="36.0" prefHeight="26.0" prefWidth="146.0" promptText="Enter the link ID" />
+      <Button fx:id="return_link_btn" layoutX="62.0" layoutY="120.0" mnemonicParsing="false" onAction="#return_link_btn" text="Return Link" />
+      <Button fx:id="back_btn" layoutX="495.0" layoutY="322.0" mnemonicParsing="false" onAction="#back_btn" text="Back" />
+      <TextField fx:id="retmsg" layoutX="175.0" layoutY="120.0" visible="false" />
+   </children>
+</AnchorPane>
