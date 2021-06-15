@@ -31,10 +31,6 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new NoSuchMovieEvent());
 		}
 
-//		if (myMsg.equals("Movie saved")) {
-//			EventBus.getDefault().post(new GotcsnewMovieEvent());
-//		}
-
 		if (myMsg.equals("More Info Movie")) {
 			List<Movie> moreinfo_movies = triple_msg.getMovies();
 			moreinfo_movies = triple_msg.getMovies();
@@ -153,6 +149,10 @@ public class SimpleClient extends AbstractClient {
 				MovieDates = triple_msg.getMovieTimes().get(0).getDate();
 			}
 			EventBus.getDefault().post(new GotFilteredMovieByDatesEvent());
+		}
+		if (myMsg.equals("All Hybrid Movies") || myMsg.equals("Updated hybrid movies")) {
+			moviesList = triple_msg.getMovies();
+			EventBus.getDefault().post(new GotHybridMoviesEvent());
 		}
 	}
 

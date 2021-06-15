@@ -28,6 +28,8 @@ public class choose_type_to_browseController implements Initializable {
 	private Button Watch_At_Home;
 	@FXML
 	private Button Back;
+	@FXML
+	private Button hybrid;
 
 	public static String browseType = "";
 
@@ -102,9 +104,28 @@ public class choose_type_to_browseController implements Initializable {
 		});
 	}
 
+	@FXML
+	void gotoHybrid(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Get hybrid movies", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onHybridMovies(GotHybridMoviesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("ShowHybrid");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
+		if (loginController.loginRole == -1 || loginController.loginRole == 0 || loginController.loginRole == 2) {
+			hybrid.setVisible(false);
+		}
 	}
 }

@@ -731,6 +731,50 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Get hybrid movies")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				List<Movie> Helper_list3 = getMoviesList();
+				List<Movie> movies = new ArrayList<Movie>();
+				for (int i = 0; i < Helper_list3.size(); i++) {
+					if (Helper_list3.get(i).getType() == 3) {
+						movies.add(Helper_list3.get(i));
+					}
+				}
+				client.sendToClient(new TripleObject("All Hybrid Movies", movies, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+		if (ObjctMsg.startsWith("Remove link")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String movie = ObjctMsg.substring(12);
+				Movie Movie = getMovie(movie).get(0);
+				Movie.setLink(null);
+				Movie.setType(0);
+				List<Movie> Helper_list3 = getMoviesList();
+				List<Movie> movies = new ArrayList<Movie>();
+				for (int i = 0; i < Helper_list3.size(); i++) {
+					if (Helper_list3.get(i).getType() == 3) {
+						movies.add(Helper_list3.get(i));
+					}
+				}
+				TripleObject to = new TripleObject("Updated hybrid movies", movies, null);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 	}
 
 	private static List<Movie> getMoviesList() {
