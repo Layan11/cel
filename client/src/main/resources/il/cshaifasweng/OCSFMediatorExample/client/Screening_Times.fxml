@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="410.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Screening_TimesController">
+<AnchorPane prefHeight="410.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Screening_TimesController">
    <children>
       <VBox prefHeight="410.0" prefWidth="514.0" />
       <AnchorPane prefHeight="410.0" prefWidth="514.0" style="-fx-background-color: #730606;">
@@ -32,9 +32,10 @@
                 <TableColumn fx:id="times" prefWidth="101.0" text="Times" />
               </columns>
             </TableView>
-            <Label layoutX="31.0" layoutY="82.0" text="If you wish to update an already existing screening please select it first" textFill="WHITE" />
+            <Label fx:id="label" layoutX="31.0" layoutY="82.0" text="If you wish to update an already existing screening please select it first" textFill="WHITE" />
             <Button fx:id="delete" layoutX="248.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoDelete" text="Delete" />
             <Button fx:id="add" layoutX="113.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoAdd" text="Add new screening" />
+            <Button fx:id="buy" layoutX="367.0" layoutY="281.0" mnemonicParsing="false" onAction="#gotoBuy" text="Buy Ticket" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

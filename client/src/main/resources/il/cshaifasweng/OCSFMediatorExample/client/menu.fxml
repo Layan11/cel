@@ -13,10 +13,16 @@
          </image>
       </ImageView>
       <Button fx:id="browseMovies" layoutX="31.0" layoutY="43.0" mnemonicParsing="false" onAction="#gotobrowse_movies" text="Browse movies" />
-      <Button fx:id="FileAComplaint" layoutX="450.0" layoutY="43.0" mnemonicParsing="false" text="File a complaint" />
+      <Button fx:id="FileAComplaint" layoutX="42.0" layoutY="313.0" mnemonicParsing="false" text="File a complaint" />
       <Button fx:id="UpdatePriceRequests" layoutX="214.0" layoutY="120.0" mnemonicParsing="false" onAction="#showRequests" text="Show update price requests" />
       <Button fx:id="ShowComplaints" layoutX="226.0" layoutY="43.0" mnemonicParsing="false" text="Show complaints" />
       <Button fx:id="logout" layoutX="469.0" layoutY="312.0" mnemonicParsing="false" onAction="#gotoLogOut" prefHeight="26.0" prefWidth="62.0" text="Log-out" />
       <Button fx:id="more_actions" layoutX="36.0" layoutY="120.0" mnemonicParsing="false" onAction="#gotomore_actions" text="more actions" />
+      <Button fx:id="return_tick" layoutX="35.0" layoutY="173.0" mnemonicParsing="false" onAction="#return_tick" text="Return_Ticket" />
+      <Button fx:id="return_link" layoutX="53.0" layoutY="219.0" mnemonicParsing="false" onAction="#return_link" text="Return_Link" />
+      <Button fx:id="lesser_pack" layoutX="489.0" layoutY="108.0" mnemonicParsing="false" onAction="#les_pack" text="Edit package" />
+      <Button fx:id="pack_btn" layoutX="59.0" layoutY="264.0" mnemonicParsing="false" onAction="#pack_btn" text="buy package" />
+      <Button fx:id="back" layoutX="463.0" layoutY="264.0" mnemonicParsing="false" onAction="#gotoBack" text="Back" />
+      <Button fx:id="packageStatus" layoutX="203.0" layoutY="186.0" mnemonicParsing="false" onAction="#gotoPackage" text="Show Package Status" />
    </children>
 </AnchorPane>

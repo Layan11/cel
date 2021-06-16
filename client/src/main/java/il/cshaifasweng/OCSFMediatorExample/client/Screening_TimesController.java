@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -44,9 +45,19 @@ public class Screening_TimesController implements Initializable {
 	private Button delete;
 	@FXML
 	private Button add;
+	@FXML
+	private Button buy;
+	@FXML
+	private Label label;
 
 	public static String action = "";
 	public static String selectedScreeningTime = "";
+	public static String selectedScreeningDate = "";
+
+	@FXML
+	void gotoBuy(ActionEvent event) {
+		// App.setRoot("mapChair");
+	}
 
 	@FXML
 	void gotoAdd(ActionEvent event) {
@@ -63,6 +74,7 @@ public class Screening_TimesController implements Initializable {
 	@FXML
 	void gotoDelete(ActionEvent event) throws Exception {
 		String selectedTime = timesTable.getSelectionModel().getSelectedItem();
+		selectedScreeningDate = datesTable.getItems().get(timesTable.getSelectionModel().getSelectedIndex());
 		List<Movie> selectedMovie = new ArrayList<Movie>();
 		selectedMovie.add(browse_moviesController.selectedMovie);
 		TripleObject msg = new TripleObject("Delete Screening Time " + selectedTime, selectedMovie, null);
@@ -95,7 +107,7 @@ public class Screening_TimesController implements Initializable {
 	}
 
 	@Subscribe
-	public void onData4(/* GotScreeningTimesEventback */GotScreeningTimesEvent event) {
+	public void onData4(GotScreeningTimesEvent event) {
 		TripleObject msg = new TripleObject("Movie dates " + browse_moviesController.selectedMovie.getEngName(), null,
 				null);
 		try {
@@ -152,7 +164,11 @@ public class Screening_TimesController implements Initializable {
 			edit.setVisible(false);
 			add.setVisible(false);
 			delete.setVisible(false);
+			label.setVisible(false);
 
+		}
+		if (loginController.loginRole == 3) {
+			buy.setVisible(false);
 		}
 	}
 }

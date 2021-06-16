@@ -17,6 +17,7 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> PRCPrices = new ArrayList<String>();
 	public static List<String> MovieDates = new ArrayList<String>();
 	public static List<String> MovieNames = new ArrayList<String>();
+	public static int PackageNumOfTickets;
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -214,7 +215,12 @@ public class SimpleClient extends AbstractClient {
 			TripleObject msg2 = new TripleObject(myMsg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
-
+		if (myMsg.startsWith("package num of tickets")) {
+			System.out.println("NUMmm");
+			PackageNumOfTickets = triple_msg.getMovies().get(0).getLength();
+			System.out.println("NUM = " + PackageNumOfTickets);
+			EventBus.getDefault().post(new GotNumOfPacTicsEvent());
+		}
 	}
 
 	public static SimpleClient getClient() {

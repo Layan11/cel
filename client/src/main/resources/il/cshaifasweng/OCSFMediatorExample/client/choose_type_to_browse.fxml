@@ -18,11 +18,6 @@
       <Button fx:id="Watch_At_Home" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotowatchathome" opacity="0.9" prefHeight="17.0" prefWidth="123.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Watch At Home" textFill="WHITE" />
       <Button fx:id="Back" layoutX="748.0" layoutY="348.0" mnemonicParsing="false" onAction="#goback" opacity="0.9" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Back" textFill="WHITE" />
       <Button fx:id="hybrid" layoutX="65.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotoHybrid" opacity="0.9" style="-fx-background-radius: 40; -fx-background-color: black;" text="Show Hybrid Movies" textFill="WHITE" />
-      <Button fx:id="return_tick" layoutX="35.0" layoutY="53.0" mnemonicParsing="false" onAction="#return_tick" prefHeight="26.0" prefWidth="104.0" text="Return_Ticket" />
-      <Button fx:id="return_link" layoutX="224.0" layoutY="53.0" mnemonicParsing="false" onAction="#return_link" prefHeight="26.0" prefWidth="90.0" text="Return_Link" />
-      <Button fx:id="buy_link" layoutX="437.0" layoutY="54.0" mnemonicParsing="false" onAction="#buy_link_btn" text="buy_link " />
       <Button fx:id="buy_tic" layoutX="53.0" layoutY="105.0" mnemonicParsing="false" onAction="#buy_tic_btn" text="Buy Ticket" />
-      <Button fx:id="pack_btn" layoutX="224.0" layoutY="105.0" mnemonicParsing="false" onAction="#pack_btn" text="buy package" />
-      <Button fx:id="lesser_pack" layoutX="431.0" layoutY="105.0" mnemonicParsing="false" onAction="#les_pack" text="lesser_package" />
    </children>
 </AnchorPane>

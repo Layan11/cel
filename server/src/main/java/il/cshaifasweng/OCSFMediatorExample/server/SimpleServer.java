@@ -38,13 +38,12 @@ public class SimpleServer extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		TripleObject tuple_msg = (TripleObject) msg;
-		String ObjctMsg = tuple_msg.getMsg();
+		TripleObject tuple_msg = null;
+		String ObjctMsg = null;
 		DoubleObject tuple_msg2 = null;
 		if (msg.getClass() == DoubleObject.class) {
 			tuple_msg2 = (DoubleObject) msg;
 			ObjctMsg = tuple_msg2.getMsg();
-			String ObjctMsg2 = tuple_msg2.getMsg();
 		} else {
 			tuple_msg = (TripleObject) msg;
 			ObjctMsg = tuple_msg.getMsg();
@@ -339,7 +338,7 @@ public class SimpleServer extends AbstractServer {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				List<User> ans = getUser(username, pass);
+				List<User> ans = GetUser(username, pass);
 				if (ans.size() == 0) {
 					try {
 						client.sendToClient(new TripleObject("No such user", null, null));
@@ -622,6 +621,34 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Show package ")) {
+			try {
+				System.out.println("BEGG");
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				User user = getUser(ObjctMsg.substring(13)).get(0);
+				int packId = -1;
+				if (getPackage(user.getPackageId()).size() > 0) {
+					Package P = getPackage(user.getPackageId()).get(0);
+					packId = P.get_ticks();
+				}
+				List<Movie> list = new ArrayList<Movie>();
+				Movie movie = new Movie();
+				movie.setLength(packId);
+				list.add(movie);
+				TripleObject to = new TripleObject("package num of tickets", list, null);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Filter dates")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -793,10 +820,8 @@ public class SimpleServer extends AbstractServer {
 		if (ObjctMsg.startsWith("1Add new link")) {
 			System.out.println("got to the first part");
 			try {
-
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-
 				System.out.println("Session Opened");
 				link my_link = tuple_msg2.getlinks();
 				System.out.println("Copied the link");
@@ -812,7 +837,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		if (ObjctMsg.startsWith("1Add new Ticket ")) {
 			try {
-
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				Ticket my_Ticket = tuple_msg2.gettickets();
@@ -824,15 +848,17 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		if (ObjctMsg.startsWith("Add New Package")) {
+		if (ObjctMsg.startsWith("Add New Package ")) {
 			try {
-
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-
 				Package my_pack = tuple_msg2.getPackage();
+				System.out.println("NUM = " + my_pack.get_ticks());
 				App.session.save(my_pack);
 				App.session.flush();
+				User user = getUser(ObjctMsg.substring(16)).get(0);
+				user.setPackageId(my_pack.get_id());
+				App.session.getTransaction().commit();
 				client.sendToClient(new TripleObject("Your Package ID is: " + my_pack.get_id(), null, null));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -959,8 +985,6 @@ public class SimpleServer extends AbstractServer {
 		System.out.println("Operation done successfully");
 		System.out.println(let_in);
 		return let_in;
-
-		// TODO: add close connection
 	}
 
 	private boolean deleteTicket(Object msg, ConnectionToClient client) {
@@ -1114,8 +1138,6 @@ public class SimpleServer extends AbstractServer {
 		System.out.println("Operation done successfully");
 		System.out.println(let_in);
 		return let_in;
-
-		// TODO: add close connection
 	}
 
 	private static List<Movie> getMoviesList() {
@@ -1150,7 +1172,7 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	private static List<User> getUser(String username, String pass) {
+	private static List<User> GetUser(String username, String pass) {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<User> query = builder.createQuery(User.class);
 		Root<User> userRoot = query.from(User.class);
@@ -1179,6 +1201,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForMoviename = builder.equal(userRoot.get("User_Name"), userName);
 		query.where(predicateForMoviename);
 		List<User> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<Package> getPackage(int packageId) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Package> query = builder.createQuery(Package.class);
+		Root<Package> userRoot = query.from(Package.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("package_id"), packageId);
+		query.where(predicateForMoviename);
+		List<Package> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 //	private static List<MovieTimes> getAllMovieTimes() {

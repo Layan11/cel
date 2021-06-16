@@ -21,7 +21,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,25 +28,33 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Watch_At_HomeController implements Initializable {
 
-	@FXML // fx:id="tableView"
-	private TableView<Movie> tableView; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Name"
-	private TableColumn<Movie, String> Name; // Value injected by FXMLLoader
-
-	@FXML // fx:id="price"
-	private TableColumn<Movie, String> price; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Back"
-	private Button Back; // Value injected by FXMLLoader
-
-	@FXML // fx:id="More_Info"
-	private Button More_Info; // Value injected by FXMLLoader
-
-	@FXML // fx:id="Edit"
-	private Button Edit; // Value injected by FXMLLoader
+	@FXML
+	private TableView<Movie> tableView;
+	@FXML
+	private TableColumn<Movie, String> Name;
+	@FXML
+	private TableColumn<Movie, String> price;
+	@FXML
+	private Button Back;
+	@FXML
+	private Button More_Info;
+	@FXML
+	private Button Edit;
+	@FXML
+	private Button buy_link;
 
 	public static Movie selected_watch_at_home_Movie;
+
+	@FXML
+	void buy_link_btn(ActionEvent event) throws IOException {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Buy_Link");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	@FXML
 	void Edit_HomeMovie(ActionEvent event) {
@@ -59,11 +66,9 @@ public class Watch_At_HomeController implements Initializable {
 				App.setRoot("Edit_Movie");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
-
 	}
 
 	@FXML
@@ -73,11 +78,9 @@ public class Watch_At_HomeController implements Initializable {
 				App.setRoot("choose_type_to_browse");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
-
 	}
 
 	@FXML
@@ -97,19 +100,11 @@ public class Watch_At_HomeController implements Initializable {
 	@Subscribe
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
-
-			// System.out.println("before load: " +
-			// SimpleClient.moviesList.get(0).getEngName());
-			Parent root;
 			try {
 				App.setRoot("moreInfoToWatchAtHome");
-				// System.out.println("after the load line of brwose movies in primary");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
 	}
 
@@ -128,6 +123,10 @@ public class Watch_At_HomeController implements Initializable {
 		if (loginController.loginRole != 1)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
 		{
 			Edit.setVisible(false);
+		}
+		if (loginController.loginRole == 3)// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee
+		{
+			buy_link.setVisible(false);
 		}
 		EventBus.getDefault().register(this);
 		getMovies();

@@ -21,6 +21,7 @@ public class User implements Serializable {
 	int role; // -1->user,0 -> Network Manager , 1 -> Content Manager , 2 -> Costumer Services
 				// Employee
 	boolean Is_Logged_In;
+	private int packageId = -1;
 
 	public User() {
 
@@ -68,4 +69,11 @@ public class User implements Serializable {
 		return id;
 	}
 
+	public int getPackageId() {
+		return packageId;
+	}
+
+	public void setPackageId(int packageId) {
+		this.packageId = packageId;
+	}
 }

@@ -24,15 +24,15 @@
                 <TableColumn fx:id="price" minWidth="0.0" prefWidth="170.0" style="-fx-background-radius: 40; -fx-font-style: italic;" text="Price" />
               </columns>
             </TableView>
-            <Button fx:id="Back" layoutX="301.0" layoutY="445.0" mnemonicParsing="false" onAction="#Back" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 40; -fx-background-color: #000000;" text="Back" textFill="#f6ff00">
+            <Button fx:id="Back" layoutX="336.0" layoutY="445.0" mnemonicParsing="false" onAction="#Back" prefHeight="25.0" prefWidth="83.0" style="-fx-background-radius: 40; -fx-background-color: #000000;" text="Back" textFill="#f6ff00">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font></Button>
-            <Button fx:id="More_Info" layoutX="197.0" layoutY="445.0" mnemonicParsing="false" onAction="#More_Info" prefHeight="25.0" prefWidth="90.0" style="-fx-background-radius: 40; -fx-background-color: black;" text="More Info" textFill="#f6ff00">
+            <Button fx:id="More_Info" layoutX="233.0" layoutY="445.0" mnemonicParsing="false" onAction="#More_Info" prefHeight="25.0" prefWidth="90.0" style="-fx-background-radius: 40; -fx-background-color: black;" text="More Info" textFill="#f6ff00">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font></Button>
-            <Button fx:id="Edit" layoutX="98.0" layoutY="445.0" mnemonicParsing="false" onAction="#Edit_HomeMovie" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: black; -fx-background-radius: 40;" text="Edit" textFill="#f6ff00">
+            <Button fx:id="Edit" layoutX="27.0" layoutY="445.0" mnemonicParsing="false" onAction="#Edit_HomeMovie" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: black; -fx-background-radius: 40;" text="Edit" textFill="#f6ff00">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font></Button>
@@ -41,6 +41,11 @@
                   <Font name="System Bold Italic" size="22.0" />
                </font>
             </Label>
+            <Button fx:id="buy_link" layoutX="130.0" layoutY="445.0" mnemonicParsing="false" onAction="#buy_link_btn" prefHeight="25.0" prefWidth="90.0" style="-fx-background-radius: 40; -fx-background-color: black;" text="Buy Link" textFill="#f6ff00">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

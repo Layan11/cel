@@ -17,68 +17,54 @@ import javafx.scene.control.TextField;
 
 public class Return_TicketController implements Initializable {
 
-    @FXML
-    private TextField tick_id;
+	@FXML
+	private TextField tick_id;
 
-    @FXML
-    private Button Return_Ticket;
+	@FXML
+	private Button Return_Ticket;
 
-    @FXML
-    private Button back_Btn;
-    @FXML
-    private TextField labelmsg;
+	@FXML
+	private Button back_Btn;
+	@FXML
+	private TextField labelmsg;
 
-    @FXML
-    void back_btn(ActionEvent event) {
-    	Platform.runLater(() -> {
-//			Window window = Browse_movie_list.getScene().getWindow();
-//			if (window instanceof Stage) {
-//				((Stage) window).close();
-//			}
-//			Stage primaryStage = new Stage();
-			//Parent root;
+	@FXML
+	void back_btn(ActionEvent event) {
+		Platform.runLater(() -> {
 			try {
-				App.setRoot("choose_type_to_browse");
-//				Scene scene = new Scene(root);
-//				primaryStage.setScene(scene);
-//				primaryStage.setTitle("Browse movies list");
-//				primaryStage.show();
+				App.setRoot("menu");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
+	}
 
-    }
-
-    @FXML
-    void return_btn(ActionEvent event)throws Exception {
-    	String mystr;
-    	int x;
-    	x= Integer.parseInt(tick_id.getText());
-    	mystr="Delete Ticket "+x;
-    	TripleObject msg = new TripleObject(mystr, null, null);
+	@FXML
+	void return_btn(ActionEvent event) throws Exception {
+		String mystr;
+		int x;
+		x = Integer.parseInt(tick_id.getText());
+		mystr = "Delete Ticket " + x;
+		TripleObject msg = new TripleObject(mystr, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		labelmsg.setVisible(true);
 
-    }
-    
-    @Subscribe
+	}
+
+	@Subscribe
 	public void onData(TripleObject msg) {
 		System.out.println("IN onData");
-		
-		
+
 		Platform.runLater(() -> {
 //			Window window = Browse_movie_list.getScene().getWindow();
 //			if (window instanceof Stage) {
 //				((Stage) window).close();
 //			}
 //			Stage primaryStage = new Stage();
-			//Parent root;
+			// Parent root;
 			try {
 				labelmsg.setText(msg.getMsg());
-				if(false) {
+				if (false) {
 					App.setRoot("idk");
 				}
 //				Scene scene = new Scene(root);
@@ -92,11 +78,12 @@ public class Return_TicketController implements Initializable {
 
 		});
 
-    }
-    @Override
-   	public void initialize(URL location, ResourceBundle resources) {
-   		// TODO Auto-generated method stub
-   		EventBus.getDefault().register(this);
-   	}
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		EventBus.getDefault().register(this);
+	}
 
 }
