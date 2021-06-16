@@ -27,6 +27,8 @@ public class SimpleClient extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
+		System.out.println("hhhh f");
+		System.out.println(myMsg);
 
 		if (myMsg.equals("no such movie")) {
 			EventBus.getDefault().post(new NoSuchMovieEvent());

@@ -47,9 +47,9 @@ public class Update_Package implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup3.fxml"));
-				Parent Root1 = (Parent) fxmlLoader.load();
+				Parent Root2 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
-				stage.setScene(new Scene(Root1));
+				stage.setScene(new Scene(Root2));
 				stage.show();
 			} catch (Exception e) {
 				System.err.println(e.getMessage());

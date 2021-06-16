@@ -137,7 +137,8 @@ public class choose_type_to_browseController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		EventBus.getDefault().register(this);
-		if (loginController.loginRole == -1 || loginController.loginRole == 0 || loginController.loginRole == 2) {
+		if (loginController.loginRole == -1 || loginController.loginRole == 0 || loginController.loginRole == 2
+				|| loginController.loginRole == 3) {
 			hybrid.setVisible(false);
 		}
 	}
