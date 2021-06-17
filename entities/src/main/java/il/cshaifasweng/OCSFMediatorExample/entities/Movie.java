@@ -3,7 +3,6 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -47,7 +46,6 @@ public class Movie implements Serializable {
 	private MovieTimes Times;
 	private String image;
 	private String branch;
-	private String link;
 
 	public Movie() {
 
@@ -176,7 +174,7 @@ public class Movie implements Serializable {
 			myStr = myStr + "\n";
 		}
 		return myStr;
-	} 
+	}
 
 	public String getImage() {
 		return image;
@@ -192,14 +190,6 @@ public class Movie implements Serializable {
 
 	public void setBranch(String branch) {
 		this.branch = branch;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
 	}
 
 	public String getArbName() {

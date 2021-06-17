@@ -83,8 +83,8 @@ public class SimpleServer extends AbstractServer {
 				}
 				if (type.equals("Watch at Home")) {
 					Movie movie = getMovie(movieName).get(0);
-					String link = movie.getLink();
-					newMovie.setLink(link);
+//					String link = movie.getLink();
+//					newMovie.setLink(link);
 					App.session.remove(getMovie(movieName).get(0));
 				}
 				App.session.save(newMovie);
@@ -407,7 +407,6 @@ public class SimpleServer extends AbstractServer {
 
 					tmpMovie.setType(3);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
 										// home, type=3 for watch at home & now broadcasting
-					tmpMovie.setLink(tuple_msg.getList().get(0));
 				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
@@ -648,6 +647,41 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Show package2 ")) {
+			try {
+				System.out.println("in server show 2");
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				System.out.println("in server after session");
+				// User user = getUser(ObjctMsg.substring(14)).get(0);
+				int package_id = Integer.parseInt(ObjctMsg.substring(14));
+				int packId = -1;
+				System.out.println("in server before the if");
+				if (getPackage(package_id).size() > 0) {
+					Package P = getPackage(package_id).get(0);
+					packId = P.get_ticks();
+					System.out.println("in server in the if");
+				}
+				System.out.println("in server after if");
+				List<Movie> list = new ArrayList<Movie>();
+				Movie movie = new Movie();
+				movie.setLength(packId);
+				list.add(movie);
+				System.out.println("in server show 2 part 2 ");
+				TripleObject to = new TripleObject("package num of tickets2", list, null);
+				try {
+					System.out.println("before sending the message to client");
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Filter dates")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -794,7 +828,6 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				String movie = ObjctMsg.substring(12);
 				Movie Movie = getMovie(movie).get(0);
-				Movie.setLink(null);
 				Movie.setType(0);
 				List<Movie> Helper_list3 = getMoviesList();
 				List<Movie> movies = new ArrayList<Movie>();
@@ -851,14 +884,19 @@ public class SimpleServer extends AbstractServer {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				Package my_pack = tuple_msg2.getPackage();
-				System.out.println("NUM = " + my_pack.get_ticks());
-				App.session.save(my_pack);
-				App.session.flush();
+				TripleObject to;
 				User user = getUser(ObjctMsg.substring(16)).get(0);
-				user.setPackageId(my_pack.get_id());
-				App.session.getTransaction().commit();
-				client.sendToClient(new TripleObject("Your Package ID is: " + my_pack.get_id(), null, null));
+				if (user.getPackageId() != -1) {
+					to = new TripleObject("You already have a package", null, null);
+				} else {
+					Package my_pack = tuple_msg2.getPackage();
+					App.session.save(my_pack);
+					App.session.flush();
+					user.setPackageId(my_pack.get_id());
+					App.session.getTransaction().commit();
+					to = new TripleObject("Your Package ID is: " + my_pack.get_id(), null, null);
+				}
+				client.sendToClient(to);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

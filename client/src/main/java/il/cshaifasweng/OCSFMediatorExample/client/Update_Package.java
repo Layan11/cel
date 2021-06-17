@@ -33,28 +33,33 @@ public class Update_Package implements Initializable {
 	private Button show;
 
 	@FXML
-	void showNum(ActionEvent event) {
-		TripleObject msg = new TripleObject("Show package " + loginController.currentUser, null, null);
-		try {
-			SimpleClient.getClient().sendToServer(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	void showNum(ActionEvent event) throws Exception {
+		popup3Controller.popped3 = 0;
+		int packid = Integer.parseInt(pack_id.getText());
+		TripleObject msg = new TripleObject("Show package2 " + packid, null, null);
+		SimpleClient.getClient().sendToServer(msg);
+		System.out.println("in show num2");
 	}
 
 	@Subscribe
-	public void onNumOfTickets(GotNumOfPacTicsEvent event) {
-		Platform.runLater(() -> {
-			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup3.fxml"));
-				Parent Root2 = (Parent) fxmlLoader.load();
-				Stage stage = new Stage();
-				stage.setScene(new Scene(Root2));
-				stage.show();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-		});
+	public void onNumOfTickets(GotNumOfPacTicsEvent2 event) {
+		if (popup3Controller.popped3 == 0) {
+			popup3Controller.popped3 = 1;
+			Platform.runLater(() -> {
+				try {
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup3.fxml"));
+					Parent Root2 = (Parent) fxmlLoader.load();
+					Stage stage = new Stage();
+					stage.setScene(new Scene(Root2));
+					stage.show();
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+			});
+		} else {
+			return;
+		}
+
 	}
 
 	@FXML

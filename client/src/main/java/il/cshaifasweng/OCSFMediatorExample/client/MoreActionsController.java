@@ -84,10 +84,6 @@ public class MoreActionsController implements Initializable {
 	@FXML
 	private TextArea actors;
 	@FXML
-	private Label linkLabel;
-	@FXML
-	private TextField link;
-	@FXML
 	private Label invalidAddLabel;
 	@FXML
 	private Label invalidMovie;
@@ -189,7 +185,7 @@ public class MoreActionsController implements Initializable {
 		invalidMovie.setText("");
 		if (engName.getText().equals("") || hebName.getText().equals("") || summary.getText().equals("")
 				|| producer.getText().equals("") || actors.getText().equals("") || len.getText().equals("")
-				|| price.getText().equals("") || image.getText().equals("") || link.getText().equals("")) {
+				|| price.getText().equals("") || image.getText().equals("")) {
 			invalidAddLabel.setText("You need to fill the mandatory fields");
 			engNameLabel.setText("*");
 			hebNameLabel.setText("*");
@@ -199,7 +195,6 @@ public class MoreActionsController implements Initializable {
 			lenLabel.setText("*");
 			priceLabel.setText("*");
 			imageLabel.setText("*");
-			linkLabel.setText("*");
 		} else {
 			invalidAddLabel.setText("");
 			engNameLabel.setText("");
@@ -209,7 +204,6 @@ public class MoreActionsController implements Initializable {
 			actorsLabel.setText("");
 			lenLabel.setText("");
 			sumLabel.setText("");
-			linkLabel.setText("");
 			imageLabel.setText("");
 			Movie movie = new Movie();
 			movie.setEngName(engName.getText());
@@ -220,7 +214,6 @@ public class MoreActionsController implements Initializable {
 			movie.setSummary(summary.getText());
 			movie.setProducer(producer.getText());
 			movie.setPrice(Integer.parseInt(price.getText()));
-			movie.setLink(len.getText());
 			movie.setArbName(arbName.getText());
 			movie.setImage(image.getText());
 			movie.setType(2);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
@@ -241,9 +234,6 @@ public class MoreActionsController implements Initializable {
 		invalidMovie.setText("");
 		String wantedMovie = movieName.getText();
 		TripleObject msg = new TripleObject("Add exsisting movie to watch at home " + wantedMovie, null, null);
-		List<String> link = new ArrayList<String>();
-		link.add(oldLink.getText());
-		msg.setList(link);
 		try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -331,6 +321,7 @@ public class MoreActionsController implements Initializable {
 			Parent Root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(Root1));
+			stage.setTitle("Request sent");
 			stage.show();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

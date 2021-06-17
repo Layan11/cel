@@ -25,6 +25,7 @@ public class SimpleClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+		System.out.println("in handle message from server");
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
 
@@ -218,6 +219,14 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.startsWith("package num of tickets")) {
 			PackageNumOfTickets = triple_msg.getMovies().get(0).getLength();
 			EventBus.getDefault().post(new GotNumOfPacTicsEvent());
+			System.out.println("in the if in the client");
+		}
+		if (myMsg.startsWith("package num of tickets2")) {
+			PackageNumOfTickets = triple_msg.getMovies().get(0).getLength();
+			EventBus.getDefault().post(new GotNumOfPacTicsEvent2());
+		}
+		if (myMsg.startsWith("You already have a package")) {
+			EventBus.getDefault().post(new AlreadyHavePackageEvent());
 		}
 	}
 
