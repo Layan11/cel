@@ -25,8 +25,10 @@ public class SimpleClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+		System.out.println("in handle message from server");
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
+		System.out.println("the msg from server:" + myMsg);
 		System.out.println("hhhh f");
 		System.out.println(myMsg);
 
@@ -222,7 +224,14 @@ public class SimpleClient extends AbstractClient {
 			PackageNumOfTickets = triple_msg.getMovies().get(0).getLength();
 			System.out.println("NUM = " + PackageNumOfTickets);
 			EventBus.getDefault().post(new GotNumOfPacTicsEvent());
+			System.out.println("in the if in the client");
 		}
+		if (myMsg.startsWith("package num of tickets2")) {
+			System.out.println("event2");
+			PackageNumOfTickets = triple_msg.getMovies().get(0).getLength();
+			EventBus.getDefault().post(new GotNumOfPacTicsEvent2());
+		}
+		
 	}
 
 	public static SimpleClient getClient() {

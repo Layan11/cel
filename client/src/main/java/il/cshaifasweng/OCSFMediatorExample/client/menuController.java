@@ -46,22 +46,19 @@ public class menuController implements Initializable {
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {
+		popup2Controller.popped=0;
 		TripleObject msg = new TripleObject("Show package " + loginController.currentUser, null, null);
 		SimpleClient.getClient().sendToServer(msg);
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup2.fxml"));
-			System.out.println("in run later before popup2");
-			Parent Root1 = (Parent) fxmlLoader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(Root1));
-			stage.show();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
+		System.out.println("in gotopackage");
 	}
 
-	/*@Subscribe
+	@Subscribe
 	public void onNumOfTickets(GotNumOfPacTicsEvent event) {
+		System.out.println("before the if in subs . popped = " +popup2Controller.popped );
+		if(popup2Controller.popped==0)
+		{
+			popup2Controller.popped=1;
+					System.out.println("before run later");
 		Platform.runLater(() -> {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup2.fxml"));
@@ -74,7 +71,11 @@ public class menuController implements Initializable {
 				System.err.println(e.getMessage());
 			}
 		});
-	}*/
+		}
+		else {
+			return;
+		}
+	}
 
 	@FXML
 	void gotoBack(ActionEvent event) throws Exception {
