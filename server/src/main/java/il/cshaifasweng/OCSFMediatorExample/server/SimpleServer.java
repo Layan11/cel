@@ -623,7 +623,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		if (ObjctMsg.startsWith("Show package ")) {
 			try {
-				System.out.println("BEGG");
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				User user = getUser(ObjctMsg.substring(13)).get(0);
@@ -946,7 +945,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1001,7 +1000,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1080,7 +1079,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();

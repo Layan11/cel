@@ -50,7 +50,6 @@ public class menuController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup2.fxml"));
-			System.out.println("in run later before popup2");
 			Parent Root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(Root1));
@@ -60,21 +59,15 @@ public class menuController implements Initializable {
 		}
 	}
 
-	/*@Subscribe
-	public void onNumOfTickets(GotNumOfPacTicsEvent event) {
-		Platform.runLater(() -> {
-			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup2.fxml"));
-				System.out.println("in run later before popup2");
-				Parent Root1 = (Parent) fxmlLoader.load();
-				Stage stage = new Stage();
-				stage.setScene(new Scene(Root1));
-				stage.show();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-		});
-	}*/
+	/*
+	 * @Subscribe public void onNumOfTickets(GotNumOfPacTicsEvent event) {
+	 * Platform.runLater(() -> { try { FXMLLoader fxmlLoader = new
+	 * FXMLLoader(getClass().getResource("popup2.fxml"));
+	 * System.out.println("in run later before popup2"); Parent Root1 = (Parent)
+	 * fxmlLoader.load(); Stage stage = new Stage(); stage.setScene(new
+	 * Scene(Root1)); stage.show(); } catch (Exception e) {
+	 * System.err.println(e.getMessage()); } }); }
+	 */
 
 	@FXML
 	void gotoBack(ActionEvent event) throws Exception {

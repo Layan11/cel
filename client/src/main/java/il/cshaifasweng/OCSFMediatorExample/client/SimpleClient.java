@@ -27,8 +27,6 @@ public class SimpleClient extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
-		System.out.println("hhhh f");
-		System.out.println(myMsg);
 
 		if (myMsg.equals("no such movie")) {
 			EventBus.getDefault().post(new NoSuchMovieEvent());
@@ -218,9 +216,7 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(msg2);
 		}
 		if (myMsg.startsWith("package num of tickets")) {
-			System.out.println("NUMmm");
 			PackageNumOfTickets = triple_msg.getMovies().get(0).getLength();
-			System.out.println("NUM = " + PackageNumOfTickets);
 			EventBus.getDefault().post(new GotNumOfPacTicsEvent());
 		}
 	}
