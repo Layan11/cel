@@ -473,6 +473,11 @@ public class SimpleServer extends AbstractServer {
 					PriceRequestsChart chart = App.session.get(PriceRequestsChart.class, 1);
 					chart.getMovieEngName().add(movieName);
 					chart.getNewPrice().add(newPrice);
+					try {
+						client.sendToClient(new TripleObject("found movie to update price", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				} else {
 					try {
 						client.sendToClient(new TripleObject("no such movie", null, null));
