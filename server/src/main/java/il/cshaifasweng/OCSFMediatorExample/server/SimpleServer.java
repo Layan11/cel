@@ -22,6 +22,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
+import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
@@ -827,6 +828,23 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Show reports")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Reports report = getReports(1).get(0);
+				TripleObject to = new TripleObject("All reports", null, null);
+				List<Reports> list = new ArrayList<Reports>();
+				list.add(report);
+				to.setReport(list);
+				System.out.println("SERVER");
+				System.out.println("report = " + report.getReturnedTicketsInHaifa());
+				client.sendToClient(to);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Remove link")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -867,6 +885,10 @@ public class SimpleServer extends AbstractServer {
 				App.session.flush();
 				System.out.println("flish is done");
 				client.sendToClient(new TripleObject("Your Link ID is: " + my_link.get_id(), null, null));
+				Reports reports = getReports(1).get(0);
+				int tmp = reports.getLinks();
+				reports.setLinks(tmp + 1);
+				App.session.getTransaction().commit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -898,8 +920,11 @@ public class SimpleServer extends AbstractServer {
 					App.session.save(my_pack);
 					App.session.flush();
 					user.setPackageId(my_pack.get_id());
-					App.session.getTransaction().commit();
 					to = new TripleObject("Your Package ID is: " + my_pack.get_id(), null, null);
+					Reports allreports = getReports(1).get(0);
+					int tmp = allreports.getPackages();
+					allreports.setPackages(tmp + 1);
+					App.session.getTransaction().commit();
 				}
 				client.sendToClient(to);
 			} catch (Exception e) {
@@ -1253,6 +1278,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForMoviename = builder.equal(userRoot.get("package_id"), packageId);
 		query.where(predicateForMoviename);
 		List<Package> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<Reports> getReports(int reportId) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Reports> query = builder.createQuery(Reports.class);
+		Root<Reports> userRoot = query.from(Reports.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("Report_id"), reportId);
+		query.where(predicateForMoviename);
+		List<Reports> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 //	private static List<MovieTimes> getAllMovieTimes() {

@@ -7,6 +7,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 
 public class SimpleClient extends AbstractClient {
@@ -18,6 +19,7 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> MovieDates = new ArrayList<String>();
 	public static List<String> MovieNames = new ArrayList<String>();
 	public static int PackageNumOfTickets;
+	public static Reports report = new Reports();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -28,7 +30,6 @@ public class SimpleClient extends AbstractClient {
 		System.out.println("in handle message from server");
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
-
 		if (myMsg.equals("no such movie")) {
 			EventBus.getDefault().post(new NoSuchMovieEvent());
 		}
@@ -230,6 +231,12 @@ public class SimpleClient extends AbstractClient {
 		}
 		if (myMsg.startsWith("found movie to update price")) {
 			EventBus.getDefault().post(new GotMovieToUpdatePriceEvent());
+		}
+		if (myMsg.startsWith("All reports")) {
+			System.out.println("CLIENT");
+			report = triple_msg.getReport().get(0);
+			System.out.println("CLIENT2");
+			EventBus.getDefault().post(new GotReportEvent());
 		}
 	}
 

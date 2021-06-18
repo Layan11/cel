@@ -43,6 +43,8 @@ public class menuController implements Initializable {
 	private Button back;
 	@FXML
 	private Button packageStatus;
+	@FXML
+	private Button reports;
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {
@@ -155,6 +157,27 @@ public class menuController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("priceRequests");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	void gotoshowreports(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Show reports", null, null);
+		try {
+			SimpleClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Subscribe
+	public void onReports(GotReportEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("ShowReports");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

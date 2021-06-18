@@ -7,15 +7,13 @@ import javax.persistence.ElementCollection;
 import javax.persistence.FetchType;
 
 public class TripleObject implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	String msg;
 	List<Movie> movies;
 	List<MovieTimes> movieTimes;
 	@ElementCollection(fetch = FetchType.EAGER)
 	List<String> list;
+	List<Reports> report;
 
 	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;
@@ -46,7 +44,6 @@ public class TripleObject implements Serializable {
 	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
 	}
-	
 
 	public void setList(List<String> list) {
 		this.list = list;
@@ -57,4 +54,11 @@ public class TripleObject implements Serializable {
 		return list;
 	}
 
+	public List<Reports> getReport() {
+		return report;
+	}
+
+	public void setReport(List<Reports> report) {
+		this.report = report;
+	}
 }

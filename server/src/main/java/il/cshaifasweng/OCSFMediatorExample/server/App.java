@@ -18,6 +18,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
+import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
@@ -40,6 +41,7 @@ public class App {
 		configuration.addAnnotatedClass(link.class);
 		configuration.addAnnotatedClass(Ticket.class);
 		configuration.addAnnotatedClass(Package.class);
+		configuration.addAnnotatedClass(Reports.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -331,12 +333,16 @@ public class App {
 		session.save(TheSmurfsMovie);
 		session.flush();
 
+		// report
+		Reports report = new Reports();
+		session.save(report);
+
 //Users
 		User NM = new User("Regina Phalange", "1111");
 		NM.setRole(0);// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer Services
 						// Employee
 		NM.setIs_Logged_In(false);
-		User CM1 = new User("Princess Consuela", "2222");
+		User CM1 = new User("Consuela", "2222");
 		CM1.setRole(1);
 		CM1.setIs_Logged_In(false);
 		User CM2 = new User("Ursula", "3333");

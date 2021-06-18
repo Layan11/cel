@@ -316,16 +316,6 @@ public class MoreActionsController implements Initializable {
 		TripleObject msg = new TripleObject("Update price " + name, null, null);
 		msg.setList(tmp);
 		SimpleClient.getClient().sendToServer(msg);
-//		try {
-//			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
-//			Parent Root1 = (Parent) fxmlLoader.load();
-//			Stage stage = new Stage();
-//			stage.setScene(new Scene(Root1));
-//			stage.setTitle("Request sent");
-//			stage.show();
-//		} catch (Exception e) {
-//			System.err.println(e.getMessage());
-//		}
 	}
 
 	@Subscribe
