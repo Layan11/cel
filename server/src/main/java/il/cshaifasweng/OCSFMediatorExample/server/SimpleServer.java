@@ -25,6 +25,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
@@ -712,6 +713,8 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		
+		//////elin
 		if (ObjctMsg.equals("Add new person")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -729,6 +732,50 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		
+		
+		
+		if (ObjctMsg.equals("Add new complaint")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				complaint newcomplaint = new complaint(movietoadd.getEngName(), movietoadd.getHebName());
+				//newuser.setRole(-1);
+				//newuser.setIs_Logged_In(true);
+				App.session.save(newcomplaint);
+				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		
+		if (ObjctMsg.startsWith("Show complaints")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				List<complaint>Lofcomplaints=getComplaintslist();
+
+				TripleObject to = new TripleObject("All complaints", null, null);
+				to.setListOfcomplaints(Lofcomplaints);
+				
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		////////end elin
 		if (ObjctMsg.startsWith("log-out")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -1117,7 +1164,15 @@ public class SimpleServer extends AbstractServer {
 
 		// TODO: add close connection
 	}
-
+    /////elin jammal//
+	private static List<complaint> getComplaintslist() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<complaint> query = builder.createQuery(complaint.class);
+		query.from(complaint.class);
+		List<complaint> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	///
 	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);

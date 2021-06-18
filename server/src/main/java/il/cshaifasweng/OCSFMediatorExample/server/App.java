@@ -20,6 +20,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Package;
 import il.cshaifasweng.OCSFMediatorExample.entities.PriceRequestsChart;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 
 public class App {
@@ -40,6 +41,7 @@ public class App {
 		configuration.addAnnotatedClass(link.class);
 		configuration.addAnnotatedClass(Ticket.class);
 		configuration.addAnnotatedClass(Package.class);
+		configuration.addAnnotatedClass(complaint.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();

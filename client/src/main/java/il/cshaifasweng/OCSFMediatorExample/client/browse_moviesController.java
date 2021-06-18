@@ -146,6 +146,7 @@ public class browse_moviesController implements Initializable {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	public void getMovies() {
 		final ObservableList<Movie> movie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);

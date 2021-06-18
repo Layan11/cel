@@ -16,6 +16,15 @@ public class TripleObject implements Serializable {
 	List<MovieTimes> movieTimes;
 	@ElementCollection(fetch = FetchType.EAGER)
 	List<String> list;
+	List<complaint> listOfcomplaints;
+
+	public List<complaint> getListOfcomplaints() {
+		return listOfcomplaints;
+	}
+
+	public void setListOfcomplaints(List<complaint> listOfcomplaints) {
+		this.listOfcomplaints = listOfcomplaints;
+	}
 
 	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;

@@ -31,12 +31,43 @@ public class menuController implements Initializable {
 
 	@FXML
 	private Button more_actions;
+	
+	@FXML
+	//olnalo enno a5dna ele event b3d ma a5dna had elevent nn2ollo ynt2el lsf7et elcomplaints m3 el elnetonem
+	void gotoShowComplaint(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Show complaints", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+		
+	}
+   ///elinjammal
+	@Subscribe
+	public void onData1(gotallcomplaintsevent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("showComplaint");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	@FXML
 	void gotomore_actions(ActionEvent event) throws Exception {
 		App.setRoot("MoreActions");
 
 	}
+	
+	@FXML
+	void gotofileacomplaint(ActionEvent event) throws Exception {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("FillingComplaint");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 
 	@FXML
 	void gotoLogOut(ActionEvent event) throws Exception {
@@ -61,7 +92,9 @@ public class menuController implements Initializable {
 		TripleObject msg = new TripleObject("Show PRC movies", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 	}
-
+	
+	
+     //hayy bt2ollo bs tekabel event ru7 3la elsf7a eljhdede
 	@Subscribe
 	public void onData(GotPRCMoviesEvent event) {
 		Platform.runLater(() -> {
