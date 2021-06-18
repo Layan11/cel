@@ -15,15 +15,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "My_MovieTimes")
 public class MovieTimes implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@ElementCollection
 	private List<String> time;
+	/*private List<Integer> Halls;
+	private List<Integer> cinema;*/
 
 	public MovieTimes() {
 

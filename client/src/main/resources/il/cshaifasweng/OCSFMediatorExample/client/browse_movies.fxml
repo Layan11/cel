@@ -4,13 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="643.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="643.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController">
    <children>
       <VBox prefHeight="531.0" prefWidth="652.0" />
       <AnchorPane layoutX="7.0" layoutY="4.0" prefHeight="527.0" prefWidth="643.0" style="-fx-background-color: #730606;">
@@ -38,6 +39,8 @@
             <ImageView fx:id="image3" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="image4" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="image5" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btn_buyticket" layoutX="386.0" layoutY="307.0" mnemonicParsing="false" onAction="#buy_ticket" prefHeight="28.0" prefWidth="79.0" text="buy ticket" />
+            <TextField fx:id="choosetime" layoutX="483.0" layoutY="308.0" text="choose time" />
          </children>
       </AnchorPane>
    </children>

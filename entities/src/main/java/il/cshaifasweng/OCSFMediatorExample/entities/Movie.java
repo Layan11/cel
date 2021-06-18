@@ -40,14 +40,10 @@ public class Movie implements Serializable {
 	private String Summary;
 	private String Producer;
 	private int Price;
-	//@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MovieTimes_id")
-   // @OneToMany(fetch = FetchType.LAZY)
 	@OneToOne
 	private MovieTimes Times;
-//	@Lob
-//	@Column(columnDefinition = "LONGBLOB")
-//	private byte[] image;
+
 	private String image;
 	private String branch;
 

@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public class browse_moviesController implements Initializable {
+	public static String time_movie;
 	@FXML
 	private TableView<Movie> tableView;
 	@FXML
@@ -62,8 +66,49 @@ public class browse_moviesController implements Initializable {
 
 	@FXML // fx:id="image5"
 	private ImageView image5; // Value injected by FXMLLoader
+	
+	@FXML
+    private Button btn_buyticket;
+	
+
+    @FXML
+    private TextField choosetime;
 
 	public static Movie selectedMovie;
+	 //**saleh**
+    @FXML
+    void buy_ticket(ActionEvent event) throws IOException {
+    	Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selectedMovie = selected;
+		time_movie="'"+choosetime.getText()+"'";
+		
+		Movie m= selectedMovie;
+		int movie_id;
+		
+		try {
+			movie_id=m.getId();
+			//String movietime=m.getMovieTimes().getTimes().get(0);
+			String movietime=time_movie;
+			TripleObject msg = new TripleObject("get my map chair", movie_id, movietime);
+			SimpleClient client=SimpleClient.getClient();
+			client.sendToServer(msg);			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();} 
+		
+	
+	Platform.runLater(() -> {
+			try {
+				App.setRoot("buy_ticket");
+				//System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}});
+
+    }
+    //**saleh**
 
 	@FXML
 	void gobacktoprimary(ActionEvent event) throws IOException {

@@ -15,7 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
+@Entity
+@Table(name = "Cinema")
 public class Cinema implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -23,9 +24,11 @@ public class Cinema implements Serializable {
 	private int id;
 	private String name;
 	private String location;
-	private List<Hall> Halls;
+	@ElementCollection
+	@Column(name = "My_halls")
+	private List<Integer> Halls;
 	public Cinema() {}
-	public Cinema(String name,String location,List<Hall> Halls) {
+	public Cinema(String name,String location,List<Integer> Halls) {
 		this.name=name;
 		this.location=location;
 		this.Halls=Halls;
@@ -48,10 +51,10 @@ public class Cinema implements Serializable {
 	public void setLocation(String new_loc) {
 		this.location=new_loc;
 	}
-	public List<Hall> getHalls(){
+	public List<Integer> getHalls(){
 		return this.Halls;
 	}
-	public void setHalls(List<Hall> new_halls) {
+	public void setHalls(List<Integer> new_halls) {
 		this.Halls=new_halls;
 	}
 	

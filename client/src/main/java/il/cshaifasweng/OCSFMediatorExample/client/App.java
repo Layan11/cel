@@ -46,16 +46,6 @@ public class App extends Application {
 		super.stop();
 	}
 
-//	@Subscribe
-//	public void onWarningEvent(WarningEvent event) {
-//		Platform.runLater(() -> {
-//			Alert alert = new Alert(AlertType.WARNING, String.format("Message: %s\nTimestamp: %s\n",
-//					event.getWarning().getMessage(), event.getWarning().getTime().toString()));
-//			alert.show();
-//		});
-//
-//	}
-
 	public static void main(String[] args) {
 		launch();
 	}

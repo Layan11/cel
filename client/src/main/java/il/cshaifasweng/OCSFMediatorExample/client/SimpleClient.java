@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +10,13 @@ import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import il.cshaifasweng.OCSFMediatorExample.client.show_MapChairController;
 
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
 	public static List<Movie> moviesList;// = new ArrayList<Movie>();
 	public static List<MovieTimes> movieTimes = new ArrayList<MovieTimes>();
+	public static List<Integer> mc=new ArrayList<Integer>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -83,6 +86,18 @@ public class SimpleClient extends AbstractClient {
 				System.out.println("MT is null");
 			}
 		}
+		
+		//***saleh***
+		if(myMsg.equals("get mapchair")) {
+			
+			System.out.println("*****busy seats*****");
+			mc=triple_msg.getMapChair();
+			for(int i=0;i<mc.size();i++) {
+				System.out.println(mc.get(i));
+			}
+		}
+		//***saleh***
+	
 	}
 
 	public static SimpleClient getClient() {
@@ -91,4 +106,6 @@ public class SimpleClient extends AbstractClient {
 		}
 		return client;
 	}
+	
+
 }

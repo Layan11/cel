@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 
 /**
  * Sample Skeleton for 'primary.fxml' Controller Class
@@ -32,7 +33,9 @@ public class PrimaryController implements Initializable {
 
 	@FXML
 	private Button Filling_a_complaint;
-
+	
+  /*  @FXML
+    private Button button_mapchair;*/
 
 
 	@FXML
@@ -51,22 +54,6 @@ public class PrimaryController implements Initializable {
 
 	}
 
-//	@FXML
-//	void gotoLogin(ActionEvent event) throws IOException {
-//
-//		Window window = ((Node) (event.getSource())).getScene().getWindow();
-//		if (window instanceof Stage) {
-//			((Stage) window).close();
-//		}
-//
-//		Stage primaryStage = new Stage();
-//		Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-//		Scene scene = new Scene(root);
-//		primaryStage.setScene(scene);
-//		primaryStage.setTitle("Log in");
-//		primaryStage.show();
-//
-//	}
 
 	@FXML
 	void gotobrowse_movies(ActionEvent event) throws Exception {
@@ -85,6 +72,22 @@ public class PrimaryController implements Initializable {
 //		SimpleClient.getClient().sendToServer(msg);
 
 	}
+
+   /* @FXML
+    void gotomapchair(ActionEvent event) throws Exception {
+    	Window window = ((Node) (event.getSource())).getScene().getWindow();
+		if (window instanceof Stage) {
+			((Stage) window).close();
+		}
+
+		Stage primaryStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("show_MapChair.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("mapchair");
+		primaryStage.show();
+
+    }*/
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
