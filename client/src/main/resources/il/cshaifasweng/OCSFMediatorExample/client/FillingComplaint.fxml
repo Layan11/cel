@@ -43,7 +43,10 @@
             <Image url="@1_3iCN4i45QZ2CTLjBzmQcyQ.jpeg" />
          </image>
       </ImageView>
-      <Label fx:id="invaled_label1" layoutX="178.0" layoutY="233.0" prefHeight="17.0" prefWidth="117.0" text="Label" textFill="#bf0909" />
-      <Label fx:id="invalid_label2" layoutX="182.0" layoutY="165.0" prefHeight="17.0" prefWidth="101.0" text="Label" textFill="#bf0909" />
+      <Label fx:id="invalid_label2" layoutX="178.0" layoutY="198.0" prefHeight="17.0" prefWidth="117.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

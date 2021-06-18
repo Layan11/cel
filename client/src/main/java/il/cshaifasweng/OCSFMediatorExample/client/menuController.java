@@ -25,23 +25,26 @@ public class menuController implements Initializable {
 	private Button UpdatePriceRequests;
 
 	@FXML
-	private Button ShowComplaints;
+	private Button Showthecomplaints;
+	
 	@FXML
 	private Button logout;
 
 	@FXML
 	private Button more_actions;
 	
+
 	@FXML
-	//olnalo enno a5dna ele event b3d ma a5dna had elevent nn2ollo ynt2el lsf7et elcomplaints m3 el elnetonem
 	void gotoShowComplaint(ActionEvent event) throws Exception {
+		System.out.println("in gotoshowComplaint");
 		TripleObject msg = new TripleObject("Show complaints", null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		
 	}
-   ///elinjammal
+
 	@Subscribe
-	public void onData1(gotallcomplaintsevent event) {
+	public void onData1111(gotallcomplaintsevent event) {
+		System.out.println("in onData1111");
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("showComplaint");
@@ -94,7 +97,7 @@ public class menuController implements Initializable {
 	}
 	
 	
-     //hayy bt2ollo bs tekabel event ru7 3la elsf7a eljhdede
+   
 	@Subscribe
 	public void onData(GotPRCMoviesEvent event) {
 		Platform.runLater(() -> {
@@ -113,16 +116,16 @@ public class menuController implements Initializable {
 		if (loginController.loginRole == -1) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee//
 												// 3->no account
 			UpdatePriceRequests.setVisible(false);
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			more_actions.setVisible(false);
 		}
 		if (loginController.loginRole == 0) {
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
 			more_actions.setVisible(false);
 		}
 		if (loginController.loginRole == 1) {
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
 			UpdatePriceRequests.setVisible(false);
 		}
@@ -134,7 +137,7 @@ public class menuController implements Initializable {
 		if (loginController.loginRole == 3) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS
 												// employee 3->no account
 			UpdatePriceRequests.setVisible(false);
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
 			more_actions.setVisible(false);
 		}

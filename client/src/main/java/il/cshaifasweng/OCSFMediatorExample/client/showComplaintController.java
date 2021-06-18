@@ -9,6 +9,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.net.URL;
+
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,7 +51,7 @@ public class showComplaintController implements Initializable{
     private TextArea answerBox; // Value injected by FXMLLoader
 
 
-	    @FXML
+    @FXML
     void goBack(ActionEvent event) throws IOException {
     	App.setRoot("menu");
     }
@@ -64,7 +66,8 @@ public class showComplaintController implements Initializable{
          
     }
     
-    @SuppressWarnings("unchecked")
+
+
 	private void getComplaints() {
 		// TODO Auto-generated method stub
 		final ObservableList<complaint> comp = FXCollections.observableArrayList(SimpleClient.Allcomplaints);
@@ -80,7 +83,7 @@ public class showComplaintController implements Initializable{
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		EventBus.getDefault().register(this);
+		//EventBus.getDefault().register(this);
 		getComplaints();
 	}
 

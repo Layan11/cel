@@ -220,6 +220,7 @@ public class SimpleClient extends AbstractClient {
 		
 		//elinjammal
 		if (myMsg.startsWith("All complaints")) {
+			System.out.println("in client All complaint");
 			Allcomplaints=triple_msg.getListOfcomplaints();
 			EventBus.getDefault().post(new gotallcomplaintsevent());
 		}

@@ -37,9 +37,6 @@ public class FillingComplaintController implements Initializable {
     @FXML // fx:id="Back_to_home"
     private Button Back_to_home; // Value injected by FXMLLoader
 
-    @FXML // fx:id="invaled_label1"
-    private Label invaled_label1; // Value injected by FXMLLoader
-
     @FXML // fx:id="invalid_label2"
     private Label invalid_label2; // Value injected by FXMLLoader
 
@@ -55,13 +52,13 @@ public class FillingComplaintController implements Initializable {
 		String name = name_box.getText();
 		String complaint = complaint_box.getText();
 		if (name.equals(""))
-			invaled_label1.setText("Enter your name please");
+			invalid_label2.setText("Enter your name please");
 		else if (complaint.equals(""))
 			invalid_label2.setText("Enter your complaint please");
 		else {
 			
 			invalid_label2.setText("");
-			invaled_label1.setText("");
+			
 			Movie comp = new Movie();
 			comp.setEngName(name);
 			comp.setHebName(complaint);

@@ -754,7 +754,8 @@ public class SimpleServer extends AbstractServer {
 		}
 		
 		if (ObjctMsg.startsWith("Show complaints")) {
-			try {
+			System.out.println("in the server of show chow complaints");
+			try {                                                                                                                                            
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				List<complaint>Lofcomplaints=getComplaintslist();
@@ -809,7 +810,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		if (ObjctMsg.startsWith("Remove link")) {
+		if (ObjctMsg.startsWith("Remove link")) {         
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
