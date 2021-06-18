@@ -231,6 +231,10 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.startsWith("found movie to update price")) {
 			EventBus.getDefault().post(new GotMovieToUpdatePriceEvent());
 		}
+		if(myMsg.startsWith("This Link is not for you")) {
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
 	}
 
 	public static SimpleClient getClient() {

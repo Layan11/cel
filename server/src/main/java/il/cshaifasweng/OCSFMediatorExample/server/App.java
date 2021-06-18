@@ -367,9 +367,6 @@ public class App {
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
 
-		link mytestlink = new link(1, "KungFuPanda", 5, 7);
-		session.save(mytestlink);
-		session.flush();
 		Ticket mytestticket = new Ticket("randomtest", "random hall", 15, 5);
 		session.save(mytestticket);
 		session.flush();

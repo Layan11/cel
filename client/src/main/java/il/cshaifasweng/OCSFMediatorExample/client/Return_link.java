@@ -61,7 +61,9 @@ public class Return_link implements Initializable {
 		int x;
 
 		x = Integer.parseInt(Ret_Link_Label.getText());
-		mystr = "Delete link " + x;
+		
+		mystr = "Delete link " + x +" for user " + loginController.currentUser;
+		System.out.println(mystr);
 		TripleObject msg = new TripleObject(mystr, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		retmsg.setVisible(true);

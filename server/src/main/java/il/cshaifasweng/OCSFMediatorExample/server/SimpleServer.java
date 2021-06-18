@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -988,7 +989,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1043,7 +1044,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1109,7 +1110,7 @@ public class SimpleServer extends AbstractServer {
 		String ObjctMsg = tuple_msg.getMsg();
 		boolean let_in = false;
 
-		String message = ObjctMsg.substring(12);
+		String message = ObjctMsg.substring(12,13);
 
 		System.out.println(message);
 		int x = Integer.parseInt(message);
@@ -1119,27 +1120,38 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		Statement stmt = null;
 		ResultSet rs1 = null;
+		
 		Statement stmt2 = null;
+		String user=null;
+		String user2= ObjctMsg.substring(23);
+		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
 			stmt2 = c.createStatement();
 
-			Calendar rightNow = Calendar.getInstance();
-			int hour = 3;
-
-			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
-			System.out.println(hour2);
+			LocalDateTime rightNow = LocalDateTime.now();
+			LocalDateTime rightNow2 = LocalDateTime.now();
+			LocalDateTime getime=null; 
+			rightNow = rightNow.plusHours(3);
+			
 			rs1 = stmt2.executeQuery("SELECT * FROM links WHERE link_id=' " + x + "'");
 			System.out.println("passed the selection");
 			while (rs1.next()) {
-				hour = rs1.getInt("start_time_of_work");
-				System.out.println(hour);
+				String str = rs1.getString("start_time_of_work");
+				user= rs1.getString("user_name");
+				str=str.replace(" ","T");
+			
+				System.out.println(str);
+				getime= LocalDateTime.parse(str);
 			}
-			if (hour2 - hour >= 3) {
+			System.out.println("Date: " + rightNow);
+			System.out.println("Date2: " + getime);
+		if(user2.equals(user)) {
+		if ( rightNow.isBefore(getime)) {
 				try {
 					System.out.println("im in the first if");
 					client.sendToClient(new TripleObject("You get 100% refound", null, null));
@@ -1148,7 +1160,9 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-			if (hour2 - hour >= 1 && hour2 - hour < 3) {
+		else {
+			rightNow.minusHours(2);
+			if (rightNow.isBefore(getime)) {
 				try {
 					System.out.println("im in the second if");
 					client.sendToClient(new TripleObject("You get 50% refound", null, null));
@@ -1157,7 +1171,7 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-			if (hour2 - hour < 1) {
+			else {
 				try {
 					System.out.println("im in the third if");
 					client.sendToClient(new TripleObject("You get no refound", null, null));
@@ -1166,6 +1180,7 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+		}
 
 			int rs = stmt.executeUpdate("DELETE FROM links WHERE link_id= ' " + x + "'");
 			if (rs != 0) {
@@ -1173,14 +1188,27 @@ public class SimpleServer extends AbstractServer {
 			}
 			stmt.close();
 			c.close();
-		} catch (Exception e) {
+		}else {
+			try {
+				System.out.println("im in the wrong user if");
+				client.sendToClient(new TripleObject("This Link is not for you", null, null));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
+		
 		System.out.println("Operation done successfully");
 		System.out.println(let_in);
 		return let_in;
+
+		// TODO: add close connection
 	}
+
 
 	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();

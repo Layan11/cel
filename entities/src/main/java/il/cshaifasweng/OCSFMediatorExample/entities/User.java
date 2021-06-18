@@ -22,6 +22,7 @@ public class User implements Serializable {
 				// Employee
 	boolean Is_Logged_In;
 	private int packageId = -1;
+	private String Payment_Method;
 
 	public User() {
 
@@ -75,5 +76,8 @@ public class User implements Serializable {
 
 	public void setPackageId(int packageId) {
 		this.packageId = packageId;
+	}
+	public void setPay(String way) {
+		this.Payment_Method=way;
 	}
 }
