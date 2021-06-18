@@ -20,6 +20,7 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> MovieNames = new ArrayList<String>();
 	public static int PackageNumOfTickets;
 	public static Reports report = new Reports();
+	public static List<Integer> list2 = new ArrayList<Integer>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -30,6 +31,7 @@ public class SimpleClient extends AbstractClient {
 		System.out.println("in handle message from server");
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
+		System.out.println("in client , the msg is : " + myMsg);
 		if (myMsg.equals("no such movie")) {
 			EventBus.getDefault().post(new NoSuchMovieEvent());
 		}
@@ -234,8 +236,8 @@ public class SimpleClient extends AbstractClient {
 		}
 		if (myMsg.startsWith("All reports")) {
 			System.out.println("CLIENT");
-			report = triple_msg.getReport().get(0);
-			System.out.println("CLIENT2");
+			//report = triple_msg.getReport();
+			list2 = triple_msg.getList2();
 			EventBus.getDefault().post(new GotReportEvent());
 		}
 	}

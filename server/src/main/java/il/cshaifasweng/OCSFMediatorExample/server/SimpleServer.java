@@ -831,15 +831,27 @@ public class SimpleServer extends AbstractServer {
 		if (ObjctMsg.startsWith("Show reports")) {
 			try {
 				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
+				//App.session.beginTransaction();
 				Reports report = getReports(1).get(0);
+				System.out.println("report in  server ; " + report.getPackages());
 				TripleObject to = new TripleObject("All reports", null, null);
-				List<Reports> list = new ArrayList<Reports>();
-				list.add(report);
-				to.setReport(list);
+				List<Integer> list2 = new ArrayList<Integer>();
+				
+				list2.add(report.getTicketsInHaifa());
+				list2.add(report.getReturnedTicketsInHaifa());
+				list2.add(report.getTicketsInShefaAmr());
+				list2.add(report.getReturnedTicketsInShefaAmr());
+				list2.add(report.getLinks());
+				list2.add(report.getPackages());
+				to.setList2(list2);
+				to.setMsg("All reports");
+				//to.setReport(report);
 				System.out.println("SERVER");
 				System.out.println("report = " + report.getReturnedTicketsInHaifa());
+				System.out.println(to.getMsg());
 				client.sendToClient(to);
+				System.out.println("After send to client");
+				//App.session.getTransaction().commit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1013,7 +1025,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1068,7 +1080,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
