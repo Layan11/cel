@@ -13,12 +13,20 @@ public class TripleObject implements Serializable {
 	List<MovieTimes> movieTimes;
 	@ElementCollection(fetch = FetchType.EAGER)
 	List<String> list;
-	// List<Reports> report;
+	List<Integer> list2;
 
 	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;
 		this.movies = movies;
 		this.movieTimes = movieTimes;
+	}
+
+	public List<Integer> getList2() {
+		return list2;
+	}
+
+	public void setList2(List<Integer> list2) {
+		this.list2 = list2;
 	}
 
 	public String getMsg() {
@@ -54,11 +62,11 @@ public class TripleObject implements Serializable {
 		return list;
 	}
 
-//	public List<Reports> getReport() {
+//	public Reports getReport() {
 //		return report;
 //	}
 //
-//	public void setReport(List<Reports> report) {
+//	public void setReport(Reports report) {
 //		this.report = report;
 //	}
 }

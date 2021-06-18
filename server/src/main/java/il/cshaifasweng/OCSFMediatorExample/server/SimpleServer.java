@@ -831,15 +831,28 @@ public class SimpleServer extends AbstractServer {
 		if (ObjctMsg.startsWith("Show reports")) {
 			try {
 				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
+				// App.session.beginTransaction();
 				Reports report = getReports(1).get(0);
+				System.out.println("report in  server ; " + report.getPackages());
 				TripleObject to = new TripleObject("All reports", null, null);
-				List<Reports> list = new ArrayList<Reports>();
-				list.add(report);
-				// to.setReport(list);
+				// List<Reports> list = new ArrayList<Reports>();
+				// list.add(report);
+				List<Integer> list2 = new ArrayList<Integer>();
+
+				list2.add(report.getTicketsInHaifa());
+				list2.add(report.getReturnedTicketsInHaifa());
+				list2.add(report.getTicketsInShefaAmr());
+				list2.add(report.getReturnedTicketsInShefaAmr());
+				list2.add(report.getLinks());
+				list2.add(report.getPackages());
+				to.setList2(list2);
+				to.setMsg("All reports");
 				System.out.println("SERVER");
 				System.out.println("report = " + report.getReturnedTicketsInHaifa());
+				System.out.println(to.getMsg());
 				client.sendToClient(to);
+				System.out.println("After send to client");
+				// App.session.getTransaction().commit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
