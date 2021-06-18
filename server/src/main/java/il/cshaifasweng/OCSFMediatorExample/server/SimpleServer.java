@@ -836,7 +836,7 @@ public class SimpleServer extends AbstractServer {
 				TripleObject to = new TripleObject("All reports", null, null);
 				List<Reports> list = new ArrayList<Reports>();
 				list.add(report);
-				to.setReport(list);
+				// to.setReport(list);
 				System.out.println("SERVER");
 				System.out.println("report = " + report.getReturnedTicketsInHaifa());
 				client.sendToClient(to);

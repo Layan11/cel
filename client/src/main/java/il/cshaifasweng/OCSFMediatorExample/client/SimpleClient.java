@@ -234,7 +234,7 @@ public class SimpleClient extends AbstractClient {
 		}
 		if (myMsg.startsWith("All reports")) {
 			System.out.println("CLIENT");
-			report = triple_msg.getReport().get(0);
+			// report = triple_msg.getReport().get(0);
 			System.out.println("CLIENT2");
 			EventBus.getDefault().post(new GotReportEvent());
 		}

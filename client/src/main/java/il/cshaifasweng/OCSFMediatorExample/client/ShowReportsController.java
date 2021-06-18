@@ -3,7 +3,6 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,13 +40,13 @@ public class ShowReportsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if (loginController.loginRole == 0) {// show everything
-			Reports report = SimpleClient.report;
-			TicketsInHaifatxt.setText(Integer.toString(report.getTicketsInHaifa()));
-			returnedTicketsInHaifatxt.setText(Integer.toString(report.getReturnedTicketsInHaifa()));
-			Links.setText(Integer.toString(report.getLinks()));
-			TicketsInShefaAmrtxt.setText(Integer.toString(report.getTicketsInShefaAmr()));
-			returnedTicketsInShefaAmrtxt.setText(Integer.toString(report.getReturnedTicketsInShefaAmr()));
-			Packages.setText(Integer.toString(report.getPackages()));
+//			Reports report = SimpleClient.report;
+//			TicketsInHaifatxt.setText(Integer.toString(report.getTicketsInHaifa()));
+//			returnedTicketsInHaifatxt.setText(Integer.toString(report.getReturnedTicketsInHaifa()));
+//			Links.setText(Integer.toString(report.getLinks()));
+//			TicketsInShefaAmrtxt.setText(Integer.toString(report.getTicketsInShefaAmr()));
+//			returnedTicketsInShefaAmrtxt.setText(Integer.toString(report.getReturnedTicketsInShefaAmr()));
+//			Packages.setText(Integer.toString(report.getPackages()));
 		} else if (loginController.currentUser.equals("Ursula")) {// show haifa reports
 
 		} else if (loginController.currentUser.equals("Consuela")) {// show shefaAmr reports
