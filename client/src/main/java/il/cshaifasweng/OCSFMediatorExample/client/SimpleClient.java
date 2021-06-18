@@ -238,6 +238,10 @@ public class SimpleClient extends AbstractClient {
 			list2 = triple_msg.getList2();
 			EventBus.getDefault().post(new GotReportEvent());
 		}
+		if (myMsg.startsWith("This Link is not for you")) {
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
 	}
 
 	public static SimpleClient getClient() {

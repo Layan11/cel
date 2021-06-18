@@ -47,6 +47,8 @@ public class Watch_At_HomeController implements Initializable {
 
 	@FXML
 	void buy_link_btn(ActionEvent event) throws IOException {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selected_watch_at_home_Movie = selected;
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("Buy_Link");
