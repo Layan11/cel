@@ -471,9 +471,6 @@ public class App {
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
 
-		Ticket mytestticket = new Ticket("randomtest", "random hall", 15, 5);
-		session.save(mytestticket);
-		session.flush();
 	}
 
 	private static List<Movie> getAllMovies() throws Exception {

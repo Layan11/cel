@@ -17,24 +17,29 @@ public class Ticket implements Serializable {
 	private int ticket_id;
 	private String movie_of_tick;
 	private String hall;
-	int chair_num;
-	int start_time;
-
+	String chair_num;
+	String start_time;
+	String user_name;
+	String method_pay;
 	public Ticket() {
 
 	}
 
-	public Ticket(String _movie, String _hall, int time, int _chair_num) {
+	public Ticket(String _movie, String _hall,String time, String _chair_num,String user,String way) {
 		this.movie_of_tick = _movie;
 		this.hall = _hall;
 		this.start_time = time;
 		this.chair_num = _chair_num;
+		this.user_name=user;
+		this.method_pay=way;
 	}
 
 	public String get_hall() {
 		return this.hall;
 	}
-
+	public String getuser() {
+		return this.user_name;
+	}
 	public String get_movie() {
 		return this.movie_of_tick;
 	}

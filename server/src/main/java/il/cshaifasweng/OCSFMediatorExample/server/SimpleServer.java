@@ -1092,7 +1092,8 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	// ***saleh***
-
+	
+	
 	private int add_seat(int mapchair_id, String num_seat) {
 
 		Connection c = null;
@@ -1100,7 +1101,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1138,7 +1139,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		int mapchair_id = -1;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1165,7 +1166,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@" + "");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1203,7 +1204,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1258,7 +1259,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1341,7 +1342,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();

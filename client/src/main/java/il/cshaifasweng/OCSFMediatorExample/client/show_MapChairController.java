@@ -29,6 +29,7 @@ import javafx.event.ActionEvent;
 public class show_MapChairController implements Initializable {
 	private String num_chair="-1";
 	private Button mybutton;
+	public static String num_chair1;
 	
 	  @FXML
 	    private Button seat1;
@@ -348,9 +349,7 @@ public class show_MapChairController implements Initializable {
 	    @FXML
 	    private Button nobtn;
 	    
-	    @FXML
-	    private Button home;
-	    
+
 	    @FXML
 	    private Button bnm;
 	    
@@ -360,10 +359,20 @@ public class show_MapChairController implements Initializable {
 	    @FXML
 	    private Text seatnum;
 	    
-
+	    @FXML
+	    private Button Back;
 
 	   
-
+	    @FXML
+	    void Back_btn(ActionEvent event) throws IOException {
+	    	Platform.runLater(() -> {
+				try {
+					App.setRoot("browse_movies");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+	    }
 	   
 
 	    @FXML
@@ -892,35 +901,19 @@ public class show_MapChairController implements Initializable {
 
     }
     
-    @FXML
-    void gohome(ActionEvent event) {
-    	Platform.runLater(() -> {
-			try {
-				App.setRoot("primary");
-				//System.out.println("after the load line of brwose movies in primary");
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}});
-
-
-
-    }
     
     @FXML
     void browsemovies(ActionEvent event) {	
     	Platform.runLater(() -> {
 			try {
-				App.setRoot("browse_movies");
+				App.setRoot("Pay_Ticket");
 				//System.out.println("after the load line of brwose movies in primary");
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}});
-
-
     }
     
     
@@ -931,7 +924,7 @@ public class show_MapChairController implements Initializable {
     	System.out.println(num_chair);
     	mybutton.setStyle("-fx-background-color: red;");
     	Movie m= browse_moviesController.selectedMovie;
-		TripleObject msg = new TripleObject("update mapchair with new seat",(int)m.getId(),browse_moviesController.time_movie,num_chair);
+		TripleObject msg = new TripleObject("update mapchair with new seat",(int)m.getId(),Screening_TimesController.timesave,num_chair);
     	try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -940,9 +933,8 @@ public class show_MapChairController implements Initializable {
 		}
     	seatnum.setText(num_chair);
     	pane1.setVisible(false);
-    	pane4.setVisible(true);
-    	
-    	    	
+    	pane4.setVisible(true);    	
+    	num_chair1=  mybutton.getText();
 
     }
     
@@ -951,7 +943,6 @@ public class show_MapChairController implements Initializable {
     	mybutton.setStyle("-fx-background-color: green;");
     	pane1.setVisible(false);
     	pane3.setVisible(false);
-
 
     }
     private void click_btnseat(Button mybtn) {

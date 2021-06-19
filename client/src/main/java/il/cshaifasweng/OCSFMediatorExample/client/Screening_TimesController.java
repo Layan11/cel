@@ -24,9 +24,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class Screening_TimesController implements Initializable {
-
+	public static String timesave;
 	@FXML
 	private Button edit;
 	@FXML
@@ -49,6 +50,8 @@ public class Screening_TimesController implements Initializable {
 	private Button buy;
 	@FXML
 	private Label label;
+	@FXML
+	private TextField timetobuy;
 
 	public static String action = "";
 	public static String selectedScreeningTime = "";
@@ -57,6 +60,34 @@ public class Screening_TimesController implements Initializable {
 	@FXML
 	void gotoBuy(ActionEvent event) {
 		// App.setRoot("mapChair");
+		Movie selected = browse_moviesController.selectedMovie;
+		timesave="'" + timetobuy.getText() + "'";
+		
+		String time_movie = "'" + timetobuy.getText() + "'";
+
+		int movie_id;
+		try {
+			movie_id = selected.getId();
+			// String movietime=m.getMovieTimes().getTimes().get(0);
+			String movietime = time_movie;
+			TripleObject msg = new TripleObject("get my map chair", movie_id, movietime);
+			SimpleClient client = SimpleClient.getClient();
+			client.sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("buy_ticket");
+				// System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 	}
 
 	@FXML

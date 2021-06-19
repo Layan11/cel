@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -36,6 +37,7 @@
             <Button fx:id="delete" layoutX="248.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoDelete" text="Delete" />
             <Button fx:id="add" layoutX="113.0" layoutY="371.0" mnemonicParsing="false" onAction="#gotoAdd" text="Add new screening" />
             <Button fx:id="buy" layoutX="367.0" layoutY="281.0" mnemonicParsing="false" onAction="#gotoBuy" text="Buy Ticket" />
+            <TextField fx:id="timetobuy" layoutX="230.0" layoutY="280.0" prefHeight="26.0" prefWidth="135.0" promptText="Enter Time" />
          </children></AnchorPane>
    </children>
 </AnchorPane>
