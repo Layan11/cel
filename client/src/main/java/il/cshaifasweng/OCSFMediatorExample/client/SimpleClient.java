@@ -7,7 +7,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 
 public class SimpleClient extends AbstractClient {
@@ -19,8 +18,9 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> MovieDates = new ArrayList<String>();
 	public static List<String> MovieNames = new ArrayList<String>();
 	public static int PackageNumOfTickets;
-	public static Reports report = new Reports();
 	public static List<Integer> list2 = new ArrayList<Integer>();
+	public static List<String> ComplaintsContent = new ArrayList<String>();
+	public static List<String> ComplaintsUser = new ArrayList<String>();
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -242,6 +242,14 @@ public class SimpleClient extends AbstractClient {
 			TripleObject msg2 = new TripleObject(myMsg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
+		// elinjammal
+		if (myMsg.startsWith("All complaints")) {
+			System.out.println("in client All complaint");
+			ComplaintsContent = triple_msg.getComplaintsContent();
+			ComplaintsUser = triple_msg.getComplaintsUser();
+			EventBus.getDefault().post(new gotallcomplaintsevent());
+		}
+
 	}
 
 	public static SimpleClient getClient() {
