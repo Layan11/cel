@@ -827,13 +827,16 @@ public class SimpleServer extends AbstractServer {
 				List<complaint> Lofcomplaints = getComplaintslist();
 				List<String> complaintsContent = new ArrayList<String>();
 				List<String> complaintsUser = new ArrayList<String>();
+				List<String> complaintTime = new ArrayList<String>();
 				for (int i = 0; i < Lofcomplaints.size(); i++) {
 					complaintsContent.add(Lofcomplaints.get(i).getComplaintcontext());
 					complaintsUser.add(Lofcomplaints.get(i).getName());
+					complaintTime.add(Lofcomplaints.get(i).getTime());
 				}
 				TripleObject to = new TripleObject("All complaints", null, null);
 				to.setComplaintsContent(complaintsContent);
 				to.setComplaintsUser(complaintsUser);
+				to.setComplaintTime(complaintTime);
 				try {
 					client.sendToClient(to);
 				} catch (IOException e) {

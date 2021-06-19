@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -16,11 +17,21 @@ public class TripleObject implements Serializable {
 	List<Integer> list2;
 	List<String> complaintsContent;
 	List<String> complaintsUser;
+	List<String> complaintTime;
 	int movie_id;
 	String movie_time;
 	List<Integer> mapchair;
 	String num_seat;
 
+	
+	public List<String> getComplaintTime() {
+		return complaintTime;
+	}
+
+	public void setComplaintTime(List<String> complainttime) {
+		this.complaintTime = complainttime;
+	}
+	
 	public List<String> getComplaintsContent() {
 		return complaintsContent;
 	}

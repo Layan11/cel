@@ -46,6 +46,13 @@ public class menuController implements Initializable {
 	private Button packageStatus;
 	@FXML
 	private Button reports;
+    @FXML
+    private Button myMsgs;
+
+    @FXML
+    void gotoMyMsgs(ActionEvent event) {
+        
+    }
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,9 +24,19 @@ public class User implements Serializable {
 	boolean Is_Logged_In;
 	private int packageId = -1;
 	private String Payment_Method;
+	@OneToMany
+	private messages msg;
 
 	public User() {
 
+	}
+
+	public messages getMsg() {
+		return msg;
+	}
+
+	public void setMsg(messages msg) {
+		this.msg = msg;
 	}
 
 	public User(String user_Name, String password) {

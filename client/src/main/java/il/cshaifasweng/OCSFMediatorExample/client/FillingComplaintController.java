@@ -49,6 +49,7 @@ public class FillingComplaintController implements Initializable {
 	@FXML
 	void sendComplaintandhome(ActionEvent event) throws IOException 
 	{
+		//String name = getUser.getText();
 		String name = name_box.getText();
 		String complaint = complaint_box.getText();
 		if (name.equals(""))

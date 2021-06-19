@@ -9,6 +9,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -34,11 +35,18 @@ public class showComplaintController implements Initializable {
 	private TableView<String> tableView2; // Value injected by FXMLLoader
 	@FXML
 	private TableView<String> table2;
+
+    @FXML
+    private TableView<String> table3;
+    
 	@FXML // fx:id="username"
 	private TableColumn<String, String> username; // Value injected by FXMLLoader
 
 	@FXML // fx:id="complaintCol"
 	private TableColumn<String, String> complaintCol; // Value injected by FXMLLoader
+	
+	@FXML
+    private TableColumn<String, String> timeCol;
 
 	@FXML // fx:id="back"
 	private Button back; // Value injected by FXMLLoader
@@ -58,9 +66,10 @@ public class showComplaintController implements Initializable {
 
 	@FXML
 	void gotoSendAnswer(ActionEvent event) {
-
+         
 	}
 
+	@SuppressWarnings("unchecked")
 	private void getComplaints() {
 		final ObservableList<String> comp = FXCollections.observableArrayList(SimpleClient.ComplaintsContent);
 		tableView2.setEditable(true);
@@ -73,6 +82,12 @@ public class showComplaintController implements Initializable {
 		username.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 		table2.getColumns().setAll(username);
 		table2.setItems(users);
+		
+		final ObservableList<String> Time = FXCollections.observableArrayList(SimpleClient.ComplaintTime);
+		table3.setEditable(true);
+		timeCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+		table3.getColumns().setAll(timeCol);
+		table3.setItems(Time);
 	}
 
 	@Override

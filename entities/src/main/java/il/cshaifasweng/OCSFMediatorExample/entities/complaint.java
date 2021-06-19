@@ -34,8 +34,8 @@ public class complaint implements Serializable {
 		time = LocalDateTime.now();
 	}
 
-	public LocalDateTime getTime() {
-		return time;
+	public String getTime() {
+		return time.toString();
 	}
 
 	public void setTime(LocalDateTime time) {
