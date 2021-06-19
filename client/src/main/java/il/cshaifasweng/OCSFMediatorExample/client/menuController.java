@@ -196,6 +196,7 @@ public class menuController implements Initializable {
 			more_actions.setVisible(false);
 			lesser_pack.setVisible(false);
 			back.setVisible(false);
+			reports.setVisible(false);
 		}
 		if (loginController.loginRole == 0) {
 			ShowComplaints.setVisible(false);
@@ -216,6 +217,7 @@ public class menuController implements Initializable {
 			more_actions.setVisible(false);
 			lesser_pack.setVisible(false);
 			back.setVisible(false);
+			reports.setVisible(false);
 		}
 		if (loginController.loginRole == 3) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS
 												// employee 3->no account
@@ -229,6 +231,7 @@ public class menuController implements Initializable {
 			logout.setVisible(false);
 			pack_btn.setVisible(false);
 			packageStatus.setVisible(false);
+			reports.setVisible(false);
 		}
 	}
 }

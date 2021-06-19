@@ -1027,7 +1027,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1082,7 +1082,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1165,7 +1165,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
