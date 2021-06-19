@@ -44,6 +44,7 @@ public class Movie implements Serializable {
 	@JoinColumn(name = "MovieTimes_id")
 	@OneToOne(fetch = FetchType.EAGER)
 	private MovieTimes Times;
+
 	private String image;
 	private String branch;
 

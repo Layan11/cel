@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="643.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController">
+   <children>
+      <VBox prefHeight="531.0" prefWidth="652.0" />
+      <AnchorPane layoutX="7.0" layoutY="4.0" prefHeight="527.0" prefWidth="643.0" style="-fx-background-color: #730606;">
+         <children>
+            <TableView fx:id="tableView" layoutX="-9.0" layoutY="82.0" prefHeight="445.0" prefWidth="253.0" style="-fx-fixed-cell-size: 80px; -fx-font-size: 16;">
+              <columns>
+                <TableColumn fx:id="firstNameColumn" prefWidth="140.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Movie name" />
+                  <TableColumn fx:id="priceColumn" prefWidth="109.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Price" />
+              </columns>
+            </TableView>
+            <Button fx:id="Go_back" layoutX="542.0" layoutY="477.0" mnemonicParsing="false" onAction="#gobacktoprimary" prefHeight="28.0" prefWidth="92.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Go_back" />
+            <ImageView fitHeight="37.0" fitWidth="130.0" layoutX="253.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" scaleX="5.0" scaleY="2.5">
+               <image>
+                  <Image url="@movie-banners-vector-illustration-46569846.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="Show_screening_time" layoutX="538.0" layoutY="366.0" mnemonicParsing="false" onAction="#gotoShow_screening_time" prefHeight="61.0" prefWidth="107.0" style="-fx-background-radius: 40; -fx-background-color: #f8e9bb;" text="Show_screening_time" wrapText="true" />
+            <Label layoutX="244.0" layoutY="86.0" prefHeight="20.0" prefWidth="107.0" style="-fx-background-color: #f8e9bb;" text="Image">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="image1" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="image2" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="image3" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="image4" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="image5" fitHeight="67.0" fitWidth="79.0" layoutX="244.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btn_buyticket" layoutX="386.0" layoutY="307.0" mnemonicParsing="false" onAction="#buy_ticket" prefHeight="28.0" prefWidth="79.0" text="buy ticket" />
+            <TextField fx:id="choosetime" layoutX="483.0" layoutY="308.0" text="choose time" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

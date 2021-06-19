@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.Package;
@@ -1062,7 +1063,131 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
+		// ****saleh****
+		if (ObjctMsg.startsWith("get my map chair")) {
+			App.session = App.sessionFactory.openSession();
+			int id_movie = tuple_msg.getID();
+			String time_movie = tuple_msg.getTime();
+			List<Integer> mc = getMapChair(getmapchairid(id_movie, time_movie));
+			try {
+				TripleObject msg2 = new TripleObject("get mapchair", mc);
+				client.sendToClient(msg2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+
+		}
+
+		if (ObjctMsg.startsWith("update mapchair with new seat")) {
+			App.session = App.sessionFactory.openSession();
+			String num_seat = tuple_msg.getnumseat();
+			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime());
+			System.out.println("mapchair id " + mapchair_id);
+			add_seat(mapchair_id, num_seat);
+			App.session.close();
+
+		}
+		// ****saleh****
 	}
+
+	// ***saleh***
+
+	private int add_seat(int mapchair_id, String num_seat) {
+
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		List<Integer> mymapchairs = new ArrayList<Integer>();
+
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet RS2 = stmt.executeQuery(
+					"select MY_mapchairs From mapchair_mymapchair where MapChair_id=" + mapchair_id + ";");
+			while (RS2.next()) {
+				mymapchairs.add((Integer) RS2.getInt(1));
+				System.out.println((Integer) RS2.getInt(1));
+			}
+			mymapchairs.add(Integer.parseInt(num_seat));
+
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		try {
+			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			MapChair mc = App.session.get(MapChair.class, mapchair_id);
+			mc.setMapChair(mymapchairs);
+			App.session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+		App.session.close();
+		return 1;
+	}
+
+	private int getmapchairid(int id_movie, String time) {
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		int mapchair_id = -1;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet RS1 = stmt
+					.executeQuery("select *From mapchair where movie_id=" + id_movie + " and start_time=" + time + ";");
+			if (RS1 == null) {
+				System.out.print("Error, movie at this time not found");
+				return -1;
+			}
+			if (RS1.next())
+				mapchair_id = (int) RS1.getInt("id");
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		return mapchair_id;
+	}
+
+	private List<Integer> getMapChair(int mapchair_id) {
+		List<Integer> mymapchair = new ArrayList<Integer>();
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@" + "");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet RS2 = stmt.executeQuery(
+					"select MY_mapchairs From mapchair_mymapchair where MapChair_id=" + mapchair_id + ";");
+
+			while (RS2.next()) {
+				mymapchair.add((Integer) RS2.getInt(1));
+			}
+			stmt.close();
+			c.close();
+			return mymapchair;
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		return mymapchair;
+
+	}
+	// work
+	// ***saleh***
 
 	private boolean Lesser_Pack(Object msg, ConnectionToClient client) {
 		TripleObject tuple_msg = (TripleObject) msg;
@@ -1390,15 +1515,6 @@ public class SimpleServer extends AbstractServer {
 		List<Reports> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
-//	private static List<MovieTimes> getAllMovieTimes() {
-//		CriteriaBuilder builder = App.session.getCriteriaBuilder();
-//		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
-//		query.from(MovieTimes.class);
-//		List<MovieTimes> data = App.session.createQuery(query).getResultList();
-//		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
-//		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
-//		return data;
-//	}
 
 	private static Boolean isBigger(String date1, String date2) {
 		List<String> dates1 = Arrays.asList(date1.split("/"));

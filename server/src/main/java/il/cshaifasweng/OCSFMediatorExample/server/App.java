@@ -14,6 +14,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Cinema;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
+import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.Package;
@@ -44,6 +47,9 @@ public class App {
 		configuration.addAnnotatedClass(Package.class);
 		configuration.addAnnotatedClass(Reports.class);
 		configuration.addAnnotatedClass(complaint.class);
+		configuration.addAnnotatedClass(Cinema.class);
+		configuration.addAnnotatedClass(Hall.class);
+		configuration.addAnnotatedClass(MapChair.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -52,6 +58,14 @@ public class App {
 	}
 
 	private static void generateData() throws Exception {
+		// ****************
+		Hall hall_1 = new Hall(100);
+		Hall hall_2 = new Hall(100);
+		Hall hall_3 = new Hall(100);
+		Hall hall_4 = new Hall(100);
+		Hall hall_5 = new Hall(100);
+		// ****************
+
 		// Now broadcast in branches
 //Aladdin
 		String AladdinImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Aladdin_poster_1992.jpg");
@@ -78,6 +92,16 @@ public class App {
 		session.save(AladdinMovie);
 		session.flush();
 
+		MapChair mc1 = new MapChair(10, 10, AladdinMovie.getId(), "18:00");
+		MapChair mc2 = new MapChair(10, 10, AladdinMovie.getId(), "20:00");
+		session.save(mc1);
+		session.flush();
+		session.save(mc2);
+		session.flush();
+		hall_1.add_IDMapChair(mc1.getID());
+		hall_1.add_IDMapChair(mc2.getID());
+		hall_1.add_IDMovie(AladdinMovie.getId());
+
 //Shrek
 		String ShrekImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Shrek.jpg");
 		List<String> ShrekActorsList = new ArrayList<String>();
@@ -99,6 +123,11 @@ public class App {
 		ShrekMovie.setArbName("شريك");
 		session.save(ShrekMovie);
 		session.flush();
+		MapChair mc_sh = new MapChair(10, 10, ShrekMovie.getId(), "17:30");
+		session.save(mc_sh);
+		session.flush();
+		hall_2.add_IDMapChair(mc_sh.getID());
+		hall_2.add_IDMovie(ShrekMovie.getId());
 //Snow White
 		String SnowWhiteImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\SnowWhite.jpg");
 		List<String> SnowWhiteActorsList = new ArrayList<String>();
@@ -120,6 +149,11 @@ public class App {
 		SnowWhiteMovie.setArbName("بيضاء الثلج");
 		session.save(SnowWhiteMovie);
 		session.flush();
+		MapChair mc_SW = new MapChair(10, 10, SnowWhiteMovie.getId(), "20:15");
+		session.save(mc_SW);
+		session.flush();
+		hall_3.add_IDMovie(SnowWhiteMovie.getId());
+		hall_3.add_IDMapChair(mc_SW.getID());
 
 //Fast and Furious
 		String FnFImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\FastAndTheFurious.jpg");
@@ -145,6 +179,15 @@ public class App {
 		FastAndFuriousMovie.setArbName("السرعة والغضب");
 		session.save(FastAndFuriousMovie);
 		session.flush();
+		MapChair mc_FAF_1 = new MapChair(10, 10, FastAndFuriousMovie.getId(), "19:45");
+		MapChair mc_FAF_2 = new MapChair(10, 10, FastAndFuriousMovie.getId(), "21:30");
+		session.save(mc_FAF_1);
+		session.flush();
+		session.save(mc_FAF_2);
+		session.flush();
+		hall_4.add_IDMovie(FastAndFuriousMovie.getId());
+		hall_4.add_IDMapChair(mc_FAF_1.getID());
+		hall_4.add_IDMapChair(mc_FAF_2.getID());
 
 //Dumbo
 		String DumboImage = ("C:\\Users\\Layan\\git\\cel\\server\\movie pics\\Dumbo.jpg");
@@ -170,6 +213,18 @@ public class App {
 		DumboMovie.setArbName("دامبو");
 		session.save(DumboMovie);
 		session.flush();
+
+//*******************************//
+		MapChair mc_D_1 = new MapChair(10, 10, DumboMovie.getId(), "19:50");
+		MapChair mc_D_2 = new MapChair(10, 10, DumboMovie.getId(), "21:30");
+		session.save(mc_D_1);
+		session.flush();
+		session.save(mc_D_2);
+		session.flush();
+		hall_5.add_IDMapChair(mc_D_1.getID());
+		hall_5.add_IDMapChair(mc_D_2.getID());
+		hall_5.add_IDMovie(DumboMovie.getId());
+		// **************************//
 
 		// coming soon
 
@@ -252,6 +307,47 @@ public class App {
 		KungFuPandaMovie.setImage(KungFuPandaImage);
 		session.save(KungFuPandaMovie);
 		session.flush();
+
+		// ******************************************************************************
+		/*
+		 * List<Integer> mapchair1=new ArrayList<Integer>(); MapChair mapchair=new
+		 * MapChair(10,10); session.save(mapchair); mapchair1.add(mapchair.getID());
+		 */
+		List<Integer> halls_id_list = new ArrayList<Integer>();
+		session.save(hall_1);
+		session.flush();
+		session.save(hall_2);
+		session.flush();
+		session.save(hall_3);
+		session.flush();
+		session.save(hall_4);
+		session.flush();
+		session.save(hall_5);
+		session.flush();
+		halls_id_list.add(hall_1.getID());
+		halls_id_list.add(hall_2.getID());
+		halls_id_list.add(hall_3.getID());
+		halls_id_list.add(hall_4.getID());
+		halls_id_list.add(hall_5.getID());
+
+		Cinema YesPlanet = new Cinema("Yes Planet", "Haifa", halls_id_list);
+		session.save(YesPlanet);
+		session.flush();
+		/*
+		 * List<Integer> halls_list2=new ArrayList<Integer>(); Hall hall_city_1=new
+		 * Hall(100,mapchair1); Hall hall_city_2=new Hall(100,mapchair1); Hall
+		 * hall_city_3=new Hall(100,mapchair1); Hall hall_city_4=new
+		 * Hall(100,mapchair1); Hall hall_city_5=new Hall(100,mapchair1);
+		 * session.save(hall_city_1); session.flush(); session.save(hall_city_2);
+		 * session.flush(); session.save(hall_city_3); session.flush();
+		 * session.save(hall_city_4); session.flush(); session.save(hall_city_5);
+		 * session.flush(); halls_list2.add(hall_1.getID());
+		 * halls_list2.add(hall_2.getID()); halls_list2.add(hall_3.getID());
+		 * halls_list2.add(hall_4.getID()); halls_list2.add(hall_5.getID()); Cinema
+		 * CinemaCity=new Cinema("Cinema City","Rashon Lisyon",halls_list2);
+		 * session.save(CinemaCity); session.flush();
+		 */
+		// *******************************************************************************************
 
 		// watch at home
 

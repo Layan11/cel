@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class browse_moviesController implements Initializable {
+	public static String time_movie;
 	@FXML
 	private TableView<Movie> tableView;
 	@FXML
@@ -48,8 +49,49 @@ public class browse_moviesController implements Initializable {
 	private TextField to;
 	@FXML
 	private Button filter;
+	@FXML
+	private Button btn_buyticket;
+
+	@FXML
+	private TextField choosetime;
 
 	public static Movie selectedMovie;
+
+	// **saleh**
+	@FXML
+	void buy_ticket(ActionEvent event) throws IOException {
+		Movie selected = tableView.getSelectionModel().getSelectedItem();
+		selectedMovie = selected;
+		time_movie = "'" + choosetime.getText() + "'";
+
+		Movie m = selectedMovie;
+		int movie_id;
+
+		try {
+			movie_id = m.getId();
+			// String movietime=m.getMovieTimes().getTimes().get(0);
+			String movietime = time_movie;
+			TripleObject msg = new TripleObject("get my map chair", movie_id, movietime);
+			SimpleClient client = SimpleClient.getClient();
+			client.sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("buy_ticket");
+				// System.out.println("after the load line of brwose movies in primary");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+
+	}
+	// **saleh**
 
 	@FXML
 	void Show(ActionEvent event) throws Exception {

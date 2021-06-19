@@ -22,6 +22,8 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> ComplaintsContent = new ArrayList<String>();
 	public static List<String> ComplaintsUser = new ArrayList<String>();
 
+	public static List<Integer> mc = new ArrayList<Integer>();
+
 	private SimpleClient(String host, int port) {
 		super(host, port);
 	}
@@ -249,6 +251,17 @@ public class SimpleClient extends AbstractClient {
 			ComplaintsUser = triple_msg.getComplaintsUser();
 			EventBus.getDefault().post(new gotallcomplaintsevent());
 		}
+
+		// ***saleh***
+		if (myMsg.equals("get mapchair")) {
+
+			System.out.println("*****busy seats*****");
+			mc = triple_msg.getMapChair();
+			for (int i = 0; i < mc.size(); i++) {
+				System.out.println(mc.get(i));
+			}
+		}
+		// ***saleh***
 
 	}
 

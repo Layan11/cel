@@ -14,21 +14,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "My_MovieTimes")
 public class MovieTimes implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> time;
+
 	@ElementCollection
 	private List<String> date;
-	/*
-	 * private List<Hall> hall; private List<String> branch; //private List<String>
-	 * Date;
-	 */
 
 	public MovieTimes() {
 
