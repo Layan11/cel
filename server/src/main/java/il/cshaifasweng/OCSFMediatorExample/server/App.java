@@ -26,6 +26,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
 
 public class App {
 
@@ -50,6 +51,7 @@ public class App {
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
 		configuration.addAnnotatedClass(MapChair.class);
+		configuration.addAnnotatedClass(purpleChar.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -473,6 +475,11 @@ public class App {
 
 		Ticket mytestticket = new Ticket("randomtest", "random hall", 15, 5);
 		session.save(mytestticket);
+		session.flush();
+		List<String> restrictedDates = new ArrayList<String>();
+		restrictedDates.add("21/08/2021");
+		purpleChar PC = new purpleChar(restrictedDates);
+		session.save(PC);
 		session.flush();
 	}
 

@@ -35,21 +35,7 @@ public class choose_type_to_browseController implements Initializable {
 	@FXML
 	private Button hybrid;
 
-	@FXML
-	private Button buy_tic;
-
 	public static String browseType = "";
-
-	@FXML
-	void buy_tic_btn(ActionEvent event) {
-		Platform.runLater(() -> {
-			try {
-				App.setRoot("Buy_Ticket");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-	}
 
 	@FXML
 	void goback(ActionEvent event) {

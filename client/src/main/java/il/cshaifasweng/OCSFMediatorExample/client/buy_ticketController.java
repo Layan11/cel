@@ -8,48 +8,34 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 public class buy_ticketController {
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private Button btn_choose;
-    
-   /* @FXML
-    private Button choosetime;
-    
-    @FXML
-    private TextField writetime;*/
-    
-   /* @FXML
-    void choose_time(ActionEvent event) {
-    	browse_moviesController.time_movie="'"+writetime.getText()+"'";
-    }
-*/
-    @FXML
-    void choose_seat(ActionEvent event) {
-    	
-    	Platform.runLater(() -> {
+	@FXML
+	private Button btn_choose;
+
+	@FXML
+	void choose_seat(ActionEvent event) {
+
+		Platform.runLater(() -> {
 			try {
 				App.setRoot("show_MapChair");
-				//System.out.println("after the load line of brwose movies in primary");
-
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}});
+			}
+		});
+	}
 
-    }
+	@FXML
+	void initialize() {
+		// assert btn_choose != null : "fx:id=\"btn_choose\" was not injected: check
+		// your FXML file 'buy_ticket.fxml'.";
 
-    @FXML
-    void initialize() {
-        assert btn_choose != null : "fx:id=\"btn_choose\" was not injected: check your FXML file 'buy_ticket.fxml'.";
-
-    }
+	}
 }

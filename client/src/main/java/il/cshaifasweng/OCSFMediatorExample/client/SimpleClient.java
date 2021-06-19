@@ -21,7 +21,7 @@ public class SimpleClient extends AbstractClient {
 	public static List<Integer> list2 = new ArrayList<Integer>();
 	public static List<String> ComplaintsContent = new ArrayList<String>();
 	public static List<String> ComplaintsUser = new ArrayList<String>();
-
+	public static String restrictionAns;
 	public static List<Integer> mc = new ArrayList<Integer>();
 
 	private SimpleClient(String host, int port) {
@@ -244,9 +244,12 @@ public class SimpleClient extends AbstractClient {
 			TripleObject msg2 = new TripleObject(myMsg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
+		if (myMsg.startsWith("checked day")) {
+			restrictionAns = triple_msg.getList().get(0);
+			EventBus.getDefault().post(new GotRestrictedAnsEvent());
+		}
 		// elinjammal
 		if (myMsg.startsWith("All complaints")) {
-			System.out.println("in client All complaint");
 			ComplaintsContent = triple_msg.getComplaintsContent();
 			ComplaintsUser = triple_msg.getComplaintsUser();
 			EventBus.getDefault().post(new gotallcomplaintsevent());
@@ -254,15 +257,10 @@ public class SimpleClient extends AbstractClient {
 
 		// ***saleh***
 		if (myMsg.equals("get mapchair")) {
-
-			System.out.println("*****busy seats*****");
 			mc = triple_msg.getMapChair();
-			for (int i = 0; i < mc.size(); i++) {
-				System.out.println(mc.get(i));
-			}
+			EventBus.getDefault().post(new gotMapChairevent());
 		}
 		// ***saleh***
-
 	}
 
 	public static SimpleClient getClient() {

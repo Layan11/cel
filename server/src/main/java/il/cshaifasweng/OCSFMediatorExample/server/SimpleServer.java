@@ -30,6 +30,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -539,6 +540,42 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Check if restricted day ")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String day = ObjctMsg.substring(24);
+				purpleChar PC = getPC().get(0);
+				boolean x = false;
+				System.out.println("ZA DAY IN SERVER = " + day);
+				for (int i = 0; i < PC.getDays().size(); i++) {
+					if (PC.getDays().get(i).equals(day)) {
+						x = true;
+					}
+				}
+				String res;
+				if (x) {
+					res = "Yes";
+				} else {
+					res = "No";
+				}
+				List<String> list = new ArrayList<String>();
+				list.add(res);
+				TripleObject to = new TripleObject("checked day", null, null);
+				to.setList(list);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Deny request")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -825,11 +862,17 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				List<complaint> Lofcomplaints = getComplaintslist();
+				List<complaint> tmp = new ArrayList<complaint>();
+				for (int i = 0; i < Lofcomplaints.size(); i++) {
+					if (!Lofcomplaints.get(i).isHandled()) {
+						tmp.add(Lofcomplaints.get(i));
+					}
+				}
 				List<String> complaintsContent = new ArrayList<String>();
 				List<String> complaintsUser = new ArrayList<String>();
-				for (int i = 0; i < Lofcomplaints.size(); i++) {
-					complaintsContent.add(Lofcomplaints.get(i).getComplaintcontext());
-					complaintsUser.add(Lofcomplaints.get(i).getName());
+				for (int i = 0; i < tmp.size(); i++) {
+					complaintsContent.add(tmp.get(i).getComplaintcontext());
+					complaintsUser.add(tmp.get(i).getName());
 				}
 				TripleObject to = new TripleObject("All complaints", null, null);
 				to.setComplaintsContent(complaintsContent);
@@ -1000,28 +1043,24 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		if (ObjctMsg.startsWith("Delete link")) {
-			System.out.println("got to delete");
 			App.session = App.sessionFactory.openSession();
 			boolean x = deletelink(msg, client);
 			if (x == false) {
 				try {
 					client.sendToClient(new TripleObject("no such link", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				try {
 					client.sendToClient(new TripleObject("found link", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
-			System.out.println("i got here");
 			App.session = App.sessionFactory.openSession();
 			boolean x = deleteTicket(msg, client);
 			if (x == false) {
@@ -1065,24 +1104,34 @@ public class SimpleServer extends AbstractServer {
 
 		// ****saleh****
 		if (ObjctMsg.startsWith("get my map chair")) {
-			App.session = App.sessionFactory.openSession();
-			int id_movie = tuple_msg.getID();
-			String time_movie = tuple_msg.getTime();
-			List<Integer> mc = getMapChair(getmapchairid(id_movie, time_movie));
 			try {
-				TripleObject msg2 = new TripleObject("get mapchair", mc);
-				client.sendToClient(msg2);
-			} catch (IOException e) {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				int id_movie = tuple_msg.getID();
+				String time_movie = tuple_msg.getTime();
+				System.out.println("IDDDDDD = " + id_movie + "timeeee = " + time_movie);
+				List<Integer> mc = getMapChair(getmapchairid(id_movie, time_movie).get(0).getID());
+				System.out.println("ZAAAAAAA IDDDDDDDD " + getmapchairid(id_movie, time_movie).get(0).getID());
+				try {
+					TripleObject msg2 = new TripleObject("get mapchair", mc);
+					client.sendToClient(msg2);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			App.session.close();
 
 		}
 
-		if (ObjctMsg.startsWith("update mapchair with new seat")) {
+		if (ObjctMsg.startsWith("update mapchair with new seat"))
+
+		{
 			App.session = App.sessionFactory.openSession();
 			String num_seat = tuple_msg.getnumseat();
-			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime());
+			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
 			System.out.println("mapchair id " + mapchair_id);
 			add_seat(mapchair_id, num_seat);
 			App.session.close();
@@ -1133,31 +1182,41 @@ public class SimpleServer extends AbstractServer {
 		return 1;
 	}
 
-	private int getmapchairid(int id_movie, String time) {
-		Connection c = null;
-		java.sql.Statement stmt = null;
-		int mapchair_id = -1;
-		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
-			c.setAutoCommit(false);
-			System.out.println("Opened database successfully");
-			stmt = c.createStatement();
-			ResultSet RS1 = stmt
-					.executeQuery("select *From mapchair where movie_id=" + id_movie + " and start_time=" + time + ";");
-			if (RS1 == null) {
-				System.out.print("Error, movie at this time not found");
-				return -1;
-			}
-			if (RS1.next())
-				mapchair_id = (int) RS1.getInt("id");
-			stmt.close();
-			c.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
-		System.out.println("Operation done successfully");
-		return mapchair_id;
+	// private int getmapchairid(int id_movie, String time) {
+	private static List<MapChair> getmapchairid(int id_movie, String time) {
+//		Connection c = null;
+//		java.sql.Statement stmt = null;
+//		int mapchair_id = -1;
+//		try {
+//			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+//			c.setAutoCommit(false);
+//			System.out.println("Opened database successfully");
+//			stmt = c.createStatement();
+//			ResultSet RS1 = stmt
+//					.executeQuery("select *From mapchair where movie_id=" + id_movie + " and start_time=" + time + ";");
+//			if (RS1 == null) {
+//				System.out.print("Error, movie at this time not found");
+//				return -1;
+//			}
+//			if (RS1.next())
+//				mapchair_id = (int) RS1.getInt("id");
+//			stmt.close();
+//			c.close();
+//		} catch (Exception e) {
+//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//			System.exit(0);
+//		}
+//		System.out.println("Operation done successfully");
+//		return mapchair_id;
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+		Root<MapChair> userRoot = query.from(MapChair.class);
+		Predicate predicateForMovieId = builder.equal(userRoot.get("movie_id"), Integer.toString(id_movie));
+		Predicate predicateTimes = builder.equal(userRoot.get("start_time"), time);
+		Predicate predicateForMapChair = builder.and(predicateForMovieId, predicateTimes);
+		query.where(predicateForMapChair);
+		List<MapChair> data = App.session.createQuery(query).getResultList();
+		return data;
 	}
 
 	private List<Integer> getMapChair(int mapchair_id) {
@@ -1388,7 +1447,6 @@ public class SimpleServer extends AbstractServer {
 							System.out.println("im in the third if");
 							client.sendToClient(new TripleObject("You get no refound", null, null));
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -1445,6 +1503,14 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
 		query.from(Ticket.class);
 		List<Ticket> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<purpleChar> getPC() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<purpleChar> query = builder.createQuery(purpleChar.class);
+		query.from(purpleChar.class);
+		List<purpleChar> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 
