@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,15 @@ public class ShowReportsController implements Initializable {
     
     @FXML
     private Label Linksl;
+    
+    @FXML
+    private Button ShowComplaintsReport;
+
+    @FXML
+    void gotoShowComplaintsReport(ActionEvent event) throws Exception {
+    	App.setRoot("ComplaintsReports");
+
+    }
 
 	@FXML
 	void gotoback(ActionEvent event) throws Exception {
