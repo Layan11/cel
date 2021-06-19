@@ -1123,12 +1123,9 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 			App.session.close();
-
 		}
 
-		if (ObjctMsg.startsWith("update mapchair with new seat"))
-
-		{
+		if (ObjctMsg.startsWith("update mapchair with new seat")) {
 			App.session = App.sessionFactory.openSession();
 			String num_seat = tuple_msg.getnumseat();
 			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
@@ -1224,7 +1221,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@" + "");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();

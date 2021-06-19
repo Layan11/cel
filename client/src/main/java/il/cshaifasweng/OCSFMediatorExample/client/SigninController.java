@@ -38,7 +38,7 @@ public class SigninController implements Initializable {
 
 	@FXML
 	void goBackToPrimary(ActionEvent event) throws Exception {
-		App.setRoot("primary2");
+		App.setRoot("primary");
 	}
 
 	@FXML

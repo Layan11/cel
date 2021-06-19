@@ -473,9 +473,10 @@ public class App {
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
 
-		Ticket mytestticket = new Ticket("randomtest", "random hall", 15, 5);
-		session.save(mytestticket);
-		session.flush();
+//		Ticket mytestticket = new Ticket();
+//		session.save(mytestticket);
+//		session.flush();
+
 		List<String> restrictedDates = new ArrayList<String>();
 		restrictedDates.add("21/08/2021");
 		purpleChar PC = new purpleChar(restrictedDates);
