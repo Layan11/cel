@@ -1215,9 +1215,9 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				Ticket my_Ticket = tuple_msg2.gettickets();
-				String screeningTime = my_Ticket.getStart_time();
+				String screeningTime = my_Ticket.gettime();
 				Movie movie = getMovie(my_Ticket.get_movie()).get(0);
-				MapChair mc = getmapchairid(movie.getId(), my_Ticket.getStart_time()).get(0);
+				MapChair mc = getmapchairid(movie.getId(), my_Ticket.gettime()).get(0);
 				int numOfBoughtSeats = mc.getNumOfBoughtSeat();
 				// Movie movie = getMovie(Integer.toString(movieId)).get(0);
 				List<String> times = movie.getMovieTimes().getTimes();
@@ -1288,6 +1288,11 @@ public class SimpleServer extends AbstractServer {
 					}
 				}
 				App.session.getTransaction().commit();
+
+				updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
+				App.session.save(my_Ticket);
+				App.session.flush();
+				App.session.getTransaction().commit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1354,7 +1359,7 @@ public class SimpleServer extends AbstractServer {
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
 					LocalDateTime now = LocalDateTime.now();
 					String time2 = dtf.format(now);
-					String hour = ticket.getStart_time();
+					String hour = ticket.gettime();
 					SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 					Date date1 = null;
 					try {
@@ -1461,9 +1466,70 @@ public class SimpleServer extends AbstractServer {
 
 		}
 		// ****saleh****
+		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
+			App.session = App.sessionFactory.openSession();
+			String num_seat = tuple_msg.getnumseat();
+			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			System.out.println("mapchair id " + mapchair_id);
+			remove_seat(mapchair_id, num_seat);
+			App.session.close();
+
+		}
+	}
+
+	private int updatenumberofchairs(String moviename, String hour) {
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		ResultSet rs1 = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= " + hour + "");
+			int chairnums = 0;
+			while (rs.next()) {
+				chairnums = rs.getInt("numberavailablechair");
+			}
+			chairnums--;
+			stmt.executeUpdate(
+					"UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = " + hour + "");
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		return 1;
 	}
 
 	// ***saleh***
+	private int remove_seat(int mapchair_id, String num_seat) {
+
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		List<Integer> mymapchairs = new ArrayList<Integer>();
+
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+
+			System.out.println("Opened database successfully");
+			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
+					+ "' AND My_mapchairs= '" + num_seat + "'");
+			stmt = c.createStatement();
+			int rs = stmt.executeUpdate("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
+					+ "' AND My_mapchairs = '" + num_seat + "'");
+
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		return 1;
+	}
 
 	private int add_seat(int mapchair_id, String num_seat) {
 
@@ -1523,6 +1589,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1606,65 +1673,107 @@ public class SimpleServer extends AbstractServer {
 		String ObjctMsg = tuple_msg.getMsg();
 		System.out.println("i got here after");
 		boolean let_in = false;
-		String message = ObjctMsg.substring(14);
+		String message = ObjctMsg.substring(14, 15);
+
 		int x = Integer.parseInt(message);
+		System.out.println(x);
 		System.out.println("DELETE FROM Ticket WHERE ticket_id = x");
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
+		ResultSet rs2 = null;
 		Statement stmt2 = null;
+		String user = null;
+		String user2 = ObjctMsg.substring(25);
 
+		System.out.println(user2);
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
+			int idmap = 0;
+			String moviename = null;
+			int movieid = 0;
+			String chairnum = null;
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
 			stmt2 = c.createStatement();
 
 			Calendar rightNow = Calendar.getInstance();
-			int hour = 3;
+			String hour = null;
 
 			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
 			rs1 = stmt2.executeQuery("SELECT * FROM tickets WHERE ticket_id=' " + x + "'");
+
 			System.out.println("passed the selection");
 			while (rs1.next()) {
-				hour = rs1.getInt("start_time");
+				hour = rs1.getString("start_time");
+				user = rs1.getString("user_name");
+				idmap = rs1.getInt("mapchairid");
+				chairnum = rs1.getString("chair_num");
+				moviename = rs1.getString("movie_of_tick");
 				System.out.println(hour);
 			}
-			if (hour2 - hour >= 3) {
-				try {
-					System.out.println("im in the first if");
-					client.sendToClient(new TripleObject("You get 100% refound", null, null));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			rs2 = stmt2.executeQuery("SELECT * FROM movies WHERE EngName=' " + moviename + "'");
+			while (rs2.next()) {
+				movieid = rs2.getInt("id");
 			}
-			if (hour2 - hour >= 1 && hour2 - hour < 3) {
-				try {
-					System.out.println("im in the second if");
-					client.sendToClient(new TripleObject("You get 50% refound", null, null));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			/////
+			rs2 = stmt2.executeQuery("SELECT * FROM mapchair WHERE start_time=" + hour + "");
+			int chairnums = 0;
+			while (rs2.next()) {
+				chairnums = rs2.getInt("numberavailablechair");
 			}
-			if (hour2 - hour < 1) {
-				try {
-					System.out.println("im in the third if");
-					client.sendToClient(new TripleObject("You get no refound", null, null));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			chairnums++;
 
-			int rs = stmt.executeUpdate("DELETE FROM Tickets WHERE ticket_id = '" + x + "'");
-			if (rs != 0) {
-				let_in = true;
+			String message2 = hour.substring(1, 2);
+
+			int y = Integer.parseInt(message2);
+			if (user.equals(user2)) {
+
+				if (y - hour2 >= 3) {
+					try {
+						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
+								+ "' WHERE start_time = " + hour + "");
+						int remove = remove_seat(idmap, chairnum);
+						System.out.println("im in the first if");
+						client.sendToClient(new TripleObject("You get 100% refound", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (y - hour2 >= 1 && y - hour2 < 3) {
+					try {
+						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
+								+ "' WHERE start_time = " + hour + "");
+						int remove = remove_seat(idmap, chairnum);
+						System.out.println("im in the second if");
+						client.sendToClient(new TripleObject("You get 50% refound", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (y - hour2 < 1) {
+					try {
+						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
+								+ "' WHERE start_time = " + hour + "");
+						int remove = remove_seat(idmap, chairnum);
+						System.out.println("im in the third if");
+						client.sendToClient(new TripleObject("You get no refound", null, null));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				int rs = stmt.executeUpdate("DELETE FROM Tickets WHERE ticket_id = '" + x + "'");
+				if (rs != 0) {
+					let_in = true;
+				}
+				stmt.close();
+				c.close();
 			}
-			stmt.close();
-			c.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
