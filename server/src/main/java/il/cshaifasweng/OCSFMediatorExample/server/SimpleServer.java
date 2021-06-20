@@ -1285,7 +1285,7 @@ public class SimpleServer extends AbstractServer {
 				}
 				App.session.getTransaction().commit();
 
-				updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
+				// updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
 				App.session.save(my_Ticket);
 				App.session.flush();
 				App.session.getTransaction().commit();
@@ -1433,14 +1433,14 @@ public class SimpleServer extends AbstractServer {
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= " + hour + "");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= '" + hour + "'");
 			int chairnums = 0;
 			while (rs.next()) {
 				chairnums = rs.getInt("numberavailablechair");
 			}
 			chairnums--;
 			stmt.executeUpdate(
-					"UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = " + hour + "");
+					"UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = '" + hour + "'");
 			stmt.close();
 			c.close();
 		} catch (Exception e) {
@@ -1660,12 +1660,13 @@ public class SimpleServer extends AbstractServer {
 				moviename = rs1.getString("movie_of_tick");
 				System.out.println(hour);
 			}
-			rs2 = stmt2.executeQuery("SELECT * FROM movies WHERE EngName=' " + moviename + "'");
+			rs2 = stmt2.executeQuery("SELECT * FROM movies WHERE EngName= '" + moviename + "'");
 			while (rs2.next()) {
 				movieid = rs2.getInt("id");
 			}
 			/////
-			rs2 = stmt2.executeQuery("SELECT * FROM mapchair WHERE start_time=" + hour + "");
+			rs2 = stmt2.executeQuery(
+					"SELECT * FROM mapchair WHERE start_time='" + hour + "'" + "' AND movie_id='" + movieid + "'");
 			int chairnums = 0;
 			while (rs2.next()) {
 				chairnums = rs2.getInt("numberavailablechair");
@@ -1680,7 +1681,7 @@ public class SimpleServer extends AbstractServer {
 				if (y - hour2 >= 3) {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
-								+ "' WHERE start_time = " + hour + "");
+								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(idmap, chairnum);
 						System.out.println("im in the first if");
 						client.sendToClient(new TripleObject("You get 100% refound", null, null));
@@ -1691,7 +1692,7 @@ public class SimpleServer extends AbstractServer {
 				if (y - hour2 >= 1 && y - hour2 < 3) {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
-								+ "' WHERE start_time = " + hour + "");
+								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(idmap, chairnum);
 						System.out.println("im in the second if");
 						client.sendToClient(new TripleObject("You get 50% refound", null, null));
@@ -1702,7 +1703,7 @@ public class SimpleServer extends AbstractServer {
 				if (y - hour2 < 1) {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
-								+ "' WHERE start_time = " + hour + "");
+								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(idmap, chairnum);
 						System.out.println("im in the third if");
 						client.sendToClient(new TripleObject("You get no refound", null, null));
