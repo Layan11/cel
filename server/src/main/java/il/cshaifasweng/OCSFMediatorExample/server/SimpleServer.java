@@ -5,15 +5,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -1343,72 +1339,23 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
-			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				int ticketId = Integer.parseInt(ObjctMsg.substring(14));
-				if (getTicket(ticketId).size() < 1) {
-					try {
-						client.sendToClient(new TripleObject("no such Ticket", null, null));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else {
-					Ticket ticket = getTicket(ticketId).get(0);
-					String seatNumb = ticket.getChair_num();
-					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-					LocalDateTime now = LocalDateTime.now();
-					String time2 = dtf.format(now);
-					String hour = ticket.gettime();
-					SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-					Date date1 = null;
-					try {
-						date1 = format.parse(hour);
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-					Date date2 = null;
-					try {
-						date2 = format.parse(time2);
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-					long diff = date1.getTime() - date2.getTime();
-					long diffHours = diff / (60 * 60 * 1000);
-
-					if (diffHours >= 3) {
-						try {
-							client.sendToClient(new TripleObject("You get 100% refound", null, null));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					if (diffHours >= 1 && diffHours < 3) {
-						try {
-							client.sendToClient(new TripleObject("You get 50% refound", null, null));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					if (diffHours < 1) {
-						try {
-							client.sendToClient(new TripleObject("You get no refound", null, null));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					App.session.remove(ticket);
-					App.session.getTransaction().commit();
-					try {
-						client.sendToClient(new TripleObject("found ticket " + seatNumb, null, null));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					App.session.getTransaction().commit();
+			System.out.println("i got here");
+			App.session = App.sessionFactory.openSession();
+			boolean x = deleteTicket(msg, client);
+			if (x == false) {
+				try {
+					client.sendToClient(new TripleObject("no such Ticket", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (HibernateException e) {
-				e.printStackTrace();
-				App.session.getTransaction().rollback();
+			} else {
+				try {
+					client.sendToClient(new TripleObject("found ticket", null, null));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			App.session.close();
 		}
@@ -1738,7 +1685,6 @@ public class SimpleServer extends AbstractServer {
 						System.out.println("im in the first if");
 						client.sendToClient(new TripleObject("You get 100% refound", null, null));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -1750,7 +1696,6 @@ public class SimpleServer extends AbstractServer {
 						System.out.println("im in the second if");
 						client.sendToClient(new TripleObject("You get 50% refound", null, null));
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
