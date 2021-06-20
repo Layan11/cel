@@ -49,4 +49,7 @@ public class Ticket implements Serializable {
 	public int get_id() {
 		return this.ticket_id;
 	}
+	public String gettime() {
+		return this.start_time;
+	}
 }

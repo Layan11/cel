@@ -965,6 +965,7 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				Ticket my_Ticket = tuple_msg2.gettickets();
+				updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime()) ;
 				App.session.save(my_Ticket);
 				App.session.flush();
 				client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
@@ -1099,7 +1100,32 @@ public class SimpleServer extends AbstractServer {
 
 		}
 	}
+	private int updatenumberofchairs(String moviename, String hour) {
 
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		ResultSet rs1 = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet rs =  stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= " + hour + "");
+			int chairnums=0;
+			while(rs.next()) {
+				chairnums=rs.getInt("numberavailablechair");
+			}
+			chairnums--;
+			stmt.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = " + hour + "");
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		return 1;
+	}
 	// ***saleh***
 	private int remove_seat(int mapchair_id, String num_seat) {
 
@@ -1289,6 +1315,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
+		ResultSet rs2 = null;
 		Statement stmt2 = null;
 		String user = null;
 		String user2 = ObjctMsg.substring(25);
@@ -1297,6 +1324,8 @@ public class SimpleServer extends AbstractServer {
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 			int idmap=0;
+			String moviename=null;
+			int movieid=0;
 			String chairnum=null;
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1307,22 +1336,36 @@ public class SimpleServer extends AbstractServer {
 		
 			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
 			rs1 = stmt2.executeQuery("SELECT * FROM tickets WHERE ticket_id=' " + x + "'");
+		
 			System.out.println("passed the selection");
 			while (rs1.next()) {
 				hour = rs1.getString("start_time");
 				user = rs1.getString("user_name");
 				idmap=rs1.getInt("mapchairid");
 				chairnum=rs1.getString("chair_num");
+				moviename= rs1.getString("movie_of_tick");
 				System.out.println(hour);
 			}
-
-			String message2 = hour.substring(0,2);
+			rs2 = stmt2.executeQuery("SELECT * FROM movies WHERE EngName=' " + moviename + "'");
+			while(rs2.next()) {
+				movieid =rs2.getInt("id");
+			}
+			/////
+			rs2 = stmt2.executeQuery("SELECT * FROM mapchair WHERE start_time=" + hour + "");
+			int chairnums=0;
+			while(rs2.next()) {
+				chairnums=rs2.getInt("numberavailablechair");
+			}
+			chairnums++;
 			
-			int y = Integer.parseInt(message);
+			String message2 = hour.substring(1,2);
+			
+			int y = Integer.parseInt(message2);
 			if(user.equals(user2)) {
 			
 			if (y-hour2 >= 3) {
 				try {
+					stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = " + hour + "");
 					int remove= remove_seat(idmap,chairnum);
 					System.out.println("im in the first if");
 					client.sendToClient(new TripleObject("You get 100% refound", null, null));
@@ -1333,6 +1376,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			if (y- hour2 >= 1 && y - hour2 < 3) {
 				try {
+					stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = " + hour + "");
 					int remove= remove_seat(idmap,chairnum);
 					System.out.println("im in the second if");
 					client.sendToClient(new TripleObject("You get 50% refound", null, null));
@@ -1343,6 +1387,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			if (y - hour2 < 1) {
 				try {
+					stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = " + hour + "");
 					int remove= remove_seat(idmap,chairnum);
 					System.out.println("im in the third if");
 					client.sendToClient(new TripleObject("You get no refound", null, null));
