@@ -27,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class Screening_TimesController implements Initializable {
@@ -53,8 +52,6 @@ public class Screening_TimesController implements Initializable {
 	private Button buy;
 	@FXML
 	private Label label;
-	@FXML
-	private TextField timetobuy;
 
 	public static String action = "";
 	public static String selectedScreeningTime = "";
@@ -83,7 +80,7 @@ public class Screening_TimesController implements Initializable {
 					System.err.println(e.getMessage());
 				}
 				try {
-					App.setRoot("primary");
+					App.setRoot("Pay_Ticket");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -109,36 +106,6 @@ public class Screening_TimesController implements Initializable {
 			}
 		});
 	}
-
-//=======
-//	void gotoBuy(ActionEvent event) {
-//		// App.setRoot("mapChair");
-//		Movie selected = browse_moviesController.selectedMovie;
-//		timesave="'" + timetobuy.getText() + "'";
-//		
-//		String time_movie = "'" + timetobuy.getText() + "'";
-//
-//		int movie_id;
-//		try {
-//			movie_id = selected.getId();
-//			// String movietime=m.getMovieTimes().getTimes().get(0);
-//			String movietime = time_movie;
-//			TripleObject msg = new TripleObject("get my map chair", movie_id, movietime);
-//			SimpleClient client = SimpleClient.getClient();
-//			client.sendToServer(msg);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		Platform.runLater(() -> {
-//			try {
-//				App.setRoot("buy_ticket");
-//				// System.out.println("after the load line of brwose movies in primary");
-//
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//>>>>>>> refs/remotes/origin/SamerV3
 
 	@FXML
 	void gotoAdd(ActionEvent event) {

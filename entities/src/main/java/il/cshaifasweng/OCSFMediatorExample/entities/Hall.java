@@ -26,10 +26,6 @@ public class Hall implements Serializable {
 	@ElementCollection
 	@Column(name = "mapchairsID")
 	private List<Integer> mapchairs;
-//<<<<<<< HEAD
-//	private List<Integer> movie_id_list;
-//	private MapChair mapchairs;
-//=======
 
 	public Hall() {
 	}

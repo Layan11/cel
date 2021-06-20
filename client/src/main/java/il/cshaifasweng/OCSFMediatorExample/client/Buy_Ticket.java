@@ -24,27 +24,53 @@ public class Buy_Ticket implements Initializable {
 
 	@FXML
 	private TextField way_to_pay;
-
 	@FXML
 	private Button Buy_btn;
-
 	@FXML
 	private TextField Label1;
 	@FXML
 	private Button back;
 	@FXML
 	private TextField msglab;
+	@FXML
+	private Button restrictionBack;
 
 	@FXML
 	void back_btn(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
-				if (counter2 == 0) {
+				TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
+						Screening_TimesController.selectedScreeningTime);
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-				}
-				counter2 = 0;
-				counter = 0;
-				App.setRoot("choose_type_to_browse");
+	@FXML
+	void gotoRestrictionBack(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject(
+				"Show Screening Times " + browse_moviesController.selectedMovie.getEngName(), null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onData1(GotScreeningTimesEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("Screening_Times");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Subscribe
+	public void onGotMapChair(gotMapChairevent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("show_MapChair");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -55,7 +81,7 @@ public class Buy_Ticket implements Initializable {
 	void buy_btn(ActionEvent event) throws IOException {
 		counter++;
 		if (counter < 2) {
-			Movie newMovie;
+			Movie newMovie = new Movie();
 			newMovie = browse_moviesController.selectedMovie;
 			String time = Screening_TimesController.selectedScreeningTime;
 			String movie = newMovie.getEngName();
@@ -64,11 +90,11 @@ public class Buy_Ticket implements Initializable {
 			String hall = newMovie.getBranch();
 			String user = loginController.currentUser;
 
-			Ticket mytestticket = new Ticket(movie, hall, time, seat, user, way_to_pay.getText());
+			Ticket mytestticket = new Ticket(movie, hall, time, seat, user, Label1.getText());
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
 			msglab.setVisible(true);
-			back.setVisible(true);
+			// back.setVisible(true);
 			counter2++;
 		}
 		if (counter >= 2) {
@@ -95,5 +121,10 @@ public class Buy_Ticket implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		EventBus.getDefault().register(this);
+		if (SimpleClient.restrictionAns.equals("No")) {
+			restrictionBack.setVisible(false);
+		} else if (SimpleClient.restrictionAns.equals("Yes")) {
+			back.setVisible(false);
+		}
 	}
 }

@@ -23,6 +23,8 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> ComplaintsUser = new ArrayList<String>();
 	public static String restrictionAns;
 	public static List<Integer> mc = new ArrayList<Integer>();
+	public static List<String> restrictedDays = new ArrayList<String>();
+	public static String seatNumToDelete;
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -162,6 +164,14 @@ public class SimpleClient extends AbstractClient {
 			moviesList = triple_msg.getMovies();
 			EventBus.getDefault().post(new GotHybridMoviesEvent());
 		}
+		if (myMsg.equals("All restricted days")) {
+			restrictedDays = triple_msg.getList();
+			EventBus.getDefault().post(new GotrestrictedDaysEvent());
+		}
+		if (myMsg.equals("All updated restricted days")) {
+			restrictedDays = triple_msg.getList();
+			EventBus.getDefault().post(new GotUpdatedRestrictedDaysEvent());
+		}
 
 		if (myMsg.equals("You get 100% refound")) {
 			msg = "You get 100% refound";
@@ -247,6 +257,11 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.startsWith("checked day")) {
 			restrictionAns = triple_msg.getList().get(0);
 			EventBus.getDefault().post(new GotRestrictedAnsEvent());
+		}
+		if (myMsg.startsWith("found ticket ")) {
+			String seatNum = myMsg.substring(13);
+			seatNumToDelete = seatNum;
+			EventBus.getDefault().post(new GotSeatToDeleteEvent());
 		}
 		// elinjammal
 		if (myMsg.startsWith("All complaints")) {

@@ -27,6 +27,7 @@ public class MapChair implements Serializable {
 	private List<Integer> MyMapChair;
 	private int movie_id;
 	private String start_time;
+	private int numOfBoughtSeat = 0;
 
 	public MapChair() {
 	}
@@ -35,7 +36,6 @@ public class MapChair implements Serializable {
 		this.num_rows = rows;
 		this.num_cols = cols;
 		this.numberavailablechair = rows * cols;
-		// this.my_map_chairs=new int[rows*cols];
 		this.MyMapChair = mapchair;
 	}
 
@@ -43,7 +43,6 @@ public class MapChair implements Serializable {
 		this.num_rows = rows;
 		this.num_cols = cols;
 		this.numberavailablechair = rows * cols;
-		// this.my_map_chairs=new int[rows*cols];
 		this.MyMapChair = new ArrayList<Integer>();
 		this.movie_id = movie_id;
 		this.start_time = start_time;
@@ -81,13 +80,19 @@ public class MapChair implements Serializable {
 		this.MyMapChair.add(num);
 	}
 
-	// public int[] getMapChair(){
 	public List<Integer> getMapChair() {
 		return this.MyMapChair;
 	}
 
-	// public void setMapChair(int [] new_map) {
 	public void setMapChair(List<Integer> new_map) {
 		this.MyMapChair = new_map;
+	}
+
+	public int getNumOfBoughtSeat() {
+		return numOfBoughtSeat;
+	}
+
+	public void setNumOfBoughtSeat(int numOfBoughtSeat) {
+		this.numOfBoughtSeat = numOfBoughtSeat;
 	}
 }
