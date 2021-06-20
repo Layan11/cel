@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class Buy_Ticket implements Initializable {
@@ -34,6 +35,8 @@ public class Buy_Ticket implements Initializable {
 	private TextField msglab;
 	@FXML
 	private Button restrictionBack;
+	@FXML
+	private Label fullHallLabel;
 
 	@FXML
 	void back_btn(ActionEvent event) {
@@ -105,6 +108,13 @@ public class Buy_Ticket implements Initializable {
 	}
 
 	@Subscribe
+	public void onFullHall(FullHalltEvent event) {
+		Platform.runLater(() -> {
+			fullHallLabel.setText("Sorry the hall is full");
+		});
+	}
+
+	@Subscribe
 	public void onData(TripleObject msg) {
 		Platform.runLater(() -> {
 			try {
@@ -126,5 +136,6 @@ public class Buy_Ticket implements Initializable {
 		} else if (SimpleClient.restrictionAns.equals("Yes")) {
 			back.setVisible(false);
 		}
+		fullHallLabel.setText("");
 	}
 }

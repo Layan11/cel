@@ -48,6 +48,26 @@ public class restrictedDaysController implements Initializable {
 	private Button cancel_screenings;
 	@FXML
 	private TextField restrictionType;
+	@FXML
+	private Label typeLabel;
+
+	@FXML
+	private Label first;
+
+	@FXML
+	private Label firstLabel;
+
+	@FXML
+	private Label second;
+
+	@FXML
+	private Label secondLabel;
+
+	@FXML
+	private Label third;
+
+	@FXML
+	private Label thirdLabel;
 
 	@FXML
 	void cancel_screenings(ActionEvent event) {
@@ -109,6 +129,13 @@ public class restrictedDaysController implements Initializable {
 			dateToAdd.setVisible(false);
 			dateToUpdate.setVisible(false);
 			updateLabel.setVisible(false);
+			typeLabel.setVisible(false);
+			first.setVisible(false);
+			firstLabel.setVisible(false);
+			second.setVisible(false);
+			secondLabel.setVisible(false);
+			third.setVisible(false);
+			thirdLabel.setVisible(false);
 		}
 		final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
 		table.setEditable(true);

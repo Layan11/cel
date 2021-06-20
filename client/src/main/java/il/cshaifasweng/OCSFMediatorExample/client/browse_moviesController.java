@@ -51,10 +51,11 @@ public class browse_moviesController implements Initializable {
 	private Button filter;
 
 	public static Movie selectedMovie;
+	public static String selectedBranch;
 
 	@FXML
 	void Show(ActionEvent event) throws Exception {
-		String selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();
+		selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();
 		TripleObject msg = new TripleObject(selectedBranch, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 	}

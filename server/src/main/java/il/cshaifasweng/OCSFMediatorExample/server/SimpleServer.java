@@ -25,6 +25,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 import il.cshaifasweng.OCSFMediatorExample.entities.MonthlyComplaints;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
@@ -664,6 +665,10 @@ public class SimpleServer extends AbstractServer {
 							}
 						}
 					}
+				} else if (restrictionType.equals("second")) {
+
+				} else if (restrictionType.equals("third")) {
+
 				}
 				List<String> dates = new ArrayList<String>();
 				purpleChar pc = getPC().get(0);
@@ -1209,34 +1214,80 @@ public class SimpleServer extends AbstractServer {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				// if its restrictionday screening date then just buy one and send id
-				// else do all the rest.
 				Ticket my_Ticket = tuple_msg2.gettickets();
-				int movieId = getMovie(my_Ticket.get_movie()).get(0).getId();
-				MapChair mc = getmapchairid(movieId, my_Ticket.getStart_time()).get(0);
+				String screeningTime = my_Ticket.getStart_time();
+				Movie movie = getMovie(my_Ticket.get_movie()).get(0);
+				MapChair mc = getmapchairid(movie.getId(), my_Ticket.getStart_time()).get(0);
 				int numOfBoughtSeats = mc.getNumOfBoughtSeat();
-				numOfBoughtSeats++;
-				mc.setNumOfBoughtSeat(numOfBoughtSeats);
-				App.session.save(mc);
-				App.session.flush();
-				App.session.save(my_Ticket);
-				App.session.flush();
-				client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
+				// Movie movie = getMovie(Integer.toString(movieId)).get(0);
+				List<String> times = movie.getMovieTimes().getTimes();
+				List<String> dates = movie.getMovieTimes().getDate();
 
-				Reports allreports = getReports(1).get(0);
-				if (my_Ticket.get_hall().equals("Haifa")) {
-					int tmp2 = allreports.getTicketsInHaifa();
-					allreports.setTicketsInHaifa(tmp2 + 1);
-					App.session.getTransaction().commit();
+				String date = null;
+				for (int i = 0; i < times.size(); i++) {
+					if (times.get(i).equals(screeningTime)) {
+						date = dates.get(i);
+					}
 				}
-				if (my_Ticket.get_hall().equals("Shefa-Amr")) {
-					int tmp2 = allreports.getTicketsInShefaAmr();
-					allreports.setTicketsInShefaAmr(tmp2 + 1);
-					App.session.getTransaction().commit();
+				List<String> restrictedDates = getPC().get(0).getDays();
+				boolean restriction = false;
+				for (int i = 0; i < restrictedDates.size(); i++) {
+					if (date.equals(restrictedDates.get(i))) {
+						restriction = true;
+					}
+				}
+				if (restriction) {
+					// if its restrictionday screening date then just buy one and send id
+					// else do all the rest.
+					if (mc.getNmberAvailableChair() == 0) {
+						// send enu fsh m7l
+						client.sendToClient(new TripleObject("The hall is full", null, null));
+					} else {
+						numOfBoughtSeats++;
+						mc.setNumOfBoughtSeat(numOfBoughtSeats);
+						int numOfAvailable = mc.getNmberAvailableChair();
+						mc.setNmberAvailableChair(numOfAvailable - 1);
+						App.session.save(mc);
+						App.session.flush();
+						for (int i = 0; i < 100; i++) {
+							if (!mc.getMapChair().contains(i)) {
+								my_Ticket.setChair_num(Integer.toString(i));
+								mc.getMapChair().add(i);
+								App.session.save(mc);
+								App.session.save(my_Ticket);
+								App.session.flush();
+								client.sendToClient(
+										new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
+								i = 101;
+							}
+						}
+					}
 				}
 
+				else {// no restriction
+					numOfBoughtSeats++;
+					mc.setNumOfBoughtSeat(numOfBoughtSeats);
+					int numOfAvailable = mc.getNmberAvailableChair();
+					mc.setNmberAvailableChair(numOfAvailable - 1);
+					App.session.save(mc);
+					App.session.flush();
+					App.session.save(my_Ticket);
+					App.session.flush();
+					client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
+
+					Reports allreports = getReports(1).get(0);
+					if (my_Ticket.get_hall().equals("Haifa")) {
+						int tmp2 = allreports.getTicketsInHaifa();
+						allreports.setTicketsInHaifa(tmp2 + 1);
+						App.session.getTransaction().commit();
+					}
+					if (my_Ticket.get_hall().equals("Shefa-Amr")) {
+						int tmp2 = allreports.getTicketsInShefaAmr();
+						allreports.setTicketsInShefaAmr(tmp2 + 1);
+						App.session.getTransaction().commit();
+					}
+				}
 				App.session.getTransaction().commit();
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1740,6 +1791,14 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		query.from(Movie.class);
 		List<Movie> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<Hall> getHallsList() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Hall> query = builder.createQuery(Hall.class);
+		query.from(Hall.class);
+		List<Hall> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

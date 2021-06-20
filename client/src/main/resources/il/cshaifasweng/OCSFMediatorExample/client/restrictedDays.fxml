@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="507.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.restrictedDaysController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="672.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.restrictedDaysController">
    <children>
       <Label layoutX="40.0" layoutY="14.0" text="Restricted Days" textFill="WHITE">
          <font>
@@ -20,7 +20,7 @@
           <TableColumn fx:id="dates" prefWidth="120.0" text="Dates" />
         </columns>
       </TableView>
-      <Button fx:id="back" layoutX="444.0" layoutY="314.0" mnemonicParsing="false" onAction="#gotoBack" prefHeight="25.0" prefWidth="53.0" text="Back">
+      <Button fx:id="back" layoutX="599.0" layoutY="360.0" mnemonicParsing="false" onAction="#gotoBack" prefHeight="25.0" prefWidth="53.0" text="Back">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -55,5 +55,28 @@
       <TextField fx:id="cancel_screeningstxt" layoutX="245.0" layoutY="260.0" />
       <Button fx:id="cancel_screenings" layoutX="232.0" layoutY="301.0" mnemonicParsing="false" onAction="#cancel_screenings" text="Cancel Screenings fo this date" />
       <TextField fx:id="restrictionType" layoutX="423.0" layoutY="65.0" prefHeight="25.0" prefWidth="63.0" />
+      <Label fx:id="typeLabel" layoutX="414.0" layoutY="23.0" prefHeight="45.0" prefWidth="94.0" text="Please write the restriction type :" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="first" layoutX="566.0" layoutY="33.0" text="first :" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="firstLabel" layoutX="543.0" layoutY="55.0" prefHeight="113.0" prefWidth="113.0" text="BLBLABLAndscnodsncsdncdsnckldsckndslcs" textFill="WHITE" wrapText="true" />
+      <Label fx:id="second" layoutX="563.0" layoutY="158.0" text="second :" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="secondLabel" layoutX="558.0" layoutY="174.0" prefHeight="80.0" prefWidth="94.0" text="ncoods hishcidshncishcdshsdc" textFill="WHITE" wrapText="true" />
+      <Label fx:id="third" layoutX="572.0" layoutY="262.0" text="third :" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="thirdLabel" layoutX="565.0" layoutY="274.0" prefHeight="80.0" prefWidth="94.0" text="djocsjcosjcosjcsdcjscjsdcsd" textFill="WHITE" wrapText="true" />
    </children>
 </AnchorPane>

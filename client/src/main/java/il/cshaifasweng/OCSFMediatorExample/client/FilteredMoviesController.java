@@ -110,7 +110,7 @@ public class FilteredMoviesController implements Initializable {
 		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
 		getMovies();
-		titletxt.setText("Movies in " + SimpleClient.moviesList.get(0).getBranch() + " branch");
+		titletxt.setText("Movies in " + browse_moviesController.selectedBranch + " branch");
 
 	}
 

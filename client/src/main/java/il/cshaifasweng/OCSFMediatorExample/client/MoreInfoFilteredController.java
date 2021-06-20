@@ -53,7 +53,7 @@ public class MoreInfoFilteredController implements Initializable {
 
 	@FXML
 	void goback(ActionEvent event) throws Exception {
-		TripleObject msg = new TripleObject("Browse movies", null, null);
+		TripleObject msg = new TripleObject(browse_moviesController.selectedBranch, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 
 	}
@@ -64,7 +64,6 @@ public class MoreInfoFilteredController implements Initializable {
 			try {
 				App.setRoot("FilteredMovies");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});

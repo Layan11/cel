@@ -29,7 +29,6 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> restrictedDays = new ArrayList<String>();
 	public static String seatNumToDelete;
 
-
 	private SimpleClient(String host, int port) {
 		super(host, port);
 	}
@@ -279,14 +278,16 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new gotMapChairevent());
 		}
 		// ***saleh***
-		
-		
+
 		//
 		if (myMsg.equals("ComplaintsReports")) {
 			ComplaintsPerMArraay = triple_msg.getComplaintsPerMArraay();
 			EventBus.getDefault().post(new GotComplaintsReportstEvent());
 		}
-		
+		if (myMsg.equals("The hall is full")) {
+			EventBus.getDefault().post(new FullHalltEvent());
+		}
+
 	}
 
 	public static SimpleClient getClient() {
