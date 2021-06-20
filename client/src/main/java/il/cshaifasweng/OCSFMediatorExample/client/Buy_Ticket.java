@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
@@ -15,13 +16,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class Buy_Ticket implements Initializable {
-
-	@FXML
-	private TextField Id_check;
+	int counter = 0;
+	int counter2 = 0;
 
 	@FXML
 	private TextField way_to_pay;
@@ -30,28 +29,21 @@ public class Buy_Ticket implements Initializable {
 	private Button Buy_btn;
 
 	@FXML
-	private TextField last_name;
-	@FXML
-
-	private TextField first_name;
-
-	@FXML
-	private Label Laber1;
-
-	@FXML
-	private Label label2;
+	private TextField Label1;
 	@FXML
 	private Button back;
 	@FXML
 	private TextField msglab;
 
 	@FXML
-	private Label label3;
-
-	@FXML
 	void back_btn(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				if (counter2 == 0) {
+
+				}
+				counter2 = 0;
+				counter = 0;
 				App.setRoot("choose_type_to_browse");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -61,14 +53,29 @@ public class Buy_Ticket implements Initializable {
 
 	@FXML
 	void buy_btn(ActionEvent event) throws IOException {
-		String time = Screening_TimesController.selectedScreeningTime;
-		String movie = browse_moviesController.selectedMovie.getEngName();
-		String date = Screening_TimesController.selectedScreeningDate;
+		counter++;
+		if (counter < 2) {
+			Movie newMovie;
+			newMovie = browse_moviesController.selectedMovie;
+			String time = Screening_TimesController.selectedScreeningTime;
+			String movie = newMovie.getEngName();
 
-		Ticket mytestticket = new Ticket("Test buy", "test hall", 3, 5);
-		DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
-		SimpleClient.getClient().sendToServer(msg);
-		msglab.setVisible(true);
+			String seat = show_MapChairController.num_chair1;
+			String hall = newMovie.getBranch();
+			String user = loginController.currentUser;
+
+			Ticket mytestticket = new Ticket(movie, hall, time, seat, user, Label1.getText());
+			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
+			SimpleClient.getClient().sendToServer(msg);
+			msglab.setVisible(true);
+			back.setVisible(true);
+			counter2++;
+		}
+		if (counter >= 2) {
+			msglab.setText("You already Bought this ticket");
+			msglab.setVisible(true);
+
+		}
 	}
 
 	@Subscribe

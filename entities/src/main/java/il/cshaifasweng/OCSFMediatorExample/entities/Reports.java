@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +21,16 @@ public class Reports {
 	int returnedTicketsInShefaAmr;
 	int Links;
 	int Packages;
+	/*List<Integer> ComplaintsPerDay = new ArrayList<Integer>();
+
+
+	public List<Integer> getComplaintsPerDay() {
+		return ComplaintsPerDay;
+	}
+
+	public void setComplaintsPerDay(List<Integer> complaintsPerDay) {
+		ComplaintsPerDay = complaintsPerDay;
+	}*/
 
 	public Reports() {
 		super();

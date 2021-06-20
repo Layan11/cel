@@ -1,7 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +26,8 @@ public class menuController implements Initializable {
 	@FXML
 	private Button UpdatePriceRequests;
 	@FXML
-	private Button ShowComplaints;
+	private Button Showthecomplaints;
+
 	@FXML
 	private Button logout;
 	@FXML
@@ -121,12 +121,43 @@ public class menuController implements Initializable {
 				e.printStackTrace();
 			}
 		});
+
+	}
+
+	@FXML
+	void gotoShowComplaint(ActionEvent event) throws Exception {
+		System.out.println("in gotoshowComplaint");
+		TripleObject msg = new TripleObject("Show complaints", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onGOTcomplaints(gotallcomplaintsevent event) {
+		System.out.println("in onData1111");
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("showComplaint");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	@FXML
 	void gotomore_actions(ActionEvent event) throws Exception {
 		App.setRoot("MoreActions");
 
+	}
+
+	@FXML
+	void gotofileacomplaint(ActionEvent event) throws Exception {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("FillingComplaint");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	@FXML
@@ -192,21 +223,21 @@ public class menuController implements Initializable {
 		if (loginController.loginRole == -1) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS employee//
 												// 3->no account
 			UpdatePriceRequests.setVisible(false);
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			more_actions.setVisible(false);
 			lesser_pack.setVisible(false);
 			back.setVisible(false);
 			reports.setVisible(false);
 		}
 		if (loginController.loginRole == 0) {
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
 			more_actions.setVisible(false);
 			lesser_pack.setVisible(false);
 			back.setVisible(false);
 		}
 		if (loginController.loginRole == 1) {
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
 			UpdatePriceRequests.setVisible(false);
 			back.setVisible(false);
@@ -222,7 +253,7 @@ public class menuController implements Initializable {
 		if (loginController.loginRole == 3) {// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> CS
 												// employee 3->no account
 			UpdatePriceRequests.setVisible(false);
-			ShowComplaints.setVisible(false);
+			Showthecomplaints.setVisible(false);
 			FileAComplaint.setVisible(false);
 			more_actions.setVisible(false);
 			lesser_pack.setVisible(false);

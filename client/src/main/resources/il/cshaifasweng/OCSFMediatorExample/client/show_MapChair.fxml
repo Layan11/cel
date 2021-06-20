@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="326.0" prefWidth="277.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.show_MapChairController">
+   <children>
+      <AnchorPane layoutX="1.0" prefHeight="426.0" prefWidth="354.0">
+         <children>
+            <Button fx:id="seat1" layoutX="19.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat1" style="-fx-background-color: green;" text="1">
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <effect>
+                  <Glow />
+               </effect>
+            </Button>
+            <Button fx:id="seat2" layoutX="51.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat2" style="-fx-background-color: green;" text="2" />
+            <Button fx:id="seat3" layoutX="81.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat3" style="-fx-background-color: green;" text="3" />
+            <Button fx:id="seat7" layoutX="213.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat7" style="-fx-background-color: green;" text="7" />
+            <Button fx:id="seat6" layoutX="183.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat6" style="-fx-background-color: green;" text="6" />
+            <Button fx:id="seat5" layoutX="149.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat5" style="-fx-background-color: green;" text="5" />
+            <Button fx:id="seat4" layoutX="116.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat4" style="-fx-background-color: green;" text="4" />
+            <Button fx:id="seat9" layoutX="279.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat9" style="-fx-background-color: green;" text="9" />
+            <Button fx:id="seat8" layoutX="246.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat8" style="-fx-background-color: green;" text="8" />
+            <Button fx:id="seat10" layoutX="309.0" layoutY="15.0" mnemonicParsing="false" onAction="#chooseseat10" style="-fx-background-color: green;" text="10" />
+            <Button fx:id="seat11" layoutX="16.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat11" style="-fx-background-color: green;" text="11" />
+            <Button fx:id="seat91" layoutX="16.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat91" style="-fx-background-color: green;" text="91" />
+            <Button fx:id="seat81" layoutX="16.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat81" style="-fx-background-color: green;" text="81" />
+            <Button fx:id="seat71" layoutX="16.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat71" style="-fx-background-color: green;" text="71" />
+            <Button fx:id="seat61" layoutX="16.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat61" style="-fx-background-color: green;" text="61" />
+            <Button fx:id="seat51" layoutX="16.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat51" style="-fx-background-color: green;" text="51" />
+            <Button fx:id="seat41" layoutX="16.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat41" style="-fx-background-color: green;" text="41" />
+            <Button fx:id="seat31" layoutX="16.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat31" style="-fx-background-color: green;" text="31" />
+            <Button fx:id="seat21" layoutX="16.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat21" style="-fx-background-color: green;" text="21" />
+            <Button fx:id="seat12" layoutX="48.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat12" style="-fx-background-color: green;" text="12" />
+            <Button fx:id="seat14" layoutX="116.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat14" style="-fx-background-color: green;" text="14" />
+            <Button fx:id="seat93" layoutX="81.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat93" style="-fx-background-color: green;" text="93" />
+            <Button fx:id="seat83" layoutX="81.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat83" style="-fx-background-color: green;" text="83" />
+            <Button fx:id="seat73" layoutX="81.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat73" style="-fx-background-color: green;" text="73" />
+            <Button fx:id="seat63" layoutX="81.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat63" style="-fx-background-color: green;" text="63" />
+            <Button fx:id="seat53" layoutX="81.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat53" style="-fx-background-color: green;" text="53" />
+            <Button fx:id="seat43" layoutX="81.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat43" style="-fx-background-color: green;" text="43" />
+            <Button fx:id="seat33" layoutX="81.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat33" style="-fx-background-color: green;" text="33" />
+            <Button fx:id="seat23" layoutX="81.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat23" style="-fx-background-color: green;" text="23" />
+            <Button fx:id="seat13" layoutX="81.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat13" prefHeight="25.0" prefWidth="29.0" style="-fx-background-color: green;" text="13" />
+            <Button fx:id="seat92" layoutX="47.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat92" style="-fx-background-color: green;" text="92" />
+            <Button fx:id="seat82" layoutX="47.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat82" style="-fx-background-color: green;" text="82" />
+            <Button fx:id="seat72" layoutX="47.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat72" style="-fx-background-color: green;" text="72" />
+            <Button fx:id="seat62" layoutX="47.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat62" style="-fx-background-color: green;" text="62" />
+            <Button fx:id="seat52" layoutX="48.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat52" style="-fx-background-color: green;" text="52" />
+            <Button fx:id="seat42" layoutX="47.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat42" style="-fx-background-color: green;" text="42" />
+            <Button fx:id="seat32" layoutX="47.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat32" style="-fx-background-color: green;" text="32" />
+            <Button fx:id="seat22" layoutX="48.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat22" style="-fx-background-color: green;" text="22" />
+            <Button fx:id="seat56" layoutX="183.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat56" style="-fx-background-color: green;" text="56" />
+            <Button fx:id="seat47" layoutX="213.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat47" style="-fx-background-color: green;" text="47" />
+            <Button fx:id="seat46" layoutX="183.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat46" style="-fx-background-color: green;" text="46" />
+            <Button fx:id="seat37" layoutX="213.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat37" style="-fx-background-color: green;" text="37" />
+            <Button fx:id="seat36" layoutX="183.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat36" style="-fx-background-color: green;" text="36" />
+            <Button fx:id="seat27" layoutX="213.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat27" style="-fx-background-color: green;" text="27" />
+            <Button fx:id="seat26" layoutX="183.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat26" style="-fx-background-color: green;" text="26" />
+            <Button fx:id="seat17" layoutX="213.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat17" style="-fx-background-color: green;" text="17" />
+            <Button fx:id="seat16" layoutX="183.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat16" style="-fx-background-color: green;" text="16" />
+            <Button fx:id="seat95" layoutX="149.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat95" style="-fx-background-color: green;" text="95" />
+            <Button fx:id="seat94" layoutX="116.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat94" style="-fx-background-color: green;" text="94" />
+            <Button fx:id="seat85" layoutX="149.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat85" style="-fx-background-color: green;" text="85" />
+            <Button fx:id="seat84" layoutX="116.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat84" style="-fx-background-color: green;" text="84" />
+            <Button fx:id="seat75" layoutX="149.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat75" style="-fx-background-color: green;" text="75" />
+            <Button fx:id="seat74" layoutX="116.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat74" style="-fx-background-color: green;" text="74" />
+            <Button fx:id="seat65" layoutX="149.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat65" style="-fx-background-color: green;" text="65" />
+            <Button fx:id="seat64" layoutX="116.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat64" style="-fx-background-color: green;" text="64" />
+            <Button fx:id="seat55" layoutX="149.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat55" style="-fx-background-color: green;" text="55" />
+            <Button fx:id="seat45" layoutX="149.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat45" style="-fx-background-color: green;" text="45" />
+            <Button fx:id="seat35" layoutX="149.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat35" style="-fx-background-color: green;" text="35" />
+            <Button fx:id="seat25" layoutX="149.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat25" style="-fx-background-color: green;" text="25" />
+            <Button fx:id="seat15" layoutX="149.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat15" style="-fx-background-color: green;" text="15" />
+            <Button fx:id="seat54" layoutX="116.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat54" style="-fx-background-color: green;" text="54" />
+            <Button fx:id="seat44" layoutX="116.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat44" style="-fx-background-color: green;" text="44" />
+            <Button fx:id="seat34" layoutX="116.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat34" style="-fx-background-color: green;" text="34" />
+            <Button fx:id="seat24" layoutX="116.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat24" style="-fx-background-color: green;" text="24" />
+            <Button fx:id="seat58" layoutX="246.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat58" style="-fx-background-color: green;" text="58" />
+            <Button fx:id="seat50" layoutX="309.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat50" style="-fx-background-color: green;" text="50" />
+            <Button fx:id="seat49" layoutX="279.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat49" style="-fx-background-color: green;" text="49" />
+            <Button fx:id="seat48" layoutX="246.0" layoutY="159.0" mnemonicParsing="false" onAction="#chooseseat48" style="-fx-background-color: green;" text="48" />
+            <Button fx:id="seat40" layoutX="309.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat40" style="-fx-background-color: green;" text="40" />
+            <Button fx:id="seat39" layoutX="279.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat39" style="-fx-background-color: green;" text="39" />
+            <Button fx:id="seat38" layoutX="246.0" layoutY="123.0" mnemonicParsing="false" onAction="#chooseseat38" style="-fx-background-color: green;" text="38" />
+            <Button fx:id="seat30" layoutX="309.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat30" style="-fx-background-color: green;" text="30" />
+            <Button fx:id="seat29" layoutX="279.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat29" style="-fx-background-color: green;" text="29" />
+            <Button fx:id="seat20" layoutX="309.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat20" style="-fx-background-color: green;" text="20" />
+            <Button fx:id="seat19" layoutX="279.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat19" style="-fx-background-color: green;" text="19" />
+            <Button fx:id="seat18" layoutX="246.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseseat18" style="-fx-background-color: green;" text="18" />
+            <Button fx:id="seat97" layoutX="213.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat97" style="-fx-background-color: green;" text="97" />
+            <Button fx:id="seat96" layoutX="183.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat96" style="-fx-background-color: green;" text="96" />
+            <Button fx:id="seat87" layoutX="213.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat87" style="-fx-background-color: green;" text="87" />
+            <Button fx:id="seat86" layoutX="183.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat86" style="-fx-background-color: green;" text="86" />
+            <Button fx:id="seat77" layoutX="213.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat77" style="-fx-background-color: green;" text="77" />
+            <Button fx:id="seat76" layoutX="183.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat76" style="-fx-background-color: green;" text="76" />
+            <Button fx:id="seat67" layoutX="213.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat67" style="-fx-background-color: green;" text="67" />
+            <Button fx:id="seat66" layoutX="183.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat66" style="-fx-background-color: green;" text="66" />
+            <Button fx:id="seat57" layoutX="213.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat57" style="-fx-background-color: green;" text="57" />
+            <Button fx:id="seat90" layoutX="312.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat90" style="-fx-background-color: green;" text="90" />
+            <Button fx:id="seat80" layoutX="309.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat80" style="-fx-background-color: green;" text="80" />
+            <Button fx:id="seat70" layoutX="308.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat70" style="-fx-background-color: green;" text="70" />
+            <Button fx:id="seat60" layoutX="309.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat60" style="-fx-background-color: green;" text="60" />
+            <Button fx:id="seat100" layoutX="309.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat100" style="-fx-background-color: green;" text="100" />
+            <Button fx:id="seat99" layoutX="279.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat99" style="-fx-background-color: green;" text="99" />
+            <Button fx:id="seat98" layoutX="246.0" layoutY="339.0" mnemonicParsing="false" onAction="#chooseseat98" style="-fx-background-color: green;" text="98" />
+            <Button fx:id="seat89" layoutX="279.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat89" style="-fx-background-color: green;" text="89" />
+            <Button fx:id="seat88" layoutX="246.0" layoutY="302.0" mnemonicParsing="false" onAction="#chooseseat88" style="-fx-background-color: green;" text="88" />
+            <Button fx:id="seat79" layoutX="279.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat79" style="-fx-background-color: green;" text="79" />
+            <Button fx:id="seat78" layoutX="246.0" layoutY="266.0" mnemonicParsing="false" onAction="#chooseseat78" style="-fx-background-color: green;" text="78" />
+            <Button fx:id="seat69" layoutX="279.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat69" style="-fx-background-color: green;" text="69" />
+            <Button fx:id="seat68" layoutX="246.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseseat68" style="-fx-background-color: green;" text="68" />
+            <Button fx:id="seat59" layoutX="279.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseseat59" style="-fx-background-color: green;" text="59" />
+            <Button fx:id="seat28" layoutX="246.0" layoutY="87.0" mnemonicParsing="false" onAction="#chooseseat28" style="-fx-background-color: green;" text="28" />
+            <Button fx:id="Back" layoutX="135.0" layoutY="387.0" mnemonicParsing="false" onAction="#Back_btn" text=" Back" />
+            <Pane fx:id="pane3" layoutX="-1.0" prefHeight="402.0" prefWidth="346.0" visible="false">
+               <children>
+                  <Pane fx:id="pane4" layoutX="55.0" layoutY="99.0" prefHeight="102.0" prefWidth="265.0" style="-fx-background-color: silver;" visible="false">
+                     <children>
+                        <Text fill="BLUE" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for choosen seat number ">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="bnm" layoutX="151.0" layoutY="65.0" mnemonicParsing="false" onAction="#browsemovies" style="-fx-background-color: silver;" text="Pay for Ticket" textFill="BLUE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Text fx:id="seatnum" fill="#1ba414" layoutX="100.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="36.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane1" layoutX="73.0" layoutY="100.0" prefHeight="133.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false">
+                     <children>
+                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure for choose this seat ?" wrappingWidth="182.13665771484375" />
+                        <Button fx:id="yesbtn" layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#answeryes" text="Yes" />
+                        <Button fx:id="nobtn" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" onAction="#answerno" text="No,I want to change the seat" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane2" layoutX="56.0" layoutY="131.0" prefHeight="49.0" prefWidth="234.0" style="-fx-background-color: red;" visible="false">
+                     <children>
+                        <Button fx:id="anotherseat" layoutX="9.0" layoutY="12.0" mnemonicParsing="false" onAction="#chooseanotherseat" prefHeight="26.0" prefWidth="216.0" text="choose another seat this seat is busy" textFill="RED" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

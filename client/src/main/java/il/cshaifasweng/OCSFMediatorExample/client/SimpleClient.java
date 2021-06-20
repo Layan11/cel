@@ -7,7 +7,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 
 public class SimpleClient extends AbstractClient {
@@ -19,8 +18,12 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> MovieDates = new ArrayList<String>();
 	public static List<String> MovieNames = new ArrayList<String>();
 	public static int PackageNumOfTickets;
-	public static Reports report = new Reports();
 	public static List<Integer> list2 = new ArrayList<Integer>();
+	public static List<String> ComplaintsContent = new ArrayList<String>();
+	public static List<String> ComplaintsUser = new ArrayList<String>();
+	public static String restrictionAns;
+	public static List<Integer> mc = new ArrayList<Integer>();
+	public static int[] ComplaintsPerMArraay;
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
@@ -242,6 +245,31 @@ public class SimpleClient extends AbstractClient {
 			TripleObject msg2 = new TripleObject(myMsg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
+		if (myMsg.startsWith("checked day")) {
+			restrictionAns = triple_msg.getList().get(0);
+			EventBus.getDefault().post(new GotRestrictedAnsEvent());
+		}
+		// elinjammal
+		if (myMsg.startsWith("All complaints")) {
+			ComplaintsContent = triple_msg.getComplaintsContent();
+			ComplaintsUser = triple_msg.getComplaintsUser();
+			EventBus.getDefault().post(new gotallcomplaintsevent());
+		}
+
+		// ***saleh***
+		if (myMsg.equals("get mapchair")) {
+			mc = triple_msg.getMapChair();
+			EventBus.getDefault().post(new gotMapChairevent());
+		}
+		// ***saleh***
+		
+		
+		//
+		if (myMsg.equals("ComplaintsReports")) {
+			ComplaintsPerMArraay = triple_msg.getComplaintsPerMArraay();
+			EventBus.getDefault().post(new GotComplaintsReportstEvent());
+		}
+		
 	}
 
 	public static SimpleClient getClient() {

@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class browse_moviesController implements Initializable {
+	public static String time_movie;
 	@FXML
 	private TableView<Movie> tableView;
 	@FXML
@@ -146,6 +147,7 @@ public class browse_moviesController implements Initializable {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	public void getMovies() {
 		final ObservableList<Movie> movie = FXCollections.observableArrayList(SimpleClient.moviesList);
 		tableView.setEditable(true);
@@ -163,6 +165,5 @@ public class browse_moviesController implements Initializable {
 		getMovies();
 		ChoiceBox.getItems().add("Haifa");
 		ChoiceBox.getItems().add("Shefa-Amr");
-
 	}
 }

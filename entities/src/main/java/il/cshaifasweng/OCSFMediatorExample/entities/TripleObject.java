@@ -14,12 +14,81 @@ public class TripleObject implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	List<String> list;
 	List<Integer> list2;
+	List<String> complaintsContent;
+	List<String> complaintsUser;
+	int movie_id;
+	String movie_time;
+	List<Integer> mapchair;
+	String num_seat;
+	int[] ComplaintsPerMArraay;
+	
+	
+
+	public int[] getComplaintsPerMArraay() {
+		return ComplaintsPerMArraay;
+	}
+
+	public void setComplaintsPerMArraay(int[] complaintsPerMArraay) {
+		ComplaintsPerMArraay = complaintsPerMArraay;
+	}
+
+	public List<String> getComplaintsContent() {
+		return complaintsContent;
+	}
+
+	public void setComplaintsContent(List<String> complaintsContent) {
+		this.complaintsContent = complaintsContent;
+	}
+
+	public List<String> getComplaintsUser() {
+		return complaintsUser;
+	}
+
+	public void setComplaintsUser(List<String> complaintsUser) {
+		this.complaintsUser = complaintsUser;
+	}
 
 	public TripleObject(String msg, List<Movie> movies, List<MovieTimes> movieTimes) {
 		this.msg = msg;
 		this.movies = movies;
 		this.movieTimes = movieTimes;
 	}
+
+	// ***saleh***
+	public TripleObject(String msg, int id, String time) {
+		this.movie_id = id;
+		this.movie_time = time;
+		this.msg = msg;
+	}
+
+	public TripleObject(String msg, int id, String time, String num_seat) {
+		this.movie_id = id;
+		this.movie_time = time;
+		this.msg = msg;
+		this.num_seat = num_seat;
+	}
+
+	public String getnumseat() {
+		return this.num_seat;
+	}
+
+	public TripleObject(String msg, List<Integer> mc) {
+		this.mapchair = mc;
+		this.msg = msg;
+	}
+
+	public List<Integer> getMapChair() {
+		return this.mapchair;
+	}
+
+	public int getID() {
+		return this.movie_id;
+	}
+
+	public String getTime() {
+		return this.movie_time;
+	}
+	// ***saleh***
 
 	public List<Integer> getList2() {
 		return list2;
@@ -61,12 +130,4 @@ public class TripleObject implements Serializable {
 		// TODO Auto-generated method stub
 		return list;
 	}
-
-//	public Reports getReport() {
-//		return report;
-//	}
-//
-//	public void setReport(Reports report) {
-//		this.report = report;
-//	}
 }

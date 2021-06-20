@@ -5,11 +5,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,6 +21,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
+import il.cshaifasweng.OCSFMediatorExample.entities.MonthlyComplaints;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.Package;
@@ -27,7 +31,9 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Reports;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -537,6 +543,42 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("Check if restricted day ")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String day = ObjctMsg.substring(24);
+				purpleChar PC = getPC().get(0);
+				boolean x = false;
+				System.out.println("ZA DAY IN SERVER = " + day);
+				for (int i = 0; i < PC.getDays().size(); i++) {
+					if (PC.getDays().get(i).equals(day)) {
+						x = true;
+					}
+				}
+				String res;
+				if (x) {
+					res = "Yes";
+				} else {
+					res = "No";
+				}
+				List<String> list = new ArrayList<String>();
+				list.add(res);
+				TripleObject to = new TripleObject("checked day", null, null);
+				to.setList(list);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Deny request")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -779,6 +821,8 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+
+		////// elin
 		if (ObjctMsg.equals("Add new person")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -796,6 +840,96 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+
+		if (ObjctMsg.equals("Add new complaint")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				complaint newcomplaint = new complaint(movietoadd.getEngName(), movietoadd.getHebName());
+				
+				
+				/*
+				Reports report = getReports(1).get(0);
+				System.out.println("after get  ");
+				List<Integer> ComplaintsPerDay = new ArrayList<Integer>(31);
+				ComplaintsPerDay = report.getComplaintsPerDay();
+				System.out.println("after got complaint per day , in1 =  : " +ComplaintsPerDay.get(1));
+				ComplaintsPerDay.add(month, 2);
+				System.out.println("after adding 1  ");
+				report.setComplaintsPerDay(ComplaintsPerDay);
+				System.out.println("after settig complaint per day");
+				// newuser.setRole(-1);
+				// newuser.setIs_Logged_In(true);*/
+
+				//System.out.println("ttttt : " +ComplaintsPerDay.get(month));
+				App.session.save(newcomplaint);
+				App.session.flush();
+				//App.session.save(report);
+				//App.session.flush();
+				//3shan no5od lshaher l7ali
+				LocalDate local = LocalDate.now();
+				int month = local.getMonthValue();
+				Calendar mCalendar = Calendar.getInstance();
+				String current_month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+				System.out.println("month = " +current_month);
+				System.out.println("month int = " +month);
+				List<MonthlyComplaints> helplist = getMonthlyComplaints(1);
+				MonthlyComplaints ComplaintsM = helplist.get(0);
+				System.out.println("after getting the list " );
+				 int[] Array = new int[32];
+				Array = ComplaintsM.getComplaintspermonth();
+				System.out.println("after getting the array " );
+				System.out.println("1Array[month] =  " +Array[month]);
+				Array[month] = Array[month] + 1;
+				ComplaintsM.setComplaintspermonth(Array);
+				System.out.println("after setting the array " );
+				System.out.println("2Array[month] =  " +Array[month]);
+				App.session.save(newcomplaint);
+				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+
+		if (ObjctMsg.startsWith("Show complaints")) {
+			System.out.println("in the server of show chow complaints");
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				List<complaint> Lofcomplaints = getComplaintslist();
+				List<complaint> tmp = new ArrayList<complaint>();
+				for (int i = 0; i < Lofcomplaints.size(); i++) {
+					if (!Lofcomplaints.get(i).isHandled()) {
+						tmp.add(Lofcomplaints.get(i));
+					}
+				}
+				List<String> complaintsContent = new ArrayList<String>();
+				List<String> complaintsUser = new ArrayList<String>();
+				for (int i = 0; i < tmp.size(); i++) {
+					complaintsContent.add(tmp.get(i).getComplaintcontext());
+					complaintsUser.add(tmp.get(i).getName());
+				}
+				TripleObject to = new TripleObject("All complaints", null, null);
+				to.setComplaintsContent(complaintsContent);
+				to.setComplaintsUser(complaintsUser);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		//////// end elin
 		if (ObjctMsg.startsWith("log-out")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -859,6 +993,33 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("ComplaintsReports")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+
+			List<MonthlyComplaints> helplist = getMonthlyComplaints(1);
+			MonthlyComplaints ComplaintsM = helplist.get(0);
+			System.out.println("after getting the list " );
+			int[] CArray = new int[32];
+			CArray = ComplaintsM.getComplaintspermonth();
+			
+			TripleObject to = new TripleObject("ComplaintsReports", null, null);
+			to.setComplaintsPerMArraay(CArray);
+			
+			try {
+				client.sendToClient(to);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			App.session.getTransaction().commit();
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+		App.session.close();
+		}
+		
 		if (ObjctMsg.startsWith("Remove link")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -916,6 +1077,45 @@ public class SimpleServer extends AbstractServer {
 				App.session.save(my_Ticket);
 				App.session.flush();
 				client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
+				/*List<Movie> allmovies = getMoviesList();
+				Movie tmp = new Movie();
+				for (int i = 0; i < allmovies.size(); i++)
+				{
+					if(allmovies.get(i).getEngName().equals(my_Ticket.get_movie())); 
+					{
+						tmp = allmovies.get(i);
+					}
+				}
+				String Curr_branch = tmp.getBranch();
+				Reports allreports = getReports(1).get(0);
+				if(Curr_branch.equals("Haifa"))
+				{
+					int tmp2 = allreports.getTicketsInHaifa();
+					allreports.setTicketsInHaifa(tmp2+1);
+					App.session.getTransaction().commit();
+				}
+				if(Curr_branch.equals("Shefa-Amr"))
+				{
+					int tmp2 = allreports.getTicketsInShefaAmr();
+					allreports.setTicketsInShefaAmr(tmp2+1);
+					App.session.getTransaction().commit();
+				}*/
+				
+				Reports allreports = getReports(1).get(0);
+				if(my_Ticket.get_hall().equals("Haifa"))
+				{
+					int tmp2 = allreports.getTicketsInHaifa();
+					allreports.setTicketsInHaifa(tmp2+1);
+					App.session.getTransaction().commit();
+				}
+				if(my_Ticket.get_hall().equals("Shefa-Amr"))
+				{
+					int tmp2 = allreports.getTicketsInShefaAmr();
+					allreports.setTicketsInShefaAmr(tmp2+1);
+					App.session.getTransaction().commit();
+				}
+				
+	
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -948,28 +1148,24 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		if (ObjctMsg.startsWith("Delete link")) {
-			System.out.println("got to delete");
 			App.session = App.sessionFactory.openSession();
 			boolean x = deletelink(msg, client);
 			if (x == false) {
 				try {
 					client.sendToClient(new TripleObject("no such link", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				try {
 					client.sendToClient(new TripleObject("found link", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
-			System.out.println("i got here");
 			App.session = App.sessionFactory.openSession();
 			boolean x = deleteTicket(msg, client);
 			if (x == false) {
@@ -1011,7 +1207,148 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
+		// ****saleh****
+		if (ObjctMsg.startsWith("get my map chair")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				int id_movie = tuple_msg.getID();
+				String time_movie = tuple_msg.getTime();
+				System.out.println("IDDDDDD = " + id_movie + "timeeee = " + time_movie);
+				List<Integer> mc = getMapChair(getmapchairid(id_movie, time_movie).get(0).getID());
+				System.out.println("ZAAAAAAA IDDDDDDDD " + getmapchairid(id_movie, time_movie).get(0).getID());
+				try {
+					TripleObject msg2 = new TripleObject("get mapchair", mc);
+					client.sendToClient(msg2);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			App.session.close();
+		}
+
+		if (ObjctMsg.startsWith("update mapchair with new seat")) {
+			App.session = App.sessionFactory.openSession();
+			String num_seat = tuple_msg.getnumseat();
+			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			System.out.println("mapchair id " + mapchair_id);
+			add_seat(mapchair_id, num_seat);
+			App.session.close();
+
+		}
+		// ****saleh****
 	}
+
+	// ***saleh***
+
+	private int add_seat(int mapchair_id, String num_seat) {
+
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		List<Integer> mymapchairs = new ArrayList<Integer>();
+
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet RS2 = stmt.executeQuery(
+					"select MY_mapchairs From mapchair_mymapchair where MapChair_id=" + mapchair_id + ";");
+			while (RS2.next()) {
+				mymapchairs.add((Integer) RS2.getInt(1));
+				System.out.println((Integer) RS2.getInt(1));
+			}
+			mymapchairs.add(Integer.parseInt(num_seat));
+
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		try {
+			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			MapChair mc = App.session.get(MapChair.class, mapchair_id);
+			mc.setMapChair(mymapchairs);
+			App.session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+		App.session.close();
+		return 1;
+	}
+
+	// private int getmapchairid(int id_movie, String time) {
+	private static List<MapChair> getmapchairid(int id_movie, String time) {
+//		Connection c = null;
+//		java.sql.Statement stmt = null;
+//		int mapchair_id = -1;
+//		try {
+//			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+//			c.setAutoCommit(false);
+//			System.out.println("Opened database successfully");
+//			stmt = c.createStatement();
+//			ResultSet RS1 = stmt
+//					.executeQuery("select *From mapchair where movie_id=" + id_movie + " and start_time=" + time + ";");
+//			if (RS1 == null) {
+//				System.out.print("Error, movie at this time not found");
+//				return -1;
+//			}
+//			if (RS1.next())
+//				mapchair_id = (int) RS1.getInt("id");
+//			stmt.close();
+//			c.close();
+//		} catch (Exception e) {
+//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//			System.exit(0);
+//		}
+//		System.out.println("Operation done successfully");
+//		return mapchair_id;
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+		Root<MapChair> userRoot = query.from(MapChair.class);
+		Predicate predicateForMovieId = builder.equal(userRoot.get("movie_id"), Integer.toString(id_movie));
+		Predicate predicateTimes = builder.equal(userRoot.get("start_time"), time);
+		Predicate predicateForMapChair = builder.and(predicateForMovieId, predicateTimes);
+		query.where(predicateForMapChair);
+		List<MapChair> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private List<Integer> getMapChair(int mapchair_id) {
+		List<Integer> mymapchair = new ArrayList<Integer>();
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			ResultSet RS2 = stmt.executeQuery(
+					"select MY_mapchairs From mapchair_mymapchair where MapChair_id=" + mapchair_id + ";");
+
+			while (RS2.next()) {
+				mymapchair.add((Integer) RS2.getInt(1));
+			}
+			stmt.close();
+			c.close();
+			return mymapchair;
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		return mymapchair;
+
+	}
+	// work
+	// ***saleh***
 
 	private boolean Lesser_Pack(Object msg, ConnectionToClient client) {
 		TripleObject tuple_msg = (TripleObject) msg;
@@ -1212,7 +1549,6 @@ public class SimpleServer extends AbstractServer {
 							System.out.println("im in the third if");
 							client.sendToClient(new TripleObject("You get no refound", null, null));
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -1246,6 +1582,16 @@ public class SimpleServer extends AbstractServer {
 		// TODO: add close connection
 	}
 
+	///// elin jammal//
+	private static List<complaint> getComplaintslist() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<complaint> query = builder.createQuery(complaint.class);
+		query.from(complaint.class);
+		List<complaint> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	///
 	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
@@ -1259,6 +1605,14 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
 		query.from(Ticket.class);
 		List<Ticket> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<purpleChar> getPC() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<purpleChar> query = builder.createQuery(purpleChar.class);
+		query.from(purpleChar.class);
+		List<purpleChar> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 
@@ -1329,15 +1683,16 @@ public class SimpleServer extends AbstractServer {
 		List<Reports> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
-//	private static List<MovieTimes> getAllMovieTimes() {
-//		CriteriaBuilder builder = App.session.getCriteriaBuilder();
-//		CriteriaQuery<MovieTimes> query = builder.createQuery(MovieTimes.class);
-//		query.from(MovieTimes.class);
-//		List<MovieTimes> data = App.session.createQuery(query).getResultList();
-//		System.out.println("SC in getallmovies : " + data.get(0).getTimes());
-//		System.out.println("SC in getallmovies : " + data.get(1).getTimes());
-//		return data;
-//	}
+	
+	private static List<MonthlyComplaints> getMonthlyComplaints(int MonthlyComplaintsId) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MonthlyComplaints> query = builder.createQuery(MonthlyComplaints.class);
+		Root<MonthlyComplaints> userRoot = query.from(MonthlyComplaints.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("Cid"), MonthlyComplaintsId);
+		query.where(predicateForMoviename);
+		List<MonthlyComplaints> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
 
 	private static Boolean isBigger(String date1, String date2) {
 		List<String> dates1 = Arrays.asList(date1.split("/"));

@@ -18,6 +18,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class ComplaintsReportsController implements Initializable{
 
@@ -32,6 +33,9 @@ public class ComplaintsReportsController implements Initializable{
 
     @FXML
     private Button back;
+    
+    @FXML
+    private Label titlelabel;
 
     @FXML
     void back(ActionEvent event) throws Exception{
@@ -64,12 +68,15 @@ public class ComplaintsReportsController implements Initializable{
 		
 		LocalDate local = LocalDate.now();
 		int month = local.lengthOfMonth();
+		int currmonth = local.getMonthValue();
 		
 		for(int i=0;i<=month;i++)
 		{
-			series1.getData().add(new XYChart.Data<String,Integer>(Integer.toString(i),1));
+			series1.getData().add(new XYChart.Data<String,Integer>(Integer.toString(i),SimpleClient.ComplaintsPerMArraay[i]));
 		}
 		chart.getData().addAll(series1);
+		
+		titlelabel.setText("Complaints Report for month " +currmonth);
 	
 	}
 

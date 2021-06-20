@@ -18,6 +18,5 @@
       <Button fx:id="Watch_At_Home" layoutX="207.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotowatchathome" opacity="0.9" prefHeight="17.0" prefWidth="123.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Watch At Home" textFill="WHITE" />
       <Button fx:id="Back" layoutX="748.0" layoutY="348.0" mnemonicParsing="false" onAction="#goback" opacity="0.9" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Back" textFill="WHITE" />
       <Button fx:id="hybrid" layoutX="65.0" layoutY="303.0" mnemonicParsing="false" onAction="#gotoHybrid" opacity="0.9" style="-fx-background-radius: 40; -fx-background-color: black;" text="Show Hybrid Movies" textFill="WHITE" />
-      <Button fx:id="buy_tic" layoutX="53.0" layoutY="105.0" mnemonicParsing="false" onAction="#buy_tic_btn" text="Buy Ticket" />
    </children>
 </AnchorPane>

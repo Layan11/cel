@@ -18,15 +18,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class Screening_TimesController implements Initializable {
-
 	@FXML
 	private Button edit;
 	@FXML
@@ -49,15 +53,92 @@ public class Screening_TimesController implements Initializable {
 	private Button buy;
 	@FXML
 	private Label label;
+	@FXML
+	private TextField timetobuy;
 
 	public static String action = "";
 	public static String selectedScreeningTime = "";
 	public static String selectedScreeningDate = "";
 
 	@FXML
-	void gotoBuy(ActionEvent event) {
-		// App.setRoot("mapChair");
+	void gotoBuy(ActionEvent event) throws Exception {
+		selectedScreeningTime = timesTable.getSelectionModel().getSelectedItem();
+		selectedScreeningDate = datesTable.getItems().get(timesTable.getSelectionModel().getSelectedIndex());
+		TripleObject msg = new TripleObject("Check if restricted day " + selectedScreeningDate, null, null);
+		SimpleClient.getClient().sendToServer(msg);
 	}
+
+	@Subscribe
+	public void onGotRestrictedAns(GotRestrictedAnsEvent event) {
+		if (SimpleClient.restrictionAns.equals("Yes")) {
+			Platform.runLater(() -> {
+				try {
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("restrictionPopup.fxml"));
+					Parent Root1 = (Parent) fxmlLoader.load();
+					Stage stage = new Stage();
+					stage.setScene(new Scene(Root1));
+					stage.setTitle("There's restrictions");
+					stage.show();
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+				try {
+					App.setRoot("primary");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		} else if (SimpleClient.restrictionAns.equals("No")) {
+			try {
+				TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
+						selectedScreeningTime);
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Subscribe
+	public void onGotMapChair(gotMapChairevent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("buy_ticket");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+//=======
+//	void gotoBuy(ActionEvent event) {
+//		// App.setRoot("mapChair");
+//		Movie selected = browse_moviesController.selectedMovie;
+//		timesave="'" + timetobuy.getText() + "'";
+//		
+//		String time_movie = "'" + timetobuy.getText() + "'";
+//
+//		int movie_id;
+//		try {
+//			movie_id = selected.getId();
+//			// String movietime=m.getMovieTimes().getTimes().get(0);
+//			String movietime = time_movie;
+//			TripleObject msg = new TripleObject("get my map chair", movie_id, movietime);
+//			SimpleClient client = SimpleClient.getClient();
+//			client.sendToServer(msg);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		Platform.runLater(() -> {
+//			try {
+//				App.setRoot("buy_ticket");
+//				// System.out.println("after the load line of brwose movies in primary");
+//
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//>>>>>>> refs/remotes/origin/SamerV3
 
 	@FXML
 	void gotoAdd(ActionEvent event) {

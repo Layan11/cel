@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.buy_ticketController">
+   <children>
+      <Pane layoutX="139.0" layoutY="-112.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="btn_choose" layoutX="42.0" layoutY="139.0" mnemonicParsing="false" onAction="#choose_seat" text="choose seat" />
+         </children></Pane>
+   </children>
+</AnchorPane>
