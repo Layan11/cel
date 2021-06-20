@@ -53,36 +53,20 @@ public class Return_TicketController implements Initializable {
 
 	@Subscribe
 	public void onData(TripleObject msg) {
-		System.out.println("IN onData");
-
 		Platform.runLater(() -> {
-//			Window window = Browse_movie_list.getScene().getWindow();
-//			if (window instanceof Stage) {
-//				((Stage) window).close();
-//			}
-//			Stage primaryStage = new Stage();
-			// Parent root;
 			try {
 				labelmsg.setText(msg.getMsg());
 				if (false) {
 					App.setRoot("idk");
 				}
-//				Scene scene = new Scene(root);
-//				primaryStage.setScene(scene);
-//				primaryStage.setTitle("Browse movies list");
-//				primaryStage.show();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		});
-
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		EventBus.getDefault().register(this);
 	}
 

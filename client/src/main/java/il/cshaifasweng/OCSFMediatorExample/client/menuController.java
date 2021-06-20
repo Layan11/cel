@@ -27,7 +27,6 @@ public class menuController implements Initializable {
 	private Button UpdatePriceRequests;
 	@FXML
 	private Button Showthecomplaints;
-
 	@FXML
 	private Button logout;
 	@FXML
@@ -46,6 +45,25 @@ public class menuController implements Initializable {
 	private Button packageStatus;
 	@FXML
 	private Button reports;
+	@FXML
+	private Button showRestricted;
+
+	@FXML
+	void gotoShowRestricted(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Show restricted days", null, null);
+		SimpleClient.getClient().sendToServer(msg);
+	}
+
+	@Subscribe
+	public void onRestrictedDays(GotrestrictedDaysEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("restrictedDays");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {
@@ -133,7 +151,6 @@ public class menuController implements Initializable {
 
 	@Subscribe
 	public void onGOTcomplaints(gotallcomplaintsevent event) {
-		System.out.println("in onData1111");
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("showComplaint");
