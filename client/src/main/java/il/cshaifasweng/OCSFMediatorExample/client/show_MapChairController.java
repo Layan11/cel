@@ -14,6 +14,7 @@ import javafx.stage.Window;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.client.SimpleClient;
+import il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -27,7 +28,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
 public class show_MapChairController implements Initializable {
-	private String num_chair="-1";
+	public static String num_chair="-1";
 	private Button mybutton;
 	
 	  @FXML
@@ -340,7 +341,7 @@ public class show_MapChairController implements Initializable {
 	    private Pane pane3;
 	    
 	    @FXML
-	    private Pane pane4;
+	    private  Pane pane4;
 
 	    @FXML
 	    private Button yesbtn;
@@ -348,22 +349,9 @@ public class show_MapChairController implements Initializable {
 	    @FXML
 	    private Button nobtn;
 	    
-	    @FXML
-	    private Button home;
-	    
-	    @FXML
-	    private Button bnm;
 	    
 	    @FXML
 	    private Button anotherseat;
-	    
-	    @FXML
-	    private Text seatnum;
-	    
-
-
-	   
-
 	   
 
 	    @FXML
@@ -892,43 +880,11 @@ public class show_MapChairController implements Initializable {
 
     }
     
-    @FXML
-    void gohome(ActionEvent event) {
-    	Platform.runLater(() -> {
-			try {
-				App.setRoot("primary");
-				//System.out.println("after the load line of brwose movies in primary");
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}});
-
-
-
-    }
-    
-    @FXML
-    void browsemovies(ActionEvent event) {	
-    	Platform.runLater(() -> {
-			try {
-				App.setRoot("browse_movies");
-				//System.out.println("after the load line of brwose movies in primary");
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}});
-
-
-    }
-    
     
   
     @FXML
     void answeryes(ActionEvent event) {
     	num_chair=mybutton.getText();
-    	System.out.println(num_chair);
     	mybutton.setStyle("-fx-background-color: red;");
     	Movie m= browse_moviesController.selectedMovie;
 		TripleObject msg = new TripleObject("update mapchair with new seat",(int)m.getId(),browse_moviesController.time_movie,num_chair);
@@ -938,13 +894,54 @@ public class show_MapChairController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	seatnum.setText(num_chair);
-    	pane1.setVisible(false);
-    	pane4.setVisible(true);
     	
-    	    	
 
+    	
+    	
+  
+    	    	
+    	
     }
+    
+
+   public static void is_busy(boolean busy) {
+if(busy) {
+	Movie m= browse_moviesController.selectedMovie;
+	try {
+		TripleObject new_msg = new TripleObject("get my map chair", m.getId(), browse_moviesController.time_movie);
+		SimpleClient client=SimpleClient.getClient();
+		client.sendToServer(new_msg);			
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();} 
+	Platform.runLater(() -> {
+		try {
+			
+			App.setRoot("choose_another_seat");
+			
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}});
+	
+}
+else {
+	
+	Platform.runLater(() -> {
+		try {
+			
+			App.setRoot("thank_choose_seat");
+			
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}});
+	
+	
+}
+  }
     
     @FXML
     void answerno(ActionEvent event) {
@@ -959,18 +956,18 @@ public class show_MapChairController implements Initializable {
     		pane3.setVisible(true);
     		pane2.setVisible(true);
     		return;
+        	
     	}
     	mybtn.setStyle("-fx-background-color: blue;");
     	mybutton=mybtn;
     	pane3.setVisible(true);
     	pane1.setVisible(true);
+    	
     }
     
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
-		
-		Movie m= browse_moviesController.selectedMovie;
-		int movie_id;
+
 		for(int i=0;i<SimpleClient.mc.size();i++) {
 			switch(SimpleClient.mc.get(i)){
 			case 1:
@@ -1278,8 +1275,6 @@ public class show_MapChairController implements Initializable {
 			}
 			
 		}
-		
-		
 	}
 
    

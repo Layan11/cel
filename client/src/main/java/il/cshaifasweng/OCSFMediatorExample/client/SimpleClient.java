@@ -88,7 +88,7 @@ public class SimpleClient extends AbstractClient {
 		}
 		
 		//***saleh***
-		if(myMsg.equals("get mapchair")) {
+		if(myMsg.equals("your mapchair")) {
 			
 			System.out.println("*****busy seats*****");
 			mc=triple_msg.getMapChair();
@@ -96,6 +96,16 @@ public class SimpleClient extends AbstractClient {
 				System.out.println(mc.get(i));
 			}
 		}
+		if(myMsg.equals("this seat is busy")  ) {
+			System.out.println("SimpleClient this seat is Busy");
+			show_MapChairController.is_busy(true);
+		}
+		
+		if( myMsg.equals("this seat isn't busy")) {
+			System.out.println("SimpleClient this seat is not Busy");
+			show_MapChairController.is_busy(false);
+		}
+		
 		//***saleh***
 	
 	}

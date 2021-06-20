@@ -158,7 +158,7 @@ public class SimpleServer extends AbstractServer {
 			 String time_movie=tuple_msg.getTime();
 			 List<Integer>mc=getMapChair(getmapchairid(id_movie,time_movie));
 			 try {
-			 TripleObject msg2=new TripleObject("get mapchair",mc);
+			 TripleObject msg2=new TripleObject("your mapchair",mc);
 			 client.sendToClient(msg2);
 			 }
 			 catch (IOException e) {
@@ -172,8 +172,28 @@ public class SimpleServer extends AbstractServer {
 			 App.session = App.sessionFactory.openSession();
 			 String num_seat=tuple_msg.getnumseat();
 			 int mapchair_id=getmapchairid(tuple_msg.getID(),tuple_msg.getTime());
-			 System.out.println("mapchair id "+mapchair_id);
+			 if(is_seat_busy(mapchair_id,Integer.parseInt(num_seat))) {
+				 try {
+					 TripleObject msg_busy=new TripleObject("this seat is busy");
+					client.sendToClient(msg_busy);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+			 else {
 			 add_seat(mapchair_id,num_seat);
+			 try {
+				 System.out.println("1.mapchair id in SimpleServer "+mapchair_id);
+				 TripleObject msg_notbusy=new TripleObject("this seat isn't busy");	
+				 System.out.println("2.mapchair id in SimpleServer "+mapchair_id);
+					client.sendToClient(msg_notbusy);
+				System.out.println("3.mapchair id in SimpleServer "+mapchair_id);	
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
 			 App.session.close();
 			 
 		 }
@@ -181,6 +201,14 @@ public class SimpleServer extends AbstractServer {
 	}
 	
 	//***saleh***
+	
+	private boolean is_seat_busy(int mapchair_id,int seat_num) {
+		List<Integer> list_seats=getMapChair(mapchair_id);
+		for(Integer seat:list_seats) {
+			if(seat_num==seat)return true;
+		}
+		return false;
+	}
 	
 	private int add_seat(int mapchair_id,String num_seat) {
 		

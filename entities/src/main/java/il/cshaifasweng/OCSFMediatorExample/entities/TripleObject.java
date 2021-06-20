@@ -33,6 +33,9 @@ public class TripleObject implements Serializable {
 		this.msg=msg;
 		this.num_seat=num_seat;
 	}
+	public TripleObject(String msg) {
+		this.msg=msg;
+	}
 	public String getnumseat() {
 		return this.num_seat;
 	}
