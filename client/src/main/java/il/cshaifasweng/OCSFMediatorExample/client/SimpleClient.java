@@ -36,7 +36,6 @@ public class SimpleClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		System.out.println("in handle message from server");
 		TripleObject triple_msg = (TripleObject) msg;
 		String myMsg = triple_msg.getMsg();
 		System.out.println("in client , the msg is : " + myMsg);
@@ -179,21 +178,21 @@ public class SimpleClient extends AbstractClient {
 
 		if (myMsg.equals("You get 100% refound")) {
 			msg = "You get 100% refound";
-			System.out.println("100% refund");
-			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			String Msg = "You get 100% refund";
+			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
 
 		}
 		if (myMsg.equals("You get 50% refound")) {
 			msg = "You get 50% refound";
-			System.out.println("50% refund");
-			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			String Msg = "You get 50% refund";
+			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
 		if (myMsg.equals("You get no refound")) {
 			msg = "You get no refound";
-			System.out.println("no refund pls");
-			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			String Msg = "You get no refund";
+			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
 
 		}
