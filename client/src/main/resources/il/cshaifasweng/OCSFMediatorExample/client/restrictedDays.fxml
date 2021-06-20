@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="507.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.restrictedDaysController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="507.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.restrictedDaysController">
    <children>
       <Label layoutX="40.0" layoutY="14.0" text="Restricted Days" textFill="WHITE">
          <font>
@@ -54,5 +54,6 @@
       <TextField fx:id="dateToUpdate" layoutX="244.0" layoutY="157.0" />
       <TextField fx:id="cancel_screeningstxt" layoutX="245.0" layoutY="260.0" />
       <Button fx:id="cancel_screenings" layoutX="232.0" layoutY="301.0" mnemonicParsing="false" onAction="#cancel_screenings" text="Cancel Screenings fo this date" />
+      <TextField fx:id="restrictionType" layoutX="423.0" layoutY="65.0" prefHeight="25.0" prefWidth="63.0" />
    </children>
 </AnchorPane>

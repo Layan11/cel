@@ -5,12 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
-import java.time.LocalDate;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -642,6 +639,32 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				String newDate = ObjctMsg.substring(19);
+				String restrictionType = tuple_msg.getList().get(0);
+				List<MapChair> MapChairList = new ArrayList<MapChair>();
+				try {
+					MapChairList = getAllMapChairs();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+				if (restrictionType.equals("first")) {
+					for (int i = 0; i < MapChairList.size(); i++) {
+						String time = MapChairList.get(i).getStart_time();
+						int movieId = MapChairList.get(i).getMovie_id();
+						Movie movie = getMovieFromId(movieId).get(0);
+						List<String> dates = movie.getMovieTimes().getDate();
+						List<String> times = movie.getMovieTimes().getTimes();
+						System.out.println("time = " + MapChairList.get(i).getStart_time());
+						for (int j = 0; j < times.size(); j++) {
+							if (times.get(j).equals(time)) {
+								if (dates.get(j).equals(newDate)) {
+									int oldNumOfAvailableChairs = MapChairList.get(i).getNmberAvailableChair();
+									MapChairList.get(i).setNmberAvailableChair(oldNumOfAvailableChairs - 30);
+								}
+							}
+						}
+					}
+				}
 				List<String> dates = new ArrayList<String>();
 				purpleChar pc = getPC().get(0);
 				dates = pc.getDays();
@@ -961,45 +984,43 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				Movie movietoadd = tuple_msg.getMovies().get(0);
 				complaint newcomplaint = new complaint(movietoadd.getEngName(), movietoadd.getHebName());
-				
-				
-				/*
-				Reports report = getReports(1).get(0);
-				System.out.println("after get  ");
-				List<Integer> ComplaintsPerDay = new ArrayList<Integer>(31);
-				ComplaintsPerDay = report.getComplaintsPerDay();
-				System.out.println("after got complaint per day , in1 =  : " +ComplaintsPerDay.get(1));
-				ComplaintsPerDay.add(month, 2);
-				System.out.println("after adding 1  ");
-				report.setComplaintsPerDay(ComplaintsPerDay);
-				System.out.println("after settig complaint per day");
-				// newuser.setRole(-1);
-				// newuser.setIs_Logged_In(true);*/
 
-				//System.out.println("ttttt : " +ComplaintsPerDay.get(month));
+				/*
+				 * Reports report = getReports(1).get(0); System.out.println("after get  ");
+				 * List<Integer> ComplaintsPerDay = new ArrayList<Integer>(31); ComplaintsPerDay
+				 * = report.getComplaintsPerDay();
+				 * System.out.println("after got complaint per day , in1 =  : "
+				 * +ComplaintsPerDay.get(1)); ComplaintsPerDay.add(month, 2);
+				 * System.out.println("after adding 1  ");
+				 * report.setComplaintsPerDay(ComplaintsPerDay);
+				 * System.out.println("after settig complaint per day"); // newuser.setRole(-1);
+				 * // newuser.setIs_Logged_In(true);
+				 */
+
+				// System.out.println("ttttt : " +ComplaintsPerDay.get(month));
 				App.session.save(newcomplaint);
 				App.session.flush();
-				//App.session.save(report);
-				//App.session.flush();
-				//3shan no5od lshaher l7ali
+				// App.session.save(report);
+				// App.session.flush();
+				// 3shan no5od lshaher l7ali
 				LocalDate local = LocalDate.now();
 				int month = local.getMonthValue();
 				int day = local.getDayOfMonth();
 				Calendar mCalendar = Calendar.getInstance();
 				String current_month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-				System.out.println("month = " +current_month);
-				System.out.println("month int = " +month);
+				System.out.println("month = " + current_month);
+				System.out.println("month int = " + month);
 				List<MonthlyComplaints> helplist = getMonthlyComplaints(1);
 				MonthlyComplaints ComplaintsM = helplist.get(0);
-				System.out.println("after getting the list " );
-				 int[] Array = new int[32];
+				System.out.println("after getting the list ");
+				int[] Array = new int[32];
 				Array = ComplaintsM.getComplaintspermonth();
-				System.out.println("after getting the array " );
-				System.out.println("1Array[month] =  " +Array[month]);
+				System.out.println("after getting the array ");
+				System.out.println("1Array[month] =  " + Array[month]);
 				Array[day] = Array[day] + 1;
 				ComplaintsM.setComplaintspermonth(Array);
-				System.out.println("after setting the array " );
-				System.out.println("2Array[month] =  " +Array[month]);
+				System.out.println("after setting the array ");
+				System.out.println("2Array[month] =  " + Array[month]);
 				App.session.save(newcomplaint);
 				App.session.flush();
 				App.session.getTransaction().commit();
@@ -1112,29 +1133,29 @@ public class SimpleServer extends AbstractServer {
 			try {
 				App.session = App.sessionFactory.openSession();
 
-			List<MonthlyComplaints> helplist = getMonthlyComplaints(1);
-			MonthlyComplaints ComplaintsM = helplist.get(0);
-			System.out.println("after getting the list " );
-			int[] CArray = new int[32];
-			CArray = ComplaintsM.getComplaintspermonth();
-			
-			TripleObject to = new TripleObject("ComplaintsReports", null, null);
-			to.setComplaintsPerMArraay(CArray);
-			
-			try {
-				client.sendToClient(to);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			App.session.getTransaction().commit();
+				List<MonthlyComplaints> helplist = getMonthlyComplaints(1);
+				MonthlyComplaints ComplaintsM = helplist.get(0);
+				System.out.println("after getting the list ");
+				int[] CArray = new int[32];
+				CArray = ComplaintsM.getComplaintspermonth();
 
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			App.session.getTransaction().rollback();
+				TripleObject to = new TripleObject("ComplaintsReports", null, null);
+				to.setComplaintsPerMArraay(CArray);
+
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
 		}
-		App.session.close();
-		}
-		
+
 		if (ObjctMsg.startsWith("Remove link")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -1202,22 +1223,17 @@ public class SimpleServer extends AbstractServer {
 				App.session.flush();
 				client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
 
-				
 				Reports allreports = getReports(1).get(0);
-				if(my_Ticket.get_hall().equals("Haifa"))
-				{
+				if (my_Ticket.get_hall().equals("Haifa")) {
 					int tmp2 = allreports.getTicketsInHaifa();
-					allreports.setTicketsInHaifa(tmp2+1);
+					allreports.setTicketsInHaifa(tmp2 + 1);
 					App.session.getTransaction().commit();
 				}
-				if(my_Ticket.get_hall().equals("Shefa-Amr"))
-				{
+				if (my_Ticket.get_hall().equals("Shefa-Amr")) {
 					int tmp2 = allreports.getTicketsInShefaAmr();
-					allreports.setTicketsInShefaAmr(tmp2+1);
+					allreports.setTicketsInShefaAmr(tmp2 + 1);
 					App.session.getTransaction().commit();
 				}
-				
-	
 
 				App.session.getTransaction().commit();
 
@@ -1405,7 +1421,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1455,7 +1471,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1493,7 +1509,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1548,7 +1564,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1629,7 +1645,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1769,6 +1785,14 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
+	private static List<MapChair> getAllMapChairs() throws Exception {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+		query.from(MapChair.class);
+		List<MapChair> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
 	private static List<User> GetUser(String username, String pass) {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<User> query = builder.createQuery(User.class);
@@ -1786,6 +1810,16 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		Root<Movie> userRoot = query.from(Movie.class);
 		Predicate predicateForMoviename = builder.equal(userRoot.get("EngName"), movieName);
+		query.where(predicateForMoviename);
+		List<Movie> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<Movie> getMovieFromId(int movieId) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+		Root<Movie> userRoot = query.from(Movie.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("id"), movieId);
 		query.where(predicateForMoviename);
 		List<Movie> data = App.session.createQuery(query).getResultList();
 		return data;
@@ -1820,7 +1854,7 @@ public class SimpleServer extends AbstractServer {
 		List<Reports> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
-	
+
 	private static List<MonthlyComplaints> getMonthlyComplaints(int MonthlyComplaintsId) {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<MonthlyComplaints> query = builder.createQuery(MonthlyComplaints.class);

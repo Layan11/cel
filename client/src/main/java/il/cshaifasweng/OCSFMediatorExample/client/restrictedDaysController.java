@@ -26,44 +26,40 @@ public class restrictedDaysController implements Initializable {
 
 	@FXML
 	private TableView<String> table;
-
 	@FXML
 	private TableColumn<String, String> dates;
-
 	@FXML
 	private Button back;
-
 	@FXML
 	private Button delete;
-
 	@FXML
 	private Button edit;
-
 	@FXML
 	private Button add;
-
 	@FXML
 	private Label addLabel;
-
 	@FXML
 	private TextField dateToAdd;
-
 	@FXML
 	private TextField dateToUpdate;
 	@FXML
 	private Label updateLabel;
-	
-    @FXML
-    private Button cancel_screenings;
+	@FXML
+	private Button cancel_screenings;
+	@FXML
+	private TextField restrictionType;
 
-    @FXML
-    void cancel_screenings(ActionEvent event) {
+	@FXML
+	void cancel_screenings(ActionEvent event) {
 
-    }
+	}
 
 	@FXML
 	void gotoAdd(ActionEvent event) throws Exception {
 		TripleObject msg = new TripleObject("Add restricted day " + dateToAdd.getText(), null, null);
+		List<String> list = new ArrayList<String>();
+		list.add(restrictionType.getText());
+		msg.setList(list);
 		SimpleClient.getClient().sendToServer(msg);
 		dateToAdd.setText("");
 	}
