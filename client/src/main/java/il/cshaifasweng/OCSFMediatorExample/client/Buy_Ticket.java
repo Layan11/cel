@@ -44,15 +44,13 @@ public class Buy_Ticket implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				if(counter2==0) {
-			
+					System.out.println(show_MapChairController.id +Screening_TimesController.timesave+show_MapChairController.num_chair1);
 					TripleObject msg = new TripleObject("remove mapchair with new seat",show_MapChairController.id,Screening_TimesController.timesave,show_MapChairController.num_chair1);
-			    	try {
+			    	
 						SimpleClient.getClient().sendToServer(msg);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+					} 
+				
+				counter2=0;
 				counter=0;
 				App.setRoot("choose_type_to_browse");
 			} catch (IOException e) {
@@ -64,8 +62,9 @@ public class Buy_Ticket implements Initializable {
 	@FXML
 	void buy_btn(ActionEvent event) throws IOException { 
 		counter++;
+		counter2++;
 		if(counter<2) {
-			counter2++;
+			
 		Movie newMovie;
 		newMovie = browse_moviesController.selectedMovie;	
 		String time = Screening_TimesController.timesave;

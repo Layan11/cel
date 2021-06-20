@@ -18,8 +18,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 
-import il.cshaifasweng.OCSFMediatorExample.client.Screening_TimesController;
-import il.cshaifasweng.OCSFMediatorExample.client.show_MapChairController;
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
@@ -1111,11 +1109,11 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
-			c.setAutoCommit(false);
+			
 			System.out.println("Opened database successfully");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id + "' AND My_mapchairs= '"+ num_seat +"'");
 			stmt = c.createStatement();
-			int rs = stmt.executeUpdate("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id + "' AND My_mapchairs= '"+ num_seat +"'");
+			int rs = stmt.executeUpdate("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id + "' AND My_mapchairs = '"+ num_seat +"'");
 
 			stmt.close();
 			c.close();
@@ -1124,17 +1122,6 @@ public class SimpleServer extends AbstractServer {
 			System.exit(0);
 		}
 
-		try {
-			App.session = App.sessionFactory.openSession();
-			App.session.beginTransaction();
-			MapChair mc = App.session.get(MapChair.class, mapchair_id);
-			mc.setMapChair(mymapchairs);
-			App.session.getTransaction().commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			App.session.getTransaction().rollback();
-		}
-		App.session.close();
 		return 1;
 	}
 
@@ -1328,13 +1315,15 @@ public class SimpleServer extends AbstractServer {
 				chairnum=rs1.getString("chair_num");
 				System.out.println(hour);
 			}
-			int remove= remove_seat(idmap,chairnum);
+
 			String message2 = hour.substring(0,2);
 			
 			int y = Integer.parseInt(message);
 			if(user.equals(user2)) {
+			
 			if (y-hour2 >= 3) {
 				try {
+					int remove= remove_seat(idmap,chairnum);
 					System.out.println("im in the first if");
 					client.sendToClient(new TripleObject("You get 100% refound", null, null));
 				} catch (IOException e) {
@@ -1344,6 +1333,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			if (y- hour2 >= 1 && y - hour2 < 3) {
 				try {
+					int remove= remove_seat(idmap,chairnum);
 					System.out.println("im in the second if");
 					client.sendToClient(new TripleObject("You get 50% refound", null, null));
 				} catch (IOException e) {
@@ -1353,6 +1343,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			if (y - hour2 < 1) {
 				try {
+					int remove= remove_seat(idmap,chairnum);
 					System.out.println("im in the third if");
 					client.sendToClient(new TripleObject("You get no refound", null, null));
 				} catch (IOException e) {
