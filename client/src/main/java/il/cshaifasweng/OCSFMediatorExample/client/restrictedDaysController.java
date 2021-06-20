@@ -52,6 +52,14 @@ public class restrictedDaysController implements Initializable {
 	private TextField dateToUpdate;
 	@FXML
 	private Label updateLabel;
+	
+    @FXML
+    private Button cancel_screenings;
+
+    @FXML
+    void cancel_screenings(ActionEvent event) {
+
+    }
 
 	@FXML
 	void gotoAdd(ActionEvent event) throws Exception {

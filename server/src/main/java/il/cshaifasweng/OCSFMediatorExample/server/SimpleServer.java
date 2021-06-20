@@ -1194,29 +1194,6 @@ public class SimpleServer extends AbstractServer {
 				App.session.flush();
 				client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
 
-				/*List<Movie> allmovies = getMoviesList();
-				Movie tmp = new Movie();
-				for (int i = 0; i < allmovies.size(); i++)
-				{
-					if(allmovies.get(i).getEngName().equals(my_Ticket.get_movie())); 
-					{
-						tmp = allmovies.get(i);
-					}
-				}
-				String Curr_branch = tmp.getBranch();
-				Reports allreports = getReports(1).get(0);
-				if(Curr_branch.equals("Haifa"))
-				{
-					int tmp2 = allreports.getTicketsInHaifa();
-					allreports.setTicketsInHaifa(tmp2+1);
-					App.session.getTransaction().commit();
-				}
-				if(Curr_branch.equals("Shefa-Amr"))
-				{
-					int tmp2 = allreports.getTicketsInShefaAmr();
-					allreports.setTicketsInShefaAmr(tmp2+1);
-					App.session.getTransaction().commit();
-				}*/
 				
 				Reports allreports = getReports(1).get(0);
 				if(my_Ticket.get_hall().equals("Haifa"))
