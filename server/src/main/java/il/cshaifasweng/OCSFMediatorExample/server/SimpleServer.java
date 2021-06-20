@@ -5,10 +5,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -1178,13 +1182,10 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
-			System.out.println("FFFFFFFFFFFFFFFFFFFf");
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				int ticketId = Integer.parseInt(ObjctMsg.substring(14));
-				System.out.println("ticketId = " + ticketId);
-				System.out.println("size = " + getTicket(ticketId).size());
 				if (getTicket(ticketId).size() < 1) {
 					try {
 						client.sendToClient(new TripleObject("no such Ticket", null, null));
@@ -1192,45 +1193,50 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				} else {
-					System.out.println("IN ELSEEEEEEEEEEEEw");
 					Ticket ticket = getTicket(ticketId).get(0);
 					String seatNumb = ticket.getChair_num();
-					Calendar rightNow = Calendar.getInstance();
-					System.out.println("seatNumb = " + seatNumb);
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+					LocalDateTime now = LocalDateTime.now();
+					String time2 = dtf.format(now);
+					String hour = ticket.getStart_time();
+					SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+					Date date1 = null;
+					try {
+						date1 = format.parse(hour);
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					Date date2 = null;
+					try {
+						date2 = format.parse(time2);
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					long diff = date1.getTime() - date2.getTime();
+					long diffHours = diff / (60 * 60 * 1000);
 
-					Calendar now = Calendar.getInstance();
-					System.out.println(now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE));
-
-					int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
-					System.out.println("hour2 = " + hour2);
-					System.out.println("Hour = " + ticket.getStart_time());
-					int hour = Integer.parseInt(ticket.getStart_time());
-					System.out.println("Hour = " + hour);
-					if (hour2 - hour >= 3) {
+					if (diffHours >= 3) {
 						try {
-							System.out.println("IN 100% REFUNSDDD ");
 							client.sendToClient(new TripleObject("You get 100% refound", null, null));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
-					if (hour2 - hour >= 1 && hour2 - hour < 3) {
+					if (diffHours >= 1 && diffHours < 3) {
 						try {
 							client.sendToClient(new TripleObject("You get 50% refound", null, null));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
-					if (hour2 - hour < 1) {
+					if (diffHours < 1) {
 						try {
 							client.sendToClient(new TripleObject("You get no refound", null, null));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
-					System.out.println("BEFORE REMOVEEEE");
 					App.session.remove(ticket);
-					System.out.println("AFTER REMOVEEEE");
 					App.session.getTransaction().commit();
 					try {
 						client.sendToClient(new TripleObject("found ticket " + seatNumb, null, null));
@@ -1246,33 +1252,6 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
-//			boolean x = deleteTicket(msg, client);
-//			if (x == false) {
-//				try {
-//					client.sendToClient(new TripleObject("no such Ticket", null, null));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			} else {
-//				try {
-//					String ticketId = ObjctMsg.substring(14);
-//					Ticket ticket = getTicket(Integer.parseInt(ticketId)).get(0);
-//					String movieName = ticket.get_movie();
-//					int movieId = getMovie(movieName).get(0).getId();
-//					MapChair mc = getmapchairid(movieId, ticket.getStart_time()).get(0);
-//					int numOfBoughtSeat = mc.getNumOfBoughtSeat();
-//					numOfBoughtSeat--;
-//					mc.setNumOfBoughtSeat(numOfBoughtSeat);
-//					App.session.save(mc);
-//					App.session.flush();
-
-//					client.sendToClient(new TripleObject("found ticket", null, null));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			App.session.close();
-//		}
 		if (ObjctMsg.startsWith("Lesser Pack ")) {
 
 			App.session = App.sessionFactory.openSession();

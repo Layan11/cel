@@ -941,7 +941,7 @@ public class show_MapChairController implements Initializable {
 	public void onGotSeatToDelete(GotSeatToDeleteEvent event) {
 		Platform.runLater(() -> {
 			String seat = "seat" + SimpleClient.seatNumToDelete;
-			System.out.println("DDDDDDDDA SEATTTT = " + seat);
+			System.out.println("the seat to delete = " + seat);
 			switch (Integer.parseInt(SimpleClient.seatNumToDelete)) {
 			case 1:
 				seat1.setStyle("-fx-background-color: green;");
