@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,11 +56,29 @@ public class restrictedDaysController implements Initializable {
 	
     @FXML
     private Button cancel_screenings;
+    
+    @FXML
+    private TextField cancel_screeningstxt;
 
     @FXML
-    void cancel_screenings(ActionEvent event) {
+    void cancel_screenings(ActionEvent event) throws Exception {
+    	TripleObject msg = new TripleObject("Cancel Screenings"+cancel_screeningstxt.getText(), null, null);
+		SimpleClient.getClient().sendToServer(msg);
+		cancel_screeningstxt.setText("");
 
     }
+	@Subscribe
+	public void onUpdatedRestrictedDays(GotCanceledDateEvent event) {
+		Platform.runLater(() -> {
+			final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
+			table.setEditable(true);
+			dates.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+			table.getColumns().setAll(dates);
+			table.setItems(days);
+		});
+	}
+    
+    
 
 	@FXML
 	void gotoAdd(ActionEvent event) throws Exception {
@@ -113,6 +132,9 @@ public class restrictedDaysController implements Initializable {
 			dateToAdd.setVisible(false);
 			dateToUpdate.setVisible(false);
 			updateLabel.setVisible(false);
+			cancel_screeningstxt.setVisible(false);
+			cancel_screenings.setVisible(false);
+			
 		}
 		final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
 		table.setEditable(true);

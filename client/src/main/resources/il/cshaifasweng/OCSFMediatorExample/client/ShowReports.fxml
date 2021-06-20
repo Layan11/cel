@@ -14,7 +14,6 @@
             <Font name="System Bold Italic" size="26.0" />
          </font>
       </Label>
-      <Label fx:id="Linksl" layoutX="181.0" layoutY="231.0" text="Links" />
       <Button fx:id="ShowComplaintsReport" layoutX="236.0" layoutY="349.0" mnemonicParsing="false" onAction="#gotoShowComplaintsReport" text="Show Complaints Report" />
 
       <TextField fx:id="TicketsInHaifatxt" layoutX="72.0" layoutY="127.0" />
@@ -47,12 +46,12 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="29.0" layoutY="289.0" text="Number of links bought in all branches" textFill="WHITE">
+      <Label fx:id="Linksl" layoutX="29.0" layoutY="289.0" text="Number of links bought in all branches" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="365.0" layoutY="291.0" text="Number of packages bought in all branches" textFill="WHITE">
+      <Label fx:id="packageslabel" layoutX="365.0" layoutY="291.0" text="Number of packages bought in all branches" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
