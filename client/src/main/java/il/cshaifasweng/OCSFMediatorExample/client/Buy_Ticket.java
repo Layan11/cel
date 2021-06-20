@@ -25,8 +25,7 @@ public class Buy_Ticket implements Initializable {
 	int counter=0;
 	int counter2=0;
 
-	@FXML
-	private TextField way_to_pay;
+
 
 	@FXML
 	private Button Buy_btn;
@@ -45,9 +44,15 @@ public class Buy_Ticket implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				if(counter2==0) {
-					
+			
+					TripleObject msg = new TripleObject("remove mapchair with new seat",show_MapChairController.id,Screening_TimesController.timesave,show_MapChairController.num_chair1);
+			    	try {
+						SimpleClient.getClient().sendToServer(msg);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				counter2=0;
 				counter=0;
 				App.setRoot("choose_type_to_browse");
 			} catch (IOException e) {
@@ -57,9 +62,10 @@ public class Buy_Ticket implements Initializable {
 	}
 
 	@FXML
-	void buy_btn(ActionEvent event) throws IOException {
+	void buy_btn(ActionEvent event) throws IOException { 
 		counter++;
 		if(counter<2) {
+			counter2++;
 		Movie newMovie;
 		newMovie = browse_moviesController.selectedMovie;	
 		String time = Screening_TimesController.timesave;
@@ -69,7 +75,7 @@ public class Buy_Ticket implements Initializable {
 		String hall = newMovie.getBranch();
 		String user=loginController.currentUser;
 
-		Ticket mytestticket = new Ticket(movie, hall, time, seat,user,way_to_pay.getText());
+		Ticket mytestticket = new Ticket(movie, hall, time, seat,user,Label1.getText(),show_MapChairController.id);
 		DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 		SimpleClient.getClient().sendToServer(msg);
 		msglab.setVisible(true);
@@ -81,6 +87,9 @@ public class Buy_Ticket implements Initializable {
 			msglab.setVisible(true);
 			
 		}
+		
+			
+		
 	}
 
 	@Subscribe

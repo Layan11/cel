@@ -7,7 +7,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Buy_Ticket">
    <children>
       <Button fx:id="Buy_btn" layoutX="40.0" layoutY="144.0" mnemonicParsing="false" onAction="#buy_btn" text="Purchace Ticket" />
-      <Button fx:id="back" layoutX="481.0" layoutY="231.0" mnemonicParsing="false" onAction="#back_btn" text="Back" visible="false" />
+      <Button fx:id="back" layoutX="481.0" layoutY="231.0" mnemonicParsing="false" onAction="#back_btn" text="Back" />
       <TextField fx:id="Label1" layoutX="31.0" layoutY="39.0" promptText="Enter Way you pay with" />
       <TextField fx:id="msglab" layoutX="167.0" layoutY="144.0" prefHeight="26.0" prefWidth="226.0" visible="false" />
    </children>

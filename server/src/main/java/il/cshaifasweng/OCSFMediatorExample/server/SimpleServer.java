@@ -18,6 +18,8 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 
+import il.cshaifasweng.OCSFMediatorExample.client.Screening_TimesController;
+import il.cshaifasweng.OCSFMediatorExample.client.show_MapChairController;
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
@@ -1089,11 +1091,53 @@ public class SimpleServer extends AbstractServer {
 
 		}
 		// ****saleh****
+		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
+			App.session = App.sessionFactory.openSession();
+			String num_seat = tuple_msg.getnumseat();
+			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime());
+			System.out.println("mapchair id " + mapchair_id);
+			remove_seat(mapchair_id, num_seat);
+			App.session.close();
+
+		}
 	}
 
 	// ***saleh***
-	
-	
+	private int remove_seat(int mapchair_id, String num_seat) {
+
+		Connection c = null;
+		java.sql.Statement stmt = null;
+		List<Integer> mymapchairs = new ArrayList<Integer>();
+
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id + "' AND My_mapchairs= '"+ num_seat +"'");
+			stmt = c.createStatement();
+			int rs = stmt.executeUpdate("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id + "' AND My_mapchairs= '"+ num_seat +"'");
+
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		try {
+			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			MapChair mc = App.session.get(MapChair.class, mapchair_id);
+			mc.setMapChair(mymapchairs);
+			App.session.getTransaction().commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+		App.session.close();
+		return 1;
+	}
+
 	private int add_seat(int mapchair_id, String num_seat) {
 
 		Connection c = null;
@@ -1166,7 +1210,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123" + "");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1250,32 +1294,46 @@ public class SimpleServer extends AbstractServer {
 		String ObjctMsg = tuple_msg.getMsg();
 		System.out.println("i got here after");
 		boolean let_in = false;
-		String message = ObjctMsg.substring(14);
+		String message = ObjctMsg.substring(14,15);
+		
 		int x = Integer.parseInt(message);
+		System.out.println(x);
 		System.out.println("DELETE FROM Ticket WHERE ticket_id = x");
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		Statement stmt2 = null;
-
+		String user = null;
+		String user2 = ObjctMsg.substring(25);
+		
+		System.out.println(user2);
 		try {
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
-
+			int idmap=0;
+			String chairnum=null;
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
 			stmt2 = c.createStatement();
 
 			Calendar rightNow = Calendar.getInstance();
-			int hour = 3;
-
+			String hour=null ;
+		
 			int hour2 = rightNow.get(Calendar.HOUR_OF_DAY);
 			rs1 = stmt2.executeQuery("SELECT * FROM tickets WHERE ticket_id=' " + x + "'");
 			System.out.println("passed the selection");
 			while (rs1.next()) {
-				hour = rs1.getInt("start_time");
+				hour = rs1.getString("start_time");
+				user = rs1.getString("user_name");
+				idmap=rs1.getInt("mapchairid");
+				chairnum=rs1.getString("chair_num");
 				System.out.println(hour);
 			}
-			if (hour2 - hour >= 3) {
+			int remove= remove_seat(idmap,chairnum);
+			String message2 = hour.substring(0,2);
+			
+			int y = Integer.parseInt(message);
+			if(user.equals(user2)) {
+			if (y-hour2 >= 3) {
 				try {
 					System.out.println("im in the first if");
 					client.sendToClient(new TripleObject("You get 100% refound", null, null));
@@ -1284,7 +1342,7 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-			if (hour2 - hour >= 1 && hour2 - hour < 3) {
+			if (y- hour2 >= 1 && y - hour2 < 3) {
 				try {
 					System.out.println("im in the second if");
 					client.sendToClient(new TripleObject("You get 50% refound", null, null));
@@ -1293,7 +1351,7 @@ public class SimpleServer extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-			if (hour2 - hour < 1) {
+			if (y - hour2 < 1) {
 				try {
 					System.out.println("im in the third if");
 					client.sendToClient(new TripleObject("You get no refound", null, null));
@@ -1308,7 +1366,7 @@ public class SimpleServer extends AbstractServer {
 				let_in = true;
 			}
 			stmt.close();
-			c.close();
+			c.close();}
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
