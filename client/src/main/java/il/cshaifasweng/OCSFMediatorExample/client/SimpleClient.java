@@ -288,10 +288,15 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new GotComplaintsReportstEvent());
 		}
 
+		if (myMsg.equals("The hall is full")) {
+			EventBus.getDefault().post(new FullHalltEvent());
+		}
+
+
 		if (myMsg.equals("Canceled Date")) {
 			EventBus.getDefault().post(new GotCanceledDateEvent());
-			
 		}
+
 		
 
 		if (myMsg.equals("The hall is full")) {

@@ -39,6 +39,9 @@ public class Coming_soonController implements Initializable {
 
 	@FXML // fx:id="Edit"
 	private Button Edit; // Value injected by FXMLLoader
+	
+    @FXML
+    private Button main;
 
 	@FXML // fx:id="EngC"
 	private TableColumn<Movie, String> EngC; // Value injected by FXMLLoader
@@ -46,6 +49,19 @@ public class Coming_soonController implements Initializable {
 	@FXML // fx:id="HebC"
 	private TableColumn<Movie, String> HebC; // Value injected by FXMLLoader
 	public static Movie selected_coming_soon_Movie;
+	
+    @FXML
+    void backtomain(ActionEvent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("menu");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+    }
+
 
 	@FXML
 	void ShowMovie(ActionEvent event) throws IOException {

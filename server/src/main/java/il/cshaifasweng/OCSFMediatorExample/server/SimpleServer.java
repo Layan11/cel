@@ -643,28 +643,41 @@ public class SimpleServer extends AbstractServer {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-
-				if (restrictionType.equals("first")) {
-					for (int i = 0; i < MapChairList.size(); i++) {
-						String time = MapChairList.get(i).getStart_time();
-						int movieId = MapChairList.get(i).getMovie_id();
-						Movie movie = getMovieFromId(movieId).get(0);
-						List<String> dates = movie.getMovieTimes().getDate();
-						List<String> times = movie.getMovieTimes().getTimes();
-						System.out.println("time = " + MapChairList.get(i).getStart_time());
-						for (int j = 0; j < times.size(); j++) {
-							if (times.get(j).equals(time)) {
-								if (dates.get(j).equals(newDate)) {
-									int oldNumOfAvailableChairs = MapChairList.get(i).getNmberAvailableChair();
-									MapChairList.get(i).setNmberAvailableChair(oldNumOfAvailableChairs - 30);
+				int y = Integer.parseInt(restrictionType);
+				for (int i = 0; i < MapChairList.size(); i++) {
+					String time = MapChairList.get(i).getStart_time();
+					int movieId = MapChairList.get(i).getMovie_id();
+					Movie movie = getMovieFromId(movieId).get(0);
+					List<String> dates = movie.getMovieTimes().getDate();
+					List<String> times = movie.getMovieTimes().getTimes();
+					System.out.println("time = " + MapChairList.get(i).getStart_time());
+					for (int j = 0; j < times.size(); j++) {
+						if (times.get(j).equals(time)) {
+							if (dates.get(j).equals(newDate)) {
+								MapChair mc = MapChairList.get(i);
+								int cols = mc.getCols();
+								int rows = mc.getRows();
+								int x = cols * rows;
+								if (1.2 * y < x) {
+									System.out.println("IN THE FIRST IF");
+									int bought = mc.getNumOfBoughtSeat();
+									mc.setNmberAvailableChair(y - bought);
+								} else if (x > 0.8 * y) {
+									System.out.println("IN THE SECOND IF ans = " + 0.8 * y);
+									double tmp = 0.8 * y;
+									int Tmp = (int) tmp;
+									int bought = mc.getNumOfBoughtSeat();
+									mc.setNmberAvailableChair(Tmp - bought);
+								} else if (x <= 0.8 * y) {
+									System.out.println("IN THE THIRD IF");
+									double tmp = x / 2;
+									int Tmp = (int) tmp;
+									int bought = mc.getNumOfBoughtSeat();
+									mc.setNmberAvailableChair(Tmp - bought);
 								}
 							}
 						}
 					}
-				} else if (restrictionType.equals("second")) {
-
-				} else if (restrictionType.equals("third")) {
-
 				}
 				List<String> dates = new ArrayList<String>();
 				purpleChar pc = getPC().get(0);
@@ -703,38 +716,37 @@ public class SimpleServer extends AbstractServer {
 				pc.setDays(dates);
 				App.session.save(pc);
 				App.session.flush();
-				TripleObject to = new TripleObject("All updated restricted days", null, null);
-				to.setList(dates);
-				try {
-					client.sendToClient(to);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				App.session.getTransaction().commit();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-				App.session.getTransaction().rollback();
-			}
-			App.session.close();
-		}
-		if (ObjctMsg.startsWith("Update restricted day ")) {
-			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				String dateToDelete = ObjctMsg.substring(22);
-				String dateToAdd = tuple_msg.getList().get(0);
-				List<String> dates = new ArrayList<String>();
-				purpleChar pc = getPC().get(0);
-				dates = pc.getDays();
-				for (int i = 0; i < dates.size(); i++) {
-					if (dates.get(i).equals(dateToDelete)) {
-						dates.remove(i);
+				List<String> times = new ArrayList<String>();
+				List<Movie> moviesList = getMoviesList();
+				for (int i = 0; i < moviesList.size(); i++) {
+					if (moviesList.get(i).getType() == 0 || moviesList.get(i).getType() == 3) {
+						Movie movie = moviesList.get(i);
+						List<String> movieDates = movie.getMovieTimes().getDate();
+						List<String> movieTimes = movie.getMovieTimes().getTimes();
+						for (int j = 0; j < movieDates.size(); j++) {
+							if (movieDates.get(j).equals(dateToDelete)) {
+								times.add(movieTimes.get(j));
+							}
+						}
 					}
 				}
-				dates.add(dateToAdd);
-				pc.setDays(dates);
-				App.session.save(pc);
-				App.session.flush();
+				List<MapChair> mcList = new ArrayList<MapChair>();
+				try {
+					mcList = getAllMapChairs();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				for (int i = 0; i < times.size(); i++) {
+					for (int j = 0; j < mcList.size(); j++) {
+						if (mcList.get(j).getStart_time().equals(times.get(i))) {
+							int rows = mcList.get(j).getRows();
+							int cols = mcList.get(j).getCols();
+							int size = rows * cols;
+							int bought = mcList.get(j).getNumOfBoughtSeat();
+							mcList.get(j).setNmberAvailableChair(size - bought);
+						}
+					}
+				}
 				TripleObject to = new TripleObject("All updated restricted days", null, null);
 				to.setList(dates);
 				try {
@@ -749,6 +761,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+
 		if (ObjctMsg.startsWith("Approve request")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -1033,7 +1046,6 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		if (ObjctMsg.startsWith("Show complaints")) {
-			System.out.println("in the server of show chow complaints");
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
@@ -1103,14 +1115,10 @@ public class SimpleServer extends AbstractServer {
 		if (ObjctMsg.startsWith("Show reports")) {
 			try {
 				App.session = App.sessionFactory.openSession();
-				// App.session.beginTransaction();
 				Reports report = getReports(1).get(0);
 				System.out.println("report in  server ; " + report.getPackages());
 				TripleObject to = new TripleObject("All reports", null, null);
-				// List<Reports> list = new ArrayList<Reports>();
-				// list.add(report);
 				List<Integer> list2 = new ArrayList<Integer>();
-
 				list2.add(report.getTicketsInHaifa());
 				list2.add(report.getReturnedTicketsInHaifa());
 				list2.add(report.getTicketsInShefaAmr());
@@ -1232,20 +1240,18 @@ public class SimpleServer extends AbstractServer {
 						restriction = true;
 					}
 				}
-				if (restriction) {
-					// if its restrictionday screening date then just buy one and send id
-					// else do all the rest.
-					if (mc.getNmberAvailableChair() == 0) {
-						// send enu fsh m7l
-						client.sendToClient(new TripleObject("The hall is full", null, null));
-					} else {
+				if (!(mc.getNmberAvailableChair() == 0)) {
+					if (restriction) {
+						// if its restrictionday screening date then just buy one and send id
+						// else do all the rest.
+
 						numOfBoughtSeats++;
 						mc.setNumOfBoughtSeat(numOfBoughtSeats);
 						int numOfAvailable = mc.getNmberAvailableChair();
 						mc.setNmberAvailableChair(numOfAvailable - 1);
 						App.session.save(mc);
 						App.session.flush();
-						for (int i = 0; i < 100; i++) {
+						for (int i = 1; i <= 100; i++) {
 							if (!mc.getMapChair().contains(i)) {
 								my_Ticket.setChair_num(Integer.toString(i));
 								mc.getMapChair().add(i);
@@ -1255,39 +1261,51 @@ public class SimpleServer extends AbstractServer {
 								client.sendToClient(
 										new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
 								i = 101;
+								Reports allreports = getReports(1).get(0);
+								if (my_Ticket.get_hall().equals("Haifa")) {
+									int tmp2 = allreports.getTicketsInHaifa();
+									allreports.setTicketsInHaifa(tmp2 + 1);
+									App.session.getTransaction().commit();
+								}
+								if (my_Ticket.get_hall().equals("Shefa-Amr")) {
+									int tmp2 = allreports.getTicketsInShefaAmr();
+									allreports.setTicketsInShefaAmr(tmp2 + 1);
+									App.session.getTransaction().commit();
+								}
+
 							}
 						}
-					}
-				}
+					} else {// no restriction
+						numOfBoughtSeats++;
+						mc.setNumOfBoughtSeat(numOfBoughtSeats);
+						int numOfAvailable = mc.getNmberAvailableChair();
+						mc.setNmberAvailableChair(numOfAvailable - 1);
+						App.session.save(mc);
+						App.session.flush();
+						App.session.save(my_Ticket);
+						App.session.flush();
+						client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
 
-				else {// no restriction
-					numOfBoughtSeats++;
-					mc.setNumOfBoughtSeat(numOfBoughtSeats);
-					int numOfAvailable = mc.getNmberAvailableChair();
-					mc.setNmberAvailableChair(numOfAvailable - 1);
-					App.session.save(mc);
-					App.session.flush();
+						Reports allreports = getReports(1).get(0);
+						if (my_Ticket.get_hall().equals("Haifa")) {
+							int tmp2 = allreports.getTicketsInHaifa();
+							allreports.setTicketsInHaifa(tmp2 + 1);
+							App.session.getTransaction().commit();
+						}
+						if (my_Ticket.get_hall().equals("Shefa-Amr")) {
+							int tmp2 = allreports.getTicketsInShefaAmr();
+							allreports.setTicketsInShefaAmr(tmp2 + 1);
+							App.session.getTransaction().commit();
+						}
+					}
+					App.session.getTransaction().commit();
+
+					// updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
 					App.session.save(my_Ticket);
 					App.session.flush();
-					client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
-
-					Reports allreports = getReports(1).get(0);
-					if (my_Ticket.get_hall().equals("Haifa")) {
-						int tmp2 = allreports.getTicketsInHaifa();
-						allreports.setTicketsInHaifa(tmp2 + 1);
-						App.session.getTransaction().commit();
-					}
-					if (my_Ticket.get_hall().equals("Shefa-Amr")) {
-						int tmp2 = allreports.getTicketsInShefaAmr();
-						allreports.setTicketsInShefaAmr(tmp2 + 1);
-						App.session.getTransaction().commit();
-					}
+				} else if (mc.getNmberAvailableChair() == 0) {
+					client.sendToClient(new TripleObject("The hall is full", null, null));
 				}
-				App.session.getTransaction().commit();
-
-				// updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
-				App.session.save(my_Ticket);
-				App.session.flush();
 				App.session.getTransaction().commit();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1322,6 +1340,7 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Delete link")) {
 			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
 			boolean x = deletelink(msg, client);
 			if (x == false) {
 				try {
@@ -1332,6 +1351,10 @@ public class SimpleServer extends AbstractServer {
 			} else {
 				try {
 					client.sendToClient(new TripleObject("found link", null, null));
+					Reports report = getReports(1).get(0);
+					int tmp = report.getLinks();
+					report.setLinks(tmp - 1);
+					App.session.getTransaction().commit();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -1339,21 +1362,32 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
-			System.out.println("i got here");
 			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			String ticketId = ObjctMsg.substring(14, 15);
+			Ticket ticket = getTicket(Integer.parseInt(ticketId)).get(0);
+			String branch = ticket.get_hall();
+			Reports report = getReports(1).get(0);
+			int tmpH = report.getTicketsInHaifa();
+			int tmpS = report.getTicketsInShefaAmr();
 			boolean x = deleteTicket(msg, client);
 			if (x == false) {
 				try {
 					client.sendToClient(new TripleObject("no such Ticket", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				try {
+					if (branch.equals("Shefa-Amr")) {
+						report.setTicketsInShefaAmr(tmpS - 1);
+					}
+					if (branch.equals("Haifa")) {
+						report.setTicketsInHaifa(tmpH - 1);
+					}
 					client.sendToClient(new TripleObject("found ticket", null, null));
+					App.session.getTransaction().commit();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -1368,14 +1402,12 @@ public class SimpleServer extends AbstractServer {
 				try {
 					client.sendToClient(new TripleObject("no such Package", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				try {
 					client.sendToClient(new TripleObject("found Package", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -1410,8 +1442,105 @@ public class SimpleServer extends AbstractServer {
 			System.out.println("mapchair id " + mapchair_id);
 			add_seat(mapchair_id, num_seat);
 			App.session.close();
-
 		}
+
+
+		// ****saleh****
+		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
+			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			String num_seat = tuple_msg.getnumseat();
+			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			System.out.println("mapchair id " + mapchair_id);
+			remove_seat(mapchair_id, num_seat);
+			App.session.getTransaction().commit();
+			App.session.close();
+		}
+
+		if (ObjctMsg.startsWith("Cancel Screenings")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String date = ObjctMsg.substring(17);
+				List<Ticket> Tlist = new ArrayList<Ticket>();
+				Movie Mhelper = new Movie();
+				Tlist = getTicketList();
+				System.out.println("DATE:" + date);
+				List<Movie> allmovies = new ArrayList<Movie>();
+				allmovies = getMoviesList();
+				List<String> datesList = new ArrayList<String>();
+				List<String> timesList = new ArrayList<String>();
+				int index;
+				List<Movie> MoviesDeleted = new ArrayList<Movie>();
+				List<Integer> indexes = new ArrayList<Integer>();
+				String time;
+				Reports reports = getReports(1).get(0);
+				int tmpH = reports.getReturnedTicketsInHaifa();
+				int tmpS = reports.getReturnedTicketsInShefaAmr();
+				int CH = 0;
+				int CS = 0;
+				for (int i = 0; i < allmovies.size(); i++) {
+					if (allmovies.get(i).getType() == 0 || allmovies.get(i).getType() == 3) {
+						datesList = allmovies.get(i).getMovieTimes().getDate();
+						timesList = allmovies.get(i).getMovieTimes().getTimes();
+						for (int j = 0; j < datesList.size(); j++) {
+							if (datesList.get(j).equals(date)) {
+								time = timesList.get(j);
+								System.out.println("movie:" + allmovies.get(i).getEngName());
+								System.out.println("after removing");
+								MoviesDeleted.add(allmovies.get(i));
+								indexes.add(j);
+								int Size = Tlist.size();
+
+								for (int k = 0; k < Size; k++) {
+									System.out.println("list size tickets = " + Tlist.size());
+									if (Tlist.get(k).get_movie().equals(allmovies.get(i).getEngName())) {
+										System.out.println("in if 1");
+										String T1 = allmovies.get(i).getMovieTimes().getTimes().get(j);
+										String T2 = Tlist.get(k).gettime();
+										System.out.println("T1 = " + T1);
+										System.out.println("T2 = " + T2);
+										if (T1.equals(T2)) {
+											System.out.println("in if 2");
+											if (allmovies.get(i).getBranch().equals("Haifa")) {
+												CH++;
+											}
+											if (allmovies.get(i).getBranch().equals("Shefa-Amr")) {
+												System.out.println("in if shefa");
+												CS = CS + 1;
+												System.out.println("tttt CS:" + CS);
+												System.out.println("tttt tmp:" + tmpS + 1);
+											}
+											System.out.println("removing : T id = " + Tlist.get(k).get_id());
+											App.session.remove(Tlist.get(k));
+											// Tlist.remove(k);
+											System.out.println("after removing the ticket ");
+										}
+									}
+								}
+								datesList.remove(j);
+								timesList.remove(j);
+								MapChair mc = getMapChairByTime(time).get(0);
+								App.session.remove(mc);
+								reports.setReturnedTicketsInHaifa(tmpH + CH);
+								reports.setReturnedTicketsInShefaAmr(tmpS + CS);
+								System.out.println("after setting the reports " + (tmpS + CS));
+							}
+						}
+					}
+				}
+				System.out.println("after the for ");
+				try {
+					client.sendToClient(new TripleObject("Canceled Date", null, null));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
 
 		
 		if (ObjctMsg.startsWith("Cancel Screenings")) {
@@ -1527,6 +1656,9 @@ public class SimpleServer extends AbstractServer {
 		}
 	}
 
+
+	}
+
 	private int updatenumberofchairs(String moviename, String hour) {
 		Connection c = null;
 		java.sql.Statement stmt = null;
@@ -1550,7 +1682,6 @@ public class SimpleServer extends AbstractServer {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-
 		return 1;
 
 	}
@@ -1979,6 +2110,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForMoviename = builder.equal(userRoot.get("ticket_id"), ticketId);
 		query.where(predicateForMoviename);
 		List<Ticket> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<MapChair> getMapChairByTime(String time) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+		Root<MapChair> userRoot = query.from(MapChair.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("start_time"), time);
+		query.where(predicateForMoviename);
+		List<MapChair> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 
