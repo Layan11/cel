@@ -50,28 +50,38 @@ public class restrictedDaysController implements Initializable {
 	private TextField restrictionType;
 	@FXML
 	private Label typeLabel;
-
+	@FXML
+	private TextField cancel_screeningstxt;
 	@FXML
 	private Label first;
-
 	@FXML
 	private Label firstLabel;
-
 	@FXML
 	private Label second;
-
 	@FXML
 	private Label secondLabel;
-
 	@FXML
 	private Label third;
-
 	@FXML
 	private Label thirdLabel;
 
 	@FXML
-	void cancel_screenings(ActionEvent event) {
+	void cancel_screenings(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("Cancel Screenings" + cancel_screeningstxt.getText(), null, null);
+		SimpleClient.getClient().sendToServer(msg);
+		cancel_screeningstxt.setText("");
 
+	}
+
+	@Subscribe
+	public void onUpdatedRestrictedDays(GotCanceledDateEvent event) {
+		Platform.runLater(() -> {
+			final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
+			table.setEditable(true);
+			dates.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+			table.getColumns().setAll(dates);
+			table.setItems(days);
+		});
 	}
 
 	@FXML
@@ -136,6 +146,8 @@ public class restrictedDaysController implements Initializable {
 			secondLabel.setVisible(false);
 			third.setVisible(false);
 			thirdLabel.setVisible(false);
+			cancel_screeningstxt.setVisible(false);
+			cancel_screenings.setVisible(false);
 		}
 		final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
 		table.setEditable(true);
@@ -143,5 +155,4 @@ public class restrictedDaysController implements Initializable {
 		table.getColumns().setAll(dates);
 		table.setItems(days);
 	}
-
 }

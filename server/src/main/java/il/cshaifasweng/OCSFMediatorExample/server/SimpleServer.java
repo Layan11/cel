@@ -1103,14 +1103,10 @@ public class SimpleServer extends AbstractServer {
 		if (ObjctMsg.startsWith("Show reports")) {
 			try {
 				App.session = App.sessionFactory.openSession();
-				// App.session.beginTransaction();
 				Reports report = getReports(1).get(0);
 				System.out.println("report in  server ; " + report.getPackages());
 				TripleObject to = new TripleObject("All reports", null, null);
-				// List<Reports> list = new ArrayList<Reports>();
-				// list.add(report);
 				List<Integer> list2 = new ArrayList<Integer>();
-
 				list2.add(report.getTicketsInHaifa());
 				list2.add(report.getReturnedTicketsInHaifa());
 				list2.add(report.getTicketsInShefaAmr());
@@ -1258,9 +1254,7 @@ public class SimpleServer extends AbstractServer {
 							}
 						}
 					}
-				}
-
-				else {// no restriction
+				} else {// no restriction
 					numOfBoughtSeats++;
 					mc.setNumOfBoughtSeat(numOfBoughtSeats);
 					int numOfAvailable = mc.getNmberAvailableChair();
@@ -1322,6 +1316,7 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Delete link")) {
 			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
 			boolean x = deletelink(msg, client);
 			if (x == false) {
 				try {
@@ -1339,21 +1334,36 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
-			System.out.println("i got here");
 			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
+			String ticketId = ObjctMsg.substring(14, 15);
+			Ticket ticket = getTicket(Integer.parseInt(ticketId)).get(0);
+			System.out.println("TICKET = " + ticket.get_hall());
+			String branch = ticket.get_hall();
+			Reports report = getReports(1).get(0);
+			System.out.println("tmpHHHHHHHHHHHHHHHHHHHHHHH");
+			int tmpH = report.getTicketsInHaifa();
+			int tmpS = report.getTicketsInShefaAmr();
+			System.out.println("tmpH " + tmpH);
+			System.out.println("tmpS " + tmpS);
 			boolean x = deleteTicket(msg, client);
 			if (x == false) {
 				try {
 					client.sendToClient(new TripleObject("no such Ticket", null, null));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				try {
+					if (branch.equals("Shefa-Amr")) {
+						report.setTicketsInShefaAmr(tmpS - 1);
+					}
+					if (branch.equals("Haifa")) {
+						report.setTicketsInHaifa(tmpH - 1);
+					}
 					client.sendToClient(new TripleObject("found ticket", null, null));
+					App.session.getTransaction().commit();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -1410,7 +1420,6 @@ public class SimpleServer extends AbstractServer {
 			System.out.println("mapchair id " + mapchair_id);
 			add_seat(mapchair_id, num_seat);
 			App.session.close();
-
 		}
 		// ****saleh****
 		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
@@ -1421,6 +1430,92 @@ public class SimpleServer extends AbstractServer {
 			System.out.println("mapchair id " + mapchair_id);
 			remove_seat(mapchair_id, num_seat);
 			App.session.getTransaction().commit();
+			App.session.close();
+		}
+
+		if (ObjctMsg.startsWith("Cancel Screenings")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String date = ObjctMsg.substring(17);
+				List<Ticket> Tlist = new ArrayList<Ticket>();
+				Movie Mhelper = new Movie();
+				Tlist = getTicketList();
+				System.out.println("DATE:" + date);
+				List<Movie> allmovies = new ArrayList<Movie>();
+				allmovies = getMoviesList();
+				List<String> datesList = new ArrayList<String>();
+				List<String> timesList = new ArrayList<String>();
+				int index;
+				List<Movie> MoviesDeleted = new ArrayList<Movie>();
+				List<Integer> indexes = new ArrayList<Integer>();
+				String time;
+				Reports reports = getReports(1).get(0);
+				int tmpH = reports.getReturnedTicketsInHaifa();
+				int tmpS = reports.getReturnedTicketsInShefaAmr();
+				int CH = 0;
+				int CS = 0;
+				for (int i = 0; i < allmovies.size(); i++) {
+					if (allmovies.get(i).getType() == 0 || allmovies.get(i).getType() == 3) {
+						datesList = allmovies.get(i).getMovieTimes().getDate();
+						timesList = allmovies.get(i).getMovieTimes().getTimes();
+						for (int j = 0; j < datesList.size(); j++) {
+							if (datesList.get(j).equals(date)) {
+								time = timesList.get(j);
+								System.out.println("movie:" + allmovies.get(i).getEngName());
+								System.out.println("after removing");
+								MoviesDeleted.add(allmovies.get(i));
+								indexes.add(j);
+								int Size = Tlist.size();
+
+								for (int k = 0; k < Size; k++) {
+									System.out.println("list size tickets = " + Tlist.size());
+									if (Tlist.get(k).get_movie().equals(allmovies.get(i).getEngName())) {
+										System.out.println("in if 1");
+										String T1 = allmovies.get(i).getMovieTimes().getTimes().get(j);
+										String T2 = Tlist.get(k).gettime();
+										System.out.println("T1 = " + T1);
+										System.out.println("T2 = " + T2);
+										if (T1.equals(T2)) {
+											System.out.println("in if 2");
+											if (allmovies.get(i).getBranch().equals("Haifa")) {
+												CH++;
+											}
+											if (allmovies.get(i).getBranch().equals("Shefa-Amr")) {
+												System.out.println("in if shefa");
+												CS = CS + 1;
+												System.out.println("tttt CS:" + CS);
+												System.out.println("tttt tmp:" + tmpS + 1);
+											}
+											System.out.println("removing : T id = " + Tlist.get(k).get_id());
+											App.session.remove(Tlist.get(k));
+											// Tlist.remove(k);
+											System.out.println("after removing the ticket ");
+										}
+									}
+								}
+								datesList.remove(j);
+								timesList.remove(j);
+								MapChair mc = getMapChairByTime(time).get(0);
+								App.session.remove(mc);
+								reports.setReturnedTicketsInHaifa(tmpH + CH);
+								reports.setReturnedTicketsInShefaAmr(tmpS + CS);
+								System.out.println("after setting the reports " + (tmpS + CS));
+							}
+						}
+					}
+				}
+				System.out.println("after the for ");
+				try {
+					client.sendToClient(new TripleObject("Canceled Date", null, null));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
 			App.session.close();
 
 		}
@@ -1449,7 +1544,6 @@ public class SimpleServer extends AbstractServer {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-
 		return 1;
 	}
 
@@ -1877,6 +1971,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForMoviename = builder.equal(userRoot.get("ticket_id"), ticketId);
 		query.where(predicateForMoviename);
 		List<Ticket> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<MapChair> getMapChairByTime(String time) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+		Root<MapChair> userRoot = query.from(MapChair.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("start_time"), time);
+		query.where(predicateForMoviename);
+		List<MapChair> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

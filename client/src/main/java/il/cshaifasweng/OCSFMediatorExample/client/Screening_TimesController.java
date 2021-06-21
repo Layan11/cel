@@ -59,6 +59,7 @@ public class Screening_TimesController implements Initializable {
 
 	@FXML
 	void gotoBuy(ActionEvent event) throws Exception {
+		restrictionPopupController.popped = 0;
 		selectedScreeningTime = timesTable.getSelectionModel().getSelectedItem();
 		selectedScreeningDate = datesTable.getItems().get(timesTable.getSelectionModel().getSelectedIndex());
 		TripleObject msg = new TripleObject("Check if restricted day " + selectedScreeningDate, null, null);
@@ -68,6 +69,8 @@ public class Screening_TimesController implements Initializable {
 	@Subscribe
 	public void onGotRestrictedAns(GotRestrictedAnsEvent event) {
 		if (SimpleClient.restrictionAns.equals("Yes")) {
+			if (restrictionPopupController.popped == 0) {
+				restrictionPopupController.popped = 1;
 			Platform.runLater(() -> {
 				try {
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("restrictionPopup.fxml"));
@@ -84,7 +87,7 @@ public class Screening_TimesController implements Initializable {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			});
+			});}
 		} else if (SimpleClient.restrictionAns.equals("No")) {
 			try {
 				TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),

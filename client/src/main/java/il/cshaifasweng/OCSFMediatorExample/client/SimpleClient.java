@@ -291,6 +291,9 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new FullHalltEvent());
 		}
 
+		if (myMsg.equals("Canceled Date")) {
+			EventBus.getDefault().post(new GotCanceledDateEvent());
+		}
 	}
 
 	public static SimpleClient getClient() {

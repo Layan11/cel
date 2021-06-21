@@ -58,6 +58,9 @@ public class ShowReportsController implements Initializable {
     @FXML
     private Label shefaAmrReturnedTicketsLabel;
     
+    @FXML
+    private Label packageslabel;
+    
 
     @FXML
     void gotoShowComplaintsReport(ActionEvent event) throws Exception {
@@ -121,6 +124,9 @@ public class ShowReportsController implements Initializable {
 			returnedTicketsInShefaAmrtxt.setVisible(false);
 			shefaAmrTicketsLabel.setVisible(false);
 			shefaAmrReturnedTicketsLabel.setVisible(false);
+			Links.setVisible(false);
+			ShowComplaintsReport.setVisible(false);
+			packageslabel.setVisible(false);
 
 		} else if (loginController.currentUser.equals("Consuela")) {// show shefaAmr reports
 
@@ -141,6 +147,10 @@ public class ShowReportsController implements Initializable {
 			returnedTicketsInHaifatxt.setVisible(false);
 			HaifaTicketsLabel.setVisible(false);
 			HaifaReturnedTicketsLabel.setVisible(false);
+			Links.setVisible(false);
+			ShowComplaintsReport.setVisible(false);
+			packageslabel.setVisible(false);
+			
 
 		}
 	}
