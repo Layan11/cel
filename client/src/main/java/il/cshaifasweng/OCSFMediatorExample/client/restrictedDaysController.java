@@ -27,32 +27,25 @@ public class restrictedDaysController implements Initializable {
 
 	@FXML
 	private TableView<String> table;
-
 	@FXML
 	private TableColumn<String, String> dates;
-
 	@FXML
 	private Button back;
-
 	@FXML
 	private Button delete;
-
 	@FXML
 	private Button edit;
-
 	@FXML
 	private Button add;
-
 	@FXML
 	private Label addLabel;
-
 	@FXML
 	private TextField dateToAdd;
-
 	@FXML
 	private TextField dateToUpdate;
 	@FXML
 	private Label updateLabel;
+
 	
     @FXML
     private Button cancel_screenings;
@@ -60,11 +53,24 @@ public class restrictedDaysController implements Initializable {
     @FXML
     private TextField cancel_screeningstxt;
 
+
+	@FXML
+	private TextField restrictionType;
+	@FXML
+	private Label typeLabel;
+
+	@FXML
+	private Label first;
+
     @FXML
     void cancel_screenings(ActionEvent event) throws Exception {
     	TripleObject msg = new TripleObject("Cancel Screenings"+cancel_screeningstxt.getText(), null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		cancel_screeningstxt.setText("");
+
+
+
+
 
     }
 	@Subscribe
@@ -81,8 +87,28 @@ public class restrictedDaysController implements Initializable {
     
 
 	@FXML
+	private Label firstLabel;
+
+	@FXML
+	private Label second;
+
+	@FXML
+	private Label secondLabel;
+
+	@FXML
+	private Label third;
+
+	@FXML
+	private Label thirdLabel;
+
+
+
+	@FXML
 	void gotoAdd(ActionEvent event) throws Exception {
 		TripleObject msg = new TripleObject("Add restricted day " + dateToAdd.getText(), null, null);
+		List<String> list = new ArrayList<String>();
+		list.add(restrictionType.getText());
+		msg.setList(list);
 		SimpleClient.getClient().sendToServer(msg);
 		dateToAdd.setText("");
 	}
@@ -132,9 +158,19 @@ public class restrictedDaysController implements Initializable {
 			dateToAdd.setVisible(false);
 			dateToUpdate.setVisible(false);
 			updateLabel.setVisible(false);
+
 			cancel_screeningstxt.setVisible(false);
 			cancel_screenings.setVisible(false);
 			
+
+			typeLabel.setVisible(false);
+			first.setVisible(false);
+			firstLabel.setVisible(false);
+			second.setVisible(false);
+			secondLabel.setVisible(false);
+			third.setVisible(false);
+			thirdLabel.setVisible(false);
+
 		}
 		final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
 		table.setEditable(true);

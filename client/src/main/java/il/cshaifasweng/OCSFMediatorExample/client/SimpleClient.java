@@ -29,7 +29,6 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> restrictedDays = new ArrayList<String>();
 	public static String seatNumToDelete;
 
-
 	private SimpleClient(String host, int port) {
 		super(host, port);
 	}
@@ -155,6 +154,9 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("Deleted screening time")) {
 			EventBus.getDefault().post(new GotUpdatedScreeningsEvent());
 		}
+		if (myMsg.equals("done removing")) {
+			EventBus.getDefault().post(new doneRemovingEvent());
+		}
 		if (myMsg.equals("Filtered movies by date")) {
 			if (triple_msg.getMovieTimes().size() > 0) {
 				MovieNames = triple_msg.getList();
@@ -279,18 +281,24 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new gotMapChairevent());
 		}
 		// ***saleh***
-		
-		
+
 		//
 		if (myMsg.equals("ComplaintsReports")) {
 			ComplaintsPerMArraay = triple_msg.getComplaintsPerMArraay();
 			EventBus.getDefault().post(new GotComplaintsReportstEvent());
 		}
+
 		if (myMsg.equals("Canceled Date")) {
 			EventBus.getDefault().post(new GotCanceledDateEvent());
 			
 		}
 		
+
+		if (myMsg.equals("The hall is full")) {
+			EventBus.getDefault().post(new FullHalltEvent());
+		}
+
+
 	}
 
 	public static SimpleClient getClient() {

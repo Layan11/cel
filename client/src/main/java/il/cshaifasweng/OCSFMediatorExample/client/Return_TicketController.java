@@ -44,7 +44,7 @@ public class Return_TicketController implements Initializable {
 		String mystr;
 		int x;
 		x = Integer.parseInt(tick_id.getText());
-		mystr = "Delete Ticket " + x;
+		mystr = "Delete Ticket " + x+" for user " + loginController.currentUser;
 		TripleObject msg = new TripleObject(mystr, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		labelmsg.setVisible(true);
