@@ -111,7 +111,7 @@ public class Buy_Ticket implements Initializable {
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
 			msglab.setVisible(true);
-			back.setVisible(true);
+//			back.setVisible(true);
 			counter2++;
 		}
 		if (counter >= 2) {

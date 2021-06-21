@@ -33,37 +33,19 @@ public class restrictedDaysController implements Initializable {
 	@FXML
 	private Button delete;
 	@FXML
-	private Button edit;
-	@FXML
 	private Button add;
 	@FXML
 	private Label addLabel;
 	@FXML
 	private TextField dateToAdd;
 	@FXML
-	private TextField dateToUpdate;
-	@FXML
-	private Label updateLabel;
+	private TextField cancel_screeningstxt;
 	@FXML
 	private Button cancel_screenings;
 	@FXML
 	private TextField restrictionType;
 	@FXML
 	private Label typeLabel;
-	@FXML
-	private TextField cancel_screeningstxt;
-	@FXML
-	private Label first;
-	@FXML
-	private Label firstLabel;
-	@FXML
-	private Label second;
-	@FXML
-	private Label secondLabel;
-	@FXML
-	private Label third;
-	@FXML
-	private Label thirdLabel;
 
 	@FXML
 	void cancel_screenings(ActionEvent event) throws Exception {
@@ -92,6 +74,7 @@ public class restrictedDaysController implements Initializable {
 		msg.setList(list);
 		SimpleClient.getClient().sendToServer(msg);
 		dateToAdd.setText("");
+		restrictionType.setText("");
 	}
 
 	@Subscribe
@@ -117,35 +100,15 @@ public class restrictedDaysController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
-	@FXML
-	void gotoEdit(ActionEvent event) throws Exception {
-		TripleObject msg = new TripleObject("Update restricted day " + table.getSelectionModel().getSelectedItem(),
-				null, null);
-		List<String> list = new ArrayList<String>();
-		list.add(dateToUpdate.getText());
-		msg.setList(list);
-		SimpleClient.getClient().sendToServer(msg);
-		dateToUpdate.setText("");
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		EventBus.getDefault().register(this);
 		if (loginController.loginRole != 2) {
 			delete.setVisible(false);
-			edit.setVisible(false);
 			add.setVisible(false);
 			addLabel.setVisible(false);
 			dateToAdd.setVisible(false);
-			dateToUpdate.setVisible(false);
-			updateLabel.setVisible(false);
 			typeLabel.setVisible(false);
-			first.setVisible(false);
-			firstLabel.setVisible(false);
-			second.setVisible(false);
-			secondLabel.setVisible(false);
-			third.setVisible(false);
-			thirdLabel.setVisible(false);
 			cancel_screeningstxt.setVisible(false);
 			cancel_screenings.setVisible(false);
 		}
