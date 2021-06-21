@@ -1415,10 +1415,12 @@ public class SimpleServer extends AbstractServer {
 		// ****saleh****
 		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
 			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();
 			String num_seat = tuple_msg.getnumseat();
 			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
 			System.out.println("mapchair id " + mapchair_id);
 			remove_seat(mapchair_id, num_seat);
+			App.session.getTransaction().commit();
 			App.session.close();
 
 		}
@@ -1664,9 +1666,12 @@ public class SimpleServer extends AbstractServer {
 			while (rs2.next()) {
 				movieid = rs2.getInt("id");
 			}
+			int mapchair_id = getmapchairid(movieid, hour).get(0).getID();
+
 			/////
 			rs2 = stmt2.executeQuery(
-					"SELECT * FROM mapchair WHERE start_time='" + hour + "'" + "' AND movie_id='" + movieid + "'");
+					"SELECT * FROM mapchair WHERE start_time='" + hour + "'   AND movie_id='" + movieid + "'");
+
 			int chairnums = 0;
 			while (rs2.next()) {
 				chairnums = rs2.getInt("numberavailablechair");
@@ -1682,7 +1687,7 @@ public class SimpleServer extends AbstractServer {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
-						int remove = remove_seat(idmap, chairnum);
+						int remove = remove_seat(mapchair_id, chairnum);
 						System.out.println("im in the first if");
 						client.sendToClient(new TripleObject("You get 100% refound", null, null));
 					} catch (IOException e) {
@@ -1693,7 +1698,7 @@ public class SimpleServer extends AbstractServer {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
-						int remove = remove_seat(idmap, chairnum);
+						int remove = remove_seat(mapchair_id, chairnum);
 						System.out.println("im in the second if");
 						client.sendToClient(new TripleObject("You get 50% refound", null, null));
 					} catch (IOException e) {
@@ -1704,7 +1709,7 @@ public class SimpleServer extends AbstractServer {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
-						int remove = remove_seat(idmap, chairnum);
+						int remove = remove_seat(mapchair_id, chairnum);
 						System.out.println("im in the third if");
 						client.sendToClient(new TripleObject("You get no refound", null, null));
 					} catch (IOException e) {

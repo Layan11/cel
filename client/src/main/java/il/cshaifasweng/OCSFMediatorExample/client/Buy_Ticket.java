@@ -39,16 +39,24 @@ public class Buy_Ticket implements Initializable {
 	private Label fullHallLabel;
 
 	@FXML
-	void back_btn(ActionEvent event) {
-		Platform.runLater(() -> {
-			try {
-				TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
-						Screening_TimesController.selectedScreeningTime);
-				SimpleClient.getClient().sendToServer(msg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+	void back_btn(ActionEvent event) throws Exception {
+		if (counter2 == 0) {
+			System.out.println(show_MapChairController.id + Screening_TimesController.selectedScreeningTime
+					+ show_MapChairController.num_chair1);
+			TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.id,
+					Screening_TimesController.selectedScreeningTime, show_MapChairController.num_chair1);
+
+			SimpleClient.getClient().sendToServer(msg);
+		}
+		counter2 = 0;
+		counter = 0;
+		try {
+			TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
+					Screening_TimesController.selectedScreeningTime);
+			SimpleClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -72,23 +80,15 @@ public class Buy_Ticket implements Initializable {
 	@Subscribe
 	public void onGotMapChair(gotMapChairevent event) {
 		Platform.runLater(() -> {
-			try {
-				App.setRoot("show_MapChair");
-				if (counter2 == 0) {
-					System.out.println(show_MapChairController.id + Screening_TimesController.selectedScreeningTime
-							+ show_MapChairController.num_chair1);
-					TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.id,
-							Screening_TimesController.selectedScreeningTime, show_MapChairController.num_chair1);
+//			try {
+//				App.setRoot("show_MapChair");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
-					SimpleClient.getClient().sendToServer(msg);
-				}
-
-				counter2 = 0;
-				counter = 0;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		});
+
 	}
 
 	@FXML

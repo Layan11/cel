@@ -154,6 +154,9 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("Deleted screening time")) {
 			EventBus.getDefault().post(new GotUpdatedScreeningsEvent());
 		}
+		if (myMsg.equals("done removing")) {
+			EventBus.getDefault().post(new doneRemovingEvent());
+		}
 		if (myMsg.equals("Filtered movies by date")) {
 			if (triple_msg.getMovieTimes().size() > 0) {
 				MovieNames = triple_msg.getList();
