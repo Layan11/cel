@@ -103,7 +103,7 @@ public class Screening_TimesController implements Initializable {
 	public void onGotMapChair(gotMapChairevent event) {
 		Platform.runLater(() -> {
 			try {
-				App.setRoot("buy_ticket");
+				App.setRoot("show_MapChair");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

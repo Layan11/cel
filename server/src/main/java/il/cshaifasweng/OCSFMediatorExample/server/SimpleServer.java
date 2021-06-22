@@ -1444,7 +1444,6 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
-
 		// ****saleh****
 		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
 			App.session = App.sessionFactory.openSession();
@@ -1542,120 +1541,109 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 
-		
-		if (ObjctMsg.startsWith("Cancel Screenings")) {
-			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				String date = ObjctMsg.substring(17);
-				List<Ticket> Tlist = new ArrayList<Ticket>();
-				Movie Mhelper = new Movie(); 
-				Tlist = getTicketList();
-				System.out.println("DATE:" +date);
-				List<Movie> allmovies = new ArrayList<Movie>();
-				allmovies = getMoviesList();
-				List<String> datesList = new ArrayList<String>();
-				List<String> timesList = new ArrayList<String>();
-				int index;
-				List<Movie> MoviesDeleted = new ArrayList<Movie>();
-				List<Integer> indexes = new ArrayList<Integer>();
-				Reports reports = getReports(1).get(0);
-				int tmpH = reports.getReturnedTicketsInHaifa();
-				int tmpS = reports.getReturnedTicketsInShefaAmr();
-				int CH = 0;
-				int CS = 0;
-				for(int i = 0; i < allmovies.size(); i++)
-				{
-					if(allmovies.get(i).getType()==0 || allmovies.get(i).getType()==3)
-					{
-						datesList = allmovies.get(i).getMovieTimes().getDate();
-						timesList = allmovies.get(i).getMovieTimes().getTimes();
-						for(int j = 0; j < datesList.size();j++)
-						{
-							if( datesList.get(j).equals(date) )
-							{
-								System.out.println("movie:" +allmovies.get(i).getEngName());
-								//datesList.remove(j);
-								//timesList.remove(j);
-								//App.session.getTransaction().commit();
-								//App.session.beginTransaction();
-								System.out.println("after removing");
-							    MoviesDeleted.add(allmovies.get(i));
-							    indexes.add(j);
-							    int Size = Tlist.size();
-							    
-							    for(int k = 0; k < Size;k++)
-							    {
-							    	System.out.println("list size tickets = " +Tlist.size());
-							    	if(Tlist.get(k).get_movie().equals(allmovies.get(i).getEngName()))
-							    	{
-							    		System.out.println("in if 1");
-							    		String T1 = allmovies.get(i).getMovieTimes().getTimes().get(j);
-							    		String T2 = Tlist.get(k).gettime();
-							    		System.out.println("T1 = " +T1);
-							    		System.out.println("T2 = " +T2);
-							    		if(T1.equals(T2))
-							    		{
-							    			System.out.println("in if 2");
-							    			if(allmovies.get(i).getBranch().equals("Haifa"))
-							    			{
-							    				CH++;
-							    			}
-							    			if(allmovies.get(i).getBranch().equals("Shefa-Amr"))
-							    			{
-							    				System.out.println("in if shefa");
-							    				CS = CS+1;
-							    				System.out.println("tttt CS:" +CS);
-							    				System.out.println("tttt tmp:" +tmpS+1);
-							    				
-							    			}
-							    			System.out.println("removing : T id = " + Tlist.get(k).get_id());
-							    			App.session.remove(Tlist.get(k));
-							    			//Tlist.remove(k);
-							    			System.out.println("after removing the ticket ");
+			if (ObjctMsg.startsWith("Cancel Screenings")) {
+				try {
+					App.session = App.sessionFactory.openSession();
+					App.session.beginTransaction();
+					String date = ObjctMsg.substring(17);
+					List<Ticket> Tlist = new ArrayList<Ticket>();
+					Movie Mhelper = new Movie();
+					Tlist = getTicketList();
+					System.out.println("DATE:" + date);
+					List<Movie> allmovies = new ArrayList<Movie>();
+					allmovies = getMoviesList();
+					List<String> datesList = new ArrayList<String>();
+					List<String> timesList = new ArrayList<String>();
+					int index;
+					List<Movie> MoviesDeleted = new ArrayList<Movie>();
+					List<Integer> indexes = new ArrayList<Integer>();
+					Reports reports = getReports(1).get(0);
+					int tmpH = reports.getReturnedTicketsInHaifa();
+					int tmpS = reports.getReturnedTicketsInShefaAmr();
+					int CH = 0;
+					int CS = 0;
+					for (int i = 0; i < allmovies.size(); i++) {
+						if (allmovies.get(i).getType() == 0 || allmovies.get(i).getType() == 3) {
+							datesList = allmovies.get(i).getMovieTimes().getDate();
+							timesList = allmovies.get(i).getMovieTimes().getTimes();
+							for (int j = 0; j < datesList.size(); j++) {
+								if (datesList.get(j).equals(date)) {
+									System.out.println("movie:" + allmovies.get(i).getEngName());
+									// datesList.remove(j);
+									// timesList.remove(j);
+									// App.session.getTransaction().commit();
+									// App.session.beginTransaction();
+									System.out.println("after removing");
+									MoviesDeleted.add(allmovies.get(i));
+									indexes.add(j);
+									int Size = Tlist.size();
 
-							    		}
-							    	}
-							    }
-							    datesList.remove(j);
-								timesList.remove(j);
-				    			reports.setReturnedTicketsInHaifa(tmpH+CH);
-				    			reports.setReturnedTicketsInShefaAmr(tmpS+CS);
-				    			System.out.println("after setting the reports " +(tmpS+CS));
+									for (int k = 0; k < Size; k++) {
+										System.out.println("list size tickets = " + Tlist.size());
+										if (Tlist.get(k).get_movie().equals(allmovies.get(i).getEngName())) {
+											System.out.println("in if 1");
+											String T1 = allmovies.get(i).getMovieTimes().getTimes().get(j);
+											String T2 = Tlist.get(k).gettime();
+											System.out.println("T1 = " + T1);
+											System.out.println("T2 = " + T2);
+											if (T1.equals(T2)) {
+												System.out.println("in if 2");
+												if (allmovies.get(i).getBranch().equals("Haifa")) {
+													CH++;
+												}
+												if (allmovies.get(i).getBranch().equals("Shefa-Amr")) {
+													System.out.println("in if shefa");
+													CS = CS + 1;
+													System.out.println("tttt CS:" + CS);
+													System.out.println("tttt tmp:" + tmpS + 1);
+
+												}
+												System.out.println("removing : T id = " + Tlist.get(k).get_id());
+												App.session.remove(Tlist.get(k));
+												// Tlist.remove(k);
+												System.out.println("after removing the ticket ");
+
+											}
+										}
+									}
+									datesList.remove(j);
+									timesList.remove(j);
+									reports.setReturnedTicketsInHaifa(tmpH + CH);
+									reports.setReturnedTicketsInShefaAmr(tmpS + CS);
+									System.out.println("after setting the reports " + (tmpS + CS));
+								}
 							}
 						}
 					}
-				}
-					
-				System.out.println("after the for ");
-				try {
-					client.sendToClient(new TripleObject("Canceled Date", null, null));
-				} catch (IOException e) {
+
+					System.out.println("after the for ");
+					try {
+						client.sendToClient(new TripleObject("Canceled Date", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					App.session.getTransaction().commit();
+				} catch (HibernateException e) {
 					e.printStackTrace();
+					App.session.getTransaction().rollback();
 				}
-				App.session.getTransaction().commit();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-				App.session.getTransaction().rollback();
+				App.session.close();
+
 			}
-			App.session.close();
-		
-	}
 
-		// ****saleh****
-		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
-			App.session = App.sessionFactory.openSession();
-			App.session.beginTransaction();
-			String num_seat = tuple_msg.getnumseat();
-			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
-			System.out.println("mapchair id " + mapchair_id);
-			remove_seat(mapchair_id, num_seat);
-			App.session.getTransaction().commit();
-			App.session.close();
+			// ****saleh****
+			if (ObjctMsg.startsWith("remove mapchair with new seat")) {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String num_seat = tuple_msg.getnumseat();
+				int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+				System.out.println("mapchair id " + mapchair_id);
+				remove_seat(mapchair_id, num_seat);
+				App.session.getTransaction().commit();
+				App.session.close();
 
+			}
 		}
-	}
-
 
 	}
 
@@ -1664,7 +1652,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1694,7 +1682,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
@@ -1720,7 +1708,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1770,7 +1758,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -1809,7 +1797,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1870,7 +1858,7 @@ public class SimpleServer extends AbstractServer {
 
 		System.out.println(user2);
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			int idmap = 0;
 			String moviename = null;
@@ -1989,7 +1977,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();

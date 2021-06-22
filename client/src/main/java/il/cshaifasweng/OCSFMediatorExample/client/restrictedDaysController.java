@@ -111,6 +111,7 @@ public class restrictedDaysController implements Initializable {
 			typeLabel.setVisible(false);
 			cancel_screeningstxt.setVisible(false);
 			cancel_screenings.setVisible(false);
+			restrictionType.setVisible(false);
 		}
 		final ObservableList<String> days = FXCollections.observableArrayList(SimpleClient.restrictedDays);
 		table.setEditable(true);

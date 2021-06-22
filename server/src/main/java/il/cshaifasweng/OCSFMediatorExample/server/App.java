@@ -97,6 +97,7 @@ public class App {
 		session.flush();
 
 		MapChair mc1 = new MapChair(10, 10, AladdinMovie.getId(), "18:00");
+		mc1.setNmberAvailableChair(70);
 		MapChair mc2 = new MapChair(10, 10, AladdinMovie.getId(), "20:00");
 		session.save(mc1);
 		session.flush();
@@ -438,7 +439,7 @@ public class App {
 		// report
 		Reports report = new Reports();
 		session.save(report);
-		
+
 		MonthlyComplaints MC = new MonthlyComplaints();
 		session.save(MC);
 
@@ -477,10 +478,6 @@ public class App {
 		List<String> newPrices = new ArrayList<String>();
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
-
-//		Ticket mytestticket = new Ticket();
-//		session.save(mytestticket);
-//		session.flush();
 
 		List<String> restrictedDates = new ArrayList<String>();
 		restrictedDates.add("21/08/2021");
