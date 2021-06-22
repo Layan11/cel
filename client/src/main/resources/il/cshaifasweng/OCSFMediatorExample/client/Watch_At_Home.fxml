@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="479.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Watch_At_HomeController">
+<AnchorPane prefHeight="479.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Watch_At_HomeController">
    <children>
       <AnchorPane layoutX="-10.0" layoutY="-9.0" prefHeight="465.0" prefWidth="691.0" style="-fx-background-color: #730606;">
          <children>
@@ -42,6 +42,11 @@
                </font>
             </Label>
             <Button fx:id="buy_link" layoutX="130.0" layoutY="445.0" mnemonicParsing="false" onAction="#buy_link_btn" prefHeight="25.0" prefWidth="90.0" style="-fx-background-radius: 40; -fx-background-color: black;" text="Buy Link" textFill="#f6ff00">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="main" layoutX="434.0" layoutY="445.0" mnemonicParsing="false" onAction="#backtomain" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #000000; -fx-background-radius: 40;" text="Main" textFill="#f6ff00">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>

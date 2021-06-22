@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="724.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="724.0" style="-fx-background-color: #730606;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.browse_moviesController">
    <children>
       <VBox prefHeight="531.0" prefWidth="652.0" />
       <AnchorPane layoutX="8.0" layoutY="4.0" prefHeight="587.0" prefWidth="693.0" style="-fx-background-color: #000000;">
@@ -72,6 +72,11 @@
                </font>
             </Label>
             <Button fx:id="filter" layoutX="564.0" layoutY="295.0" mnemonicParsing="false" onAction="#gotoFilter" style="-fx-background-color: #f8e9bb; -fx-background-radius: 40;" text="Filter">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="main" layoutX="321.0" layoutY="277.0" mnemonicParsing="false" onAction="#backtomain" prefHeight="26.0" prefWidth="142.0" style="-fx-background-color: #f8e9bb;" text="Back to Main">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

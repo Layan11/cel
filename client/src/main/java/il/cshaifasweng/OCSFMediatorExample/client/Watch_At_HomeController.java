@@ -42,8 +42,22 @@ public class Watch_At_HomeController implements Initializable {
 	private Button Edit;
 	@FXML
 	private Button buy_link;
+	@FXML
+    private Button main;
 
 	public static Movie selected_watch_at_home_Movie;
+	
+    @FXML
+    void backtomain(ActionEvent event) {
+    	Platform.runLater(() -> {
+			try {
+				App.setRoot("menu");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+    }
 
 	@FXML
 	void buy_link_btn(ActionEvent event) throws IOException {
