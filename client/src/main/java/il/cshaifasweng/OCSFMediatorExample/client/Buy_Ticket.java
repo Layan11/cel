@@ -107,7 +107,7 @@ public class Buy_Ticket implements Initializable {
 			String user = loginController.currentUser;
 
 			Ticket mytestticket = new Ticket(movie, hall, time, seat, user, Label1.getText(),
-					show_MapChairController.id);
+					show_MapChairController.id,Screening_TimesController.selectedScreeningDate);
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
 			msglab.setVisible(true);

@@ -21,6 +21,7 @@ public class Ticket implements Serializable {
 	String start_time;
 	String user_name;
 	String method_pay;
+	String date;
 	int mapchairid;
 
 	public String getChair_num() {
@@ -35,7 +36,7 @@ public class Ticket implements Serializable {
 
 	}
 
-	public Ticket(String _movie, String _hall, String time, String _chair_num, String user, String way, int chairid) {
+	public Ticket(String _movie, String _hall, String time, String _chair_num, String user, String way, int chairid,String date) {
 		this.movie_of_tick = _movie;
 		this.hall = _hall;
 		this.start_time = time;
@@ -43,6 +44,7 @@ public class Ticket implements Serializable {
 		this.user_name = user;
 		this.method_pay = way;
 		this.mapchairid = chairid;
+		this.date=date;
 	}
 
 	public String get_hall() {
@@ -64,4 +66,8 @@ public class Ticket implements Serializable {
 	public String gettime() {
 		return this.start_time;
 	}
+	public String getdate() {
+		return this.date;
+	}
 }
+
