@@ -660,15 +660,20 @@ public class SimpleServer extends AbstractServer {
 								int x = cols * rows;
 								if (1.2 * y < x) {
 									System.out.println("IN THE FIRST IF");
-									mc.setNmberAvailableChair(y);
+									int bought = mc.getNumOfBoughtSeat();
+									mc.setNmberAvailableChair(y - bought);
 								} else if (x > 0.8 * y) {
 									System.out.println("IN THE SECOND IF ans = " + 0.8 * y);
 									double tmp = 0.8 * y;
-									mc.setNmberAvailableChair((int) tmp);
+									int Tmp = (int) tmp;
+									int bought = mc.getNumOfBoughtSeat();
+									mc.setNmberAvailableChair(Tmp - bought);
 								} else if (x <= 0.8 * y) {
 									System.out.println("IN THE THIRD IF");
 									double tmp = x / 2;
-									mc.setNmberAvailableChair((int) tmp);
+									int Tmp = (int) tmp;
+									int bought = mc.getNumOfBoughtSeat();
+									mc.setNmberAvailableChair(Tmp - bought);
 								}
 							}
 						}
@@ -736,7 +741,9 @@ public class SimpleServer extends AbstractServer {
 						if (mcList.get(j).getStart_time().equals(times.get(i))) {
 							int rows = mcList.get(j).getRows();
 							int cols = mcList.get(j).getCols();
-							mcList.get(j).setNmberAvailableChair(rows * cols);
+							int size = rows * cols;
+							int bought = mcList.get(j).getNumOfBoughtSeat();
+							mcList.get(j).setNmberAvailableChair(size - bought);
 						}
 					}
 				}
@@ -1244,7 +1251,7 @@ public class SimpleServer extends AbstractServer {
 						mc.setNmberAvailableChair(numOfAvailable - 1);
 						App.session.save(mc);
 						App.session.flush();
-						for (int i = 0; i < 100; i++) {
+						for (int i = 1; i <= 100; i++) {
 							if (!mc.getMapChair().contains(i)) {
 								my_Ticket.setChair_num(Integer.toString(i));
 								mc.getMapChair().add(i);
