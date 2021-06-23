@@ -97,6 +97,7 @@ public class App {
 		session.flush();
 
 		MapChair mc1 = new MapChair(10, 10, AladdinMovie.getId(), "18:00");
+		mc1.setNmberAvailableChair(70);
 		MapChair mc2 = new MapChair(10, 10, AladdinMovie.getId(), "20:00");
 		session.save(mc1);
 		session.flush();

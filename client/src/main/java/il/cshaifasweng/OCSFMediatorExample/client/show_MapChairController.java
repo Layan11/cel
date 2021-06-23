@@ -352,10 +352,23 @@ public class show_MapChairController implements Initializable {
 	private Button Back;
 
 	@FXML
-	void Back_btn(ActionEvent event) throws IOException {
+	void Back_btn(ActionEvent event) throws Exception {
+		Platform.runLater(() -> {
+			TripleObject msg = new TripleObject(
+					"Show Screening Times " + browse_moviesController.selectedMovie.getEngName(), null, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Subscribe
+	public void onData1(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
 			try {
-				App.setRoot("browse_movies");
+				App.setRoot("Screening_Times");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
