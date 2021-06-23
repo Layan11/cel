@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -30,6 +31,11 @@ public class Buy_Package implements Initializable {
 	private Button buy_bnt;
 	@FXML
 	private TextField msglab;
+    @FXML
+    private TextField paymentM;
+
+    @FXML
+    private Label paymentlabel;
 
 	@FXML
 	void back_btn(ActionEvent event) {
@@ -44,8 +50,10 @@ public class Buy_Package implements Initializable {
 
 	@FXML
 	void buy_btn(ActionEvent event) throws IOException {
+		String PaymentMethod = paymentM.getText();
 		popup4Controller.popped4 = 0;
 		Package myPackge = new Package(20);
+		myPackge.setPaymen_method(PaymentMethod);
 		DoubleObject msg = new DoubleObject("Add New Package " + loginController.currentUser, null, null, myPackge);
 		SimpleClient.getClient().sendToServer(msg);
 		msglab.setVisible(true);

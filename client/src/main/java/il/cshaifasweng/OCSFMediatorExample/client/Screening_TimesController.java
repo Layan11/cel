@@ -1,4 +1,3 @@
-
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
@@ -71,44 +70,44 @@ public class Screening_TimesController implements Initializable {
 		if (SimpleClient.restrictionAns.equals("Yes")) {
 			if (restrictionPopupController.popped == 0) {
 				restrictionPopupController.popped = 1;
-				Platform.runLater(() -> {
-					try {
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("restrictionPopup.fxml"));
-						Parent Root1 = (Parent) fxmlLoader.load();
-						Stage stage = new Stage();
-						stage.setScene(new Scene(Root1));
-						stage.setTitle("There's restrictions");
-						stage.show();
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
-					}
-					try {
-						App.setRoot("Pay_Ticket");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
-			}
+			Platform.runLater(() -> {
+				try {
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("restrictionPopup.fxml"));
+					Parent Root1 = (Parent) fxmlLoader.load();
+					Stage stage = new Stage();
+					stage.setScene(new Scene(Root1));
+					stage.setTitle("There's restrictions");
+					stage.show();
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+				try {
+					App.setRoot("Pay_Ticket");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});}
 		} else if (SimpleClient.restrictionAns.equals("No")) {
 			try {
-				App.setRoot("buy_ticket");
+				TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
+						selectedScreeningTime);
+				SimpleClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-//	@Subscribe
-//	public void onGotMapChair(gotMapChairevent event) {
-//		Platform.runLater(() -> {
-//			try {
-//				// App.setRoot("show_MapChair");
-//				App.setRoot("buy_ticket");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		});
-//	}
+	@Subscribe
+	public void onGotMapChair(gotMapChairevent event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("buy_ticket");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	@FXML
 	void gotoAdd(ActionEvent event) {

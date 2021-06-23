@@ -16,6 +16,7 @@ public class Package implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int package_id;
 	private int number_of_ticekts;
+	private String paymen_method;
 
 	public Package() {
 	}
@@ -24,6 +25,16 @@ public class Package implements Serializable {
 		x = 20;
 		this.number_of_ticekts = x;
 
+	}
+
+	
+	
+	public String getPaymen_method() {
+		return paymen_method;
+	}
+
+	public void setPaymen_method(String paymen_method) {
+		this.paymen_method = paymen_method;
 	}
 
 	public int get_ticks() {
