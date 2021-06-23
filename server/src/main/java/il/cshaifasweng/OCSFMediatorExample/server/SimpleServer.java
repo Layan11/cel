@@ -246,6 +246,29 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
+			
+			 /***saleh***/
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+			MapChair new_mapchair=new MapChair(10,10,movie.getId(),Newtimes.get(0));
+			App.session.save(new_mapchair);
+			App.session.flush();
+			App.session.getTransaction().commit();
+			}
+		 catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+			
+			
+			/***saleh***/
+			
+			
+			
+			
+			
+			
 		}
 		if (ObjctMsg.startsWith("Delete Screening Time")) {
 			Movie movie = tuple_msg.getMovies().get(0);
@@ -277,18 +300,43 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
+			
+			
+			/***saleh***/
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				MapChair mapchairtodelete=new MapChair();
+				mapchairtodelete=getmapchairid(movie.getId(),wantedTime).get(0);
+			App.session.remove(mapchairtodelete);
+			App.session.flush();
+			App.session.getTransaction().commit();
+			}
+		 catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+			App.session.close();
+			
+			/***saleh***/
 		}
 		if (ObjctMsg.startsWith("Update Screening Time")) {
+			String oldtime="",newtime="";
+			int movie_id=0;
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				String movie = ObjctMsg.substring(22);
 				String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);// old time is in place 0 new time
-																					// is in place 1
 				String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(1);
 				String NewDate = tuple_msg.getMovieTimes().get(0).getDate().get(0);
 				String oldDate = "";
 				Movie movieToUpdate = getMovie(movie).get(0);
+				/***saleh***/
+				oldtime=oldTime;
+				newtime=Newtime;
+				movie_id=movieToUpdate.getId();
+				/***saleh***/
 				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
 				List<String> hlpr2 = movieToUpdate.getMovieTimes().getDate();
 
@@ -318,6 +366,27 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
+			
+			/***saleh***/
+			try {
+			
+				
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				MapChair mapchairtodelete=new MapChair();
+				mapchairtodelete=getmapchairid(movie_id,oldtime).get(0);
+				mapchairtodelete.setStart_time(newtime);
+			App.session.save(mapchairtodelete);
+			App.session.flush();
+			App.session.getTransaction().commit();
+			}
+		 catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+			App.session.close();
+			/***saleh***/
+			
 		}
 		if (ObjctMsg.startsWith("Show Screening Times")) {
 			try {
@@ -1526,7 +1595,8 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			// *  root-Pass1.@
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1555,7 +1625,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 
 			System.out.println("Opened database successfully");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
@@ -1581,7 +1651,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1631,7 +1701,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -1670,7 +1740,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1731,7 +1801,7 @@ public class SimpleServer extends AbstractServer {
 
 		System.out.println(user2);
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 
 			int idmap = 0;
 			String moviename = null;
@@ -1850,7 +1920,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "S208343871s*");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
