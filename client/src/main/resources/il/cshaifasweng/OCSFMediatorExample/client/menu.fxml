@@ -4,28 +4,68 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.menuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="414.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.menuController">
    <children>
-      <ImageView fitHeight="383.0" fitWidth="649.0" layoutX="1.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="422.0" fitWidth="663.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@newPics/cinema-had-light-concept-nave-lets-watch-cinema-3d-render-cinema-background-R190CE.jpg" />
+            <Image url="@newPics/tryy.png" />
          </image>
       </ImageView>
-      <Button fx:id="browseMovies" layoutX="31.0" layoutY="43.0" mnemonicParsing="false" onAction="#gotobrowse_movies" text="Browse movies" />
+      <Button fx:id="browseMovies" layoutX="338.0" layoutY="31.0" mnemonicParsing="false" onAction="#gotobrowse_movies" prefHeight="17.0" prefWidth="138.0" style="-fx-background-color: black; -fx-background-radius: 40;" text="Browse Movies" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
 
-      <Button fx:id="FileAComplaint" layoutX="450.0" layoutY="43.0" mnemonicParsing="false" onAction="#gotofileacomplaint" text="File a complaint" />
-      <Button fx:id="UpdatePriceRequests" layoutX="214.0" layoutY="120.0" mnemonicParsing="false" onAction="#showRequests" text="Show update price requests" />
-      <Button fx:id="logout" layoutX="469.0" layoutY="312.0" mnemonicParsing="false" onAction="#gotoLogOut" prefHeight="26.0" prefWidth="62.0" text="Log-out" />
-      <Button fx:id="more_actions" layoutX="36.0" layoutY="120.0" mnemonicParsing="false" onAction="#gotomore_actions" text="more actions" />
-      <Button fx:id="return_tick" layoutX="35.0" layoutY="173.0" mnemonicParsing="false" onAction="#return_tick" text="Return_Ticket" />
-      <Button fx:id="return_link" layoutX="53.0" layoutY="219.0" mnemonicParsing="false" onAction="#return_link" text="Return_Link" />
-      <Button fx:id="lesser_pack" layoutX="489.0" layoutY="108.0" mnemonicParsing="false" onAction="#les_pack" text="Edit package" />
-      <Button fx:id="pack_btn" layoutX="59.0" layoutY="264.0" mnemonicParsing="false" onAction="#pack_btn" text="buy package" />
-      <Button fx:id="back" layoutX="463.0" layoutY="264.0" mnemonicParsing="false" onAction="#gotoBack" text="Back" />
-      <Button fx:id="packageStatus" layoutX="203.0" layoutY="186.0" mnemonicParsing="false" onAction="#gotoPackage" text="Show Package Status" />
-      <Button fx:id="reports" layoutX="472.0" layoutY="77.0" mnemonicParsing="false" onAction="#gotoshowreports" text="Reports" />
-      <Button fx:id="Showthecomplaints" layoutX="270.0" layoutY="43.0" mnemonicParsing="false" onAction="#gotoShowComplaint" text="show thecomplaints" />
-      <Button fx:id="showRestricted" layoutX="468.0" layoutY="161.0" mnemonicParsing="false" onAction="#gotoShowRestricted" text="Show restricted days" />
+      <Button fx:id="FileAComplaint" layoutX="499.0" layoutY="31.0" mnemonicParsing="false" onAction="#gotofileacomplaint" prefHeight="17.0" prefWidth="138.0" text="File a Complaint">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="UpdatePriceRequests" layoutX="499.0" layoutY="288.0" mnemonicParsing="false" onAction="#showRequests" prefHeight="42.0" prefWidth="132.0" text="Show Update Price Requests" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="logout" layoutX="216.0" layoutY="372.0" mnemonicParsing="false" onAction="#gotoLogOut" prefHeight="17.0" prefWidth="138.0" text="Log-out">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="more_actions" layoutX="499.0" layoutY="151.0" mnemonicParsing="false" onAction="#gotomore_actions" prefHeight="17.0" prefWidth="138.0" text="More Actions">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="return_tick" layoutX="338.0" layoutY="111.0" mnemonicParsing="false" onAction="#return_tick" prefHeight="17.0" prefWidth="138.0" text="Return Ticket">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="return_link" layoutX="338.0" layoutY="151.0" mnemonicParsing="false" onAction="#return_link" prefHeight="17.0" prefWidth="138.0" text="Return Link">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="lesser_pack" layoutX="499.0" layoutY="247.0" mnemonicParsing="false" onAction="#les_pack" prefHeight="17.0" prefWidth="138.0" text="Edit Package">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="pack_btn" layoutX="338.0" layoutY="71.0" mnemonicParsing="false" onAction="#pack_btn" prefHeight="17.0" prefWidth="138.0" text="Buy Package">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="back" layoutX="596.0" layoutY="370.0" mnemonicParsing="false" onAction="#gotoBack" text="Back" />
+      <Button fx:id="packageStatus" layoutX="499.0" layoutY="111.0" mnemonicParsing="false" onAction="#gotoPackage" prefHeight="17.0" prefWidth="138.0" text="Show Package Status">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="reports" layoutX="338.0" layoutY="288.0" mnemonicParsing="false" onAction="#gotoshowreports" prefHeight="17.0" prefWidth="138.0" text="Show Reports">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="Showthecomplaints" layoutX="338.0" layoutY="247.0" mnemonicParsing="false" onAction="#gotoShowComplaint" prefHeight="17.0" prefWidth="138.0" text="Show Complaints">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="showRestricted" layoutX="499.0" layoutY="71.0" mnemonicParsing="false" onAction="#gotoShowRestricted" prefHeight="17.0" prefWidth="138.0" text="Show Restricted Days">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

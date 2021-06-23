@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -1655,7 +1653,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1685,7 +1683,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
@@ -1711,7 +1709,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1761,7 +1759,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -1800,7 +1798,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1858,11 +1856,11 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		String user = null;
 		String user2 = ObjctMsg.substring(25);
-		String date1=null;
-		int flag=0;
+		String date1 = null;
+		int flag = 0;
 		System.out.println(user2);
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			int idmap = 0;
 			String moviename = null;
@@ -1885,7 +1883,7 @@ public class SimpleServer extends AbstractServer {
 				idmap = rs1.getInt("mapchairid");
 				chairnum = rs1.getString("chair_num");
 				moviename = rs1.getString("movie_of_tick");
-				date1=rs1.getString("date");
+				date1 = rs1.getString("date");
 				System.out.println(hour);
 			}
 			rs2 = stmt2.executeQuery("SELECT * FROM movies WHERE EngName= '" + moviename + "'");
@@ -1893,22 +1891,22 @@ public class SimpleServer extends AbstractServer {
 				movieid = rs2.getInt("id");
 			}
 			int mapchair_id = getmapchairid(movieid, hour).get(0).getID();
-			LocalDateTime myDateObj = LocalDateTime.now();  
-		    System.out.println("Before Formatting: " + myDateObj);  
-		    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
-		    
-		    String formattedDate = myDateObj.format(myFormatObj);
-		    String month =formattedDate.substring(3,5);
-		    String day =formattedDate.substring(0,2);
-		    System.out.println(month);
-		    int monthrn= Integer.parseInt(month);
-		    System.out.println(day);
-		    int dayrn=Integer.parseInt(day);
-		    int monthofticket=Integer.parseInt(date1.substring(3, 5));
-		    System.out.println("month of ticke"+monthofticket);
-		 
-		    int dayofticket =Integer.parseInt(date1.substring(0, 2));
-		    System.out.println("day of ticket"+ dayofticket);
+			LocalDateTime myDateObj = LocalDateTime.now();
+			System.out.println("Before Formatting: " + myDateObj);
+			DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+			String formattedDate = myDateObj.format(myFormatObj);
+			String month = formattedDate.substring(3, 5);
+			String day = formattedDate.substring(0, 2);
+			System.out.println(month);
+			int monthrn = Integer.parseInt(month);
+			System.out.println(day);
+			int dayrn = Integer.parseInt(day);
+			int monthofticket = Integer.parseInt(date1.substring(3, 5));
+			System.out.println("month of ticke" + monthofticket);
+
+			int dayofticket = Integer.parseInt(date1.substring(0, 2));
+			System.out.println("day of ticket" + dayofticket);
 			/////
 			rs2 = stmt2.executeQuery(
 					"SELECT * FROM mapchair WHERE start_time='" + hour + "'   AND movie_id='" + movieid + "'");
@@ -1920,28 +1918,29 @@ public class SimpleServer extends AbstractServer {
 			chairnums++;
 
 			String message2 = hour.substring(0, 2);
-			String minsofticks=hour.substring(3,5);
-			int minsoftick=Integer.parseInt(minsofticks);
+			String minsofticks = hour.substring(3, 5);
+			int minsoftick = Integer.parseInt(minsofticks);
 			System.out.println(minsoftick);
-			int minsofday= rightNow.get(Calendar.MINUTE);
-			
+			int minsofday = rightNow.get(Calendar.MINUTE);
+
 			System.out.println(minsofday);
-			
+
 			int y = Integer.parseInt(message2);
-			int sumofRN =minsofday+ hour2 *60;
-			int someofTicket= minsoftick+ y*60;
-			System.out.println("sumofRN :"+sumofRN);
-			System.out.println("someofTicket :"+someofTicket);
-			int diff =(someofTicket-sumofRN)/60;
-			System.out.println("the diff is :"+diff);
-			System.out.println("the value of hour2 is : "+hour2);
-			System.out.println("the value of y is : "+y);
-			System.out.println("the result is "+(hour2-y));
+			int sumofRN = minsofday + hour2 * 60;
+			int someofTicket = minsoftick + y * 60;
+			System.out.println("sumofRN :" + sumofRN);
+			System.out.println("someofTicket :" + someofTicket);
+			int diff = (someofTicket - sumofRN) / 60;
+			System.out.println("the diff is :" + diff);
+			System.out.println("the value of hour2 is : " + hour2);
+			System.out.println("the value of y is : " + y);
+			System.out.println("the result is " + (hour2 - y));
 			if (user.equals(user2)) {
 
-				if (monthofticket > monthrn || (monthofticket== monthrn &&dayofticket>dayrn) ||(monthofticket==monthrn&&  dayofticket==dayrn && diff >= 3)) {
+				if (monthofticket > monthrn || (monthofticket == monthrn && dayofticket > dayrn)
+						|| (monthofticket == monthrn && dayofticket == dayrn && diff >= 3)) {
 					try {
-						flag=1;
+						flag = 1;
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(mapchair_id, chairnum);
@@ -1951,9 +1950,9 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-				if ((monthofticket==monthrn&&  dayofticket==dayrn &&diff >= 1 &&  diff < 3 &&flag==0)) {
+				if ((monthofticket == monthrn && dayofticket == dayrn && diff >= 1 && diff < 3 && flag == 0)) {
 					try {
-						flag=1;
+						flag = 1;
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(mapchair_id, chairnum);
@@ -1963,7 +1962,7 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-				if ( (monthofticket<monthrn ||  dayofticket < dayrn || diff  < 1) && flag==0) {
+				if ((monthofticket < monthrn || dayofticket < dayrn || diff < 1) && flag == 0) {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
@@ -2014,7 +2013,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
