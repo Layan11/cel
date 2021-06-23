@@ -23,331 +23,222 @@ public class show_MapChairController implements Initializable {
 
 	@FXML
 	private Button seat1;
-
 	@FXML
 	private Button seat2;
-
 	@FXML
 	private Button seat3;
-
 	@FXML
 	private Button seat7;
-
 	@FXML
 	private Button seat6;
-
 	@FXML
 	private Button seat5;
-
 	@FXML
 	private Button seat4;
-
 	@FXML
 	private Button seat9;
-
 	@FXML
 	private Button seat8;
-
 	@FXML
 	private Button seat10;
-
 	@FXML
 	private Button seat11;
-
 	@FXML
 	private Button seat91;
-
 	@FXML
 	private Button seat81;
-
 	@FXML
 	private Button seat71;
-
 	@FXML
 	private Button seat61;
-
 	@FXML
 	private Button seat51;
-
 	@FXML
 	private Button seat41;
-
 	@FXML
 	private Button seat31;
-
 	@FXML
 	private Button seat21;
-
 	@FXML
 	private Button seat12;
-
 	@FXML
 	private Button seat14;
-
 	@FXML
 	private Button seat93;
-
 	@FXML
 	private Button seat83;
-
 	@FXML
 	private Button seat73;
-
 	@FXML
 	private Button seat63;
-
 	@FXML
 	private Button seat53;
-
 	@FXML
 	private Button seat43;
-
 	@FXML
 	private Button seat33;
-
 	@FXML
 	private Button seat23;
-
 	@FXML
 	private Button seat13;
-
 	@FXML
 	private Button seat92;
-
 	@FXML
 	private Button seat82;
-
 	@FXML
 	private Button seat72;
-
 	@FXML
 	private Button seat62;
-
 	@FXML
 	private Button seat52;
-
 	@FXML
 	private Button seat42;
-
 	@FXML
 	private Button seat32;
-
 	@FXML
 	private Button seat22;
-
 	@FXML
 	private Button seat56;
-
 	@FXML
 	private Button seat47;
-
 	@FXML
 	private Button seat46;
-
 	@FXML
 	private Button seat37;
-
 	@FXML
 	private Button seat36;
-
 	@FXML
 	private Button seat27;
-
 	@FXML
 	private Button seat26;
-
 	@FXML
 	private Button seat17;
-
 	@FXML
 	private Button seat16;
-
 	@FXML
 	private Button seat95;
-
 	@FXML
 	private Button seat94;
-
 	@FXML
 	private Button seat85;
-
 	@FXML
 	private Button seat84;
-
 	@FXML
 	private Button seat75;
-
 	@FXML
 	private Button seat74;
-
 	@FXML
 	private Button seat65;
-
 	@FXML
 	private Button seat64;
-
 	@FXML
 	private Button seat55;
-
 	@FXML
 	private Button seat45;
-
 	@FXML
 	private Button seat35;
-
 	@FXML
 	private Button seat25;
-
 	@FXML
 	private Button seat15;
-
 	@FXML
 	private Button seat54;
-
 	@FXML
 	private Button seat44;
-
 	@FXML
 	private Button seat34;
-
 	@FXML
 	private Button seat24;
-
 	@FXML
 	private Button seat58;
-
 	@FXML
 	private Button seat50;
-
 	@FXML
 	private Button seat49;
-
 	@FXML
 	private Button seat48;
-
 	@FXML
 	private Button seat40;
-
 	@FXML
 	private Button seat39;
-
 	@FXML
 	private Button seat38;
-
 	@FXML
 	private Button seat30;
-
 	@FXML
 	private Button seat29;
-
 	@FXML
 	private Button seat20;
-
 	@FXML
 	private Button seat19;
-
 	@FXML
 	private Button seat18;
-
 	@FXML
 	private Button seat97;
-
 	@FXML
 	private Button seat96;
-
 	@FXML
 	private Button seat87;
-
 	@FXML
 	private Button seat86;
-
 	@FXML
 	private Button seat77;
-
 	@FXML
 	private Button seat76;
-
 	@FXML
 	private Button seat67;
-
 	@FXML
 	private Button seat66;
-
 	@FXML
 	private Button seat57;
-
 	@FXML
 	private Button seat90;
-
 	@FXML
 	private Button seat80;
-
 	@FXML
 	private Button seat70;
-
 	@FXML
 	private Button seat60;
-
 	@FXML
 	private Button seat100;
-
 	@FXML
 	private Button seat99;
-
 	@FXML
 	private Button seat98;
-
 	@FXML
 	private Button seat89;
-
 	@FXML
 	private Button seat88;
-
 	@FXML
 	private Button seat79;
-
 	@FXML
 	private Button seat78;
-
 	@FXML
 	private Button seat69;
-
 	@FXML
 	private Button seat68;
-
 	@FXML
 	private Button seat59;
-
 	@FXML
 	private Button seat28;
-
 	@FXML
 	private Pane pane1;
-
 	@FXML
 	private Pane pane2;
-
 	@FXML
 	private Pane pane3;
-
 	@FXML
 	private Pane pane4;
-
 	@FXML
 	private Button yesbtn;
-
 	@FXML
 	private Button nobtn;
-
 	@FXML
 	private Button bnm;
-
 	@FXML
 	private Button anotherseat;
-
 	@FXML
 	private Text seatnum;
-
 	@FXML
 	private Button Back;
 
@@ -953,315 +844,315 @@ public class show_MapChairController implements Initializable {
 		pane1.setVisible(true);
 	}
 
-	@Subscribe
-	public void onGotSeatToDelete(GotSeatToDeleteEvent event) {
-		Platform.runLater(() -> {
-			String seat = "seat" + SimpleClient.seatNumToDelete;
-			System.out.println("the seat to delete = " + seat);
-			switch (Integer.parseInt(SimpleClient.seatNumToDelete)) {
-			case 1:
-				seat1.setStyle("-fx-background-color: green;");
-				break;
-			case 2:
-				seat2.setStyle("-fx-background-color: green;");
-				break;
-			case 3:
-				seat3.setStyle("-fx-background-color: green;");
-				break;
-			case 4:
-				seat4.setStyle("-fx-background-color: green;");
-				break;
-			case 5:
-				seat5.setStyle("-fx-background-color: green;");
-				break;
-			case 6:
-				seat6.setStyle("-fx-background-color: green;");
-				break;
-			case 7:
-				seat7.setStyle("-fx-background-color: green;");
-				break;
-			case 8:
-				seat8.setStyle("-fx-background-color: green;");
-				break;
-			case 9:
-				seat9.setStyle("-fx-background-color: green;");
-				break;
-			case 10:
-				seat10.setStyle("-fx-background-color: green;");
-				break;
-			case 11:
-				seat11.setStyle("-fx-background-color: green;");
-				break;
-			case 12:
-				seat12.setStyle("-fx-background-color: green;");
-				break;
-			case 13:
-				seat13.setStyle("-fx-background-color: green;");
-				break;
-			case 14:
-				seat14.setStyle("-fx-background-color: green;");
-				break;
-			case 15:
-				seat15.setStyle("-fx-background-color: green;");
-				break;
-			case 16:
-				seat16.setStyle("-fx-background-color: green;");
-				break;
-			case 17:
-				seat17.setStyle("-fx-background-color: green;");
-				break;
-			case 18:
-				seat18.setStyle("-fx-background-color: green;");
-				break;
-			case 19:
-				seat19.setStyle("-fx-background-color: green;");
-				break;
-			case 20:
-				seat20.setStyle("-fx-background-color: green;");
-				break;
-			case 21:
-				seat21.setStyle("-fx-background-color: green;");
-				break;
-			case 22:
-				seat22.setStyle("-fx-background-color: green;");
-				break;
-			case 23:
-				seat23.setStyle("-fx-background-color: green;");
-				break;
-			case 24:
-				seat24.setStyle("-fx-background-color: green;");
-				break;
-			case 25:
-				seat25.setStyle("-fx-background-color: green;");
-				break;
-			case 26:
-				seat26.setStyle("-fx-background-color: green;");
-				break;
-			case 27:
-				seat27.setStyle("-fx-background-color: green;");
-				break;
-			case 28:
-				seat28.setStyle("-fx-background-color: green;");
-				break;
-			case 29:
-				seat29.setStyle("-fx-background-color: green;");
-				break;
-			case 30:
-				seat30.setStyle("-fx-background-color: green;");
-				break;
-			case 31:
-				seat31.setStyle("-fx-background-color: green;");
-				break;
-			case 32:
-				seat32.setStyle("-fx-background-color: green;");
-				break;
-			case 33:
-				seat33.setStyle("-fx-background-color: green;");
-				break;
-			case 34:
-				seat34.setStyle("-fx-background-color: green;");
-				break;
-			case 35:
-				seat35.setStyle("-fx-background-color: green;");
-				break;
-			case 36:
-				seat36.setStyle("-fx-background-color: green;");
-				break;
-			case 37:
-				seat37.setStyle("-fx-background-color: green;");
-				break;
-			case 38:
-				seat38.setStyle("-fx-background-color: green;");
-				break;
-			case 39:
-				seat39.setStyle("-fx-background-color: green;");
-				break;
-			case 40:
-				seat40.setStyle("-fx-background-color: green;");
-				break;
-			case 41:
-				seat41.setStyle("-fx-background-color: green;");
-				break;
-			case 42:
-				seat42.setStyle("-fx-background-color: green;");
-				break;
-			case 43:
-				seat43.setStyle("-fx-background-color: green;");
-				break;
-			case 45:
-				seat45.setStyle("-fx-background-color: green;");
-				break;
-			case 46:
-				seat46.setStyle("-fx-background-color: green;");
-				break;
-			case 47:
-				seat47.setStyle("-fx-background-color: green;");
-				break;
-			case 48:
-				seat48.setStyle("-fx-background-color: green;");
-				break;
-			case 49:
-				seat49.setStyle("-fx-background-color: green;");
-				break;
-			case 50:
-				seat50.setStyle("-fx-background-color: green;");
-				break;
-			case 51:
-				seat51.setStyle("-fx-background-color: green;");
-				break;
-			case 52:
-				seat52.setStyle("-fx-background-color: green;");
-				break;
-			case 53:
-				seat53.setStyle("-fx-background-color: green;");
-				break;
-			case 54:
-				seat54.setStyle("-fx-background-color: green;");
-				break;
-			case 55:
-				seat55.setStyle("-fx-background-color: green;");
-				break;
-			case 56:
-				seat56.setStyle("-fx-background-color: green;");
-				break;
-			case 57:
-				seat57.setStyle("-fx-background-color: green;");
-				break;
-			case 58:
-				seat58.setStyle("-fx-background-color: green;");
-				break;
-			case 59:
-				seat59.setStyle("-fx-background-color: green;");
-				break;
-			case 60:
-				seat60.setStyle("-fx-background-color: green;");
-				break;
-			case 61:
-				seat61.setStyle("-fx-background-color: green;");
-				break;
-			case 62:
-				seat62.setStyle("-fx-background-color: green;");
-				break;
-			case 63:
-				seat63.setStyle("-fx-background-color: green;");
-				break;
-			case 64:
-				seat64.setStyle("-fx-background-color: green;");
-				break;
-			case 65:
-				seat65.setStyle("-fx-background-color: green;");
-				break;
-			case 66:
-				seat66.setStyle("-fx-background-color: green;");
-				break;
-			case 67:
-				seat67.setStyle("-fx-background-color: green;");
-				break;
-			case 68:
-				seat68.setStyle("-fx-background-color: green;");
-				break;
-			case 69:
-				seat69.setStyle("-fx-background-color: green;");
-				break;
-			case 70:
-				seat70.setStyle("-fx-background-color: green;");
-				break;
-			case 71:
-				seat71.setStyle("-fx-background-color: green;");
-				break;
-			case 72:
-				seat72.setStyle("-fx-background-color: green;");
-				break;
-			case 73:
-				seat73.setStyle("-fx-background-color: green;");
-				break;
-			case 74:
-				seat74.setStyle("-fx-background-color: green;");
-				break;
-			case 75:
-				seat75.setStyle("-fx-background-color: green;");
-				break;
-			case 76:
-				seat76.setStyle("-fx-background-color: green;");
-				break;
-			case 77:
-				seat77.setStyle("-fx-background-color: green;");
-				break;
-			case 78:
-				seat78.setStyle("-fx-background-color: green;");
-				break;
-			case 79:
-				seat79.setStyle("-fx-background-color: green;");
-				break;
-			case 80:
-				seat80.setStyle("-fx-background-color: green;");
-				break;
-			case 81:
-				seat81.setStyle("-fx-background-color: green;");
-				break;
-			case 82:
-				seat82.setStyle("-fx-background-color: green;");
-				break;
-			case 83:
-				seat83.setStyle("-fx-background-color: green;");
-				break;
-			case 84:
-				seat84.setStyle("-fx-background-color: green;");
-				break;
-			case 85:
-				seat85.setStyle("-fx-background-color: green;");
-				break;
-			case 86:
-				seat86.setStyle("-fx-background-color: green;");
-				break;
-			case 87:
-				seat87.setStyle("-fx-background-color: green;");
-				break;
-			case 88:
-				seat88.setStyle("-fx-background-color: green;");
-				break;
-			case 89:
-				seat89.setStyle("-fx-background-color: green;");
-				break;
-			case 90:
-				seat90.setStyle("-fx-background-color: green;");
-				break;
-			case 91:
-				seat91.setStyle("-fx-background-color: green;");
-				break;
-			case 92:
-				seat92.setStyle("-fx-background-color: green;");
-				break;
-			case 93:
-				seat93.setStyle("-fx-background-color: green;");
-				break;
-			case 95:
-				seat95.setStyle("-fx-background-color: green;");
-				break;
-			case 96:
-				seat96.setStyle("-fx-background-color: green;");
-				break;
-			case 97:
-				seat97.setStyle("-fx-background-color: green;");
-				break;
-			case 98:
-				seat98.setStyle("-fx-background-color: green;");
-				break;
-			case 99:
-				seat99.setStyle("-fx-background-color: green;");
-				break;
-			case 100:
-				seat100.setStyle("-fx-background-color: green;");
-				break;
-			case 94:
-				seat94.setStyle("-fx-background-color: green;");
-				break;
-			case 44:
-				seat44.setStyle("-fx-background-color: green;");
-				break;
-			}
-		});
-	}
+//	@Subscribe
+//	public void onGotSeatToDelete(GotSeatToDeleteEvent event) {
+//		Platform.runLater(() -> {
+//			String seat = "seat" + SimpleClient.seatNumToDelete;
+//			System.out.println("the seat to delete = " + seat);
+//			switch (Integer.parseInt(SimpleClient.seatNumToDelete)) {
+//			case 1:
+//				seat1.setStyle("-fx-background-color: green;");
+//				break;
+//			case 2:
+//				seat2.setStyle("-fx-background-color: green;");
+//				break;
+//			case 3:
+//				seat3.setStyle("-fx-background-color: green;");
+//				break;
+//			case 4:
+//				seat4.setStyle("-fx-background-color: green;");
+//				break;
+//			case 5:
+//				seat5.setStyle("-fx-background-color: green;");
+//				break;
+//			case 6:
+//				seat6.setStyle("-fx-background-color: green;");
+//				break;
+//			case 7:
+//				seat7.setStyle("-fx-background-color: green;");
+//				break;
+//			case 8:
+//				seat8.setStyle("-fx-background-color: green;");
+//				break;
+//			case 9:
+//				seat9.setStyle("-fx-background-color: green;");
+//				break;
+//			case 10:
+//				seat10.setStyle("-fx-background-color: green;");
+//				break;
+//			case 11:
+//				seat11.setStyle("-fx-background-color: green;");
+//				break;
+//			case 12:
+//				seat12.setStyle("-fx-background-color: green;");
+//				break;
+//			case 13:
+//				seat13.setStyle("-fx-background-color: green;");
+//				break;
+//			case 14:
+//				seat14.setStyle("-fx-background-color: green;");
+//				break;
+//			case 15:
+//				seat15.setStyle("-fx-background-color: green;");
+//				break;
+//			case 16:
+//				seat16.setStyle("-fx-background-color: green;");
+//				break;
+//			case 17:
+//				seat17.setStyle("-fx-background-color: green;");
+//				break;
+//			case 18:
+//				seat18.setStyle("-fx-background-color: green;");
+//				break;
+//			case 19:
+//				seat19.setStyle("-fx-background-color: green;");
+//				break;
+//			case 20:
+//				seat20.setStyle("-fx-background-color: green;");
+//				break;
+//			case 21:
+//				seat21.setStyle("-fx-background-color: green;");
+//				break;
+//			case 22:
+//				seat22.setStyle("-fx-background-color: green;");
+//				break;
+//			case 23:
+//				seat23.setStyle("-fx-background-color: green;");
+//				break;
+//			case 24:
+//				seat24.setStyle("-fx-background-color: green;");
+//				break;
+//			case 25:
+//				seat25.setStyle("-fx-background-color: green;");
+//				break;
+//			case 26:
+//				seat26.setStyle("-fx-background-color: green;");
+//				break;
+//			case 27:
+//				seat27.setStyle("-fx-background-color: green;");
+//				break;
+//			case 28:
+//				seat28.setStyle("-fx-background-color: green;");
+//				break;
+//			case 29:
+//				seat29.setStyle("-fx-background-color: green;");
+//				break;
+//			case 30:
+//				seat30.setStyle("-fx-background-color: green;");
+//				break;
+//			case 31:
+//				seat31.setStyle("-fx-background-color: green;");
+//				break;
+//			case 32:
+//				seat32.setStyle("-fx-background-color: green;");
+//				break;
+//			case 33:
+//				seat33.setStyle("-fx-background-color: green;");
+//				break;
+//			case 34:
+//				seat34.setStyle("-fx-background-color: green;");
+//				break;
+//			case 35:
+//				seat35.setStyle("-fx-background-color: green;");
+//				break;
+//			case 36:
+//				seat36.setStyle("-fx-background-color: green;");
+//				break;
+//			case 37:
+//				seat37.setStyle("-fx-background-color: green;");
+//				break;
+//			case 38:
+//				seat38.setStyle("-fx-background-color: green;");
+//				break;
+//			case 39:
+//				seat39.setStyle("-fx-background-color: green;");
+//				break;
+//			case 40:
+//				seat40.setStyle("-fx-background-color: green;");
+//				break;
+//			case 41:
+//				seat41.setStyle("-fx-background-color: green;");
+//				break;
+//			case 42:
+//				seat42.setStyle("-fx-background-color: green;");
+//				break;
+//			case 43:
+//				seat43.setStyle("-fx-background-color: green;");
+//				break;
+//			case 45:
+//				seat45.setStyle("-fx-background-color: green;");
+//				break;
+//			case 46:
+//				seat46.setStyle("-fx-background-color: green;");
+//				break;
+//			case 47:
+//				seat47.setStyle("-fx-background-color: green;");
+//				break;
+//			case 48:
+//				seat48.setStyle("-fx-background-color: green;");
+//				break;
+//			case 49:
+//				seat49.setStyle("-fx-background-color: green;");
+//				break;
+//			case 50:
+//				seat50.setStyle("-fx-background-color: green;");
+//				break;
+//			case 51:
+//				seat51.setStyle("-fx-background-color: green;");
+//				break;
+//			case 52:
+//				seat52.setStyle("-fx-background-color: green;");
+//				break;
+//			case 53:
+//				seat53.setStyle("-fx-background-color: green;");
+//				break;
+//			case 54:
+//				seat54.setStyle("-fx-background-color: green;");
+//				break;
+//			case 55:
+//				seat55.setStyle("-fx-background-color: green;");
+//				break;
+//			case 56:
+//				seat56.setStyle("-fx-background-color: green;");
+//				break;
+//			case 57:
+//				seat57.setStyle("-fx-background-color: green;");
+//				break;
+//			case 58:
+//				seat58.setStyle("-fx-background-color: green;");
+//				break;
+//			case 59:
+//				seat59.setStyle("-fx-background-color: green;");
+//				break;
+//			case 60:
+//				seat60.setStyle("-fx-background-color: green;");
+//				break;
+//			case 61:
+//				seat61.setStyle("-fx-background-color: green;");
+//				break;
+//			case 62:
+//				seat62.setStyle("-fx-background-color: green;");
+//				break;
+//			case 63:
+//				seat63.setStyle("-fx-background-color: green;");
+//				break;
+//			case 64:
+//				seat64.setStyle("-fx-background-color: green;");
+//				break;
+//			case 65:
+//				seat65.setStyle("-fx-background-color: green;");
+//				break;
+//			case 66:
+//				seat66.setStyle("-fx-background-color: green;");
+//				break;
+//			case 67:
+//				seat67.setStyle("-fx-background-color: green;");
+//				break;
+//			case 68:
+//				seat68.setStyle("-fx-background-color: green;");
+//				break;
+//			case 69:
+//				seat69.setStyle("-fx-background-color: green;");
+//				break;
+//			case 70:
+//				seat70.setStyle("-fx-background-color: green;");
+//				break;
+//			case 71:
+//				seat71.setStyle("-fx-background-color: green;");
+//				break;
+//			case 72:
+//				seat72.setStyle("-fx-background-color: green;");
+//				break;
+//			case 73:
+//				seat73.setStyle("-fx-background-color: green;");
+//				break;
+//			case 74:
+//				seat74.setStyle("-fx-background-color: green;");
+//				break;
+//			case 75:
+//				seat75.setStyle("-fx-background-color: green;");
+//				break;
+//			case 76:
+//				seat76.setStyle("-fx-background-color: green;");
+//				break;
+//			case 77:
+//				seat77.setStyle("-fx-background-color: green;");
+//				break;
+//			case 78:
+//				seat78.setStyle("-fx-background-color: green;");
+//				break;
+//			case 79:
+//				seat79.setStyle("-fx-background-color: green;");
+//				break;
+//			case 80:
+//				seat80.setStyle("-fx-background-color: green;");
+//				break;
+//			case 81:
+//				seat81.setStyle("-fx-background-color: green;");
+//				break;
+//			case 82:
+//				seat82.setStyle("-fx-background-color: green;");
+//				break;
+//			case 83:
+//				seat83.setStyle("-fx-background-color: green;");
+//				break;
+//			case 84:
+//				seat84.setStyle("-fx-background-color: green;");
+//				break;
+//			case 85:
+//				seat85.setStyle("-fx-background-color: green;");
+//				break;
+//			case 86:
+//				seat86.setStyle("-fx-background-color: green;");
+//				break;
+//			case 87:
+//				seat87.setStyle("-fx-background-color: green;");
+//				break;
+//			case 88:
+//				seat88.setStyle("-fx-background-color: green;");
+//				break;
+//			case 89:
+//				seat89.setStyle("-fx-background-color: green;");
+//				break;
+//			case 90:
+//				seat90.setStyle("-fx-background-color: green;");
+//				break;
+//			case 91:
+//				seat91.setStyle("-fx-background-color: green;");
+//				break;
+//			case 92:
+//				seat92.setStyle("-fx-background-color: green;");
+//				break;
+//			case 93:
+//				seat93.setStyle("-fx-background-color: green;");
+//				break;
+//			case 95:
+//				seat95.setStyle("-fx-background-color: green;");
+//				break;
+//			case 96:
+//				seat96.setStyle("-fx-background-color: green;");
+//				break;
+//			case 97:
+//				seat97.setStyle("-fx-background-color: green;");
+//				break;
+//			case 98:
+//				seat98.setStyle("-fx-background-color: green;");
+//				break;
+//			case 99:
+//				seat99.setStyle("-fx-background-color: green;");
+//				break;
+//			case 100:
+//				seat100.setStyle("-fx-background-color: green;");
+//				break;
+//			case 94:
+//				seat94.setStyle("-fx-background-color: green;");
+//				break;
+//			case 44:
+//				seat44.setStyle("-fx-background-color: green;");
+//				break;
+//			}
+//		});
+//	}
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
@@ -1570,11 +1461,7 @@ public class show_MapChairController implements Initializable {
 			case 44:
 				seat44.setStyle("-fx-background-color: red;");
 				break;
-
 			}
-
 		}
-
 	}
-
 }

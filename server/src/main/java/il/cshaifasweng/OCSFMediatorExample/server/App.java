@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,8 @@ import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
 
+
+
 public class App {
 
 	private static SimpleServer server;
@@ -54,7 +57,7 @@ public class App {
 		configuration.addAnnotatedClass(MapChair.class);
 		configuration.addAnnotatedClass(purpleChar.class);
 		configuration.addAnnotatedClass(MonthlyComplaints.class);
-
+	
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -439,7 +442,7 @@ public class App {
 		// report
 		Reports report = new Reports();
 		session.save(report);
-		
+
 		MonthlyComplaints MC = new MonthlyComplaints();
 		session.save(MC);
 
@@ -478,10 +481,6 @@ public class App {
 		List<String> newPrices = new ArrayList<String>();
 		PriceRequestsChart PRC = new PriceRequestsChart(movies, newPrices);
 		session.save(PRC);
-
-//		Ticket mytestticket = new Ticket();
-//		session.save(mytestticket);
-//		session.flush();
 
 		List<String> restrictedDates = new ArrayList<String>();
 		restrictedDates.add("21/08/2021");

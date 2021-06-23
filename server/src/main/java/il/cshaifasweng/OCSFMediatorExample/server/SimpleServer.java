@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -1444,7 +1445,6 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
-
 		// ****saleh****
 		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
 			App.session = App.sessionFactory.openSession();
@@ -1542,120 +1542,109 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 
-		
-		if (ObjctMsg.startsWith("Cancel Screenings")) {
-			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				String date = ObjctMsg.substring(17);
-				List<Ticket> Tlist = new ArrayList<Ticket>();
-				Movie Mhelper = new Movie(); 
-				Tlist = getTicketList();
-				System.out.println("DATE:" +date);
-				List<Movie> allmovies = new ArrayList<Movie>();
-				allmovies = getMoviesList();
-				List<String> datesList = new ArrayList<String>();
-				List<String> timesList = new ArrayList<String>();
-				int index;
-				List<Movie> MoviesDeleted = new ArrayList<Movie>();
-				List<Integer> indexes = new ArrayList<Integer>();
-				Reports reports = getReports(1).get(0);
-				int tmpH = reports.getReturnedTicketsInHaifa();
-				int tmpS = reports.getReturnedTicketsInShefaAmr();
-				int CH = 0;
-				int CS = 0;
-				for(int i = 0; i < allmovies.size(); i++)
-				{
-					if(allmovies.get(i).getType()==0 || allmovies.get(i).getType()==3)
-					{
-						datesList = allmovies.get(i).getMovieTimes().getDate();
-						timesList = allmovies.get(i).getMovieTimes().getTimes();
-						for(int j = 0; j < datesList.size();j++)
-						{
-							if( datesList.get(j).equals(date) )
-							{
-								System.out.println("movie:" +allmovies.get(i).getEngName());
-								//datesList.remove(j);
-								//timesList.remove(j);
-								//App.session.getTransaction().commit();
-								//App.session.beginTransaction();
-								System.out.println("after removing");
-							    MoviesDeleted.add(allmovies.get(i));
-							    indexes.add(j);
-							    int Size = Tlist.size();
-							    
-							    for(int k = 0; k < Size;k++)
-							    {
-							    	System.out.println("list size tickets = " +Tlist.size());
-							    	if(Tlist.get(k).get_movie().equals(allmovies.get(i).getEngName()))
-							    	{
-							    		System.out.println("in if 1");
-							    		String T1 = allmovies.get(i).getMovieTimes().getTimes().get(j);
-							    		String T2 = Tlist.get(k).gettime();
-							    		System.out.println("T1 = " +T1);
-							    		System.out.println("T2 = " +T2);
-							    		if(T1.equals(T2))
-							    		{
-							    			System.out.println("in if 2");
-							    			if(allmovies.get(i).getBranch().equals("Haifa"))
-							    			{
-							    				CH++;
-							    			}
-							    			if(allmovies.get(i).getBranch().equals("Shefa-Amr"))
-							    			{
-							    				System.out.println("in if shefa");
-							    				CS = CS+1;
-							    				System.out.println("tttt CS:" +CS);
-							    				System.out.println("tttt tmp:" +tmpS+1);
-							    				
-							    			}
-							    			System.out.println("removing : T id = " + Tlist.get(k).get_id());
-							    			App.session.remove(Tlist.get(k));
-							    			//Tlist.remove(k);
-							    			System.out.println("after removing the ticket ");
+			if (ObjctMsg.startsWith("Cancel Screenings")) {
+				try {
+					App.session = App.sessionFactory.openSession();
+					App.session.beginTransaction();
+					String date = ObjctMsg.substring(17);
+					List<Ticket> Tlist = new ArrayList<Ticket>();
+					Movie Mhelper = new Movie();
+					Tlist = getTicketList();
+					System.out.println("DATE:" + date);
+					List<Movie> allmovies = new ArrayList<Movie>();
+					allmovies = getMoviesList();
+					List<String> datesList = new ArrayList<String>();
+					List<String> timesList = new ArrayList<String>();
+					int index;
+					List<Movie> MoviesDeleted = new ArrayList<Movie>();
+					List<Integer> indexes = new ArrayList<Integer>();
+					Reports reports = getReports(1).get(0);
+					int tmpH = reports.getReturnedTicketsInHaifa();
+					int tmpS = reports.getReturnedTicketsInShefaAmr();
+					int CH = 0;
+					int CS = 0;
+					for (int i = 0; i < allmovies.size(); i++) {
+						if (allmovies.get(i).getType() == 0 || allmovies.get(i).getType() == 3) {
+							datesList = allmovies.get(i).getMovieTimes().getDate();
+							timesList = allmovies.get(i).getMovieTimes().getTimes();
+							for (int j = 0; j < datesList.size(); j++) {
+								if (datesList.get(j).equals(date)) {
+									System.out.println("movie:" + allmovies.get(i).getEngName());
+									// datesList.remove(j);
+									// timesList.remove(j);
+									// App.session.getTransaction().commit();
+									// App.session.beginTransaction();
+									System.out.println("after removing");
+									MoviesDeleted.add(allmovies.get(i));
+									indexes.add(j);
+									int Size = Tlist.size();
 
-							    		}
-							    	}
-							    }
-							    datesList.remove(j);
-								timesList.remove(j);
-				    			reports.setReturnedTicketsInHaifa(tmpH+CH);
-				    			reports.setReturnedTicketsInShefaAmr(tmpS+CS);
-				    			System.out.println("after setting the reports " +(tmpS+CS));
+									for (int k = 0; k < Size; k++) {
+										System.out.println("list size tickets = " + Tlist.size());
+										if (Tlist.get(k).get_movie().equals(allmovies.get(i).getEngName())) {
+											System.out.println("in if 1");
+											String T1 = allmovies.get(i).getMovieTimes().getTimes().get(j);
+											String T2 = Tlist.get(k).gettime();
+											System.out.println("T1 = " + T1);
+											System.out.println("T2 = " + T2);
+											if (T1.equals(T2)) {
+												System.out.println("in if 2");
+												if (allmovies.get(i).getBranch().equals("Haifa")) {
+													CH++;
+												}
+												if (allmovies.get(i).getBranch().equals("Shefa-Amr")) {
+													System.out.println("in if shefa");
+													CS = CS + 1;
+													System.out.println("tttt CS:" + CS);
+													System.out.println("tttt tmp:" + tmpS + 1);
+
+												}
+												System.out.println("removing : T id = " + Tlist.get(k).get_id());
+												App.session.remove(Tlist.get(k));
+												// Tlist.remove(k);
+												System.out.println("after removing the ticket ");
+
+											}
+										}
+									}
+									datesList.remove(j);
+									timesList.remove(j);
+									reports.setReturnedTicketsInHaifa(tmpH + CH);
+									reports.setReturnedTicketsInShefaAmr(tmpS + CS);
+									System.out.println("after setting the reports " + (tmpS + CS));
+								}
 							}
 						}
 					}
-				}
-					
-				System.out.println("after the for ");
-				try {
-					client.sendToClient(new TripleObject("Canceled Date", null, null));
-				} catch (IOException e) {
+
+					System.out.println("after the for ");
+					try {
+						client.sendToClient(new TripleObject("Canceled Date", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					App.session.getTransaction().commit();
+				} catch (HibernateException e) {
 					e.printStackTrace();
+					App.session.getTransaction().rollback();
 				}
-				App.session.getTransaction().commit();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-				App.session.getTransaction().rollback();
+				App.session.close();
+
 			}
-			App.session.close();
-		
-	}
 
-		// ****saleh****
-		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
-			App.session = App.sessionFactory.openSession();
-			App.session.beginTransaction();
-			String num_seat = tuple_msg.getnumseat();
-			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
-			System.out.println("mapchair id " + mapchair_id);
-			remove_seat(mapchair_id, num_seat);
-			App.session.getTransaction().commit();
-			App.session.close();
+			// ****saleh****
+			if (ObjctMsg.startsWith("remove mapchair with new seat")) {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				String num_seat = tuple_msg.getnumseat();
+				int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+				System.out.println("mapchair id " + mapchair_id);
+				remove_seat(mapchair_id, num_seat);
+				App.session.getTransaction().commit();
+				App.session.close();
 
+			}
 		}
-	}
-
 
 	}
 
@@ -1664,7 +1653,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1694,7 +1683,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
@@ -1720,7 +1709,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1770,7 +1759,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -1809,7 +1798,7 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1867,10 +1856,11 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		String user = null;
 		String user2 = ObjctMsg.substring(25);
-
+		String date1 = null;
+		int flag = 0;
 		System.out.println(user2);
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			int idmap = 0;
 			String moviename = null;
@@ -1893,6 +1883,7 @@ public class SimpleServer extends AbstractServer {
 				idmap = rs1.getInt("mapchairid");
 				chairnum = rs1.getString("chair_num");
 				moviename = rs1.getString("movie_of_tick");
+				date1 = rs1.getString("date");
 				System.out.println(hour);
 			}
 			rs2 = stmt2.executeQuery("SELECT * FROM movies WHERE EngName= '" + moviename + "'");
@@ -1900,7 +1891,22 @@ public class SimpleServer extends AbstractServer {
 				movieid = rs2.getInt("id");
 			}
 			int mapchair_id = getmapchairid(movieid, hour).get(0).getID();
+			LocalDateTime myDateObj = LocalDateTime.now();
+			System.out.println("Before Formatting: " + myDateObj);
+			DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
+			String formattedDate = myDateObj.format(myFormatObj);
+			String month = formattedDate.substring(3, 5);
+			String day = formattedDate.substring(0, 2);
+			System.out.println(month);
+			int monthrn = Integer.parseInt(month);
+			System.out.println(day);
+			int dayrn = Integer.parseInt(day);
+			int monthofticket = Integer.parseInt(date1.substring(3, 5));
+			System.out.println("month of ticke" + monthofticket);
+
+			int dayofticket = Integer.parseInt(date1.substring(0, 2));
+			System.out.println("day of ticket" + dayofticket);
 			/////
 			rs2 = stmt2.executeQuery(
 					"SELECT * FROM mapchair WHERE start_time='" + hour + "'   AND movie_id='" + movieid + "'");
@@ -1911,13 +1917,30 @@ public class SimpleServer extends AbstractServer {
 			}
 			chairnums++;
 
-			String message2 = hour.substring(1, 2);
+			String message2 = hour.substring(0, 2);
+			String minsofticks = hour.substring(3, 5);
+			int minsoftick = Integer.parseInt(minsofticks);
+			System.out.println(minsoftick);
+			int minsofday = rightNow.get(Calendar.MINUTE);
+
+			System.out.println(minsofday);
 
 			int y = Integer.parseInt(message2);
+			int sumofRN = minsofday + hour2 * 60;
+			int someofTicket = minsoftick + y * 60;
+			System.out.println("sumofRN :" + sumofRN);
+			System.out.println("someofTicket :" + someofTicket);
+			int diff = (someofTicket - sumofRN) / 60;
+			System.out.println("the diff is :" + diff);
+			System.out.println("the value of hour2 is : " + hour2);
+			System.out.println("the value of y is : " + y);
+			System.out.println("the result is " + (hour2 - y));
 			if (user.equals(user2)) {
 
-				if (y - hour2 >= 3) {
+				if (monthofticket > monthrn || (monthofticket == monthrn && dayofticket > dayrn)
+						|| (monthofticket == monthrn && dayofticket == dayrn && diff >= 3)) {
 					try {
+						flag = 1;
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(mapchair_id, chairnum);
@@ -1927,8 +1950,9 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-				if (y - hour2 >= 1 && y - hour2 < 3) {
+				if ((monthofticket == monthrn && dayofticket == dayrn && diff >= 1 && diff < 3 && flag == 0)) {
 					try {
+						flag = 1;
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
 						int remove = remove_seat(mapchair_id, chairnum);
@@ -1938,7 +1962,7 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-				if (y - hour2 < 1) {
+				if ((monthofticket < monthrn || dayofticket < dayrn || diff < 1) && flag == 0) {
 					try {
 						stmt2.executeUpdate("UPDATE mapchair SET numberavailablechair = '" + chairnums
 								+ "' WHERE start_time = '" + hour + "'");
@@ -1989,7 +2013,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
