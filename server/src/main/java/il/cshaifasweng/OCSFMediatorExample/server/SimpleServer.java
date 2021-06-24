@@ -893,6 +893,31 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		
+		if (ObjctMsg.startsWith("Delete MSG")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				messages movietodelete = new messages();
+				List<messages> tmp = getMessage(ObjctMsg.substring(11));
+				if (tmp.size() != 0) {
+					movietodelete = tmp.get(0);
+					App.session.remove(movietodelete);
+				} else {
+					try {
+						client.sendToClient(new TripleObject("no such msg", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+
+		
 		
 		if (ObjctMsg.startsWith("Show messages")) {
 			System.out.println("in the server of show messages");
@@ -903,9 +928,9 @@ public class SimpleServer extends AbstractServer {
 				List<String> messagesContent = new ArrayList<String>();
 				List<String> from = new ArrayList<String>();
 				String currentUser = tuple_msg.getMovies().get(0).getEngName();
-				System.out.println("current user: "+ currentUser);
+				//System.out.println("current user: "+ currentUser);
 				for (int i = 0; i < Lofmessages.size(); i++) {
-					System.out.println("Lofmessages.get(i).getUser: "+ Lofmessages.get(i).getUser());
+					//System.out.println("Lofmessages.get(i).getUser: "+ Lofmessages.get(i).getUser());
 					if(Lofmessages.get(i).getUser().equals(currentUser))
 					{
 					messagesContent.add(Lofmessages.get(i).getMSGcontext());
@@ -1585,6 +1610,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForMoviename = builder.equal(userRoot.get("Complaintcontext"), complaint);
 		query.where(predicateForMoviename);
 		List<complaint> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	
+	private static List<messages> getMessage(String message) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<messages> query = builder.createQuery(messages.class);
+		Root<messages> userRoot = query.from(messages.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("MSGcontext"), message);
+		query.where(predicateForMoviename);
+		List<messages> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

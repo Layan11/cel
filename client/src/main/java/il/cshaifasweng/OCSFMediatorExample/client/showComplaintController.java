@@ -72,7 +72,6 @@ public class showComplaintController implements Initializable {
 
 	@FXML
 	void gotoDelete(ActionEvent event) {
-			//invalidMovie.setText("");
 		String selected = tableView2.getSelectionModel().getSelectedItem(); 
 			//String wantedMovie = movieName.getText();
 			TripleObject msg = new TripleObject("Delete complaint " + selected, null, null);
@@ -81,7 +80,6 @@ public class showComplaintController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//movieName.setText("");
 	}
 
 	@FXML

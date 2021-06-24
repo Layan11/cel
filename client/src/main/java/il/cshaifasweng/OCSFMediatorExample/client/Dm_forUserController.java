@@ -5,6 +5,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +38,14 @@ public class Dm_forUserController implements Initializable   {
 
     @FXML
     void GotoDeleteMsg(ActionEvent event) {
-
+    	String selected = table2.getSelectionModel().getSelectedItem(); 
+		//String wantedMovie = movieName.getText();
+		TripleObject msg = new TripleObject("Delete MSG " + selected, null, null); //11
+		try {
+			SimpleClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     @FXML
