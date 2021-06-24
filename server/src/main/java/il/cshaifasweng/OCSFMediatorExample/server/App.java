@@ -1,7 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +29,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
 
-
-
 public class App {
 
 	private static SimpleServer server;
@@ -57,7 +54,7 @@ public class App {
 		configuration.addAnnotatedClass(MapChair.class);
 		configuration.addAnnotatedClass(purpleChar.class);
 		configuration.addAnnotatedClass(MonthlyComplaints.class);
-	
+
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -85,7 +82,7 @@ public class App {
 		AladdinTimes.add("18:00");
 		AladdinTimes.add("20:00");
 		AladdinDates.add("21/08/2021");
-		AladdinDates.add("06/02/2021");
+		AladdinDates.add("06/09/2021");
 		AladdinBranches.add("Haifa");
 		AladdinBranches.add("Haifa");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);
@@ -120,7 +117,7 @@ public class App {
 		ShrekActorsList.add("Princess Fiona");
 		ShrekTimes.add("17:30");
 		ShrekBranches.add("Haifa");
-		ShrekDates.add("01/07/2021");
+		ShrekDates.add("11/07/2021");
 		MovieTimes ShrekMovieTimes = new MovieTimes(ShrekTimes);
 		ShrekMovieTimes.setDate(ShrekDates);
 		session.save(ShrekMovieTimes);
@@ -152,7 +149,7 @@ public class App {
 		session.save(SnowWhiteMovieTimes);
 		Movie SnowWhiteMovie = new Movie("Snow White", SnowWhiteActorsList, 88, "שלגייה",
 				"When Snow White, a princess, is exiled by her stepmother, an evil queen who wants to kill her, she runs into a forest. Soon, she is rescued by seven dwarfs who form a friendship with her.",
-				"Walt Disney", 4, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
+				"Walt Disney", 44, SnowWhiteImage, SnowWhiteMovieTimes, "Shefa-Amr");
 		SnowWhiteMovie.setType(0);
 		SnowWhiteMovie.setArbName("بيضاء الثلج");
 		session.save(SnowWhiteMovie);

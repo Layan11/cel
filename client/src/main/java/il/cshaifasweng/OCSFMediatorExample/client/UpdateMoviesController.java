@@ -29,22 +29,16 @@ public class UpdateMoviesController implements Initializable {
 
 	@FXML
 	private TextArea times;
-
 	@FXML
 	private TextArea dates;
-
 	@FXML
 	private Label timeLabel;
-
 	@FXML
 	private Label dateLabel;
-
 	@FXML
 	private Label noteLabel;
-
 	@FXML
 	private Button updateScreening;
-
 	@FXML
 	private Button addScreening;
 

@@ -91,17 +91,6 @@ public class Edit_MovieController implements Initializable {
 		dates.clear();
 	}
 
-//	@Subscribe
-//	public void onData22(GotcsnewMovieEvent event) {
-//		Platform.runLater(() -> {
-//			try {
-//				App.setRoot("choose_type_to_browse");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		});
-//	}
-
 	@FXML
 	void goBack(ActionEvent event) throws Exception {
 		if (choose_type_to_browseController.browseType.equals("Coming Soon")) {
