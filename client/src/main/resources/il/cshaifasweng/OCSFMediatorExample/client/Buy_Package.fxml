@@ -19,9 +19,15 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="buy_bnt" layoutX="87.0" layoutY="104.0" mnemonicParsing="false" onAction="#buy_btn" text="Buy Package" />
-      <TextField fx:id="msglab" layoutX="185.0" layoutY="71.0" visible="false" />
+      <Button fx:id="buy_bnt" layoutX="87.0" layoutY="104.0" mnemonicParsing="false" onAction="#buy_btn" style="-fx-background-color: black;" text="Buy Package" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <TextField fx:id="msglab" layoutX="297.0" layoutY="71.0" visible="false" />
       <TextField fx:id="paymentM" layoutX="22.0" layoutY="71.0" />
-      <Label fx:id="paymentlabel" layoutX="14.0" layoutY="47.0" text="Please enter payment method :" textFill="WHITE" />
+      <Label fx:id="paymentlabel" layoutX="14.0" layoutY="47.0" text="Please enter payment method :" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></Label>
    </children>
 </AnchorPane>
