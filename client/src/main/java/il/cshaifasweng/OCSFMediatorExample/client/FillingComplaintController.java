@@ -50,7 +50,8 @@ public class FillingComplaintController implements Initializable {
 	void sendComplaintandhome(ActionEvent event) throws IOException 
 	{
 		//String name = getUser.getText();
-		String name = name_box.getText();
+		//String name = name_box.getText();
+		String name=loginController.currentUser;
 		String complaint = complaint_box.getText();
 		if (name.equals(""))
 			invalid_label2.setText("Enter your name please");

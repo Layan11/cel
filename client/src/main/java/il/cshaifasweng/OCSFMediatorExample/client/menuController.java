@@ -2,11 +2,14 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -49,10 +52,7 @@ public class menuController implements Initializable {
     @FXML
     private Button myMsgs;
 
-    @FXML
-    void gotoMyMsgs(ActionEvent event) {
-        
-    }
+  
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {
@@ -138,6 +138,7 @@ public class menuController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
+	
 	@Subscribe
 	public void onGOTcomplaints(gotallcomplaintsevent event) {
 		System.out.println("in onData1111");
@@ -149,7 +150,36 @@ public class menuController implements Initializable {
 			}
 		});
 	}
+	
+	 @FXML
+	 void gotoMyMsgs(ActionEvent event) {
+	    System.out.println("in gotoshowComplaint");
+	    String name=loginController.currentUser;
+	    Movie newMovie = new Movie();
+		newMovie.setEngName(name);  //user
+	    List<Movie> L = new ArrayList<Movie>();
+		L.add(newMovie);
+		TripleObject msg = new TripleObject("Show messages", L, null);
+		try {
+			SimpleClient.getClient().sendToServer(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	  }
+
+	 @Subscribe
+		public void onGOTMsgs(gotallmessagessevent event) {
+			System.out.println("in GotMsgs");
+			Platform.runLater(() -> {
+				try {
+					App.setRoot("Dm_forUser");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
 	@FXML
 	void gotomore_actions(ActionEvent event) throws Exception {
 		App.setRoot("MoreActions");

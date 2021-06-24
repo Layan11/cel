@@ -18,6 +18,8 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 
+
+//import il.cshaifasweng.OCSFMediatorExample.client.loginController;
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.MapChair;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
@@ -30,6 +32,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -442,6 +445,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		
 		if (ObjctMsg.startsWith("Get movie actors ")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -807,10 +811,32 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				Movie movietoadd = tuple_msg.getMovies().get(0);
 				complaint newcomplaint = new complaint(movietoadd.getEngName(), movietoadd.getHebName());
-				// newuser.setRole(-1);
-				// newuser.setIs_Logged_In(true);
 				App.session.save(newcomplaint);
 				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		
+		if (ObjctMsg.startsWith("Delete complaint")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				complaint movietodelete = new complaint();
+				List<complaint> tmp = getComplaint(ObjctMsg.substring(17));
+				if (tmp.size() != 0) {
+					movietodelete = tmp.get(0);
+					App.session.remove(movietodelete);
+				} else {
+					try {
+						client.sendToClient(new TripleObject("no such movie", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -850,6 +876,61 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		
+		if (ObjctMsg.equals("Add new message")) {
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				messages newmessage = new messages(movietoadd.getSummary(), movietoadd.getHebName(),movietoadd.getEngName());
+				App.session.save(newmessage);
+				App.session.flush();
+				App.session.getTransaction().commit();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		
+		
+		if (ObjctMsg.startsWith("Show messages")) {
+			System.out.println("in the server of show messages");
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				List<messages> Lofmessages = getMessageslist();
+				List<String> messagesContent = new ArrayList<String>();
+				List<String> from = new ArrayList<String>();
+				String currentUser = tuple_msg.getMovies().get(0).getEngName();
+				System.out.println("current user: "+ currentUser);
+				for (int i = 0; i < Lofmessages.size(); i++) {
+					System.out.println("Lofmessages.get(i).getUser: "+ Lofmessages.get(i).getUser());
+					if(Lofmessages.get(i).getUser().equals(currentUser))
+					{
+					messagesContent.add(Lofmessages.get(i).getMSGcontext());
+					from.add(Lofmessages.get(i).getFromName());
+					}
+					//complaintTime.add(Lofcomplaints.get(i).getTime());
+				}
+				TripleObject to = new TripleObject("All messages", null, null);
+				to.setmessageContext(messagesContent);
+				to.setFromMSG(from);
+				//to.setComplaintTime(complaintTime);
+				try {
+					client.sendToClient(to);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				App.session.getTransaction().commit();
+
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				App.session.getTransaction().rollback();
+			}
+			App.session.close();
+		}
+		
 		//////// end elin
 		if (ObjctMsg.startsWith("log-out")) {
 			try {
@@ -1433,6 +1514,14 @@ public class SimpleServer extends AbstractServer {
 		List<complaint> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
+	
+	private static List<messages> getMessageslist() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<messages> query = builder.createQuery(messages.class);
+		query.from(messages.class);
+		List<messages> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
 
 	///
 	private static List<Movie> getMoviesList() {
@@ -1486,6 +1575,16 @@ public class SimpleServer extends AbstractServer {
 		Predicate predicateForMoviename = builder.equal(userRoot.get("EngName"), movieName);
 		query.where(predicateForMoviename);
 		List<Movie> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	
+	private static List<complaint> getComplaint(String complaint) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<complaint> query = builder.createQuery(complaint.class);
+		Root<complaint> userRoot = query.from(complaint.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("Complaintcontext"), complaint);
+		query.where(predicateForMoviename);
+		List<complaint> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

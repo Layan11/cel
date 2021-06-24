@@ -1,12 +1,13 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,26 +25,28 @@ public class User implements Serializable {
 	boolean Is_Logged_In;
 	private int packageId = -1;
 	private String Payment_Method;
-	@OneToMany
-	private messages msg;
-
+	
+	//private List<messages> msg;
+	
 	public User() {
 
-	}
-
-	public messages getMsg() {
-		return msg;
-	}
-
-	public void setMsg(messages msg) {
-		this.msg = msg;
 	}
 
 	public User(String user_Name, String password) {
 		super();
 		this.User_Name = user_Name;
 		this.Password = password;
+		//msg=new ArrayList<messages>();
 	}
+	
+
+	//public List<messages> getMsg() {
+		//return msg;
+	//}
+
+	//public void setMsg(List<messages> msg) {
+	//	this.msg = msg;
+	//}
 
 	public String getUser_Name() {
 		return User_Name;

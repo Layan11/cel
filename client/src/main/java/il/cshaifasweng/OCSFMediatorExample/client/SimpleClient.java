@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,9 @@ public class SimpleClient extends AbstractClient {
 	public static List<String> ComplaintsContent = new ArrayList<String>();
 	public static List<String> ComplaintsUser = new ArrayList<String>();
 	public static List<String> ComplaintTime = new ArrayList<String>();
+	
+	public static List<String> messageContent = new ArrayList<String>();
+	public static List<String> FromMSG = new ArrayList<String>();
 
 	public static List<Integer> mc = new ArrayList<Integer>();
 
@@ -253,6 +255,14 @@ public class SimpleClient extends AbstractClient {
 			ComplaintsUser = triple_msg.getComplaintsUser();
 			ComplaintTime = triple_msg.getComplaintTime();
 			EventBus.getDefault().post(new gotallcomplaintsevent());
+		}
+		
+		if (myMsg.startsWith("All messages")) {
+			System.out.println("in client All messages");
+			messageContent = triple_msg.getmessageConetxt();
+			FromMSG = triple_msg.getFromMSG();
+			//ComplaintTime = triple_msg.getComplaintTime();
+			EventBus.getDefault().post(new gotallmessagessevent());
 		}
 
 		// ***saleh***

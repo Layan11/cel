@@ -21,6 +21,7 @@ public class complaint implements Serializable {
 	private String Complaintcontext;
 	private boolean Handled;
 	private LocalDateTime time;
+	private static int numOfcomplaints=0;
 
 	public complaint() {
 
@@ -32,6 +33,7 @@ public class complaint implements Serializable {
 		Complaintcontext = complaintcontext;
 		Handled = false;
 		time = LocalDateTime.now();
+		numOfcomplaints++;
 	}
 
 	public String getTime() {
@@ -72,5 +74,13 @@ public class complaint implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public static int getNumOfcomplaints() {
+		return numOfcomplaints;
+	}
+
+	public static void setNumOfcomplaints(int numOfcomplaints) {
+		complaint.numOfcomplaints = numOfcomplaints;
 	}
 }

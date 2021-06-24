@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
 
@@ -17,17 +16,17 @@ import javax.persistence.Table;
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private int id;
-		private String fromName;
+		private String fromName;   //the one that send the message
 		private String MSGcontext;
 		
-		@ManyToOne
-		private User user;
+		//@ManyToOne
+		private String user;  //the user is the one that will see the message
 
 		public messages() {
 
 		}
 
-		public messages(String fromName, String mSGcontext, User user) {
+		public messages(String fromName, String mSGcontext, String user) {
 			super();
 			this.fromName = fromName;
 			MSGcontext = mSGcontext;
@@ -58,11 +57,11 @@ import javax.persistence.Table;
 			MSGcontext = mSGcontext;
 		}
 
-		public User getUser() {
+		public String getUser() {
 			return user;
 		}
 
-		public void setUser(User user) {
+		public void setUser(String user) {
 			this.user = user;
 		}
 
