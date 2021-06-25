@@ -27,12 +27,12 @@
       <TextField fx:id="labelmsg" disable="true" layoutX="477.0" layoutY="84.0" visible="false" />
       <Label layoutX="196.0" layoutY="56.0" text="Ticket ID :" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
       <Label layoutX="29.0" layoutY="14.0" text="Returning a ticket " textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
    </children>
