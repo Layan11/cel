@@ -33,6 +33,7 @@ public class SimpleClient extends AbstractClient {
 
 
 	public static List<Integer> mc = new ArrayList<Integer>();
+	public static int mapchair_id=0;
 
 	public static int[] ComplaintsPerMArraay;
 
@@ -297,10 +298,24 @@ public class SimpleClient extends AbstractClient {
 		}
 
 		// ***saleh***
-		if (myMsg.equals("get mapchair")) {
+		if (myMsg.startsWith("your mapchair")) {//mapchair id mawgood b index 14
 			mc = triple_msg.getMapChair();
+			mapchair_id=Integer.parseInt(myMsg.substring(14));
+			System.out.println("your map chair, simple client, mapchair id = "+mapchair_id);
 			EventBus.getDefault().post(new gotMapChairevent());
 		}
+		
+		if (myMsg.equals("someone else buy this ticket")) {
+			System.out.println("i am here");
+			mc=triple_msg.getMapChair();
+			for(int i=0;i<mc.size();i++)
+				System.out.println(mc.get(i));
+			EventBus.getDefault().post(new busyseat());
+			
+	
+		}
+		
+		
 		// ***saleh***
 
 		//

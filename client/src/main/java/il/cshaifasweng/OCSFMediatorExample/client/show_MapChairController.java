@@ -810,7 +810,7 @@ public class show_MapChairController implements Initializable {
 		Movie m = browse_moviesController.selectedMovie;
 		TripleObject msg = new TripleObject("update mapchair with new seat", (int) m.getId(),
 				Screening_TimesController.selectedScreeningTime, num_chair);
-		id = m.getId();
+		//id = m.getId();
 		try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -821,7 +821,21 @@ public class show_MapChairController implements Initializable {
 		pane1.setVisible(false);
 		pane4.setVisible(true);
 		num_chair1 = mybutton.getText();
-		id = (int) m.getId();
+		id = (int) SimpleClient.mapchair_id;
+	}
+	
+	@Subscribe
+	public void chooseanotherseat(busyseat event) {
+		Platform.runLater(() -> {
+			try {
+				
+				App.setRoot("choosenewseat");
+				
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}});
 	}
 
 	@FXML

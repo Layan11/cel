@@ -265,6 +265,29 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
+			
+			 /***saleh***/
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+			MapChair new_mapchair=new MapChair(10,10,movie.getId(),Newtimes.get(0));
+			App.session.save(new_mapchair);
+			App.session.flush();
+			App.session.getTransaction().commit();
+			}
+		 catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+			
+			
+			/***saleh***/
+			
+			
+			
+			
+			
+			
 		}
 		if (ObjctMsg.startsWith("Delete Screening Time")) {
 			Movie movie = tuple_msg.getMovies().get(0);
@@ -298,18 +321,43 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
+			
+			
+			/***saleh***/
+			try {
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				MapChair mapchairtodelete=new MapChair();
+				mapchairtodelete=getmapchairid(movie.getId(),wantedTime).get(0);
+			App.session.remove(mapchairtodelete);
+			App.session.flush();
+			App.session.getTransaction().commit();
+			}
+		 catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+			App.session.close();
+			
+			/***saleh***/
 		}
 		if (ObjctMsg.startsWith("Update Screening Time")) {
+			String oldtime="",newtime="";
+			int movie_id=0;
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				String movie = ObjctMsg.substring(22);
 				String oldTime = tuple_msg.getMovieTimes().get(0).getTimes().get(0);// old time is in place 0 new time
-																					// is in place 1
 				String Newtime = tuple_msg.getMovieTimes().get(0).getTimes().get(1);
 				String NewDate = tuple_msg.getMovieTimes().get(0).getDate().get(0);
 				String oldDate = "";
 				Movie movieToUpdate = getMovie(movie).get(0);
+				/***saleh***/
+				oldtime=oldTime;
+				newtime=Newtime;
+				movie_id=movieToUpdate.getId();
+				/***saleh***/
 				List<String> hlpr = movieToUpdate.getMovieTimes().getTimes();
 				List<String> hlpr2 = movieToUpdate.getMovieTimes().getDate();
 
@@ -341,6 +389,26 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
+			
+			/***saleh***/
+			try {
+				
+				App.session = App.sessionFactory.openSession();
+				App.session.beginTransaction();
+				MapChair mapchairtodelete=new MapChair();
+				mapchairtodelete=getmapchairid(movie_id,oldtime).get(0);
+				mapchairtodelete.setStart_time(newtime);
+			App.session.save(mapchairtodelete);
+			App.session.flush();
+			App.session.getTransaction().commit();
+			}
+		 catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+			App.session.close();
+			/***saleh***/
+			
 		}
 		if (ObjctMsg.startsWith("Show Screening Times")) {
 			try {
@@ -1415,6 +1483,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+
 		if (ObjctMsg.startsWith("1Add new Ticket ")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -1513,6 +1582,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+			
 		if (ObjctMsg.startsWith("Add New Package ")) {
 			try {
 				App.session = App.sessionFactory.openSession();
@@ -1622,9 +1692,10 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				int id_movie = tuple_msg.getID();
 				String time_movie = tuple_msg.getTime();
-				List<Integer> mc = getMapChair(getmapchairid(id_movie, time_movie).get(0).getID());
+				int mapchair_id=getmapchairid(id_movie, time_movie).get(0).getID();
+				List<Integer> mc = getMapChair(mapchair_id);
 				try {
-					TripleObject msg2 = new TripleObject("get mapchair", mc);
+					TripleObject msg2 = new TripleObject("your mapchair "+mapchair_id, mc);
 					client.sendToClient(msg2);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -1650,7 +1721,8 @@ public class SimpleServer extends AbstractServer {
 			App.session = App.sessionFactory.openSession();
 			App.session.beginTransaction();
 			String num_seat = tuple_msg.getnumseat();
-			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			//int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			int mapchair_id = getmapchairid(tuple_msg.getID(),tuple_msg.getTime()).get(0).getID();
 			System.out.println("mapchair id " + mapchair_id);
 			remove_seat(mapchair_id, num_seat);
 			App.session.getTransaction().commit();
@@ -1853,6 +1925,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
+
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
@@ -1876,6 +1949,25 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	// ***saleh***
+	
+	private static List<Ticket> get_equals_ticket(Ticket my_ticket) {
+		App.session = App.sessionFactory.openSession();
+		App.session.beginTransaction();
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+		Root<Ticket> userRoot = query.from(Ticket.class);
+		Predicate predicateForchairnum = builder.equal(userRoot.get("chair_num"), my_ticket.getChair_num());
+		Predicate predicateFormapchairid = builder.equal(userRoot.get("mapchairid"), my_ticket.getmapchairid());
+		Predicate predicateForhall = builder.equal(userRoot.get("hall"), my_ticket.get_hall());
+		Predicate predicateFormovie = builder.equal(userRoot.get("movie_of_tick"), my_ticket.get_movie());
+		Predicate predicateFortime = builder.equal(userRoot.get("start_time"), my_ticket.getstarttime());
+		Predicate predicateForticket = builder.and(predicateForchairnum, predicateFormapchairid,predicateForhall,predicateFormovie,predicateFortime);
+		query.where(predicateForticket);
+		List<Ticket> data = App.session.createQuery(query).getResultList();
+		App.session.close();
+		return data;
+	}
+	
 	private int remove_seat(int mapchair_id, String num_seat) {
 
 		Connection c = null;
@@ -1883,6 +1975,7 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
+
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
@@ -1909,7 +2002,10 @@ public class SimpleServer extends AbstractServer {
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
+
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+
+
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -1998,7 +2094,9 @@ public class SimpleServer extends AbstractServer {
 		Statement stmt2 = null;
 		try {
 			int z = 0;
+
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2060,6 +2158,7 @@ public class SimpleServer extends AbstractServer {
 		int flag = 0;
 		System.out.println(user2);
 		try {
+
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			int idmap = 0;
@@ -2214,6 +2313,7 @@ public class SimpleServer extends AbstractServer {
 		try {
 
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();

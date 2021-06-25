@@ -27,6 +27,13 @@ public class Ticket implements Serializable {
 	public String getChair_num() {
 		return chair_num;
 	}
+	public int getmapchairid() {
+		return this.mapchairid;
+	}
+	
+	public String getstarttime() {
+		return this.start_time;
+	}
 
 	public void setChair_num(String chair_num) {
 		this.chair_num = chair_num;
