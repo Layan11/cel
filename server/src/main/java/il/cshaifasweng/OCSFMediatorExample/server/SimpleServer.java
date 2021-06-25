@@ -1215,22 +1215,6 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 		
-		if (ObjctMsg.equals("Add new message")) {
-			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				Movie movietoadd = tuple_msg.getMovies().get(0);
-				messages newmessage = new messages(movietoadd.getSummary(), movietoadd.getHebName(),movietoadd.getEngName());
-				App.session.save(newmessage);
-				App.session.flush();
-				App.session.getTransaction().commit();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-				App.session.getTransaction().rollback();
-			}
-			App.session.close();
-		}
-		
 		if (ObjctMsg.startsWith("Delete MSG")) {
 			try {
 				App.session = App.sessionFactory.openSession();

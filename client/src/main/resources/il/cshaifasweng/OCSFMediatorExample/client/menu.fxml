@@ -24,10 +24,6 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="UpdatePriceRequests" layoutX="499.0" layoutY="288.0" mnemonicParsing="false" onAction="#showRequests" prefHeight="42.0" prefWidth="132.0" text="Show Update Price Requests" wrapText="true">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
       <Button fx:id="logout" layoutX="216.0" layoutY="372.0" mnemonicParsing="false" onAction="#gotoLogOut" prefHeight="17.0" prefWidth="138.0" text="Log-out">
          <font>
             <Font name="System Bold" size="12.0" />
