@@ -736,21 +736,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
-		if (ObjctMsg.equals("Add new message")) {
-			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				Movie movietoadd = tuple_msg.getMovies().get(0);
-				messages newmessage = new messages(movietoadd.getSummary(), movietoadd.getHebName(),movietoadd.getEngName());
-				App.session.save(newmessage);
-				App.session.flush();
-				App.session.getTransaction().commit();
-			} catch (HibernateException e) {
-				e.printStackTrace();
-				App.session.getTransaction().rollback();
-			}
-			App.session.close();
-		}	
+
 		if (ObjctMsg.startsWith("Show messages")) {
 			System.out.println("in the server of show messages");
 			try {
@@ -1257,6 +1243,51 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		
+		if (ObjctMsg.equals("Add new message For movie")) {
+			try {
+			     App.session = App.sessionFactory.openSession();
+			     App.session.beginTransaction();
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				List<User> users=getUserslist();
+				
+				
+				//converting the date
+				String date=movietoadd.getEngName();
+				System.out.println("the date before convert "+date);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+				  
+				 System.err.println("date before convert" + date);
+				  //convert String to LocalDate
+				 LocalDate localDate = LocalDate.parse(date, formatter); 
+				 System.out.println("after converting "+localDate);
+				 
+				for(int i=0;i<users.size();i++)
+				{
+					if(users.get(i).getPackageId()> -1)
+					{
+						
+					System.out.println("the user that i create th message for "+users.get(i).getUser_Name());
+					
+					messages newmessage = new messages(movietoadd.getSummary(), movietoadd.getHebName(),users.get(i).getUser_Name());
+					newmessage.setDate(localDate);
+					App.session.save(newmessage);
+					App.session.flush();
+					System.out.println("after flush");
+					
+					}
+					
+				}
+				App.session.getTransaction().commit();
+				System.out.println("after getTransaaction");
+				System.out.println("out");
+		}catch (HibernateException e) {
+			e.printStackTrace();
+			App.session.getTransaction().rollback();
+		}
+		App.session.close();
+	}
+		
+		
 		
 		if (ObjctMsg.startsWith("Show messages")) {
 			System.out.println("in the server of show messages");
@@ -1269,8 +1300,11 @@ public class SimpleServer extends AbstractServer {
 				String currentUser = tuple_msg.getMovies().get(0).getEngName();
 				//System.out.println("current user: "+ currentUser);
 				for (int i = 0; i < Lofmessages.size(); i++) {
+					
+					LocalDate today= LocalDate.now();
 					//System.out.println("Lofmessages.get(i).getUser: "+ Lofmessages.get(i).getUser());
-					if(Lofmessages.get(i).getUser().equals(currentUser))
+					int greater = today.compareTo(Lofmessages.get(i).getDate());
+					if(Lofmessages.get(i).getUser().equals(currentUser) && greater>=0)
 					{
 					messagesContent.add(Lofmessages.get(i).getMSGcontext());
 					from.add(Lofmessages.get(i).getFromName());
@@ -1869,7 +1903,6 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2315,6 +2348,14 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<complaint> query = builder.createQuery(complaint.class);
 		query.from(complaint.class);
 		List<complaint> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+	
+	private static List<User> getUserslist() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<User> query = builder.createQuery(User.class);
+		query.from(User.class);
+		List<User> data = App.session.createQuery(query).getResultList();
 		return data;
 	}
 

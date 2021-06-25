@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 		private int id;
 		private String fromName;   //the one that send the message
 		private String MSGcontext;
+		private LocalDate date;
 		
 		//@ManyToOne
 		private String user;  //the user is the one that will see the message
@@ -31,6 +33,7 @@ import javax.persistence.Table;
 			this.fromName = fromName;
 			MSGcontext = mSGcontext;
 			this.user = user;
+			setDate(LocalDate.now());
 		}
 
 		public int getId() {
@@ -67,5 +70,13 @@ import javax.persistence.Table;
 
 		public static long getSerialversionuid() {
 			return serialVersionUID;
+		}
+
+		public LocalDate getDate() {
+			return date;
+		}
+
+		public void setDate(LocalDate date) {
+			this.date = date;
 		}
 }
