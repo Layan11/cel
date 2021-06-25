@@ -13,6 +13,7 @@
             <Image url="@newPics/tryy.png" />
          </image>
       </ImageView>
+
       <Button fx:id="browseMovies" layoutX="338.0" layoutY="31.0" mnemonicParsing="false" onAction="#gotobrowse_movies" prefHeight="17.0" prefWidth="138.0" style="-fx-background-color: black; -fx-background-radius: 40;" text="Browse Movies" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
@@ -69,7 +70,6 @@
             <Font name="System Bold" size="12.0" />
          </font></Button>
       <Button fx:id="UpdatePriceRequests" layoutX="325.0" layoutY="214.0" mnemonicParsing="false" onAction="#showRequests" text="Show update price requests" />
-      <Button fx:id="Showthecomplaints" layoutX="504.0" layoutY="188.0" mnemonicParsing="false" onAction="#gotoShowComplaint" text="show thecomplaints" />
        <Button fx:id="myMsgs" layoutX="229.0" layoutY="31.0" mnemonicParsing="false" onAction="#gotoMyMsgs" text="My Messages" />
 
    </children>

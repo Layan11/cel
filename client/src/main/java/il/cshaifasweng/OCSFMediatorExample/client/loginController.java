@@ -45,6 +45,17 @@ public class loginController implements Initializable {
 	void goBackToPrimary(ActionEvent event) throws Exception {
 		App.setRoot("primary2");
 	}
+	
+
+	public static String getCurrentUser() {
+		return currentUser;
+	}
+
+
+	public static void setCurrentUser(String currentUser) {
+		loginController.currentUser = currentUser;
+	}
+
 
 	@FXML
 	void gotoLogin(ActionEvent event) {

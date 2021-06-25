@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +25,9 @@ public class User implements Serializable {
 	boolean Is_Logged_In;
 	private int packageId = -1;
 	private String Payment_Method;
-
+	
+	//private List<messages> msg;
+	
 	public User() {
 
 	}
@@ -32,7 +36,17 @@ public class User implements Serializable {
 		super();
 		this.User_Name = user_Name;
 		this.Password = password;
+		//msg=new ArrayList<messages>();
 	}
+	
+
+	//public List<messages> getMsg() {
+		//return msg;
+	//}
+
+	//public void setMsg(List<messages> msg) {
+	//	this.msg = msg;
+	//}
 
 	public String getUser_Name() {
 		return User_Name;

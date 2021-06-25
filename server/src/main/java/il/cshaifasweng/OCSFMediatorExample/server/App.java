@@ -27,7 +27,11 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
+
 
 import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
@@ -55,8 +59,10 @@ public class App {
 		configuration.addAnnotatedClass(Cinema.class);
 		configuration.addAnnotatedClass(Hall.class);
 		configuration.addAnnotatedClass(MapChair.class);
+
 		configuration.addAnnotatedClass(purpleChar.class);
 		configuration.addAnnotatedClass(MonthlyComplaints.class);
+
 		configuration.addAnnotatedClass(messages.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

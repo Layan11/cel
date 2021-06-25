@@ -17,15 +17,28 @@ public class TripleObject implements Serializable {
 	List<Integer> list2;
 	List<String> complaintsContent;
 	List<String> complaintsUser;
+	List<String> complaintTime;
+	
+	List<String> messagesConetxt;
+	List<String> FromMSG;
+	
 	int movie_id;
 	String movie_time;
 	List<Integer> mapchair;
 	String num_seat;
 	int[] ComplaintsPerMArraay;
 	messages mymessage;
-	List<String> messagesConetxt;
-	List<String> FromMSG;
+
 	
+
+	public int[] getComplaintsPerMArraay() {
+		return ComplaintsPerMArraay;
+	}
+
+	public void setComplaintsPerMArraay(int[] complaintsPerMArraay) {
+		ComplaintsPerMArraay = complaintsPerMArraay;
+	}
+
 	public List<String> getFromMSG() {
 		return FromMSG;
 	}
@@ -41,15 +54,14 @@ public class TripleObject implements Serializable {
 	public void setmessageContext(List<String> MSGcontext) {
 		this.messagesConetxt = MSGcontext;
 	}
-
-	public int[] getComplaintsPerMArraay() {
-		return ComplaintsPerMArraay;
+	
+	public List<String> getComplaintTime() {
+		return complaintTime;
 	}
 
-	public void setComplaintsPerMArraay(int[] complaintsPerMArraay) {
-		ComplaintsPerMArraay = complaintsPerMArraay;
+	public void setComplaintTime(List<String> complainttime) {
+		this.complaintTime = complainttime;
 	}
-
 	public List<String> getComplaintsContent() {
 		return complaintsContent;
 	}

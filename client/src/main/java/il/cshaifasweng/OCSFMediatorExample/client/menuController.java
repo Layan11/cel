@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
@@ -72,6 +71,7 @@ public class menuController implements Initializable {
 			}
 		});
 	}
+
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {
@@ -185,6 +185,7 @@ public class menuController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
+	
 	@Subscribe
 	public void onGOTcomplaints(gotallcomplaintsevent event) {
 		Platform.runLater(() -> {
@@ -195,7 +196,7 @@ public class menuController implements Initializable {
 			}
 		});
 	}
-
+	 
 	@FXML
 	void gotomore_actions(ActionEvent event) throws Exception {
 		App.setRoot("MoreActions");
