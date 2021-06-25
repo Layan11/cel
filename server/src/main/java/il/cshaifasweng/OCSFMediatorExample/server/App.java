@@ -29,6 +29,9 @@ import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
+
+
 public class App {
 
 	private static SimpleServer server;
@@ -54,6 +57,7 @@ public class App {
 		configuration.addAnnotatedClass(MapChair.class);
 		configuration.addAnnotatedClass(purpleChar.class);
 		configuration.addAnnotatedClass(MonthlyComplaints.class);
+		configuration.addAnnotatedClass(messages.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();

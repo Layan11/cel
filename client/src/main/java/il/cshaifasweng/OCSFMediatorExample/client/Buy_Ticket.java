@@ -11,6 +11,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -110,6 +111,15 @@ public class Buy_Ticket implements Initializable {
 					show_MapChairController.id,Screening_TimesController.selectedScreeningDate);
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
+			String msg_to_user ="The movie you choose is: "+ mytestticket.get_movie()+
+					"\n It will be represented on: \n" + mytestticket.gettime()+ "\n at date : \n"+mytestticket.getdate()+
+				"\n Your seat number is :" +mytestticket.getChair_num()
+				+"\n The branch is: " +mytestticket.get_hall();
+			 System.out.println(msg_to_user);
+			 messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
+			 TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
+		SimpleClient.getClient().sendToServer(mymsg);
+					
 			msglab.setVisible(true);
 //			back.setVisible(true);
 			counter2++;
