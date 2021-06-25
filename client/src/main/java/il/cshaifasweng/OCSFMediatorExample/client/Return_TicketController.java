@@ -60,13 +60,15 @@ public class Return_TicketController implements Initializable {
 			try {
 				labelmsg.setText(msg.getMsg());
 				if(flag==1) {
+					if(labelmsg.getText().startsWith(("You will"))){
 				String msg_to_user ="The Return of the Ticket was exectuted succesfully  "
 			    		+ "\n  "+labelmsg.getText() ;
 			    System.out.println(msg_to_user);
 				messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
 				TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
 				SimpleClient.getClient().sendToServer(mymsg);
-				}
+				
+					}				}
 				flag=0;
 
 				if (false) {

@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -1917,6 +1918,8 @@ public class SimpleServer extends AbstractServer {
 
 			}
 		}
+		
+
 
 	}
 
@@ -2005,7 +2008,6 @@ public class SimpleServer extends AbstractServer {
 
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
-
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2055,7 +2057,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "Hallaso1924c!");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2096,7 +2098,6 @@ public class SimpleServer extends AbstractServer {
 			int z = 0;
 
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
-
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2455,7 +2456,7 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	private static List<link> getAlllinks() throws Exception {
+	private static List<link> getAlllinks()  {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<link> query = builder.createQuery(link.class);
 		query.from(link.class);

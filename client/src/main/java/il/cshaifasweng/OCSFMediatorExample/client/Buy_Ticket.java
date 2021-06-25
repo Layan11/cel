@@ -150,6 +150,23 @@ public class Buy_Ticket implements Initializable {
 			}
 		});
 	}
+	
+	//start
+	
+	@Subscribe
+	public void chooseanotherseat(busyseat event) {
+		Platform.runLater(() -> {
+			try {
+				
+				App.setRoot("choosenewseat");
+				
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}});
+	}
+	///end
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
