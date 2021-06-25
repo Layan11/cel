@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -8,6 +9,7 @@ import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
@@ -25,6 +27,8 @@ public class SimpleClient extends AbstractClient {
 	public static List<Integer> mc = new ArrayList<Integer>();
 
 	public static int[] ComplaintsPerMArraay;
+	public static List<String> messageContent = new ArrayList<String>();
+	public static List<String> FromMSG = new ArrayList<String>();
 
 	public static List<String> restrictedDays = new ArrayList<String>();
 	public static String seatNumToDelete;
@@ -180,20 +184,21 @@ public class SimpleClient extends AbstractClient {
 
 		if (myMsg.equals("You get 100% refound")) {
 			msg = "You get 100% refound";
-			String Msg = "You get 100% refund";
+			String Msg = "You wil get 100% refund";
 			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
+			
 
 		}
 		if (myMsg.equals("You get 50% refound")) {
-			msg = "You get 50% refound";
-			String Msg = "You get 50% refund";
+			msg = "You will get 50% refound";
+			String Msg = "You will get 50% refund";
 			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
 		if (myMsg.equals("You get no refound")) {
 			msg = "You get no refound";
-			String Msg = "You get no refund";
+			String Msg = "You will get no refund";
 			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
 
@@ -289,6 +294,13 @@ public class SimpleClient extends AbstractClient {
 		}
 		if (myMsg.equals("The hall is full")) {
 			EventBus.getDefault().post(new FullHalltEvent());
+		}
+		if (myMsg.startsWith("All messages")) {
+			System.out.println("in client All messages");
+			messageContent = triple_msg.getmessageConetxt();
+			FromMSG = triple_msg.getFromMSG();
+			//ComplaintTime = triple_msg.getComplaintTime();
+			EventBus.getDefault().post(new gotallmessagessevent());
 		}
 
 	}

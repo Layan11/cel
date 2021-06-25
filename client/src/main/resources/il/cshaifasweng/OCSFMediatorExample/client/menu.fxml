@@ -27,5 +27,6 @@
       <Button fx:id="reports" layoutX="472.0" layoutY="77.0" mnemonicParsing="false" onAction="#gotoshowreports" text="Reports" />
       <Button fx:id="Showthecomplaints" layoutX="270.0" layoutY="43.0" mnemonicParsing="false" onAction="#gotoShowComplaint" text="show thecomplaints" />
       <Button fx:id="showRestricted" layoutX="468.0" layoutY="161.0" mnemonicParsing="false" onAction="#gotoShowRestricted" text="Show restricted days" />
+       <Button fx:id="myMsgs" layoutX="142.0" layoutY="43.0" mnemonicParsing="false" onAction="#gotoMyMsgs" text="My Messages" />
    </children>
 </AnchorPane>

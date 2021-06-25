@@ -15,6 +15,7 @@ import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.MovieTimes;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -90,6 +91,12 @@ public class Buy_LinkController implements Initializable {
     	DoubleObject msg = new DoubleObject("1Add new link ",mytestlink, null,null);
     	SimpleClient.getClient().sendToServer(msg);
     	msglab.setVisible(true);
+    	String msg_to_user ="The movie you choose is: "+name +
+			"\n The link  will start working on:\n " +date3 + "\n and stop at: \n"+date4;
+    	 System.out.println(msg_to_user);
+		 messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
+		TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
+		SimpleClient.getClient().sendToServer(mymsg);
     	}
 
     }

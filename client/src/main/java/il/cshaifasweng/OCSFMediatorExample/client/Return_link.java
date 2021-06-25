@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ public class Return_link implements Initializable {
 	private Button back_btn;
 	@FXML
 	private TextField retmsg;
-
+	int flag2=0;
 	@FXML
 	void back_btn(ActionEvent event) {
 		Platform.runLater(() -> {
@@ -45,7 +46,17 @@ public class Return_link implements Initializable {
 	public void onData(TripleObject msg) {
 		Platform.runLater(() -> {
 			try {
+			
 				retmsg.setText(msg.getMsg());
+				if(flag2==1) {
+				String msg_to_user ="The Return of the link was exectuted \n succesfully "
+			    		+ "\n  " +retmsg.getText() ;
+				System.out.println(msg_to_user);
+				messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
+				TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
+				SimpleClient.getClient().sendToServer(mymsg);
+				}
+				flag2=0;
 				if (false) {
 					App.setRoot("idk");
 				}
@@ -67,7 +78,7 @@ public class Return_link implements Initializable {
 		TripleObject msg = new TripleObject(mystr, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		retmsg.setVisible(true);
-
+	    flag2=1;
 	}
 
 	@Override

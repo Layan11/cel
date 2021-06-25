@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -21,8 +22,25 @@ public class TripleObject implements Serializable {
 	List<Integer> mapchair;
 	String num_seat;
 	int[] ComplaintsPerMArraay;
+	messages mymessage;
+	List<String> messagesConetxt;
+	List<String> FromMSG;
 	
+	public List<String> getFromMSG() {
+		return FromMSG;
+	}
+
+	public void setFromMSG(List<String> FromMSG) {
+		this.FromMSG = FromMSG;
+	}
 	
+	public List<String> getmessageConetxt() {
+		return messagesConetxt;
+	}
+
+	public void setmessageContext(List<String> MSGcontext) {
+		this.messagesConetxt = MSGcontext;
+	}
 
 	public int[] getComplaintsPerMArraay() {
 		return ComplaintsPerMArraay;
@@ -75,6 +93,14 @@ public class TripleObject implements Serializable {
 	public TripleObject(String msg, List<Integer> mc) {
 		this.mapchair = mc;
 		this.msg = msg;
+	}
+	
+	public TripleObject(String msg,messages message) {
+		this.msg=msg;
+		this.mymessage=message;
+	}
+	public messages getmsg() {
+		return this.mymessage;
 	}
 
 	public List<Integer> getMapChair() {

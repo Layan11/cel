@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
-
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
 
 public class App {
@@ -57,7 +58,7 @@ public class App {
 		configuration.addAnnotatedClass(MapChair.class);
 		configuration.addAnnotatedClass(purpleChar.class);
 		configuration.addAnnotatedClass(MonthlyComplaints.class);
-	
+		configuration.addAnnotatedClass(messages.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
