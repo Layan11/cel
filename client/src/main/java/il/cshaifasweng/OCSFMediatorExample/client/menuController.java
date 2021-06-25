@@ -317,6 +317,7 @@ public class menuController implements Initializable {
 			pack_btn.setVisible(false);
 			packageStatus.setVisible(false);
 			reports.setVisible(false);
+			myMsgs.setVisible(false);
 		}
 	}
 }

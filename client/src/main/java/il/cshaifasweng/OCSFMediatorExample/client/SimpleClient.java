@@ -191,7 +191,7 @@ public class SimpleClient extends AbstractClient {
 
 		if (myMsg.equals("You get 100% refound")) {
 			msg = "You get 100% refound";
-			String Msg = "You wil get 100% refund";
+			String Msg = "You will get 100% refund";
 			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
 			

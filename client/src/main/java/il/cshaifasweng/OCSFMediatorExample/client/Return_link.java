@@ -49,13 +49,14 @@ public class Return_link implements Initializable {
 			
 				retmsg.setText(msg.getMsg());
 				if(flag2==1) {
+					if(retmsg.getText().startsWith(("You will"))) {
 				String msg_to_user ="The Return of the link was exectuted \n succesfully "
 			    		+ "\n  " +retmsg.getText() ;
 				System.out.println(msg_to_user);
 				messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
 				TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
 				SimpleClient.getClient().sendToServer(mymsg);
-				}
+				}}
 				flag2=0;
 				if (false) {
 					App.setRoot("idk");

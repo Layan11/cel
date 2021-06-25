@@ -28,6 +28,7 @@ import javafx.application.Platform;
 import il.cshaifasweng.OCSFMediatorExample.client.Watch_At_HomeController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Buy_LinkController implements Initializable {
 	public static List<link> alllinksbuy;
@@ -84,6 +85,7 @@ public class Buy_LinkController implements Initializable {
 		LocalDateTime date3 = LocalDateTime.now();
 		LocalDateTime date4 = LocalDateTime.now();
 		date3=	date3.plusDays(1); 
+		 DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
 		date4=date4.plusDays(2);
 		String user= loginController.currentUser;
 		String way_= Method_pay.getText();
@@ -91,8 +93,10 @@ public class Buy_LinkController implements Initializable {
     	DoubleObject msg = new DoubleObject("1Add new link ",mytestlink, null,null);
     	SimpleClient.getClient().sendToServer(msg);
     	msglab.setVisible(true);
+        String formatDateTime = date3.format(format);  
+        String formatDateTime2 = date4.format(format);  
     	String msg_to_user ="The movie you choose is: "+name +
-			"\n The link  will start working on:\n " +date3 + "\n and stop at: \n"+date4;
+			"\n The link  will start working on:\n " +formatDateTime + "\n and stop at: \n"+ formatDateTime2;
     	 System.out.println(msg_to_user);
 		 messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
 		TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
