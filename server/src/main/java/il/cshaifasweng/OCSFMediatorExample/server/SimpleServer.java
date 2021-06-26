@@ -1180,7 +1180,7 @@ public class SimpleServer extends AbstractServer {
 				for (int i = 0; i < Lofcomplaints.size(); i++) {
 					complaintsContent.add(Lofcomplaints.get(i).getComplaintcontext());
 					complaintsUser.add(Lofcomplaints.get(i).getName());
-					complaintTime.add(Lofcomplaints.get(i).getTime());
+					complaintTime.add(Lofcomplaints.get(i).getremainingTime());
 
 				}
 				TripleObject to = new TripleObject("All complaints", null, null);

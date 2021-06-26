@@ -2,7 +2,10 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,6 +42,25 @@ public class complaint implements Serializable {
 	public String getTime() {
 		return time.toString();
 	}
+	
+	public String getremainingTime() {
+		LocalDateTime now=LocalDateTime.now();
+		
+
+		 Long hours = ChronoUnit.HOURS.between(time, now);
+	        Long minutes = ChronoUnit.MINUTES.between(time, now);
+	        hours=24-hours;
+	        System.out.println(hours + "hours");
+	        System.out.println(minutes + "minutes");
+	        //Long seconds = ChronoUnit.SECONDS.between(time, now);
+		// Duration duration = Duration.between(time, now);
+	        String str=Long.toString(hours) +" hours";
+	        //System.out.println(str + "time");
+		 
+         
+		 return str;
+	}
+
 
 	public void setTime(LocalDateTime time) {
 		this.time = time;
@@ -83,4 +105,5 @@ public class complaint implements Serializable {
 	public static void setNumOfcomplaints(int numOfcomplaints) {
 		complaint.numOfcomplaints = numOfcomplaints;
 	}
+	
 }
