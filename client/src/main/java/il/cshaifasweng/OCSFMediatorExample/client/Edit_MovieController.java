@@ -56,6 +56,28 @@ public class Edit_MovieController implements Initializable {
 			newMovie.setBranch(branchtxt.getText());
 			List<String> Timeslist = Arrays.asList(times.getText().split("\\s*,\\s*"));
 			List<String> Dateslist = Arrays.asList(dates.getText().split("\\s*,\\s*"));
+			
+			
+			//elin
+			//entbhu enno hun kman awal date bfwto hu 3ebara 3n abkr date
+			System.out.println("the date that i sent" + Dateslist.get(0));
+			String From=loginController.currentUser;
+			String context="Great News! today is the premier of the movie that you waited for so long! "+ Coming_soonController.selected_coming_soon_Movie.getEngName();
+			Movie sendedmsg = new Movie();
+			sendedmsg.setEngName(Dateslist.get(0));  
+			sendedmsg.setHebName(context);    //the answer
+			sendedmsg.setSummary(From);    
+			List<Movie> L = new ArrayList<Movie>();
+			L.add(sendedmsg);
+			
+			TripleObject msg = new TripleObject("Add new message For movie", L, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			MovieTimes MTimes = new MovieTimes(Timeslist);
 			MTimes.setDate(Dateslist);
 			List<MovieTimes> MTimeslist = new ArrayList<MovieTimes>();
@@ -63,9 +85,9 @@ public class Edit_MovieController implements Initializable {
 			List<Movie> ListnewMovie = new ArrayList<Movie>();
 			ListnewMovie.add(newMovie);
 			ListnewMovie.add(helperMovie);
-			TripleObject msg = new TripleObject("Save new Movie " + choose_type_to_browseController.browseType,
+			TripleObject msg1 = new TripleObject("Save new Movie " + choose_type_to_browseController.browseType,
 					ListnewMovie, MTimeslist);
-			SimpleClient.getClient().sendToServer(msg);
+			SimpleClient.getClient().sendToServer(msg1);
 		}
 		if (choose_type_to_browseController.browseType.equals("Watch at Home")) {
 			Movie newMovie = new Movie();
@@ -75,15 +97,36 @@ public class Edit_MovieController implements Initializable {
 			newMovie.setBranch(branchtxt.getText());
 			List<String> Timeslist = Arrays.asList(times.getText().split("\\s*,\\s*"));
 			List<String> Dateslist = Arrays.asList(dates.getText().split("\\s*,\\s*"));
+			
+			//elin
+			//entbhu enno hun kman awal date bfwto hu 3ebara 3n abkr date
+			System.out.println("the date that i sent" + Dateslist.get(0));
+			String From=loginController.currentUser;
+			String context="Great News! today "+ Watch_At_HomeController.selected_watch_at_home_Movie.getEngName()+" ";
+			Movie sendedmsg = new Movie();
+			sendedmsg.setEngName(Dateslist.get(0));  
+			sendedmsg.setHebName(context);    //the answer
+			sendedmsg.setSummary(From);    
+			List<Movie> L = new ArrayList<Movie>();
+			L.add(sendedmsg);
+			
+			TripleObject msg = new TripleObject("Add new message For movie", L, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			MovieTimes MTimes = new MovieTimes(Timeslist);
 			MTimes.setDate(Dateslist);
 			List<MovieTimes> MTimeslist = new ArrayList<MovieTimes>();
 			MTimeslist.add(MTimes);
 			List<Movie> ListnewMovie = new ArrayList<Movie>();
 			ListnewMovie.add(newMovie);
-			TripleObject msg = new TripleObject("Save new Movie " + choose_type_to_browseController.browseType,
+			TripleObject msg1 = new TripleObject("Save new Movie " + choose_type_to_browseController.browseType,
 					ListnewMovie, MTimeslist);
-			SimpleClient.getClient().sendToServer(msg);
+			SimpleClient.getClient().sendToServer(msg1);
 		}
 		branchtxt.clear();
 		halltxt.clear();

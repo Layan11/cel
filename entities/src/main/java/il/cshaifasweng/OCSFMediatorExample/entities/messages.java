@@ -36,8 +36,9 @@ import javax.persistence.Table;
 			setDate(LocalDate.now());
 		}
 
-		public int getId() {
-			return id;
+		public String getId() {
+			String s=Integer.toString(id);
+			return s;
 		}
 
 		public void setId(int id) {

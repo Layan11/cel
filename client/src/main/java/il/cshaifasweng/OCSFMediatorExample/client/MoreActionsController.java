@@ -172,15 +172,16 @@ public class MoreActionsController implements Initializable {
 			Times = Arrays.asList(screeningTimes.getText().split("\\s*,\\s*"));
 			Dates = Arrays.asList(dates.getText().split("\\s*,\\s*"));
 			//elin
+			 ///ana 3tbrt enno awal date fat hu awal date bn3rd feyu elfilm
+			
+			
+			
+			
 			/*LocalDate minDate=LocalDate.of(2080, 1, 13); 
 			for(int i=0 ; i <Dates.size();i++)
 			{
-				
-				
-				
-				
-				
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+			
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 				  String date = Dates.get(i);
 				  
 				  System.out.println("date before convert" + date);

@@ -30,7 +30,7 @@ public class SimpleClient extends AbstractClient {
 	
 	public static List<String> messageContent = new ArrayList<String>();
 	public static List<String> FromMSG = new ArrayList<String>();
-
+	public static List<String> MSGid = new ArrayList<String>();
 
 	public static List<Integer> mc = new ArrayList<Integer>();
 
@@ -292,6 +292,7 @@ public class SimpleClient extends AbstractClient {
 			System.out.println("in client All messages");
 			messageContent = triple_msg.getmessageConetxt();
 			FromMSG = triple_msg.getFromMSG();
+            MSGid = triple_msg.getMSGid();
 			//ComplaintTime = triple_msg.getComplaintTime();
 			EventBus.getDefault().post(new gotallmessagessevent());
 		}

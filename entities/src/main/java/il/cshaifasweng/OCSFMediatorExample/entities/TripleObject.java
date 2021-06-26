@@ -21,6 +21,7 @@ public class TripleObject implements Serializable {
 	
 	List<String> messagesConetxt;
 	List<String> FromMSG;
+	List<String> ID;
 	
 	int movie_id;
 	String movie_time;
@@ -53,6 +54,14 @@ public class TripleObject implements Serializable {
 
 	public void setmessageContext(List<String> MSGcontext) {
 		this.messagesConetxt = MSGcontext;
+	}
+	
+	public List<String> getMSGid() {
+		return ID;
+	}
+
+	public void setMSGid(List<String> MSGID) {
+		this.ID = MSGID;
 	}
 	
 	public List<String> getComplaintTime() {

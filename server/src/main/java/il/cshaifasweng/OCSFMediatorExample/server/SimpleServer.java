@@ -1219,6 +1219,7 @@ public class SimpleServer extends AbstractServer {
 		
 		if (ObjctMsg.startsWith("Delete MSG")) {
 			try {
+				System.out.println("in the server of delete msg : ");
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				messages movietodelete = new messages();
@@ -1297,6 +1298,7 @@ public class SimpleServer extends AbstractServer {
 				List<messages> Lofmessages = getMessageslist();
 				List<String> messagesContent = new ArrayList<String>();
 				List<String> from = new ArrayList<String>();
+				List<String> ID = new ArrayList<String>();
 				String currentUser = tuple_msg.getMovies().get(0).getEngName();
 				//System.out.println("current user: "+ currentUser);
 				for (int i = 0; i < Lofmessages.size(); i++) {
@@ -1308,12 +1310,14 @@ public class SimpleServer extends AbstractServer {
 					{
 					messagesContent.add(Lofmessages.get(i).getMSGcontext());
 					from.add(Lofmessages.get(i).getFromName());
+					ID.add(Lofmessages.get(i).getId());
 					}
 					//complaintTime.add(Lofcomplaints.get(i).getTime());
 				}
 				TripleObject to = new TripleObject("All messages", null, null);
 				to.setmessageContext(messagesContent);
 				to.setFromMSG(from);
+			    to.setMSGid(ID);
 				//to.setComplaintTime(complaintTime);
 				try {
 					client.sendToClient(to);
@@ -2468,11 +2472,11 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 	
-	private static List<messages> getMessage(String message) {
+	private static List<messages> getMessage(String ID) {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<messages> query = builder.createQuery(messages.class);
 		Root<messages> userRoot = query.from(messages.class);
-		Predicate predicateForMoviename = builder.equal(userRoot.get("MSGcontext"), message);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("id"), ID);
 		query.where(predicateForMoviename);
 		List<messages> data = App.session.createQuery(query).getResultList();
 		return data;

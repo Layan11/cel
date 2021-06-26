@@ -35,13 +35,22 @@ public class Dm_forUserController implements Initializable   {
     
     @FXML
     private Button DeleteMsg;
+    
+
+    @FXML // fx:id="IDtable"
+    private TableView<String> IDtable; // Value injected by FXMLLoader
+
+    @FXML // fx:id="IDcolumn"
+    private TableColumn<String, String> IDcolumn; // Value injected by FXMLLoader
+
 
 
 
 
     @FXML
     void GotoDeleteMsg(ActionEvent event) {
-    	String selected = table2.getSelectionModel().getSelectedItem(); 
+    	System.out.println("in the GotoDeleteMsg : ");
+    	String selected = IDtable.getSelectionModel().getSelectedItem(); 
 		//String wantedMovie = movieName.getText();
 		TripleObject msg = new TripleObject("Delete MSG " + selected, null, null); //11
 		try {
@@ -73,6 +82,11 @@ public class Dm_forUserController implements Initializable   {
 		table2.getColumns().setAll(MsgCol);
 		table2.setItems(message);
 		
+		final ObservableList<String> IDS = FXCollections.observableArrayList(SimpleClient.MSGid);
+		IDtable.setEditable(true);
+		IDcolumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+		IDtable.getColumns().setAll(IDcolumn);
+		IDtable.setItems(IDS);
 		
 	}
 
