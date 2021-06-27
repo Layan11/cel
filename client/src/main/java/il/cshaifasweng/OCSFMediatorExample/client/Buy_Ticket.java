@@ -41,10 +41,12 @@ public class Buy_Ticket implements Initializable {
 
 	@FXML
 	void back_btn(ActionEvent event) throws Exception {
+		System.out.println("im the the back now the vlue of counter 2 is :"+counter2);
 		if (counter2 == 0) {
 			System.out.println(show_MapChairController.id + Screening_TimesController.selectedScreeningTime
 					+ show_MapChairController.num_chair1);
-			TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.id,
+			
+			TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.movieid,
 					Screening_TimesController.selectedScreeningTime, show_MapChairController.num_chair1);
 
 			SimpleClient.getClient().sendToServer(msg);

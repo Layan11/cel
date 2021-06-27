@@ -1722,6 +1722,19 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
+			App.session = App.sessionFactory.openSession();
+			App.session.beginTransaction();	
+			String num_seat = tuple_msg.getnumseat();
+	//		System.out.println("tuple_msg.getID()"+tuple_msg.getID()); 
+	//		System.out.println("tuple_msg.getTime()"+tuple_msg.getTime());
+			updatenumberofchairs(tuple_msg.getID(), tuple_msg.getTime(),num_seat);
+			
+	
+			System.out.println("im done of this");
+			App.session.getTransaction().commit();
+			App.session.close();
+		}
 		if (ObjctMsg.startsWith("Delete Ticket ")) {
 			App.session = App.sessionFactory.openSession();
 			App.session.beginTransaction();
@@ -1807,18 +1820,7 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		// ****saleh****
-		if (ObjctMsg.startsWith("remove mapchair with new seat")) {
-			App.session = App.sessionFactory.openSession();
-			App.session.beginTransaction();
-			String num_seat = tuple_msg.getnumseat();
-			// int mapchair_id = getmapchairid(tuple_msg.getID(),
-			// tuple_msg.getTime()).get(0).getID();
-			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
-			System.out.println("mapchair id " + mapchair_id);
-			remove_seat(mapchair_id, num_seat);
-			App.session.getTransaction().commit();
-			App.session.close();
-		}
+
 
 		if (ObjctMsg.startsWith("Cancel Screenings")) {
 			try {
@@ -1875,6 +1877,11 @@ public class SimpleServer extends AbstractServer {
 												System.out.println("tttt tmp:" + tmpS + 1);
 											}
 											System.out.println("removing : T id = " + Tlist.get(k).get_id());
+											String cont="We canceled the screening of the movie "+Tlist.get(k).get_movie()+" \n You will get a refund of "+allmovies.get(i).getPrice();
+											messages senduser=new messages("server",cont,Tlist.get(k).getuser());
+											App.session.save(senduser);
+											App.session.flush();
+											
 											App.session.remove(Tlist.get(k));
 											// Tlist.remove(k);
 											System.out.println("after removing the ticket ");
@@ -2000,9 +2007,10 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				String num_seat = tuple_msg.getnumseat();
-				int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
-				System.out.println("mapchair id " + mapchair_id);
-				remove_seat(mapchair_id, num_seat);
+		//		int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			//	System.out.println("mapchair id " + mapchair_id);
+			//	remove_seat(mapchair_id, num_seat);
+				System.out.println("im done");
 				App.session.getTransaction().commit();
 				App.session.close();
 
@@ -2010,23 +2018,36 @@ public class SimpleServer extends AbstractServer {
 		}
 
 	}
-
-	private int updatenumberofchairs(String moviename, String hour) {
+	private void remove_seat_when_back(int id,String time,String num_seat) {
+		
+		remove_seat(getmapchairid(id, time).get(0).getID(), num_seat);
+	}
+	private int updatenumberofchairs(int moviename, String hour,String num_seat) {
+		System.out.println("do i even get here");
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= '" + hour + "'");
+			//ResultSet rs2 = stmt.executeQuery("SELECT * FROM movies WHERE EngName= '" + moviename + "'");
 			int chairnums = 0;
+		//	int movieid=0;
+			//while (rs2.next()) {
+				//movieid = rs2.getInt("id");
+		//	}
+			System.out.println(hour+ moviename);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= '" + hour + "' AND movie_id='"+moviename+"'");
+			
 			while (rs.next()) {
-				chairnums = rs.getInt("numberavailablechair");
+				chairnums = rs.getInt("id");
 			}
-			chairnums--;
+			
+			System.out.println(chairnums);
+			System.out.println(num_seat);
 			stmt.executeUpdate(
-					"UPDATE mapchair SET numberavailablechair = '" + chairnums + "' WHERE start_time = '" + hour + "'");
+					"Delete From mapchair_mymapchair WHERE MapChair_id = '" + chairnums + "' AND My_mapchairs = '" + num_seat + "'");
 			stmt.close();
 			c.close();
 		} catch (Exception e) {
@@ -2059,22 +2080,25 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private int remove_seat(int mapchair_id, String num_seat) {
-
+		System.out.println("in remove seat func");
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		List<Integer> mymapchairs = new ArrayList<Integer>();
 
 		try {
-
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
-
+			System.out.println("i fel 1");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			System.out.println("i fel 2");
 			System.out.println("Opened database successfully");
+			System.out.println("i fel 3");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
 					+ "' AND My_mapchairs= '" + num_seat + "'");
+			System.out.println("i fel 4");
 			stmt = c.createStatement();
+			System.out.println("i fel 5");
 			int rs = stmt.executeUpdate("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
 					+ "' AND My_mapchairs = '" + num_seat + "'");
-
+			System.out.println("i fel 6");
 			stmt.close();
 			c.close();
 		} catch (Exception e) {
@@ -2093,7 +2117,7 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2128,14 +2152,23 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private static List<MapChair> getmapchairid(int id_movie, String time) {
+	
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+
 		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+
 		Root<MapChair> userRoot = query.from(MapChair.class);
+
 		Predicate predicateForMovieId = builder.equal(userRoot.get("movie_id"), Integer.toString(id_movie));
+		
 		Predicate predicateTimes = builder.equal(userRoot.get("start_time"), time);
+
 		Predicate predicateForMapChair = builder.and(predicateForMovieId, predicateTimes);
+		
 		query.where(predicateForMapChair);
+	
 		List<MapChair> data = App.session.createQuery(query).getResultList();
+		System.out.println("at the end the asnwer should be :"+data.get(0).getID());
 		return data;
 	}
 
@@ -2144,7 +2177,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2184,7 +2217,7 @@ public class SimpleServer extends AbstractServer {
 		try {
 			int z = 0;
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2247,7 +2280,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			int idmap = 0;
 			String moviename = null;
@@ -2400,7 +2433,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();

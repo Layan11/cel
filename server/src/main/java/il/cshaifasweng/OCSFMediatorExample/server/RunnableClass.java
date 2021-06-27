@@ -36,7 +36,7 @@ public class RunnableClass  {
 	private class LoopTask extends TimerTask {
 	public void run() {
 		try {
-		//	System.out.println("i am here");
+			System.out.println("i am here");
 			App.session = App.sessionFactory.openSession();
 			App.session.beginTransaction();
 			List<link> tmp =  getAlllinks();

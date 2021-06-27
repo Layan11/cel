@@ -801,6 +801,7 @@ public class show_MapChairController implements Initializable {
 	}
 
 	public static int id;
+	public static int movieid;
 
 	@FXML
 	void answeryes(ActionEvent event) {
@@ -822,6 +823,7 @@ public class show_MapChairController implements Initializable {
 		pane4.setVisible(true);
 		num_chair1 = mybutton.getText();
 		id = (int) SimpleClient.mapchair_id;
+		movieid= (int) m.getId();
 	}
 	
 	@Subscribe
