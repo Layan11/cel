@@ -807,6 +807,41 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
+//		if (ObjctMsg.startsWith("Show messages")) {
+//			System.out.println("in the server of show messages");
+//			try {
+//				App.session = App.sessionFactory.openSession();
+//				App.session.beginTransaction();
+//				List<messages> Lofmessages = getMessageslist();
+//				List<String> messagesContent = new ArrayList<String>();
+//				List<String> from = new ArrayList<String>();
+//				String currentUser = tuple_msg.getMovies().get(0).getEngName();
+//				System.out.println("current user: " + currentUser);
+//				for (int i = 0; i < Lofmessages.size(); i++) {
+//					System.out.println("Lofmessages.get(i).getUser: " + Lofmessages.get(i).getUser());
+//					if (Lofmessages.get(i).getUser().equals(currentUser)) {
+//						messagesContent.add(Lofmessages.get(i).getMSGcontext());
+//						from.add(Lofmessages.get(i).getFromName());
+//					}
+//					// complaintTime.add(Lofcomplaints.get(i).getTime());
+//				}
+//				TripleObject to = new TripleObject("All messages", null, null);
+//				to.setmessageContext(messagesContent);
+//				to.setFromMSG(from);
+//				// to.setComplaintTime(complaintTime);
+//				try {
+//					client.sendToClient(to);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				App.session.getTransaction().commit();
+//
+//			} catch (HibernateException e) {
+//				e.printStackTrace();
+//				App.session.getTransaction().rollback();
+//			}
+//			App.session.close();
+//		}
 		if (ObjctMsg.startsWith("Show messages")) {
 			System.out.println("in the server of show messages");
 			try {
@@ -815,19 +850,26 @@ public class SimpleServer extends AbstractServer {
 				List<messages> Lofmessages = getMessageslist();
 				List<String> messagesContent = new ArrayList<String>();
 				List<String> from = new ArrayList<String>();
+				List<String> ID = new ArrayList<String>();
 				String currentUser = tuple_msg.getMovies().get(0).getEngName();
-				System.out.println("current user: " + currentUser);
+				// System.out.println("current user: "+ currentUser);
 				for (int i = 0; i < Lofmessages.size(); i++) {
-					System.out.println("Lofmessages.get(i).getUser: " + Lofmessages.get(i).getUser());
-					if (Lofmessages.get(i).getUser().equals(currentUser)) {
+
+					LocalDate today = LocalDate.now();
+					// System.out.println("Lofmessages.get(i).getUser: "+
+					// Lofmessages.get(i).getUser());
+					int greater = today.compareTo(Lofmessages.get(i).getDate());
+					if (Lofmessages.get(i).getUser().equals(currentUser) && greater >= 0) {
 						messagesContent.add(Lofmessages.get(i).getMSGcontext());
 						from.add(Lofmessages.get(i).getFromName());
+						ID.add(Lofmessages.get(i).getId());
 					}
 					// complaintTime.add(Lofcomplaints.get(i).getTime());
 				}
 				TripleObject to = new TripleObject("All messages", null, null);
 				to.setmessageContext(messagesContent);
 				to.setFromMSG(from);
+				to.setMSGid(ID);
 				// to.setComplaintTime(complaintTime);
 				try {
 					client.sendToClient(to);
