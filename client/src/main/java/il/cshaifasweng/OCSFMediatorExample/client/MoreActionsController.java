@@ -2,6 +2,10 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+//import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +29,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.util.Date;  
+import java.text.SimpleDateFormat;  
+import java.text.ParseException;  
 
 public class MoreActionsController implements Initializable {
 	@FXML
@@ -97,6 +104,8 @@ public class MoreActionsController implements Initializable {
 	private Label datesLabel;
 	@FXML
 	private Button Menu;
+	
+	
 
 	@FXML
 	void backtomenu(ActionEvent event) throws Exception {
@@ -116,7 +125,7 @@ public class MoreActionsController implements Initializable {
 	}
 
 	@FXML
-	void gotoAddMovie(ActionEvent event) {
+	void gotoAddMovie(ActionEvent event) throws ParseException {
 		invalidMovie.setText("");
 		if (engName.getText().equals("") || hebName.getText().equals("") || summary.getText().equals("")
 				|| producer.getText().equals("") || actors.getText().equals("") || len.getText().equals("")
@@ -136,7 +145,8 @@ public class MoreActionsController implements Initializable {
 			datesLabel.setText("*");
 		} else {
 			invalidAddLabel.setText("");
-			engNameLabel.setText("");
+			//String engnameOfMovie=engNameLabel.getText();
+		    engNameLabel.setText("");
 			hebNameLabel.setText("");
 			priceLabel.setText("");
 			producerLabel.setText("");
@@ -161,6 +171,48 @@ public class MoreActionsController implements Initializable {
 			List<String> Dates = new ArrayList<String>();
 			Times = Arrays.asList(screeningTimes.getText().split("\\s*,\\s*"));
 			Dates = Arrays.asList(dates.getText().split("\\s*,\\s*"));
+			//elin
+			 ///ana 3tbrt enno awal date fat hu awal date bn3rd feyu elfilm
+			
+			
+			
+			
+			/*LocalDate minDate=LocalDate.of(2080, 1, 13); 
+			for(int i=0 ; i <Dates.size();i++)
+			{
+			
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+				  String date = Dates.get(i);
+				  
+				  System.out.println("date before convert" + date);
+				  //convert String to LocalDate
+				  LocalDate localDate = LocalDate.parse(date, formatter); 
+				  
+				  System.out.println("date after convert"+ localDate);
+				  int before= minDate.compareTo(localDate);
+				  if (before>0)  //that mean that i found erliest date
+					  minDate=localDate;
+				  
+			}*/
+			//String minimumdate=minDate.toString();
+			System.out.println("the date that i sent" + Dates.get(0));
+			String From=loginController.currentUser;
+			String context="Great News! today is the premier of "+ engName.getText()+"We are waiting to see you hbebe/hbebty";
+			Movie sendedmsg = new Movie();
+			sendedmsg.setEngName(Dates.get(0));  
+			sendedmsg.setHebName(context);    //the answer
+			sendedmsg.setSummary(From);    
+			List<Movie> L = new ArrayList<Movie>();
+			L.add(sendedmsg);
+			
+			TripleObject msg = new TripleObject("Add new message For movie", L, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			///end elin
 			mt.SetMovieTimes(Times);
 			mt.setDate(Dates);
 			movie.setMovieTimes(mt);
@@ -171,9 +223,9 @@ public class MoreActionsController implements Initializable {
 								// home
 			List<Movie> movietoadd = new ArrayList<Movie>();
 			movietoadd.add(movie);
-			TripleObject msg = new TripleObject("Add new movie", movietoadd, null);
+			TripleObject msg1 = new TripleObject("Add new movie", movietoadd, null);
 			try {
-				SimpleClient.getClient().sendToServer(msg);
+				SimpleClient.getClient().sendToServer(msg1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

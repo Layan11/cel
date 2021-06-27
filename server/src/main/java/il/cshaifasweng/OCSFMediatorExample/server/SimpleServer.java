@@ -806,6 +806,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 		}
+
 		if (ObjctMsg.startsWith("Show messages")) {
 			System.out.println("in the server of show messages");
 			try {
@@ -1249,7 +1250,7 @@ public class SimpleServer extends AbstractServer {
 				for (int i = 0; i < Lofcomplaints.size(); i++) {
 					complaintsContent.add(Lofcomplaints.get(i).getComplaintcontext());
 					complaintsUser.add(Lofcomplaints.get(i).getName());
-					complaintTime.add(Lofcomplaints.get(i).getTime());
+					complaintTime.add(Lofcomplaints.get(i).getremainingTime());
 
 				}
 				TripleObject to = new TripleObject("All complaints", null, null);
@@ -1272,10 +1273,11 @@ public class SimpleServer extends AbstractServer {
 
 		if (ObjctMsg.startsWith("Delete MSG")) {
 			try {
+				System.out.println("in the server of delete msg : ");
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				messages movietodelete = new messages();
-				List<messages> tmp = getMessage(ObjctMsg.substring(11));
+				List<messages> tmp = getMessageById(ObjctMsg.substring(11));
 				System.out.println("the msg : " + tmp);
 				if (tmp.size() != 0) {
 					movietodelete = tmp.get(0);
@@ -1295,42 +1297,103 @@ public class SimpleServer extends AbstractServer {
 			App.session.close();
 		}
 
-		if (ObjctMsg.startsWith("Show messages")) {
-			System.out.println("in the server of show messages");
+		if (ObjctMsg.equals("Add new message For movie")) {
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
-				List<messages> Lofmessages = getMessageslist();
-				List<String> messagesContent = new ArrayList<String>();
-				List<String> from = new ArrayList<String>();
-				String currentUser = tuple_msg.getMovies().get(0).getEngName();
-				// System.out.println("current user: "+ currentUser);
-				for (int i = 0; i < Lofmessages.size(); i++) {
-					// System.out.println("Lofmessages.get(i).getUser: "+
-					// Lofmessages.get(i).getUser());
-					if (Lofmessages.get(i).getUser().equals(currentUser)) {
-						messagesContent.add(Lofmessages.get(i).getMSGcontext());
-						from.add(Lofmessages.get(i).getFromName());
+				Movie movietoadd = tuple_msg.getMovies().get(0);
+				List<User> users = getUserslist();
+
+				// converting the date
+				String date = movietoadd.getEngName();
+				System.out.println("the date before convert " + date);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+				System.err.println("date before convert" + date);
+				// convert String to LocalDate
+				LocalDate localDate = LocalDate.parse(date, formatter);
+				System.out.println("after converting " + localDate);
+
+				for (int i = 0; i < users.size(); i++) {
+					if (users.get(i).getPackageId() > -1) {
+
+						System.out.println("the user that i create th message for " + users.get(i).getUser_Name());
+
+						messages newmessage = new messages(movietoadd.getSummary(), movietoadd.getHebName(),
+								users.get(i).getUser_Name());
+						newmessage.setDate(localDate);
+						App.session.save(newmessage);
+						App.session.flush();
+						System.out.println("after flush");
+
 					}
-					// complaintTime.add(Lofcomplaints.get(i).getTime());
-				}
-				TripleObject to = new TripleObject("All messages", null, null);
-				to.setmessageContext(messagesContent);
-				to.setFromMSG(from);
-				// to.setComplaintTime(complaintTime);
-				try {
-					client.sendToClient(to);
-				} catch (IOException e) {
-					e.printStackTrace();
+
 				}
 				App.session.getTransaction().commit();
-
+				System.out.println("after getTransaaction");
+				System.out.println("out");
 			} catch (HibernateException e) {
 				e.printStackTrace();
 				App.session.getTransaction().rollback();
 			}
 			App.session.close();
 		}
+
+//>>>>>>> refs/remotes/origin/elinjamma
+//		if (ObjctMsg.startsWith("Show messages")) {
+//			System.out.println("in the server of show messages");
+//			try {
+//				App.session = App.sessionFactory.openSession();
+//				App.session.beginTransaction();
+//				List<messages> Lofmessages = getMessageslist();
+//				List<String> messagesContent = new ArrayList<String>();
+//				List<String> from = new ArrayList<String>();
+//				List<String> ID = new ArrayList<String>();
+//				String currentUser = tuple_msg.getMovies().get(0).getEngName();
+//				// System.out.println("current user: "+ currentUser);
+//				for (int i = 0; i < Lofmessages.size(); i++) {
+//<<<<<<< HEAD
+//					// System.out.println("Lofmessages.get(i).getUser: "+
+//					// Lofmessages.get(i).getUser());
+//					if (Lofmessages.get(i).getUser().equals(currentUser)) {
+//						messagesContent.add(Lofmessages.get(i).getMSGcontext());
+//						from.add(Lofmessages.get(i).getFromName());
+//=======
+//					
+//					LocalDate today= LocalDate.now();
+//					//System.out.println("Lofmessages.get(i).getUser: "+ Lofmessages.get(i).getUser());
+//					int greater = today.compareTo(Lofmessages.get(i).getDate());
+//					if(Lofmessages.get(i).getUser().equals(currentUser) && greater>=0)
+//					{
+//					messagesContent.add(Lofmessages.get(i).getMSGcontext());
+//					from.add(Lofmessages.get(i).getFromName());
+//					ID.add(Lofmessages.get(i).getId());
+//>>>>>>> refs/remotes/origin/elinjamma
+//					}
+//					// complaintTime.add(Lofcomplaints.get(i).getTime());
+//				}
+//				TripleObject to = new TripleObject("All messages", null, null);
+//				to.setmessageContext(messagesContent);
+//				to.setFromMSG(from);
+//<<<<<<< HEAD
+//				// to.setComplaintTime(complaintTime);
+//=======
+//			    to.setMSGid(ID);
+//				//to.setComplaintTime(complaintTime);
+//>>>>>>> refs/remotes/origin/elinjamma
+//				try {
+//					client.sendToClient(to);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				App.session.getTransaction().commit();
+//
+//			} catch (HibernateException e) {
+//				e.printStackTrace();
+//				App.session.getTransaction().rollback();
+//			}
+//			App.session.close();
+//		}
 
 		//////// end elin
 		if (ObjctMsg.startsWith("log-out")) {
@@ -1911,9 +1974,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-
 			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
-
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= '" + hour + "'");
@@ -2041,8 +2102,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root",
-					"root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2387,6 +2447,14 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
+	private static List<User> getUserslist() {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<User> query = builder.createQuery(User.class);
+		query.from(User.class);
+		List<User> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
 	///
 	private static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
@@ -2501,6 +2569,16 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<messages> query = builder.createQuery(messages.class);
 		Root<messages> userRoot = query.from(messages.class);
 		Predicate predicateForMoviename = builder.equal(userRoot.get("MSGcontext"), message);
+		query.where(predicateForMoviename);
+		List<messages> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
+	private static List<messages> getMessageById(String ID) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<messages> query = builder.createQuery(messages.class);
+		Root<messages> userRoot = query.from(messages.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("id"), ID);
 		query.where(predicateForMoviename);
 		List<messages> data = App.session.createQuery(query).getResultList();
 		return data;
