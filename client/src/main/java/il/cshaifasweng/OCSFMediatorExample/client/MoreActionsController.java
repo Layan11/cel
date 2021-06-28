@@ -360,6 +360,7 @@ public class MoreActionsController implements Initializable {
 
 	@FXML
 	void gotoUpdatePrice(ActionEvent event) throws Exception {
+		popupController.popped11 = 0;
 		invalidMovie.setText("");
 		String name = movieName.getText();
 		String price = newPrice.getText();
@@ -372,7 +373,9 @@ public class MoreActionsController implements Initializable {
 
 	@Subscribe
 	public void onGotMoviee(GotMovieToUpdatePriceEvent event) {
-		Platform.runLater(() -> {
+		if (popupController.popped11 == 0) {
+			popupController.popped11 = 1;
+			Platform.runLater(() -> {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
 				Parent Root1 = (Parent) fxmlLoader.load();
@@ -384,6 +387,9 @@ public class MoreActionsController implements Initializable {
 				System.err.println(e.getMessage());
 			}
 		});
+		}
+		
+		
 	}
 
 	@Subscribe

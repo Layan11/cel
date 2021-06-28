@@ -2016,7 +2016,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM mapchair WHERE start_time= '" + hour + "'");
@@ -2066,7 +2066,7 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			System.out.println("DELETE FROM mapchair_mymapchair WHERE MapChair_id = '" + mapchair_id
@@ -2093,7 +2093,7 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2144,7 +2144,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2184,7 +2184,7 @@ public class SimpleServer extends AbstractServer {
 		try {
 			int z = 0;
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2247,7 +2247,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			int idmap = 0;
 			String moviename = null;
@@ -2400,7 +2400,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "root-Pass1.@");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB", "root", "Hallaso1924c!");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
