@@ -49,16 +49,15 @@ public class browse_moviesController implements Initializable {
 	private TextField to;
 	@FXML
 	private Button filter;
-    @FXML
-    private Button main;
+	@FXML
+	private Button main;
 
 	public static Movie selectedMovie;
 	public static String selectedBranch;
 
-
-    @FXML
-    void backtomain(ActionEvent event) {
-    	Platform.runLater(() -> {
+	@FXML
+	void backtomain(ActionEvent event) {
+		Platform.runLater(() -> {
 			try {
 				App.setRoot("menu");
 			} catch (IOException e) {
@@ -66,8 +65,8 @@ public class browse_moviesController implements Initializable {
 			}
 		});
 
-    }
-    
+	}
+
 	@FXML
 	void Show(ActionEvent event) throws Exception {
 		selectedBranch = ChoiceBox.getSelectionModel().getSelectedItem();

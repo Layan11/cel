@@ -8,21 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="145.0" prefWidth="415.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.choosenewseatController">
+<AnchorPane prefHeight="145.0" prefWidth="415.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.choosenewseatController">
    <children>
       <ImageView fitHeight="244.0" fitWidth="437.0" layoutX="-15.0" layoutY="-55.0">
          <image>
             <Image url="@newPics/oops.png" />
          </image>
       </ImageView>
-      <Text fx:id="stamtext" fill="WHITE" layoutX="22.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="we are sory ,another person choosed this seat before you">
+      <Text fx:id="stamtext" fill="WHITE" layoutX="35.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We are sorry ,another person chose this seat before you" textAlignment="CENTER">
          <font>
-            <Font size="15.0" />
+            <Font name="System Italic" size="15.0" />
          </font>
       </Text>
       <Button fx:id="btn_choosenewseat" layoutX="139.0" layoutY="151.0" mnemonicParsing="false" onAction="#anotherpersonchoose" style="-fx-background-color: white;" text="choose new seat" textFill="#ff2e2e">
          <font>
-            <Font size="15.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
          <cursor>
             <Cursor fx:constant="N_RESIZE" />

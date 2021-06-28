@@ -801,6 +801,7 @@ public class show_MapChairController implements Initializable {
 	}
 
 	public static int id;
+	public static int movieid;
 
 	@FXML
 	void answeryes(ActionEvent event) {
@@ -810,7 +811,7 @@ public class show_MapChairController implements Initializable {
 		Movie m = browse_moviesController.selectedMovie;
 		TripleObject msg = new TripleObject("update mapchair with new seat", (int) m.getId(),
 				Screening_TimesController.selectedScreeningTime, num_chair);
-		//id = m.getId();
+		// id = m.getId();
 		try {
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
@@ -822,20 +823,21 @@ public class show_MapChairController implements Initializable {
 		pane4.setVisible(true);
 		num_chair1 = mybutton.getText();
 		id = (int) SimpleClient.mapchair_id;
+		movieid = (int) m.getId();
 	}
-	
+
 	@Subscribe
 	public void chooseanotherseat(busyseat event) {
 		Platform.runLater(() -> {
 			try {
-				
+
 				App.setRoot("choosenewseat");
-				
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}});
+			}
+		});
 	}
 
 	@FXML

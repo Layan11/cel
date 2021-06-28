@@ -59,25 +59,27 @@ public class filteredMovieDatesController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		final ObservableList<String> MovieNames = FXCollections.observableArrayList(SimpleClient.MovieNames);
-		moviesTable.setEditable(true);
-		moviesTable.setSelectionModel(null);
-		movies.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-		moviesTable.getColumns().setAll(movies);
-		moviesTable.setItems(MovieNames);
+		if (SimpleClient.MovieNames != null && SimpleClient.MovieDates != null && SimpleClient.movieTimes != null) {
+			final ObservableList<String> MovieNames = FXCollections.observableArrayList(SimpleClient.MovieNames);
+			moviesTable.setEditable(true);
+			moviesTable.setSelectionModel(null);
+			movies.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+			moviesTable.getColumns().setAll(movies);
+			moviesTable.setItems(MovieNames);
 
-		final ObservableList<String> MovieDates = FXCollections.observableArrayList(SimpleClient.MovieDates);
-		datesTable.setEditable(true);
-		datesTable.setSelectionModel(null);
-		dates.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-		datesTable.getColumns().setAll(dates);
-		datesTable.setItems(MovieDates);
+			final ObservableList<String> MovieDates = FXCollections.observableArrayList(SimpleClient.MovieDates);
+			datesTable.setEditable(true);
+			datesTable.setSelectionModel(null);
+			dates.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+			datesTable.getColumns().setAll(dates);
+			datesTable.setItems(MovieDates);
 
-		final ObservableList<String> movieTimes = FXCollections.observableArrayList(SimpleClient.movieTimes);
-		timesTable.setEditable(true);
-		timesTable.setSelectionModel(null);
-		times.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-		timesTable.getColumns().setAll(times);
-		timesTable.setItems(movieTimes);
+			final ObservableList<String> movieTimes = FXCollections.observableArrayList(SimpleClient.movieTimes);
+			timesTable.setEditable(true);
+			timesTable.setSelectionModel(null);
+			times.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+			timesTable.getColumns().setAll(times);
+			timesTable.setItems(movieTimes);
+		}
 	}
 }

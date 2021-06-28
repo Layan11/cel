@@ -1,7 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -9,7 +8,6 @@ import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
-import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
 public class SimpleClient extends AbstractClient {
 	private static SimpleClient client = null;
@@ -27,16 +25,15 @@ public class SimpleClient extends AbstractClient {
 	public static String restrictionAns;
 
 	public static List<String> ComplaintTime = new ArrayList<String>();
-	
+
 	public static List<String> messageContent = new ArrayList<String>();
 	public static List<String> FromMSG = new ArrayList<String>();
 	public static List<String> MSGid = new ArrayList<String>();
 
 	public static List<Integer> mc = new ArrayList<Integer>();
-	public static int mapchair_id=0;
+	public static int mapchair_id = 0;
 
 	public static int[] ComplaintsPerMArraay;
-
 
 	public static List<String> restrictedDays = new ArrayList<String>();
 	public static String seatNumToDelete;
@@ -174,6 +171,10 @@ public class SimpleClient extends AbstractClient {
 				MovieNames = triple_msg.getList();
 				movieTimes = triple_msg.getMovieTimes().get(0).getTimes();
 				MovieDates = triple_msg.getMovieTimes().get(0).getDate();
+			} else {
+				MovieNames = null;
+				movieTimes = null;
+				MovieDates = null;
 			}
 			EventBus.getDefault().post(new GotFilteredMovieByDatesEvent());
 		}
@@ -195,7 +196,6 @@ public class SimpleClient extends AbstractClient {
 			String Msg = "You will get 100% refund";
 			TripleObject msg2 = new TripleObject(Msg, null, null);
 			EventBus.getDefault().post(msg2);
-			
 
 		}
 		if (myMsg.equals("You get 50% refound")) {
@@ -276,6 +276,11 @@ public class SimpleClient extends AbstractClient {
 			restrictionAns = triple_msg.getList().get(0);
 			EventBus.getDefault().post(new GotRestrictedAnsEvent());
 		}
+		if (myMsg.equals("someone else buy this ticket")) {
+			System.out.println("i am here");
+			mc = triple_msg.getMapChair();
+			EventBus.getDefault().post(new busyseat());
+		}
 		if (myMsg.startsWith("found ticket ")) {
 			String seatNum = myMsg.substring(13);
 			seatNumToDelete = seatNum;
@@ -288,35 +293,33 @@ public class SimpleClient extends AbstractClient {
 			ComplaintTime = triple_msg.getComplaintTime();
 			EventBus.getDefault().post(new gotallcomplaintsevent());
 		}
-		
+
 		if (myMsg.startsWith("All messages")) {
 			System.out.println("in client All messages");
 			messageContent = triple_msg.getmessageConetxt();
 			FromMSG = triple_msg.getFromMSG();
-            MSGid = triple_msg.getMSGid();
-			//ComplaintTime = triple_msg.getComplaintTime();
+			MSGid = triple_msg.getMSGid();
+			// ComplaintTime = triple_msg.getComplaintTime();
 			EventBus.getDefault().post(new gotallmessagessevent());
 		}
 
 		// ***saleh***
-		if (myMsg.startsWith("your mapchair")) {//mapchair id mawgood b index 14
+		if (myMsg.startsWith("your mapchair")) {// mapchair id mawgood b index 14
 			mc = triple_msg.getMapChair();
-			mapchair_id=Integer.parseInt(myMsg.substring(14));
-			System.out.println("your map chair, simple client, mapchair id = "+mapchair_id);
+			mapchair_id = Integer.parseInt(myMsg.substring(14));
+			System.out.println("your map chair, simple client, mapchair id = " + mapchair_id);
 			EventBus.getDefault().post(new gotMapChairevent());
 		}
-		
+
 		if (myMsg.equals("someone else buy this ticket")) {
 			System.out.println("i am here");
-			mc=triple_msg.getMapChair();
-			for(int i=0;i<mc.size();i++)
+			mc = triple_msg.getMapChair();
+			for (int i = 0; i < mc.size(); i++)
 				System.out.println(mc.get(i));
 			EventBus.getDefault().post(new busyseat());
-			
-	
+
 		}
-		
-		
+
 		// ***saleh***
 
 		//
@@ -332,21 +335,17 @@ public class SimpleClient extends AbstractClient {
 			System.out.println("in client All messages");
 			messageContent = triple_msg.getmessageConetxt();
 			FromMSG = triple_msg.getFromMSG();
-			//ComplaintTime = triple_msg.getComplaintTime();
+			// ComplaintTime = triple_msg.getComplaintTime();
 			EventBus.getDefault().post(new gotallmessagessevent());
 		}
-
 
 		if (myMsg.equals("Canceled Date")) {
 			EventBus.getDefault().post(new GotCanceledDateEvent());
 		}
 
-		
-
 		if (myMsg.equals("The hall is full")) {
 			EventBus.getDefault().post(new FullHalltEvent());
 		}
-
 
 	}
 

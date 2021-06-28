@@ -44,7 +44,7 @@ public class Buy_Ticket implements Initializable {
 		if (counter2 == 0) {
 			System.out.println(show_MapChairController.id + Screening_TimesController.selectedScreeningTime
 					+ show_MapChairController.num_chair1);
-			TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.id,
+			TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.movieid,
 					Screening_TimesController.selectedScreeningTime, show_MapChairController.num_chair1);
 
 			SimpleClient.getClient().sendToServer(msg);
@@ -72,6 +72,17 @@ public class Buy_Ticket implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				App.setRoot("Screening_Times");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Subscribe
+	public void onData1(busyseat event) {
+		Platform.runLater(() -> {
+			try {
+				App.setRoot("choosenewseat");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -108,18 +119,18 @@ public class Buy_Ticket implements Initializable {
 			String user = loginController.currentUser;
 
 			Ticket mytestticket = new Ticket(movie, hall, time, seat, user, Label1.getText(),
-					show_MapChairController.id,Screening_TimesController.selectedScreeningDate);
+					show_MapChairController.id, Screening_TimesController.selectedScreeningDate);
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
-			String msg_to_user ="The movie you choose is: "+ mytestticket.get_movie()+
-					"\n It will be represented on: \n" + mytestticket.gettime()+ "\n at date : \n"+mytestticket.getdate()+
-				"\n Your seat number is :" +mytestticket.getChair_num()
-				+"\n The branch is: " +mytestticket.get_hall();
-			 System.out.println(msg_to_user);
-			 messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
-			 TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
-		SimpleClient.getClient().sendToServer(mymsg);
-					
+			String msg_to_user = "The movie you choose is: " + mytestticket.get_movie()
+					+ "\n It will be represented on: \n" + mytestticket.gettime() + "\n at date : \n"
+					+ mytestticket.getdate() + "\n Your seat number is :" + mytestticket.getChair_num()
+					+ "\n The branch is: " + mytestticket.get_hall();
+			System.out.println(msg_to_user);
+			messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);
+			TripleObject mymsg = new TripleObject("Send msg to user", msgtouser);
+			SimpleClient.getClient().sendToServer(mymsg);
+
 			msglab.setVisible(true);
 //			back.setVisible(true);
 			counter2++;
@@ -150,23 +161,23 @@ public class Buy_Ticket implements Initializable {
 			}
 		});
 	}
-	
-	//start
-	
+
+	// start
+
 	@Subscribe
 	public void chooseanotherseat(busyseat event) {
 		Platform.runLater(() -> {
 			try {
-				
+
 				App.setRoot("choosenewseat");
-				
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}});
+			}
+		});
 	}
-	///end
+	/// end
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

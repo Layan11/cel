@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,14 +28,8 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
-
+import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 import il.cshaifasweng.OCSFMediatorExample.entities.purpleChar;
-
-import il.cshaifasweng.OCSFMediatorExample.entities.messages;
-
-
-import il.cshaifasweng.OCSFMediatorExample.entities.messages;
-
 
 public class App {
 
@@ -499,18 +490,18 @@ public class App {
 		session.save(PC);
 		session.flush();
 		LocalDateTime rightNow2 = LocalDateTime.now();
-		System.out.println("befote i add time"+ rightNow2);
-		
-	//	rightNow2=rightNow2.plusHours(1);
-		//rightNow2=rightNow2.plusMinutes(1);
-	//	System.out.println("After i add time"+ rightNow2);
-		//link test_send=new link("alaaden",rightNow2,rightNow2,"Joey","visa");
-		//session.save(test_send);
-		//session.flush();
-		//rightNow2=rightNow2.plusMinutes(4);
-	//	link test_send2=new link("alaaden",rightNow2,rightNow2,"Janice","visa");
-		//session.save(test_send2);
-	//	session.flush();
+		System.out.println("befote i add time" + rightNow2);
+
+		// rightNow2=rightNow2.plusHours(1);
+		// rightNow2=rightNow2.plusMinutes(1);
+		// System.out.println("After i add time"+ rightNow2);
+		// link test_send=new link("alaaden",rightNow2,rightNow2,"Joey","visa");
+		// session.save(test_send);
+		// session.flush();
+		// rightNow2=rightNow2.plusMinutes(4);
+		// link test_send2=new link("alaaden",rightNow2,rightNow2,"Janice","visa");
+		// session.save(test_send2);
+		// session.flush();
 	}
 
 	private static List<Movie> getAllMovies() throws Exception {
@@ -579,11 +570,10 @@ public class App {
 			if (session != null) {
 			}
 		}
-		
+
 		server.listen();
-		   RunnableClass executingTask = new RunnableClass();
-	        executingTask.start();
-		
-		
+		RunnableClass executingTask = new RunnableClass();
+		executingTask.start();
+
 	}
 }

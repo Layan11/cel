@@ -254,6 +254,37 @@ public class SimpleServer extends AbstractServer {
 					mc.setNumOfBoughtSeat(0);
 					App.session.save(mc);
 				}
+				// eza lhkrana lyum so yb3t msg
+				List<User> allUsers = getUserslist();
+				List<User> UsersWithPackage = new ArrayList<User>();
+
+				for (int i = 0; i < allUsers.size(); i++) {
+					if (allUsers.get(i).getPackageId() > -1) {
+						UsersWithPackage.add(allUsers.get(i));
+					}
+				}
+				String SmallestDate = FindSmallestDate(newDatesList);
+				LocalDateTime rightNoww = LocalDateTime.now();
+				int yearnoww = rightNoww.getYear();
+				int monthnoww = rightNoww.getMonthValue();
+				int daynoww = rightNoww.getDayOfMonth();
+				List<String> dates1 = Arrays.asList(SmallestDate.split("/"));
+				int year11 = Integer.parseInt(dates1.get(2));
+				int month11 = Integer.parseInt(dates1.get(1));
+				int day11 = Integer.parseInt(dates1.get(0));
+				System.out.println("smallest for " + movieToUpdate.getEngName() + " : " + SmallestDate);
+				if (yearnoww == year11 && monthnoww == month11 && daynoww == day11) {
+					System.out.println("in if");
+					for (int k = 0; k < UsersWithPackage.size(); k++) {
+						System.out.println("USER = " + UsersWithPackage.get(k).getUser_Name());
+						String cont = "The movie  " + movieToUpdate.getEngName()
+								+ " is in our branches for the first time";
+						messages MSGtosend = new messages("server", cont, UsersWithPackage.get(k).getUser_Name());
+						App.session.save(MSGtosend);
+						App.session.flush();
+					}
+
+				}
 
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
@@ -262,7 +293,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			App.session.close();
 
-			/*** saleh ***/
+			/* saleh */
 			try {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
@@ -275,7 +306,7 @@ public class SimpleServer extends AbstractServer {
 				App.session.getTransaction().rollback();
 			}
 
-			/*** saleh ***/
+			/* saleh */
 
 		}
 		if (ObjctMsg.startsWith("Delete Screening Time")) {
@@ -468,15 +499,15 @@ public class SimpleServer extends AbstractServer {
 				Movie movietoadd = tuple_msg.getMovies().get(0);
 				if (movietoadd.getMovieTimes() != null) {
 					App.session.save(movietoadd.getMovieTimes());
+					List<String> timesToAdd = movietoadd.getMovieTimes().getTimes();
+					for (int i = 0; i < timesToAdd.size(); i++) {
+						MapChair mc = new MapChair(10, 10, movietoadd.getId(), timesToAdd.get(i));
+						mc.setNumOfBoughtSeat(0);
+						App.session.save(mc);
+					}
 				}
 				App.session.save(movietoadd);
 				App.session.flush();
-				List<String> timesToAdd = movietoadd.getMovieTimes().getTimes();
-				for (int i = 0; i < timesToAdd.size(); i++) {
-					MapChair mc = new MapChair(10, 10, movietoadd.getId(), timesToAdd.get(i));
-					mc.setNumOfBoughtSeat(0);
-					App.session.save(mc);
-				}
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -1154,7 +1185,8 @@ public class SimpleServer extends AbstractServer {
 				}
 				TripleObject res;
 				if (found == false) {
-					res = new TripleObject("Filtered movies by date", null, null);
+					List<MovieTimes> mt = new ArrayList<MovieTimes>();
+					res = new TripleObject("Filtered movies by date", null, mt);
 				} else {
 					res = new TripleObject("Filtered movies by date", null, mtList);
 				}
@@ -1690,9 +1722,47 @@ public class SimpleServer extends AbstractServer {
 					Reports allreports = getReports(1).get(0);
 					int tmp = allreports.getPackages();
 					allreports.setPackages(tmp + 1);
+					// bdna nb3tlu message 3la lflomi elle lyum awl yum hkrana.
+					List<Movie> allMovies = getMoviesList();
+					List<Movie> moviesinbranches = new ArrayList<Movie>();
+					for (int i = 0; i < allMovies.size(); i++) {
+						if (allMovies.get(i).getType() == 0 || allMovies.get(i).getType() == 3) {
+							moviesinbranches.add(allMovies.get(i));
+						}
+					}
+					System.out.println("Num of Movies in branches = " + moviesinbranches.size());
+					for (int i = 0; i < moviesinbranches.size(); i++) {
+						System.out.println("Movie Name = " + moviesinbranches.get(i).getEngName());
+						List<String> dates = moviesinbranches.get(i).getMovieTimes().getDate();
+						String SmallestDate = FindSmallestDate(dates);
+						LocalDateTime rightNoww = LocalDateTime.now();
+						int yearnoww = rightNoww.getYear();
+						int monthnoww = rightNoww.getMonthValue();
+						int daynoww = rightNoww.getDayOfMonth();
+						List<String> dates1 = Arrays.asList(SmallestDate.split("/"));
+						int year11 = Integer.parseInt(dates1.get(2));
+						int month11 = Integer.parseInt(dates1.get(1));
+						int day11 = Integer.parseInt(dates1.get(0));
+						System.out
+								.println("smallest for " + moviesinbranches.get(i).getEngName() + " : " + SmallestDate);
+						if (yearnoww == year11 && monthnoww == month11 && daynoww == day11) {
+							System.out.println("in if in server ");
+							// esa hun bdna neyatser lmsg lhd luser.
+							String UserName = user.getUser_Name();
+							String MovieName = moviesinbranches.get(i).getEngName();
+							String MSG_content = "Hey! TODAY!!! is the first screening of The Movie " + MovieName
+									+ ". You should try it.";
+							messages MSGToSend = new messages("server", MSG_content, UserName);
+							System.out.println("after creating the MSG in server");
+							App.session.save(MSGToSend);
+							App.session.flush();
+
+						}
+
+					}
 					App.session.getTransaction().commit();
+					client.sendToClient(to);
 				}
-				client.sendToClient(to);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1790,7 +1860,7 @@ public class SimpleServer extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				App.session.getTransaction().commit();
+				// App.session.getTransaction().commit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1801,6 +1871,17 @@ public class SimpleServer extends AbstractServer {
 			App.session = App.sessionFactory.openSession();
 			String num_seat = tuple_msg.getnumseat();
 			int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+			MapChair mc = getMapChairById(mapchair_id).get(0);
+			for (int i = 0; i < mc.getMapChair().size(); i++) {
+				if (mc.getMapChair().get(i).equals(Integer.parseInt(num_seat))) {
+					try {
+						client.sendToClient(new TripleObject("someone else buy this ticket", mc.getMapChair()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+			}
 			System.out.println("mapchair id " + mapchair_id);
 			add_seat(mapchair_id, num_seat);
 			App.session.close();
@@ -2489,7 +2570,7 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	private static List<User> getUserslist() {
+	static List<User> getUserslist() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<User> query = builder.createQuery(User.class);
 		query.from(User.class);
@@ -2498,7 +2579,7 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	///
-	private static List<Movie> getMoviesList() {
+	static List<Movie> getMoviesList() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		query.from(Movie.class);
@@ -2542,6 +2623,16 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
+	private static List<MapChair> getMapChairById(int id) {
+		CriteriaBuilder builder = App.session.getCriteriaBuilder();
+		CriteriaQuery<MapChair> query = builder.createQuery(MapChair.class);
+		Root<MapChair> userRoot = query.from(MapChair.class);
+		Predicate predicateForMoviename = builder.equal(userRoot.get("id"), Integer.toString(id));
+		query.where(predicateForMoviename);
+		List<MapChair> data = App.session.createQuery(query).getResultList();
+		return data;
+	}
+
 	private static List<purpleChar> getPC() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<purpleChar> query = builder.createQuery(purpleChar.class);
@@ -2550,7 +2641,7 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	private static List<link> getAlllinks() {
+	static List<link> getAlllinks() {
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<link> query = builder.createQuery(link.class);
 		query.from(link.class);
@@ -2684,7 +2775,7 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	private static Boolean isBigger(String date1, String date2) {
+	static Boolean isBigger(String date1, String date2) {
 		List<String> dates1 = Arrays.asList(date1.split("/"));
 		List<String> dates2 = Arrays.asList(date2.split("/"));
 		int year1 = Integer.parseInt(dates1.get(2));
@@ -2699,5 +2790,18 @@ public class SimpleServer extends AbstractServer {
 		} else {
 			return false;
 		}
+	}
+
+	private static String FindSmallestDate(List<String> dates) {
+		String date1 = dates.get(0);
+		String Smallest = date1;
+		String date2;
+		for (int i = 1; i < dates.size(); i++) {
+			date2 = dates.get(i);
+			if (isBigger(Smallest, date2)) {
+				Smallest = date2;
+			}
+		}
+		return Smallest;
 	}
 }
