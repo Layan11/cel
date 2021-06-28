@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -8,12 +10,14 @@ import java.util.TimerTask;
 
 import org.hibernate.HibernateException;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
 public class RunnableClass {
 	long delay = 10 * 1000 * 6; // delay in milliseconds
-
+	long counter = 0;
 	LoopTask task = new LoopTask();
 
 	Timer timer = new Timer("TaskName");
@@ -71,6 +75,52 @@ public class RunnableClass {
 				}
 				App.session.getTransaction().commit();
 
+				if (counter == 0 || counter == 1440 || counter == 2) {
+					List<Movie> allMovies = SimpleServer.getMoviesList();
+					List<Movie> moviesinbranches = new ArrayList<Movie>();
+					List<User> allUsers = SimpleServer.getUserslist();
+					List<User> UsersWithPackage = new ArrayList<User>();
+
+					for (int i = 0; i < allUsers.size(); i++) {
+						if (allUsers.get(i).getPackageId() > -1) {
+							UsersWithPackage.add(allUsers.get(i));
+						}
+					}
+					for (int i = 0; i < allMovies.size(); i++) {
+						if (allMovies.get(i).getType() == 0 || allMovies.get(i).getType() == 3) {
+							moviesinbranches.add(allMovies.get(i));
+						}
+					}
+					System.out.println("Num of Movies in branches = " + moviesinbranches.size());
+					for (int i = 0; i < moviesinbranches.size(); i++) {
+						System.out.println("Movie Name = " + moviesinbranches.get(i).getEngName());
+						List<String> dates = moviesinbranches.get(i).getMovieTimes().getDate();
+						String SmallestDate = SimpleServer.FindSmallestDate(dates);
+						LocalDateTime rightNoww = LocalDateTime.now();
+						int yearnoww = rightNoww.getYear();
+						int monthnoww = rightNoww.getMonthValue();
+						int daynoww = rightNoww.getDayOfMonth();
+						List<String> dates1 = Arrays.asList(SmallestDate.split("/"));
+						int year11 = Integer.parseInt(dates1.get(2));
+						int month11 = Integer.parseInt(dates1.get(1));
+						int day11 = Integer.parseInt(dates1.get(0));
+						System.out
+								.println("smallest for " + moviesinbranches.get(i).getEngName() + " : " + SmallestDate);
+						if (yearnoww == year11 && monthnoww == month11 && daynoww == day11) {
+							for (int k = 0; k < UsersWithPackage.size(); k++) {
+								System.out.println("USER = " + UsersWithPackage.get(i).getUser_Name());
+								String cont = "ttttttttttttttttThe movie  " + moviesinbranches.get(i).getEngName()
+										+ " is in our branches for the first time";
+								messages MSGtosend = new messages("server", cont,
+										UsersWithPackage.get(k).getUser_Name());
+								App.session.save(MSGtosend);
+								App.session.flush();
+							}
+						}
+					}
+					counter = 0;
+				}
+				counter++;
 			} catch (HibernateException e) {
 				e.printStackTrace();
 				App.session.getTransaction().rollback();

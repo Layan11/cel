@@ -87,7 +87,8 @@ public class App {
 		AladdinTimes.add("18:00");
 		AladdinTimes.add("20:00");
 		AladdinDates.add("21/08/2021");
-		AladdinDates.add("06/09/2021");
+//		AladdinDates.add("06/09/2021");
+		AladdinDates.add("28/06/2021");
 		AladdinBranches.add("Haifa");
 		AladdinBranches.add("Haifa");
 		MovieTimes AladdinMovieTimes = new MovieTimes(AladdinTimes);

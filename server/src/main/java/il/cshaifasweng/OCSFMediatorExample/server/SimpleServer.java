@@ -1956,6 +1956,12 @@ public class SimpleServer extends AbstractServer {
 												System.out.println("tttt tmp:" + tmpS + 1);
 											}
 											System.out.println("removing : T id = " + Tlist.get(k).get_id());
+											String cont = "We canceled the screening of the movie "
+													+ Tlist.get(k).get_movie() + " \n You will get a refund of "
+													+ allmovies.get(i).getPrice();
+											messages senduser = new messages("server", cont, Tlist.get(k).getuser());
+											App.session.save(senduser);
+											App.session.flush();
 											App.session.remove(Tlist.get(k));
 											// Tlist.remove(k);
 											System.out.println("after removing the ticket ");
@@ -2792,7 +2798,7 @@ public class SimpleServer extends AbstractServer {
 		}
 	}
 
-	private static String FindSmallestDate(List<String> dates) {
+	static String FindSmallestDate(List<String> dates) {
 		String date1 = dates.get(0);
 		String Smallest = date1;
 		String date2;
