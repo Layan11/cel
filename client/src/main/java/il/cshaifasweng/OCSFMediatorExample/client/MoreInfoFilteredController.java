@@ -59,10 +59,10 @@ public class MoreInfoFilteredController implements Initializable {
 	}
 
 	@Subscribe
-	public void onData111(GotMoviesEvent event) {
+	public void onData111(GotfilteredMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
-				// EventBus.getDefault().unregister(this);
+				EventBus.getDefault().unregister(this);
 				App.setRoot("FilteredMovies");
 			} catch (IOException e) {
 				e.printStackTrace();

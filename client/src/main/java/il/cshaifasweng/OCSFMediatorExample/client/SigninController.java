@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.greenrobot.eventbus.EventBus;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.event.ActionEvent;
@@ -23,30 +21,25 @@ import javafx.scene.control.TextField;
 
 public class SigninController implements Initializable {
 
-	@FXML // fx:id="Login"
-	private Button SignIn; // Value injected by FXMLLoader
-
-	@FXML // fx:id="username_box"
-	private TextField username_box; // Value injected by FXMLLoader
-
-	@FXML // fx:id="password_box"
-	private TextField password_box; // Value injected by FXMLLoader
-
-	@FXML // fx:id="invalid_label"
-	private Label invalid_label; // Value injected by FXMLLoader
-
-	@FXML // fx:id="back"
-	private Button back; // Value injected by FXMLLoader
+	@FXML
+	private Button SignIn;
+	@FXML
+	private TextField username_box;
+	@FXML
+	private TextField password_box;
+	@FXML
+	private Label invalid_label;
+	@FXML
+	private Button back;
 
 	@FXML
 	void goBackToPrimary(ActionEvent event) throws Exception {
-		EventBus.getDefault().unregister(this);
+		// EventBus.getDefault().unregister(this);
 		App.setRoot("primary");
 	}
 
 	@FXML
 	void gotoSignin(ActionEvent event) {
-
 		String name = username_box.getText();
 		String password = password_box.getText();
 		if (name.equals(""))
@@ -67,12 +60,11 @@ public class SigninController implements Initializable {
 			try {
 				SimpleClient.getClient().sendToServer(msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//// 3shan yru7 3sf7t elmenu?
 			try {
-				EventBus.getDefault().unregister(this);
+				// EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -82,8 +74,6 @@ public class SigninController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		EventBus.getDefault().register(this);
+		// EventBus.getDefault().register(this);
 	}
-
 }
