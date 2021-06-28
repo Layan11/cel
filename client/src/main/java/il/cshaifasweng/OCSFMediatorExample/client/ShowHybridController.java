@@ -26,6 +26,7 @@ public class ShowHybridController implements Initializable {
 
 	@FXML
 	void goBack(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("choose_type_to_browse");
 	}
 

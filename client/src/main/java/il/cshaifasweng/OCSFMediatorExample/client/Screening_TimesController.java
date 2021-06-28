@@ -70,23 +70,25 @@ public class Screening_TimesController implements Initializable {
 		if (SimpleClient.restrictionAns.equals("Yes")) {
 			if (restrictionPopupController.popped == 0) {
 				restrictionPopupController.popped = 1;
-			Platform.runLater(() -> {
-				try {
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("restrictionPopup.fxml"));
-					Parent Root1 = (Parent) fxmlLoader.load();
-					Stage stage = new Stage();
-					stage.setScene(new Scene(Root1));
-					stage.setTitle("There's restrictions");
-					stage.show();
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
-				try {
-					App.setRoot("Pay_Ticket");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});}
+				Platform.runLater(() -> {
+					try {
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("restrictionPopup.fxml"));
+						Parent Root1 = (Parent) fxmlLoader.load();
+						Stage stage = new Stage();
+						stage.setScene(new Scene(Root1));
+						stage.setTitle("There's restrictions");
+						stage.show();
+					} catch (Exception e) {
+						System.err.println(e.getMessage());
+					}
+					try {
+						EventBus.getDefault().unregister(this);
+						App.setRoot("Pay_Ticket");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+			}
 		} else if (SimpleClient.restrictionAns.equals("No")) {
 			try {
 				TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
@@ -102,6 +104,7 @@ public class Screening_TimesController implements Initializable {
 	public void onGotMapChair(gotMapChairevent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("buy_ticket");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -114,6 +117,7 @@ public class Screening_TimesController implements Initializable {
 		Platform.runLater(() -> {
 			try {
 				action = "add";
+				EventBus.getDefault().unregister(this);
 				App.setRoot("UpdateMovies");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -138,9 +142,10 @@ public class Screening_TimesController implements Initializable {
 	}
 
 	@Subscribe
-	public void onData3(GotMoviesEventfromscreening event) {
+	public void onData3(/* GotMoviesEventfromscreening */ GotMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("browse_movies");
 
 			} catch (IOException e) {
@@ -191,6 +196,7 @@ public class Screening_TimesController implements Initializable {
 			try {
 				action = "edit";
 				selectedScreeningTime = timesTable.getSelectionModel().getSelectedItem();
+				EventBus.getDefault().unregister(this);
 				App.setRoot("UpdateMovies");
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -43,19 +43,17 @@ public class loginController implements Initializable {
 
 	@FXML
 	void goBackToPrimary(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("primary2");
 	}
-	
 
 	public static String getCurrentUser() {
 		return currentUser;
 	}
 
-
 	public static void setCurrentUser(String currentUser) {
 		loginController.currentUser = currentUser;
 	}
-
 
 	@FXML
 	void gotoLogin(ActionEvent event) {
@@ -95,6 +93,7 @@ public class loginController implements Initializable {
 			loginRole = event.getRole();// -1->user,0 -> Network Manager, 1 -> Content Manager ,2 -> Costumer
 			currentUser = event.getUserName();
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,7 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +51,7 @@ public class menuController implements Initializable {
 	@FXML
 	private Button showRestricted;
 	@FXML
-    private Button myMsgs;
-
+	private Button myMsgs;
 
 	@FXML
 	void gotoShowRestricted(ActionEvent event) throws Exception {
@@ -65,13 +63,13 @@ public class menuController implements Initializable {
 	public void onRestrictedDays(GotrestrictedDaysEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("restrictedDays");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 	}
-
 
 	@FXML
 	void gotoPackage(ActionEvent event) throws Exception {
@@ -102,6 +100,7 @@ public class menuController implements Initializable {
 
 	@FXML
 	void gotoBack(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("primary");
 	}
 
@@ -109,6 +108,7 @@ public class menuController implements Initializable {
 	void pack_btn(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Buy_Package");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -120,19 +120,21 @@ public class menuController implements Initializable {
 	void les_pack(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Update_Package");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 	}
-	 @FXML
-	 void gotoMyMsgs(ActionEvent event) {
-	    System.out.println("in gotoshowComplaint");
-	    String name=loginController.currentUser;
-	    Movie newMovie = new Movie();
-		newMovie.setEngName(name);  //user
-	    List<Movie> L = new ArrayList<Movie>();
+
+	@FXML
+	void gotoMyMsgs(ActionEvent event) {
+		System.out.println("in gotoshowComplaint");
+		String name = loginController.currentUser;
+		Movie newMovie = new Movie();
+		newMovie.setEngName(name); // user
+		List<Movie> L = new ArrayList<Movie>();
 		L.add(newMovie);
 		TripleObject msg = new TripleObject("Show messages", L, null);
 		try {
@@ -142,23 +144,26 @@ public class menuController implements Initializable {
 			e.printStackTrace();
 		}
 
-	  }
+	}
 
-	 @Subscribe
-		public void onGOTMsgs(gotallmessagessevent event) {
-			System.out.println("in GotMsgs");
-			Platform.runLater(() -> {
-				try {
-					App.setRoot("Dm_forUser");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
-		}
+	@Subscribe
+	public void onGOTMsgs(gotallmessagessevent event) {
+		System.out.println("in GotMsgs");
+		Platform.runLater(() -> {
+			try {
+				EventBus.getDefault().unregister(this);
+				App.setRoot("Dm_forUser");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 	@FXML
 	void return_link(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Return_Link");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -170,6 +175,7 @@ public class menuController implements Initializable {
 	void return_tick(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Return_Ticket");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -185,20 +191,21 @@ public class menuController implements Initializable {
 		SimpleClient.getClient().sendToServer(msg);
 	}
 
-	
 	@Subscribe
 	public void onGOTcomplaints(gotallcomplaintsevent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("showComplaint");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 	}
-	 
+
 	@FXML
 	void gotomore_actions(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("MoreActions");
 
 	}
@@ -207,6 +214,7 @@ public class menuController implements Initializable {
 	void gotofileacomplaint(ActionEvent event) throws Exception {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("FillingComplaint");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -218,6 +226,7 @@ public class menuController implements Initializable {
 	void gotoLogOut(ActionEvent event) throws Exception {
 		TripleObject msg = new TripleObject("log-out " + loginController.currentUser, null, null);
 		SimpleClient.getClient().sendToServer(msg);
+		EventBus.getDefault().unregister(this);
 		App.setRoot("primary");
 	}
 
@@ -225,6 +234,7 @@ public class menuController implements Initializable {
 	void gotobrowse_movies(ActionEvent event) throws Exception {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choose_type_to_browse");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -242,6 +252,7 @@ public class menuController implements Initializable {
 	public void onData(GotPRCMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("priceRequests");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -263,6 +274,7 @@ public class menuController implements Initializable {
 	public void onReports(GotReportEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("ShowReports");
 			} catch (IOException e) {
 				e.printStackTrace();

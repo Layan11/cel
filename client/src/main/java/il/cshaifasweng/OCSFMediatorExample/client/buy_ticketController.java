@@ -5,9 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,13 +26,13 @@ public class buy_ticketController {
 	void choose_seat(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("show_MapChair");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 	}
-
 
 	@FXML
 	void initialize() {

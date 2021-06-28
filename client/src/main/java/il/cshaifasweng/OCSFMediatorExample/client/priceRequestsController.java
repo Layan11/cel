@@ -39,6 +39,7 @@ public class priceRequestsController implements Initializable {
 
 	@FXML
 	void goBack(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("menu");
 	}
 

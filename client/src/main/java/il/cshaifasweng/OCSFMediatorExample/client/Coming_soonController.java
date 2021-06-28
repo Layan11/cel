@@ -39,9 +39,9 @@ public class Coming_soonController implements Initializable {
 
 	@FXML // fx:id="Edit"
 	private Button Edit; // Value injected by FXMLLoader
-	
-    @FXML
-    private Button main;
+
+	@FXML
+	private Button main;
 
 	@FXML // fx:id="EngC"
 	private TableColumn<Movie, String> EngC; // Value injected by FXMLLoader
@@ -49,19 +49,19 @@ public class Coming_soonController implements Initializable {
 	@FXML // fx:id="HebC"
 	private TableColumn<Movie, String> HebC; // Value injected by FXMLLoader
 	public static Movie selected_coming_soon_Movie;
-	
-    @FXML
-    void backtomain(ActionEvent event) {
+
+	@FXML
+	void backtomain(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
-    }
-
+	}
 
 	@FXML
 	void ShowMovie(ActionEvent event) throws IOException {
@@ -81,6 +81,7 @@ public class Coming_soonController implements Initializable {
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("moreInfoComingSoon");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -95,6 +96,7 @@ public class Coming_soonController implements Initializable {
 		System.out.println("selected name in cominfsoonC : " + selected_coming_soon_Movie.getEngName());
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Edit_Movie");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -106,6 +108,7 @@ public class Coming_soonController implements Initializable {
 	void goback(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choose_type_to_browse");
 			} catch (IOException e) {
 				e.printStackTrace();

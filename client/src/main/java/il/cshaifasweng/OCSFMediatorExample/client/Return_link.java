@@ -30,11 +30,13 @@ public class Return_link implements Initializable {
 	private Button back_btn;
 	@FXML
 	private TextField retmsg;
-	int flag2=0;
+	int flag2 = 0;
+
 	@FXML
 	void back_btn(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -46,19 +48,21 @@ public class Return_link implements Initializable {
 	public void onData(TripleObject msg) {
 		Platform.runLater(() -> {
 			try {
-			
+
 				retmsg.setText(msg.getMsg());
-				if(flag2==1) {
-					if(retmsg.getText().startsWith(("You will"))) {
-				String msg_to_user ="The Return of the link was exectuted \n succesfully "
-			    		+ "\n  " +retmsg.getText() ;
-				System.out.println(msg_to_user);
-				messages msgtouser =new messages("server",msg_to_user,loginController.currentUser);
-				TripleObject mymsg=new TripleObject("Send msg to user", msgtouser);
-				SimpleClient.getClient().sendToServer(mymsg);
-				}}
-				flag2=0;
+				if (flag2 == 1) {
+					if (retmsg.getText().startsWith(("You will"))) {
+						String msg_to_user = "The Return of the link was exectuted \n succesfully " + "\n  "
+								+ retmsg.getText();
+						System.out.println(msg_to_user);
+						messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);
+						TripleObject mymsg = new TripleObject("Send msg to user", msgtouser);
+						SimpleClient.getClient().sendToServer(mymsg);
+					}
+				}
+				flag2 = 0;
 				if (false) {
+					EventBus.getDefault().unregister(this);
 					App.setRoot("idk");
 				}
 			} catch (IOException e) {
@@ -73,13 +77,13 @@ public class Return_link implements Initializable {
 		int x;
 
 		x = Integer.parseInt(Ret_Link_Label.getText());
-		
-		mystr = "Delete link " + x +" for user " + loginController.currentUser;
+
+		mystr = "Delete link " + x + " for user " + loginController.currentUser;
 		System.out.println(mystr);
 		TripleObject msg = new TripleObject(mystr, null, null);
 		SimpleClient.getClient().sendToServer(msg);
 		retmsg.setVisible(true);
-	    flag2=1;
+		flag2 = 1;
 	}
 
 	@Override

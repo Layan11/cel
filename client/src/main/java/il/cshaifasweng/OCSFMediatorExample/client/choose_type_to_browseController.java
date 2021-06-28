@@ -41,6 +41,7 @@ public class choose_type_to_browseController implements Initializable {
 	void goback(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -60,6 +61,7 @@ public class choose_type_to_browseController implements Initializable {
 	public void onData11(GotComingSoonEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Coming_soon");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -77,6 +79,7 @@ public class choose_type_to_browseController implements Initializable {
 	public void onData(GotMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("browse_movies");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -96,6 +99,7 @@ public class choose_type_to_browseController implements Initializable {
 	public void onData112(GotWatchAtHomeEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Watch_At_Home");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -113,6 +117,7 @@ public class choose_type_to_browseController implements Initializable {
 	public void onHybridMovies(GotHybridMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("ShowHybrid");
 			} catch (IOException e) {
 				e.printStackTrace();

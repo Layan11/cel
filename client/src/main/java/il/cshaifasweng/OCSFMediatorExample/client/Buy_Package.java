@@ -31,16 +31,17 @@ public class Buy_Package implements Initializable {
 	private Button buy_bnt;
 	@FXML
 	private TextField msglab;
-    @FXML
-    private TextField paymentM;
+	@FXML
+	private TextField paymentM;
 
-    @FXML
-    private Label paymentlabel;
+	@FXML
+	private Label paymentlabel;
 
 	@FXML
 	void back_btn(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -85,6 +86,7 @@ public class Buy_Package implements Initializable {
 			try {
 				msglab.setText(msg.getMsg());
 				if (false) {
+					EventBus.getDefault().unregister(this);
 					App.setRoot("idk");
 				}
 			} catch (IOException e) {

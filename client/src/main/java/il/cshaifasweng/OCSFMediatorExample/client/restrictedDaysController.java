@@ -90,6 +90,7 @@ public class restrictedDaysController implements Initializable {
 
 	@FXML
 	void gotoBack(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("menu");
 	}
 

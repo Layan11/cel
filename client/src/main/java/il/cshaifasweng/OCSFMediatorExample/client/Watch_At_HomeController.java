@@ -43,21 +43,22 @@ public class Watch_At_HomeController implements Initializable {
 	@FXML
 	private Button buy_link;
 	@FXML
-    private Button main;
+	private Button main;
 
 	public static Movie selected_watch_at_home_Movie;
-	
-    @FXML
-    void backtomain(ActionEvent event) {
-    	Platform.runLater(() -> {
+
+	@FXML
+	void backtomain(ActionEvent event) {
+		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
-    }
+	}
 
 	@FXML
 	void buy_link_btn(ActionEvent event) throws IOException {
@@ -65,6 +66,7 @@ public class Watch_At_HomeController implements Initializable {
 		selected_watch_at_home_Movie = selected;
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Buy_Link");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -79,6 +81,7 @@ public class Watch_At_HomeController implements Initializable {
 		System.out.println("selected name in WAH : " + selected_watch_at_home_Movie.getEngName());
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Edit_Movie");
 
 			} catch (IOException e) {
@@ -91,8 +94,8 @@ public class Watch_At_HomeController implements Initializable {
 	void Back(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choose_type_to_browse");
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -117,6 +120,7 @@ public class Watch_At_HomeController implements Initializable {
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("moreInfoToWatchAtHome");
 			} catch (IOException e) {
 				e.printStackTrace();

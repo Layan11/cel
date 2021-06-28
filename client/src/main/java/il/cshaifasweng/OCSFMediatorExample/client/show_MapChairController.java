@@ -259,6 +259,7 @@ public class show_MapChairController implements Initializable {
 	public void onData1(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Screening_Times");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -793,6 +794,7 @@ public class show_MapChairController implements Initializable {
 	void browsemovies(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Pay_Ticket");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -830,7 +832,7 @@ public class show_MapChairController implements Initializable {
 	public void chooseanotherseat(busyseat event) {
 		Platform.runLater(() -> {
 			try {
-
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choosenewseat");
 
 			} catch (IOException e) {

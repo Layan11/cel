@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +22,7 @@ public class choosenewseatController {
 
 		Platform.runLater(() -> {
 			try {
-
+				EventBus.getDefault().unregister(this);
 				App.setRoot("show_MapChair");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

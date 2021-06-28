@@ -45,6 +45,7 @@ public class Buy_LinkController implements Initializable {
 //			Stage primaryStage = new Stage();
 			// Parent root;
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choose_type_to_browse");
 //				Scene scene = new Scene(root);
 //				primaryStage.setScene(scene);
@@ -113,6 +114,7 @@ public class Buy_LinkController implements Initializable {
 			try {
 				msglab.setText(msg.getMsg());
 				if (false) {
+					EventBus.getDefault().unregister(this);
 					App.setRoot("idk");
 				}
 //   				Scene scene = new Scene(root);

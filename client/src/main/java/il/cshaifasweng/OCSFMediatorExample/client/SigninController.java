@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
 import javafx.event.ActionEvent;
@@ -38,6 +40,7 @@ public class SigninController implements Initializable {
 
 	@FXML
 	void goBackToPrimary(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("primary");
 	}
 
@@ -69,6 +72,7 @@ public class SigninController implements Initializable {
 			}
 			//// 3shan yru7 3sf7t elmenu?
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -79,7 +83,7 @@ public class SigninController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-
+		EventBus.getDefault().register(this);
 	}
 
 }

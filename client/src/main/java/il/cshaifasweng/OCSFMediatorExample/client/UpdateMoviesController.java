@@ -53,6 +53,7 @@ public class UpdateMoviesController implements Initializable {
 	public void onData4(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Screening_Times");
 			} catch (IOException e) {
 				e.printStackTrace();

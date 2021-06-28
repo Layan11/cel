@@ -21,7 +21,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -64,8 +63,8 @@ public class FilteredMoviesController implements Initializable {
 	@Subscribe
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
-			Parent root;
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("MoreInfoFiltered");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -84,6 +83,7 @@ public class FilteredMoviesController implements Initializable {
 	public void onData(GotMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("browse_movies");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

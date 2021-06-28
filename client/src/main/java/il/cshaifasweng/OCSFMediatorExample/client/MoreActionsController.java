@@ -101,6 +101,7 @@ public class MoreActionsController implements Initializable {
 
 	@FXML
 	void backtomenu(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("menu");
 
 	}
@@ -109,6 +110,7 @@ public class MoreActionsController implements Initializable {
 	public void onData(GotMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("browse_movies");
 			} catch (IOException e) {
 				e.printStackTrace();

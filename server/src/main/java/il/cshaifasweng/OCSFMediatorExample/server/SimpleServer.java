@@ -20,6 +20,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 //import il.cshaifasweng.OCSFMediatorExample.client.loginController;
 import il.cshaifasweng.OCSFMediatorExample.entities.DoubleObject;
@@ -554,11 +555,18 @@ public class SimpleServer extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-				List<String> timesToDelete = movietodelete.getMovieTimes().getTimes();
-				for (int i = 0; i < timesToDelete.size(); i++) {
-					MapChair mc = getMapChairByTime(timesToDelete.get(i)).get(0);
-					App.session.remove(mc);
+				if (movietodelete.getType() == 0) {
+					List<String> timesToDelete = movietodelete.getMovieTimes().getTimes();
+					for (int i = 0; i < timesToDelete.size(); i++) {
+						MapChair mc = getMapChairByTime(timesToDelete.get(i)).get(0);
+						App.session.remove(mc);
+					}
 				}
+//				List<String> timesToDelete = movietodelete.getMovieTimes().getTimes();
+//				for (int i = 0; i < timesToDelete.size(); i++) {
+//					MapChair mc = getMapChairByTime(timesToDelete.get(i)).get(0);
+//					App.session.remove(mc);
+//				}
 
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
@@ -671,9 +679,10 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				String day = ObjctMsg.substring(24);
 				purpleChar PC = getPC().get(0);
+				List<String> days = PC.getDays();
 				boolean x = false;
-				for (int i = 0; i < PC.getDays().size(); i++) {
-					if (PC.getDays().get(i).equals(day)) {
+				for (int i = 0; i < days.size(); i++) {
+					if (days.get(i).equals(day)) {
 						x = true;
 					}
 				}
@@ -1690,15 +1699,15 @@ public class SimpleServer extends AbstractServer {
 							App.session.getTransaction().commit();
 						}
 					}
-					App.session.getTransaction().commit();
-
 					// updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
 					App.session.save(my_Ticket);
 					App.session.flush();
 				} else if (mc.getNmberAvailableChair() == 0) {
 					client.sendToClient(new TripleObject("The hall is full", null, null));
 				}
-				App.session.getTransaction().commit();
+				if (App.session.getTransaction().getStatus().equals(TransactionStatus.ACTIVE)) {
+					App.session.getTransaction().commit();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1848,7 +1857,9 @@ public class SimpleServer extends AbstractServer {
 		// ****saleh****
 		if (ObjctMsg.startsWith("get my map chair")) {
 			try {
-				App.session = App.sessionFactory.openSession();
+				if (!App.session.isOpen()) {
+					App.session = App.sessionFactory.openSession();
+				}
 				App.session.beginTransaction();
 				int id_movie = tuple_msg.getID();
 				String time_movie = tuple_msg.getTime();
@@ -2576,7 +2587,10 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	static List<User> getUserslist() {
+	static synchronized List<User> getUserslist() {
+		if (!App.session.isOpen()) {
+			App.session = App.sessionFactory.openSession();
+		}
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<User> query = builder.createQuery(User.class);
 		query.from(User.class);
@@ -2585,7 +2599,10 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	///
-	static List<Movie> getMoviesList() {
+	static synchronized List<Movie> getMoviesList() {
+		if (!App.session.isOpen()) {
+			App.session = App.sessionFactory.openSession();
+		}
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
 		query.from(Movie.class);
@@ -2647,7 +2664,10 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	static List<link> getAlllinks() {
+	static synchronized List<link> getAlllinks() {
+		if (!App.session.isOpen()) {
+			App.session = App.sessionFactory.openSession();
+		}
 		CriteriaBuilder builder = App.session.getCriteriaBuilder();
 		CriteriaQuery<link> query = builder.createQuery(link.class);
 		query.from(link.class);
@@ -2781,7 +2801,10 @@ public class SimpleServer extends AbstractServer {
 		return data;
 	}
 
-	static Boolean isBigger(String date1, String date2) {
+	static synchronized Boolean isBigger(String date1, String date2) {
+		if (!App.session.isOpen()) {
+			App.session = App.sessionFactory.openSession();
+		}
 		List<String> dates1 = Arrays.asList(date1.split("/"));
 		List<String> dates2 = Arrays.asList(date2.split("/"));
 		int year1 = Integer.parseInt(dates1.get(2));
@@ -2798,7 +2821,10 @@ public class SimpleServer extends AbstractServer {
 		}
 	}
 
-	static String FindSmallestDate(List<String> dates) {
+	static synchronized String FindSmallestDate(List<String> dates) {
+		if (!App.session.isOpen()) {
+			App.session = App.sessionFactory.openSession();
+		}
 		String date1 = dates.get(0);
 		String Smallest = date1;
 		String date2;

@@ -66,6 +66,7 @@ public class Update_Package implements Initializable {
 	void back_btn(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -89,6 +90,7 @@ public class Update_Package implements Initializable {
 				msg_lab.setVisible(true);
 				msg_lab.setText(msg.getMsg());
 				if (false) {
+					EventBus.getDefault().unregister(this);
 					App.setRoot("idk");
 				}
 			} catch (IOException e) {

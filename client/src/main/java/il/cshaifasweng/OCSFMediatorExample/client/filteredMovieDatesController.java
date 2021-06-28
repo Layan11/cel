@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
@@ -49,6 +50,7 @@ public class filteredMovieDatesController implements Initializable {
 	public void ongotmovies(GotMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("browse_movies");
 
 			} catch (IOException e) {
@@ -59,6 +61,7 @@ public class filteredMovieDatesController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		EventBus.getDefault().register(this);
 		if (SimpleClient.MovieNames != null && SimpleClient.MovieDates != null && SimpleClient.movieTimes != null) {
 			final ObservableList<String> MovieNames = FXCollections.observableArrayList(SimpleClient.MovieNames);
 			moviesTable.setEditable(true);

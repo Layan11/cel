@@ -19,59 +19,59 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class ShowReportsController implements Initializable {
-    @FXML
-    private Label Linksl;
+	@FXML
+	private Label Linksl;
 
-    @FXML
-    private Button ShowComplaintsReport;
+	@FXML
+	private Button ShowComplaintsReport;
 
-    @FXML
-    private TextField TicketsInHaifatxt;
+	@FXML
+	private TextField TicketsInHaifatxt;
 
-    @FXML
-    private TextField returnedTicketsInHaifatxt;
+	@FXML
+	private TextField returnedTicketsInHaifatxt;
 
-    @FXML
-    private TextField Links;
+	@FXML
+	private TextField Links;
 
-    @FXML
-    private TextField TicketsInShefaAmrtxt;
+	@FXML
+	private TextField TicketsInShefaAmrtxt;
 
-    @FXML
-    private TextField returnedTicketsInShefaAmrtxt;
+	@FXML
+	private TextField returnedTicketsInShefaAmrtxt;
 
-    @FXML
-    private TextField Packages;
+	@FXML
+	private TextField Packages;
 
-    @FXML
-    private Button back;
+	@FXML
+	private Button back;
 
-    @FXML
-    private Label HaifaTicketsLabel;
+	@FXML
+	private Label HaifaTicketsLabel;
 
-    @FXML
-    private Label shefaAmrTicketsLabel;
+	@FXML
+	private Label shefaAmrTicketsLabel;
 
-    @FXML
-    private Label HaifaReturnedTicketsLabel;
+	@FXML
+	private Label HaifaReturnedTicketsLabel;
 
-    @FXML
-    private Label shefaAmrReturnedTicketsLabel;
-    
-    @FXML
-    private Label packageslabel;
-    
+	@FXML
+	private Label shefaAmrReturnedTicketsLabel;
 
-    @FXML
-    void gotoShowComplaintsReport(ActionEvent event) throws Exception {
-    	TripleObject msg = new TripleObject("ComplaintsReports", null, null);
+	@FXML
+	private Label packageslabel;
+
+	@FXML
+	void gotoShowComplaintsReport(ActionEvent event) throws Exception {
+		TripleObject msg = new TripleObject("ComplaintsReports", null, null);
 		SimpleClient.getClient().sendToServer(msg);
-    }
-    
+	}
+
 	@Subscribe
 	public void onData11(GotComplaintsReportstEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("ComplaintsReports");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -81,6 +81,7 @@ public class ShowReportsController implements Initializable {
 
 	@FXML
 	void gotoback(ActionEvent event) throws Exception {
+		EventBus.getDefault().unregister(this);
 		App.setRoot("menu");
 	}
 
@@ -95,7 +96,7 @@ public class ShowReportsController implements Initializable {
 		int returnedTicketsInShefaAmr_num = list2.get(3);
 		int Links_num = list2.get(4);
 		int packagesnum = list2.get(5);
-		
+
 		System.out.println("in initialize pack = " + packagesnum);
 
 		if (loginController.loginRole == 0) {// show everything
@@ -106,8 +107,7 @@ public class ShowReportsController implements Initializable {
 			TicketsInShefaAmrtxt.setText(Integer.toString(TicketsInShefaAmr_num));
 			returnedTicketsInShefaAmrtxt.setText(Integer.toString(returnedTicketsInShefaAmr_num));
 			Packages.setText(Integer.toString(packagesnum));
-		} 
-		else if (loginController.currentUser.equals("Ursula")) {// show haifa reports
+		} else if (loginController.currentUser.equals("Ursula")) {// show haifa reports
 			TicketsInHaifatxt.setText(Integer.toString(TicketsInHaifa_num));
 			returnedTicketsInHaifatxt.setText(Integer.toString(returnedTicketsInHaifa_num));
 
@@ -116,7 +116,6 @@ public class ShowReportsController implements Initializable {
 			Links.setVisible(false);
 			TicketsInShefaAmrtxt.setVisible(false);
 			returnedTicketsInShefaAmrtxt.setVisible(false);
-
 
 			Links.setText(Integer.toString(Links_num));
 			Packages.setText(Integer.toString(packagesnum));
@@ -150,7 +149,6 @@ public class ShowReportsController implements Initializable {
 			Links.setVisible(false);
 			ShowComplaintsReport.setVisible(false);
 			packageslabel.setVisible(false);
-			
 
 		}
 	}

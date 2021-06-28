@@ -67,9 +67,9 @@ public class More_InfoController implements Initializable {
 	public void onData111(GotMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				// EventBus.getDefault().unregister(this);
 				App.setRoot("browse_movies");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});

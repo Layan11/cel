@@ -63,9 +63,9 @@ public class moreInfoToWatchAtHomeController implements Initializable {
 	public void onData111(GotWatchAtHomeEvent event) {
 		Platform.runLater(() -> {
 			try {
-				App.setRoot("GotWatchAtHomeEvent");
+				// EventBus.getDefault().unregister(this);
+				App.setRoot("Watch_At_Home");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});

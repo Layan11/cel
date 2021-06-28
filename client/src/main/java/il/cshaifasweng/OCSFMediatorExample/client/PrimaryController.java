@@ -19,22 +19,26 @@ public class PrimaryController implements Initializable {
 
 	@FXML
 	void gotoLogin(ActionEvent event) throws Exception {
+//		EventBus.getDefault().unregister(this);
 		App.setRoot("login");
 	}
 
 	@FXML
 	void gotoNoLogin(ActionEvent event) throws Exception {
 		loginController.loginRole = 3;
+//		EventBus.getDefault().unregister(this);
 		App.setRoot("menu");
 	}
 
 	@FXML
 	void gotosignin(ActionEvent event) throws Exception {
+//		EventBus.getDefault().unregister(this);
 		App.setRoot("signIn");
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+//		EventBus.getDefault().register(this);
 
 	}
 }

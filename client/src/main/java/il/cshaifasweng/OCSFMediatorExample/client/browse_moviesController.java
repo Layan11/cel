@@ -59,6 +59,7 @@ public class browse_moviesController implements Initializable {
 	void backtomain(ActionEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("menu");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -88,6 +89,7 @@ public class browse_moviesController implements Initializable {
 	public void onFiltered(GotFilteredMovieByDatesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("filteredMovieDates");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -99,6 +101,7 @@ public class browse_moviesController implements Initializable {
 	public void onData(GotfilteredMoviesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("FilteredMovies");
 
 			} catch (IOException e) {
@@ -125,6 +128,7 @@ public class browse_moviesController implements Initializable {
 	public void onData22(GotMoreInfoEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("More_Info");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -136,6 +140,7 @@ public class browse_moviesController implements Initializable {
 	void gobacktoprimary(ActionEvent event) throws IOException {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choose_type_to_browse");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -155,6 +160,7 @@ public class browse_moviesController implements Initializable {
 	public void onData1(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Screening_Times");
 			} catch (IOException e) {
 				e.printStackTrace();

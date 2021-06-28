@@ -71,6 +71,7 @@ public class Buy_Ticket implements Initializable {
 	public void onData1(GotScreeningTimesEvent event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("Screening_Times");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -79,9 +80,10 @@ public class Buy_Ticket implements Initializable {
 	}
 
 	@Subscribe
-	public void onData1(busyseat event) {
+	public void onData12(busyseat event) {
 		Platform.runLater(() -> {
 			try {
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choosenewseat");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -92,12 +94,12 @@ public class Buy_Ticket implements Initializable {
 	@Subscribe
 	public void onGotMapChair(gotMapChairevent event) {
 		Platform.runLater(() -> {
-//			try {
-//				App.setRoot("show_MapChair");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				// EventBus.getDefault().register(this);
+				App.setRoot("buy_ticket");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		});
 
@@ -132,7 +134,6 @@ public class Buy_Ticket implements Initializable {
 			SimpleClient.getClient().sendToServer(mymsg);
 
 			msglab.setVisible(true);
-//			back.setVisible(true);
 			counter2++;
 		}
 		if (counter >= 2) {
@@ -154,6 +155,7 @@ public class Buy_Ticket implements Initializable {
 			try {
 				msglab.setText(msg.getMsg());
 				if (false) {
+					EventBus.getDefault().unregister(this);
 					App.setRoot("idk");
 				}
 			} catch (IOException e) {
@@ -162,22 +164,18 @@ public class Buy_Ticket implements Initializable {
 		});
 	}
 
-	// start
-
 	@Subscribe
 	public void chooseanotherseat(busyseat event) {
 		Platform.runLater(() -> {
 			try {
-
+				EventBus.getDefault().unregister(this);
 				App.setRoot("choosenewseat");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
 	}
-	/// end
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

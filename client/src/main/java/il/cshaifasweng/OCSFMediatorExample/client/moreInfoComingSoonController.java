@@ -63,9 +63,9 @@ public class moreInfoComingSoonController implements Initializable {
 	public void onData111(GotComingSoonEvent event) {
 		Platform.runLater(() -> {
 			try {
+				// EventBus.getDefault().unregister(this);
 				App.setRoot("Coming_soon");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
