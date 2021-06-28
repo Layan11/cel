@@ -19,10 +19,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 public class Buy_Ticket implements Initializable {
 	int counter = 0;
 	int counter2 = 0;
+	static public String ticket_id="";  
+
 
 	@FXML
 	private TextField way_to_pay;
@@ -38,17 +41,20 @@ public class Buy_Ticket implements Initializable {
 	private Button restrictionBack;
 	@FXML
 	private Label fullHallLabel;
+    @FXML
+    private ImageView cinematicket;
+
 
 	@FXML
 	void back_btn(ActionEvent event) throws Exception {
+		cinematicket.setVisible(false);
 		System.out.println("im the the back now the vlue of counter 2 is :"+counter2);
 		if (counter2 == 0) {
 			System.out.println(show_MapChairController.id + Screening_TimesController.selectedScreeningTime
 					+ show_MapChairController.num_chair1);
 			
-			TripleObject msg = new TripleObject("remove mapchair with new seat", show_MapChairController.movieid,
+			TripleObject msg = new TripleObject("remove mapchair with new seat",browse_moviesController.selectedMovie.getId(),
 					Screening_TimesController.selectedScreeningTime, show_MapChairController.num_chair1);
-
 			SimpleClient.getClient().sendToServer(msg);
 		}
 		counter2 = 0;
@@ -64,6 +70,7 @@ public class Buy_Ticket implements Initializable {
 
 	@FXML
 	void gotoRestrictionBack(ActionEvent event) throws Exception {
+		cinematicket.setVisible(false);
 		TripleObject msg = new TripleObject(
 				"Show Screening Times " + browse_moviesController.selectedMovie.getEngName(), null, null);
 		SimpleClient.getClient().sendToServer(msg);
@@ -138,12 +145,16 @@ public class Buy_Ticket implements Initializable {
 			fullHallLabel.setText("Sorry the hall is full");
 		});
 	}
+	
+	
 
 	@Subscribe
 	public void onData(TripleObject msg) {
 		Platform.runLater(() -> {
 			try {
+				cinematicket.setVisible(true);
 				msglab.setText(msg.getMsg());
+				ticket_id=msg.getMsg()	;			
 				if (false) {
 					App.setRoot("idk");
 				}

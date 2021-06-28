@@ -1575,102 +1575,116 @@ public class SimpleServer extends AbstractServer {
 		}
 
 		if (ObjctMsg.startsWith("1Add new Ticket ")) {
+			/***saleh***/
 			try {
-				App.session = App.sessionFactory.openSession();
-				App.session.beginTransaction();
-				Ticket my_Ticket = tuple_msg2.gettickets();
-				String screeningTime = my_Ticket.gettime();
-				Movie movie = getMovie(my_Ticket.get_movie()).get(0);
-				MapChair mc = getmapchairid(movie.getId(), my_Ticket.gettime()).get(0);
-				int numOfBoughtSeats = mc.getNumOfBoughtSeat();
-				// Movie movie = getMovie(Integer.toString(movieId)).get(0);
-				List<String> times = movie.getMovieTimes().getTimes();
-				List<String> dates = movie.getMovieTimes().getDate();
 
-				String date = null;
-				for (int i = 0; i < times.size(); i++) {
-					if (times.get(i).equals(screeningTime)) {
-						date = dates.get(i);
-					}
+               if(!(get_equals_ticket(tuple_msg2.gettickets()).isEmpty())) {
+            	  // int mapchair_id=getmapchairid(tuple_msg2.gettickets().get_id(),tuple_msg2.gettickets().gettime()).get(0).getID();
+            	   int mapchair_id=tuple_msg2.gettickets().getmapchairid();
+            	   String num_seat=tuple_msg2.gettickets().getChair_num();
+            	   System.out.println("*************");
+            	   System.out.println(mapchair_id);
+            	   System.out.println(num_seat);
+            	   remove_seat(mapchair_id,num_seat);
+            	   add_seat(mapchair_id,num_seat);
+            	   client.sendToClient(new TripleObject("someone else buy this ticket",getMapChair(mapchair_id)));
 				}
-				List<String> restrictedDates = getPC().get(0).getDays();
-				boolean restriction = false;
-				for (int i = 0; i < restrictedDates.size(); i++) {
-					if (date.equals(restrictedDates.get(i))) {
-						restriction = true;
-					}
-				}
-				if (!(mc.getNmberAvailableChair() == 0)) {
-					if (restriction) {
-						// if its restrictionday screening date then just buy one and send id
-						// else do all the rest.
+               
+               else {
+            		try {
+        				App.session = App.sessionFactory.openSession();
+        				App.session.beginTransaction();
+        				Ticket my_Ticket = tuple_msg2.gettickets();
+        				String screeningTime = my_Ticket.gettime();
+        				Movie movie = getMovie(my_Ticket.get_movie()).get(0);
+        				MapChair mc = getmapchairid(movie.getId(), my_Ticket.gettime()).get(0);
+        				int numOfBoughtSeats = mc.getNumOfBoughtSeat();
+        				// Movie movie = getMovie(Integer.toString(movieId)).get(0);
+        				List<String> times = movie.getMovieTimes().getTimes();
+        				List<String> dates = movie.getMovieTimes().getDate();
 
-						numOfBoughtSeats++;
-						mc.setNumOfBoughtSeat(numOfBoughtSeats);
-						int numOfAvailable = mc.getNmberAvailableChair();
-						mc.setNmberAvailableChair(numOfAvailable - 1);
-						App.session.save(mc);
-						App.session.flush();
-						for (int i = 1; i <= 100; i++) {
-							if (!mc.getMapChair().contains(i)) {
-								my_Ticket.setChair_num(Integer.toString(i));
-								mc.getMapChair().add(i);
-								App.session.save(mc);
-								App.session.save(my_Ticket);
-								App.session.flush();
-								client.sendToClient(
-										new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
-								i = 101;
-								Reports allreports = getReports(1).get(0);
-								if (my_Ticket.get_hall().equals("Haifa")) {
-									int tmp2 = allreports.getTicketsInHaifa();
-									allreports.setTicketsInHaifa(tmp2 + 1);
-									App.session.getTransaction().commit();
-								}
-								if (my_Ticket.get_hall().equals("Shefa-Amr")) {
-									int tmp2 = allreports.getTicketsInShefaAmr();
-									allreports.setTicketsInShefaAmr(tmp2 + 1);
-									App.session.getTransaction().commit();
-								}
+        				String date = null;
+        				for (int i = 0; i < times.size(); i++) {
+        					if (times.get(i).equals(screeningTime)) {
+        						date = dates.get(i);
+        					}
+        				}
+        				List<String> restrictedDates = getPC().get(0).getDays();
+        				boolean restriction = false;
+        				for (int i = 0; i < restrictedDates.size(); i++) {
+        					if (date.equals(restrictedDates.get(i))) {
+        						restriction = true;
+        					}
+        				}
+        				if (restriction) {
+        					// if its restrictionday screening date then just buy one and send id
+        					// else do all the rest.
+        					if (mc.getNmberAvailableChair() == 0) {
+        						// send enu fsh m7l
+        						client.sendToClient(new TripleObject("The hall is full", null, null));
+        					} else {
+        						numOfBoughtSeats++;
+        						mc.setNumOfBoughtSeat(numOfBoughtSeats);
+        						int numOfAvailable = mc.getNmberAvailableChair();
+        						mc.setNmberAvailableChair(numOfAvailable - 1);
+        						App.session.save(mc);
+        						App.session.flush();
+        						for (int i = 0; i < 100; i++) {
+        							if (!mc.getMapChair().contains(i)) {
+        								my_Ticket.setChair_num(Integer.toString(i));
+        								mc.getMapChair().add(i);
+        								App.session.save(mc);
+        								App.session.save(my_Ticket);
+        								App.session.flush();
+        								client.sendToClient(
+        										new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
+        								i = 101;
+        							}
+        						}
+        					}
+        				} else {// no restriction
+        					numOfBoughtSeats++;
+        					mc.setNumOfBoughtSeat(numOfBoughtSeats);
+        					int numOfAvailable = mc.getNmberAvailableChair();
+        					mc.setNmberAvailableChair(numOfAvailable - 1);
+        					App.session.save(mc);
+        					App.session.flush();
+        					App.session.save(my_Ticket);
+        					App.session.flush();
+        					client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
 
-							}
-						}
-					} else {// no restriction
-						numOfBoughtSeats++;
-						mc.setNumOfBoughtSeat(numOfBoughtSeats);
-						int numOfAvailable = mc.getNmberAvailableChair();
-						mc.setNmberAvailableChair(numOfAvailable - 1);
-						App.session.save(mc);
-						App.session.flush();
-						App.session.save(my_Ticket);
-						App.session.flush();
-						client.sendToClient(new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
+        					Reports allreports = getReports(1).get(0);
+        					if (my_Ticket.get_hall().equals("Haifa")) {
+        						int tmp2 = allreports.getTicketsInHaifa();
+        						allreports.setTicketsInHaifa(tmp2 + 1);
+        						App.session.getTransaction().commit();
+        					}
+        					if (my_Ticket.get_hall().equals("Shefa-Amr")) {
+        						int tmp2 = allreports.getTicketsInShefaAmr();
+        						allreports.setTicketsInShefaAmr(tmp2 + 1);
+        						App.session.getTransaction().commit();
+        					}
+        				}
+        				App.session.getTransaction().commit();
 
-						Reports allreports = getReports(1).get(0);
-						if (my_Ticket.get_hall().equals("Haifa")) {
-							int tmp2 = allreports.getTicketsInHaifa();
-							allreports.setTicketsInHaifa(tmp2 + 1);
-							App.session.getTransaction().commit();
-						}
-						if (my_Ticket.get_hall().equals("Shefa-Amr")) {
-							int tmp2 = allreports.getTicketsInShefaAmr();
-							allreports.setTicketsInShefaAmr(tmp2 + 1);
-							App.session.getTransaction().commit();
-						}
-					}
-					App.session.getTransaction().commit();
-
-					// updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
-					App.session.save(my_Ticket);
-					App.session.flush();
-				} else if (mc.getNmberAvailableChair() == 0) {
-					client.sendToClient(new TripleObject("The hall is full", null, null));
-				}
-				App.session.getTransaction().commit();
-			} catch (Exception e) {
+        				// updatenumberofchairs(my_Ticket.get_movie(), my_Ticket.gettime());
+        				App.session.save(my_Ticket);
+        				App.session.flush();
+        				App.session.getTransaction().commit();
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        			App.session.close(); 
+            	   
+            	   
+               }
+				
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
-			App.session.close();
+			/***saleh***/
+			
 		}
 
 		if (ObjctMsg.startsWith("Add New Package ")) {
@@ -2007,10 +2021,10 @@ public class SimpleServer extends AbstractServer {
 				App.session = App.sessionFactory.openSession();
 				App.session.beginTransaction();
 				String num_seat = tuple_msg.getnumseat();
-		//		int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
-			//	System.out.println("mapchair id " + mapchair_id);
-			//	remove_seat(mapchair_id, num_seat);
-				System.out.println("im done");
+				//int mapchair_id = getmapchairid(tuple_msg.getID(), tuple_msg.getTime()).get(0).getID();
+				int mapchair_id = getmapchairid(tuple_msg.getID(),tuple_msg.getTime()).get(0).getID();
+				System.out.println("mapchair id " + mapchair_id);
+				remove_seat(mapchair_id, num_seat);
 				App.session.getTransaction().commit();
 				App.session.close();
 
@@ -2028,7 +2042,7 @@ public class SimpleServer extends AbstractServer {
 		java.sql.Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
 			//ResultSet rs2 = stmt.executeQuery("SELECT * FROM movies WHERE EngName= '" + moviename + "'");
@@ -2087,7 +2101,7 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 			System.out.println("i fel 1");
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 			System.out.println("i fel 2");
 			System.out.println("Opened database successfully");
 			System.out.println("i fel 3");
@@ -2117,7 +2131,7 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2177,7 +2191,7 @@ public class SimpleServer extends AbstractServer {
 		Connection c = null;
 		java.sql.Statement stmt = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
@@ -2217,7 +2231,7 @@ public class SimpleServer extends AbstractServer {
 		try {
 			int z = 0;
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
@@ -2280,7 +2294,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 
 			int idmap = 0;
 			String moviename = null;
@@ -2433,7 +2447,7 @@ public class SimpleServer extends AbstractServer {
 		System.out.println(user2);
 		try {
 
-			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "samer123");
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/NewDB?serverTimezone=UTC", "root", "S208343871s*");
 
 			System.out.println("Opened database successfully");
 			stmt = c.createStatement();
