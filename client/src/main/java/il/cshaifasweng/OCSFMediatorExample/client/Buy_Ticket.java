@@ -143,6 +143,7 @@ public class Buy_Ticket implements Initializable {
 	public void onFullHall(FullHalltEvent event) {
 		Platform.runLater(() -> {
 			fullHallLabel.setText("Sorry the hall is full");
+			msglab.setVisible(false);
 		});
 	}
 	
