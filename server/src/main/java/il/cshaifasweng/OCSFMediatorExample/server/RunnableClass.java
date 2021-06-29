@@ -19,6 +19,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
 public class RunnableClass {
 	long delay = 10 * 1000 * 6; // delay in milliseconds
+	long delay2 = 86400000;
 	long counter = 0;
 	LoopTask task = new LoopTask();
 	LoopTask2 task2 = new LoopTask2();
@@ -33,7 +34,7 @@ public class RunnableClass {
 		timer2 = new Timer("TaskName2");
 		Date executionDate = new Date(); // no params = now
 		timer.scheduleAtFixedRate(task, executionDate, delay);
-		timer2.scheduleAtFixedRate(task2, executionDate, delay);
+		timer2.scheduleAtFixedRate(task2, executionDate, delay2);
 
 	}
 
@@ -85,52 +86,6 @@ public class RunnableClass {
 				if (session.getTransaction().getStatus().equals(TransactionStatus.ACTIVE)) {
 					session.getTransaction().commit();
 				}
-				if (counter == 0 || counter == 1440 || counter == 2) {
-					List<Movie> allMovies = SimpleServer.getMoviesList();
-					List<Movie> moviesinbranches = new ArrayList<Movie>();
-					List<User> allUsers = SimpleServer.getUserslist();
-					List<User> UsersWithPackage = new ArrayList<User>();
-
-					for (int i = 0; i < allUsers.size(); i++) {
-						if (allUsers.get(i).getPackageId() > -1) {
-							UsersWithPackage.add(allUsers.get(i));
-						}
-					}
-					for (int i = 0; i < allMovies.size(); i++) {
-						if (allMovies.get(i).getType() == 0 || allMovies.get(i).getType() == 3) {
-							moviesinbranches.add(allMovies.get(i));
-						}
-					}
-					System.out.println("Num of Movies in branches = " + moviesinbranches.size());
-					for (int i = 0; i < moviesinbranches.size(); i++) {
-						System.out.println("Movie Name = " + moviesinbranches.get(i).getEngName());
-						List<String> dates = moviesinbranches.get(i).getMovieTimes().getDate();
-						String SmallestDate = SimpleServer.FindSmallestDate(dates);
-						LocalDateTime rightNoww = LocalDateTime.now();
-						int yearnoww = rightNoww.getYear();
-						int monthnoww = rightNoww.getMonthValue();
-						int daynoww = rightNoww.getDayOfMonth();
-						List<String> dates1 = Arrays.asList(SmallestDate.split("/"));
-						int year11 = Integer.parseInt(dates1.get(2));
-						int month11 = Integer.parseInt(dates1.get(1));
-						int day11 = Integer.parseInt(dates1.get(0));
-						System.out
-								.println("smallest for " + moviesinbranches.get(i).getEngName() + " : " + SmallestDate);
-						if (yearnoww == year11 && monthnoww == month11 && daynoww == day11) {
-							for (int k = 0; k < UsersWithPackage.size(); k++) {
-								System.out.println("USER = " + UsersWithPackage.get(i).getUser_Name());
-								String cont = "ttttttttttttttttThe movie  " + moviesinbranches.get(i).getEngName()
-										+ " is in our branches for the first time";
-								messages MSGtosend = new messages("server", cont,
-										UsersWithPackage.get(k).getUser_Name());
-								session.save(MSGtosend);
-								session.flush();
-							}
-						}
-					}
-					counter = 0;
-				}
-				counter++;
 			} catch (HibernateException e) {
 				e.printStackTrace();
 				session.getTransaction().rollback();
@@ -186,8 +141,8 @@ public class RunnableClass {
 						System.out.println("size ===== " + UsersWithPackage.size());
 						for (int k = 0; k < UsersWithPackage.size(); k++) {
 							System.out.println("USER = " + UsersWithPackage.get(k).getUser_Name());
-							String cont = "tttttkkkttttttttThe movie  " + moviesinbranches.get(i).getEngName()
-									+ " is in our branches for the first time";
+							String cont = "What are you doing today? Watching our new movie:  "
+									+ moviesinbranches.get(i).getEngName() + "  for the first time in our branches!";
 							messages MSGtosend = new messages("server", cont, UsersWithPackage.get(k).getUser_Name());
 							session.save(MSGtosend);
 							session.flush();
@@ -202,7 +157,6 @@ public class RunnableClass {
 				if (session.getTransaction() != null && App.session.getTransaction().isActive()) {
 					session.getTransaction().rollback();
 				}
-				// App.session.getTransaction().rollback();
 			}
 			session.close();
 		}

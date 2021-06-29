@@ -259,6 +259,7 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new GotNumOfPacTicsEvent2());
 		}
 		if (myMsg.startsWith("You already have a package")) {
+			System.out.println("KOKOOOOOOOOOO");
 			EventBus.getDefault().post(new AlreadyHavePackageEvent());
 		}
 		if (myMsg.startsWith("found movie to update price")) {
