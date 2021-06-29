@@ -70,9 +70,9 @@ public class Buy_LinkController implements Initializable {
 			;
 			LocalDateTime date3 = LocalDateTime.now();
 			LocalDateTime date4 = LocalDateTime.now();
-			// date3 = date3.plusDays(1);
-			date3 = date3.plusHours(1);
-			date3 = date3.plusMinutes(2);
+			date3 = date3.plusDays(1);
+//			date3 = date3.plusHours(1);
+//			date3 = date3.plusMinutes(2);
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 			date4 = date4.plusDays(2);
 			String user = loginController.currentUser;
