@@ -38,6 +38,7 @@ public class Buy_Ticket implements Initializable {
 	private Button restrictionBack;
 	@FXML
 	private Label fullHallLabel;
+	static int idCounter = 0;
 
 	@FXML
 	void back_btn(ActionEvent event) throws Exception {
@@ -110,7 +111,7 @@ public class Buy_Ticket implements Initializable {
 		counter++;
 		counter2++;
 		if (counter < 2) {
-
+			idCounter++;
 			Movie newMovie;
 			newMovie = browse_moviesController.selectedMovie;
 			String time = Screening_TimesController.selectedScreeningTime;
@@ -124,10 +125,11 @@ public class Buy_Ticket implements Initializable {
 					show_MapChairController.id, Screening_TimesController.selectedScreeningDate);
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
-			String msg_to_user = "The movie you choose is: " + mytestticket.get_movie()
-					+ "\n It will be represented on: \n" + mytestticket.gettime() + "\n at date : \n"
-					+ mytestticket.getdate() + "\n Your seat number is :" + mytestticket.getChair_num()
-					+ "\n The branch is: " + mytestticket.get_hall();
+			String msg_to_user = "The id of the ticket is: " + idCounter + " The movie you choose is: " + movie
+					+ " It will be represented on:\n " + Screening_TimesController.selectedScreeningTime + " at date : "
+					+ Screening_TimesController.selectedScreeningDate + " Your seat number is :"
+					+ show_MapChairController.num_chair1 + " The branch is: " + hall;
+
 			System.out.println(msg_to_user);
 			messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);
 			TripleObject mymsg = new TripleObject("Send msg to user", msgtouser);

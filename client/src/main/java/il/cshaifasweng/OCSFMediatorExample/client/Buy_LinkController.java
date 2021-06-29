@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
 
 public class Buy_LinkController implements Initializable {
 	public static List<link> alllinksbuy;
-
+	static private int idLink = 0;
 	@FXML
 	private TextField Method_pay;
 
@@ -62,24 +62,17 @@ public class Buy_LinkController implements Initializable {
 
 	@FXML
 	void buy_btn(ActionEvent event) throws IOException {
-
-		// Movie K = browse_moviesController.selectedMovie;
-		// String time= Screening_TimesController.selected_start_time;
-		// String end_time = Screening_TimesController.selected_end_time;
-		// link addlink =new link(K,10,20);
-
-		// DoubleObject msg = new DoubleObject("Add new link",addlink, null);
-		// SimpleClient.getClient().sendToServer(msg);
 		if (Method_pay.getText() != "") {
+			idLink++;
 			Movie newMovie;
 			newMovie = Watch_At_HomeController.selected_watch_at_home_Movie;
 			String name = newMovie.getEngName();
 			;
 			LocalDateTime date3 = LocalDateTime.now();
 			LocalDateTime date4 = LocalDateTime.now();
-			date3 = date3.plusDays(1);
-//			date3 = date3.plusHours(1);
-//			date3 = date3.plusMinutes(3);
+			// date3 = date3.plusDays(1);
+			date3 = date3.plusHours(1);
+			date3 = date3.plusMinutes(2);
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 			date4 = date4.plusDays(2);
 			String user = loginController.currentUser;
@@ -90,8 +83,8 @@ public class Buy_LinkController implements Initializable {
 			msglab.setVisible(true);
 			String formatDateTime = date3.format(format);
 			String formatDateTime2 = date4.format(format);
-			String msg_to_user = "The movie you choose is: " + name + "\n The link  will start working on:\n "
-					+ formatDateTime + "\n and stop at: \n" + formatDateTime2;
+			String msg_to_user = "The link id is: " + idLink + " The movie you choose is: " + name
+					+ "\n The link  will start working on: " + formatDateTime + " and stop at: " + formatDateTime2;
 			System.out.println(msg_to_user);
 			messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);
 			TripleObject mymsg = new TripleObject("Send msg to user", msgtouser);
@@ -103,14 +96,7 @@ public class Buy_LinkController implements Initializable {
 	@Subscribe
 	public void onData(TripleObject msg) {
 		System.out.println("IN onData");
-
 		Platform.runLater(() -> {
-//   			Window window = Browse_movie_list.getScene().getWindow();
-//   			if (window instanceof Stage) {
-//   				((Stage) window).close();
-//   			}
-//   			Stage primaryStage = new Stage();
-			// Parent root;
 			try {
 				msglab.setText(msg.getMsg());
 				if (false) {
@@ -127,7 +113,6 @@ public class Buy_LinkController implements Initializable {
 			}
 
 		});
-
 	}
 
 	@Override

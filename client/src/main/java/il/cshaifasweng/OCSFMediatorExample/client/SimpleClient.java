@@ -319,10 +319,11 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new busyseat());
 
 		}
-
+		if (myMsg.equals("You can't return link now")) {
+			TripleObject msg2 = new TripleObject(myMsg, null, null);
+			EventBus.getDefault().post(msg2);
+		}
 		// ***saleh***
-
-		//
 		if (myMsg.equals("ComplaintsReports")) {
 			ComplaintsPerMArraay = triple_msg.getComplaintsPerMArraay();
 			EventBus.getDefault().post(new GotComplaintsReportstEvent());

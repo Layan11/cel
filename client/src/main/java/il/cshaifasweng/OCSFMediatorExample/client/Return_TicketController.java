@@ -62,7 +62,7 @@ public class Return_TicketController implements Initializable {
 				labelmsg.setText(msg.getMsg());
 				if (flag == 1) {
 					if (labelmsg.getText().startsWith(("You will"))) {
-						String msg_to_user = "The Return of the Ticket was exectuted succesfully  " + "\n  "
+						String msg_to_user = "The Return of the Ticket was exectuted succesfully  "
 								+ labelmsg.getText();
 						System.out.println(msg_to_user);
 						messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);

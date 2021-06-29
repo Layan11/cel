@@ -2507,7 +2507,7 @@ public class SimpleServer extends AbstractServer {
 			LocalDateTime rightNow = LocalDateTime.now();
 			LocalDateTime rightNow2 = LocalDateTime.now();
 			LocalDateTime getime = null;
-			rightNow = rightNow.plusHours(3);
+			rightNow = rightNow.plusHours(1);
 
 			rs1 = stmt2.executeQuery("SELECT * FROM links WHERE link_id=' " + x + "'");
 			System.out.println("passed the selection");
@@ -2521,36 +2521,29 @@ public class SimpleServer extends AbstractServer {
 			}
 			System.out.println("Date: " + rightNow);
 			System.out.println("Date2: " + getime);
+			Boolean checkDelete = false;
 			if (user2.equals(user)) {
 				if (rightNow.isBefore(getime)) {
 					try {
-						System.out.println("im in the first if");
-						client.sendToClient(new TripleObject("You get 100% refound", null, null));
+						System.out.println("im in the second if");
+						client.sendToClient(new TripleObject("You get 50% refound", null, null));
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
-					rightNow.minusHours(2);
-					if (rightNow.isBefore(getime)) {
-						try {
-							System.out.println("im in the second if");
-							client.sendToClient(new TripleObject("You get 50% refound", null, null));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} else {
-						try {
-							System.out.println("im in the third if");
-							client.sendToClient(new TripleObject("You get no refound", null, null));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					try {
+						checkDelete = true;
+						System.out.println("im in the third if");
+						client.sendToClient(new TripleObject("You can't return link now", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
-
-				int rs = stmt.executeUpdate("DELETE FROM links WHERE link_id= ' " + x + "'");
+				int rs = 1;
+				if (checkDelete == false) {
+					rs = stmt.executeUpdate("DELETE FROM links WHERE link_id= ' " + x + "'");
+				}
 				if (rs != 0) {
 					let_in = true;
 				}
