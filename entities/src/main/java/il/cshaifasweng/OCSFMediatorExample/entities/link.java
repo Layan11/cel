@@ -27,23 +27,32 @@ public class link implements Serializable {
 
 	}
 
-	public link( String _movie, LocalDateTime S_time, LocalDateTime E_Time,String user,String method) {
-	
+	public link(String _movie, LocalDateTime S_time, LocalDateTime E_Time, String user, String method) {
+
 		this.movie = _movie;
 		this.start_time_of_work = S_time;
 		this.end_time_of_work = E_Time;
-		this.user_name=user;
-		this.Method_of_payment=method;
+		this.user_name = user;
+		this.Method_of_payment = method;
 	}
 
 	public int get_id() {
 		return this.link_id;
 	}
+
 	public String getuser() {
 		return this.user_name;
 	}
 
 	public LocalDateTime get_start() {
 		return this.start_time_of_work;
+	}
+
+	public String getMovie() {
+		return movie;
+	}
+
+	public void setMovie(String movie) {
+		this.movie = movie;
 	}
 }

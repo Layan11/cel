@@ -19,14 +19,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "movies")
 public class Movie implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name = "My_Movies_id")
-
 	private int id;
 	private int Type; // Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
 						// home, type=3 for watch at home& now broadcasting
@@ -140,7 +135,7 @@ public class Movie implements Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void addMovieTimes(String new_time) {

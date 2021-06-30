@@ -71,8 +71,10 @@ public class RunnableClass {
 								if (daymovie == daynow) {
 									if (minmovie == minnow) {
 										if (hournow + 1 == hourmovie) {
-											String cont = "the link with id: " + mylink.get_id()
-													+ " \nwill start working after 1 hour";
+											String cont = "the link with id: " + mylink.get_id() + "."
+													+ " will start working after 1 hour"
+													+ "\nThe link : https://www.celsr.com//link_to_watch_at_home//"
+													+ mylink.getMovie();
 											messages senduser = new messages("server", cont, mylink.getuser());
 											session.save(senduser);
 											session.flush();

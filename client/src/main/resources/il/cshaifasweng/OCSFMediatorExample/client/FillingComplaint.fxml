@@ -28,12 +28,12 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Button fx:id="Send_the_complaint" layoutX="198.0" layoutY="433.0" mnemonicParsing="false" onAction="#sendComplaintandhome" style="-fx-background-color: #3c3c3c;" text="Send_the_complaint" textFill="WHITE">
+      <Button fx:id="Send_the_complaint" layoutX="198.0" layoutY="433.0" mnemonicParsing="false" onAction="#sendComplaintandhome" style="-fx-background-color: #3c3c3c;" text="Send the Complaint" textFill="WHITE">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Button fx:id="Back_to_home" layoutX="465.0" layoutY="433.0" mnemonicParsing="false" onAction="#backPrimary" style="-fx-background-color: #3c3c3c;" text="Back_to_home" textFill="WHITE">
+      <Button fx:id="Back_to_home" layoutX="465.0" layoutY="433.0" mnemonicParsing="false" onAction="#backPrimary" style="-fx-background-color: #3c3c3c;" text="Back to Home" textFill="WHITE">
          <font>
             <Font size="13.0" />
          </font>

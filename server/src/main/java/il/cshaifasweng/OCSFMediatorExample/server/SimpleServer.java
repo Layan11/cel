@@ -500,15 +500,18 @@ public class SimpleServer extends AbstractServer {
 				Movie movietoadd = tuple_msg.getMovies().get(0);
 				if (movietoadd.getMovieTimes() != null) {
 					App.session.save(movietoadd.getMovieTimes());
-					List<String> timesToAdd = movietoadd.getMovieTimes().getTimes();
+				}
+				App.session.save(movietoadd);
+				App.session.flush();
+				Movie moviee = getMovie(movietoadd.getEngName()).get(0);
+				if (movietoadd.getMovieTimes() != null) {
+					List<String> timesToAdd = moviee.getMovieTimes().getTimes();
 					for (int i = 0; i < timesToAdd.size(); i++) {
-						MapChair mc = new MapChair(10, 10, movietoadd.getId(), timesToAdd.get(i));
+						MapChair mc = new MapChair(10, 10, moviee.getId(), timesToAdd.get(i));
 						mc.setNumOfBoughtSeat(0);
 						App.session.save(mc);
 					}
 				}
-				App.session.save(movietoadd);
-				App.session.flush();
 				App.session.getTransaction().commit();
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -1877,6 +1880,9 @@ public class SimpleServer extends AbstractServer {
 				App.session.beginTransaction();
 				int id_movie = tuple_msg.getID();
 				String time_movie = tuple_msg.getTime();
+				System.out.println("id_movie " + id_movie);
+				System.out.println("time_movie " + time_movie);
+
 				int mapchair_id = getmapchairid(id_movie, time_movie).get(0).getID();
 				List<Integer> mc = getMapChair(mapchair_id);
 				try {

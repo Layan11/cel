@@ -167,6 +167,23 @@ public class MoreActionsController implements Initializable {
 			List<String> Dates = new ArrayList<String>();
 			Times = Arrays.asList(screeningTimes.getText().split("\\s*,\\s*"));
 			Dates = Arrays.asList(dates.getText().split("\\s*,\\s*"));
+			mt.SetMovieTimes(Times);
+			mt.setDate(Dates);
+			movie.setMovieTimes(mt);
+			movie.setBranch(branch.getText());
+			movie.setArbName(arbName.getText());
+			movie.setImage(image.getText());
+			movie.setType(0);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
+								// home
+			List<Movie> movietoadd = new ArrayList<Movie>();
+			movietoadd.add(movie);
+			TripleObject msg1 = new TripleObject("Add new movie", movietoadd, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg1);
+				scsess.setText("your movie " + engName.getText() + " was added as you wish");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 			System.out.println("the date that i sent" + Dates.get(0));
 			String From = loginController.currentUser;
@@ -187,23 +204,7 @@ public class MoreActionsController implements Initializable {
 				e.printStackTrace();
 			}
 			/// end elin
-			mt.SetMovieTimes(Times);
-			mt.setDate(Dates);
-			movie.setMovieTimes(mt);
-			movie.setBranch(branch.getText());
-			movie.setArbName(arbName.getText());
-			movie.setImage(image.getText());
-			movie.setType(0);// Type=0 for now broadcasting,type=1 for coming soon , type=2 for to watch at
-								// home
-			List<Movie> movietoadd = new ArrayList<Movie>();
-			movietoadd.add(movie);
-			TripleObject msg1 = new TripleObject("Add new movie", movietoadd, null);
-			try {
-				SimpleClient.getClient().sendToServer(msg1);
-				scsess.setText("your movie " + engName.getText() + " was added as you wish");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
 		}
 	}
 
