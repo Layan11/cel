@@ -130,6 +130,7 @@ public class Buy_Ticket implements Initializable {
 		SimpleClient.getClient().sendToServer(mymsg);
 					
 			msglab.setVisible(true);
+			way_to_pay.setVisible(true);
 //			back.setVisible(true);
 			counter2++;
 		}

@@ -24,6 +24,23 @@ public class buy_ticketController {
 	@FXML
 	private Button btn_choose;
 
+    @FXML
+    private Button back;
+    
+    @FXML
+    void goback(ActionEvent event) {
+    	Platform.runLater(() -> {
+			TripleObject msg = new TripleObject(
+					"Show Screening Times " + browse_moviesController.selectedMovie.getEngName(), null, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+    }
+    
 	@FXML
 	void choose_seat(ActionEvent event) {
 		Platform.runLater(() -> {
