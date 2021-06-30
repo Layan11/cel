@@ -29,10 +29,9 @@ import javafx.scene.control.TextArea;
 
 public class showComplaintController implements Initializable {
 
-	@FXML // fx:id="sendAnswer"
-	private Button sendAnswer; // Value injected by FXMLLoader
-
-	@FXML // fx:id="deny"
+	@FXML
+	private Button sendAnswer;
+	@FXML
 	private Button deny; // Value injected by FXMLLoader
 
 	@FXML // fx:id="tableView2"

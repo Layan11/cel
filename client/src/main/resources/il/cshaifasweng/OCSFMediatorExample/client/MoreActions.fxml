@@ -46,7 +46,7 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <TextField fx:id="hebName" layoutX="103.0" layoutY="279.0" />
+            <TextField fx:id="hebName" layoutX="104.0" layoutY="279.0" />
             <TextField fx:id="arbName" layoutX="103.0" layoutY="316.0" />
             <TextField fx:id="price" layoutX="360.0" layoutY="242.0" />
             <Label fx:id="priceLabel" layoutX="340.0" layoutY="243.0" textFill="RED">
@@ -172,6 +172,16 @@
             </Label>
             <Label layoutX="12.0" layoutY="210.0" text="(please write the screening dates in the same order as the corresponding screening times)" />
             <Button fx:id="Menu" layoutX="695.0" layoutY="551.0" mnemonicParsing="false" onAction="#backtomenu" text="Back to Menu" />
+            <Label fx:id="hebNameLabel1" layoutX="103.0" layoutY="291.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="scsess" layoutX="208.0" layoutY="76.0" prefHeight="54.0" prefWidth="294.0" textFill="#2300ff">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

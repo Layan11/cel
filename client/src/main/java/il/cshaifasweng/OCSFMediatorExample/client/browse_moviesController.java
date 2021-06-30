@@ -32,7 +32,6 @@ public class browse_moviesController implements Initializable {
 	private TableColumn<Movie, String> firstNameColumn;
 	@FXML
 	private TableColumn<Movie, String> priceColumn;
-
 	@FXML
 	private Button Go_back;
 	@FXML

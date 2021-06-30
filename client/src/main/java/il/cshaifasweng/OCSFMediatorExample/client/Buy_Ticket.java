@@ -56,6 +56,7 @@ public class Buy_Ticket implements Initializable {
 			TripleObject msg = new TripleObject("get my map chair", browse_moviesController.selectedMovie.getId(),
 					Screening_TimesController.selectedScreeningTime);
 			SimpleClient.getClient().sendToServer(msg);
+			show_MapChairController.num_chair1 = null;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -101,9 +102,7 @@ public class Buy_Ticket implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		});
-
 	}
 
 	@FXML
@@ -125,16 +124,17 @@ public class Buy_Ticket implements Initializable {
 					show_MapChairController.id, Screening_TimesController.selectedScreeningDate);
 			DoubleObject msg = new DoubleObject("1Add new Ticket ", null, mytestticket, null);
 			SimpleClient.getClient().sendToServer(msg);
-			String msg_to_user = "The id of the ticket is: " + idCounter + " The movie you choose is: " + movie
-					+ " It will be represented on:\n " + Screening_TimesController.selectedScreeningTime + " at date : "
-					+ Screening_TimesController.selectedScreeningDate + " Your seat number is :"
-					+ show_MapChairController.num_chair1 + " The branch is: " + hall;
+			if (seat != null) {
+				String msg_to_user = "The id of the ticket is: " + idCounter + " The movie you choose is: " + movie
+						+ " It will be represented on:\n " + Screening_TimesController.selectedScreeningTime
+						+ " at date : " + Screening_TimesController.selectedScreeningDate + " Your seat number is :"
+						+ show_MapChairController.num_chair1 + " The branch is: " + hall;
 
-			System.out.println(msg_to_user);
-			messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);
-			TripleObject mymsg = new TripleObject("Send msg to user", msgtouser);
-			SimpleClient.getClient().sendToServer(mymsg);
-
+				System.out.println(msg_to_user);
+				messages msgtouser = new messages("server", msg_to_user, loginController.currentUser);
+				TripleObject mymsg = new TripleObject("Send msg to user", msgtouser);
+				SimpleClient.getClient().sendToServer(mymsg);
+			}
 			msglab.setVisible(true);
 			counter2++;
 		}

@@ -4,9 +4,16 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.TripleObject;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,29 +26,22 @@ import javafx.scene.control.TableView;
 
 public class Dm_forUserController implements Initializable {
 
-	@FXML // fx:id="table1"
-	private TableView<String> table1; // Value injected by FXMLLoader
-
-	@FXML // fx:id="fromCol"
-	private TableColumn<String, String> fromCol; // Value injected by FXMLLoader
-
-	@FXML // fx:id="table2"
-	private TableView<String> table2; // Value injected by FXMLLoader
-
-	@FXML // fx:id="MsgCol"
-	private TableColumn<String, String> MsgCol; // Value injected by FXMLLoader
-
-	@FXML // fx:id="backButton"
-	private Button backButton; // Value injected by FXMLLoader
-
+	@FXML
+	private TableView<String> table1;
+	@FXML
+	private TableColumn<String, String> fromCol;
+	@FXML
+	private TableView<String> table2;
+	@FXML
+	private TableColumn<String, String> MsgCol;
+	@FXML
+	private Button backButton;
 	@FXML
 	private Button DeleteMsg;
-
-	@FXML // fx:id="IDtable"
-	private TableView<String> IDtable; // Value injected by FXMLLoader
-
-	@FXML // fx:id="IDcolumn"
-	private TableColumn<String, String> IDcolumn; // Value injected by FXMLLoader
+	@FXML
+	private TableView<String> IDtable;
+	@FXML
+	private TableColumn<String, String> IDcolumn;
 
 	@FXML
 	void GotoDeleteMsg(ActionEvent event) {
@@ -54,7 +54,35 @@ public class Dm_forUserController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
+	@Subscribe
+	public void askforupdated(askforupdatedEvent event) {
+		Platform.runLater(() -> {
+			String name = loginController.currentUser;
+			Movie newMovie = new Movie();
+			newMovie.setEngName(name); // user
+			List<Movie> L = new ArrayList<Movie>();
+			L.add(newMovie);
+			TripleObject msg = new TripleObject("Show messages", L, null);
+			try {
+				SimpleClient.getClient().sendToServer(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Subscribe
+	public void onGOTMsgs(gotallmessagessevent event) {
+		Platform.runLater(() -> {
+			try {
+				EventBus.getDefault().unregister(this);
+				App.setRoot("Dm_forUser");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	@FXML
@@ -71,12 +99,14 @@ public class Dm_forUserController implements Initializable {
 		fromCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 		table1.getColumns().setAll(fromCol);
 		table1.setItems(from);
+		table1.setSelectionModel(null);
 
 		final ObservableList<String> message = FXCollections.observableArrayList(SimpleClient.messageContent);
 		table2.setEditable(true);
 		MsgCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 		table2.getColumns().setAll(MsgCol);
 		table2.setItems(message);
+		table2.setSelectionModel(null);
 
 		final ObservableList<String> IDS = FXCollections.observableArrayList(SimpleClient.MSGid);
 		IDtable.setEditable(true);
@@ -88,6 +118,10 @@ public class Dm_forUserController implements Initializable {
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
+		EventBus.getDefault().register(this);
+		table1.setFixedCellSize(50.0);
+		IDtable.setFixedCellSize(50.0);
+		table2.setFixedCellSize(50.0);
 		getMessages();
 
 	}

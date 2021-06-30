@@ -98,6 +98,8 @@ public class MoreActionsController implements Initializable {
 	private Label datesLabel;
 	@FXML
 	private Button Menu;
+	@FXML
+	private Label scsess;
 
 	@FXML
 	void backtomenu(ActionEvent event) throws Exception {
@@ -165,26 +167,7 @@ public class MoreActionsController implements Initializable {
 			List<String> Dates = new ArrayList<String>();
 			Times = Arrays.asList(screeningTimes.getText().split("\\s*,\\s*"));
 			Dates = Arrays.asList(dates.getText().split("\\s*,\\s*"));
-			// elin
-			/// ana 3tbrt enno awal date fat hu awal date bn3rd feyu elfilm
 
-			/*
-			 * LocalDate minDate=LocalDate.of(2080, 1, 13); for(int i=0 ; i
-			 * <Dates.size();i++) {
-			 * 
-			 * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-			 * String date = Dates.get(i);
-			 * 
-			 * System.out.println("date before convert" + date); //convert String to
-			 * LocalDate LocalDate localDate = LocalDate.parse(date, formatter);
-			 * 
-			 * System.out.println("date after convert"+ localDate); int before=
-			 * minDate.compareTo(localDate); if (before>0) //that mean that i found erliest
-			 * date minDate=localDate;
-			 * 
-			 * }
-			 */
-			// String minimumdate=minDate.toString();
 			System.out.println("the date that i sent" + Dates.get(0));
 			String From = loginController.currentUser;
 			String context = "Great News! today is the premier of " + engName.getText()
@@ -217,6 +200,7 @@ public class MoreActionsController implements Initializable {
 			TripleObject msg1 = new TripleObject("Add new movie", movietoadd, null);
 			try {
 				SimpleClient.getClient().sendToServer(msg1);
+				scsess.setText("your movie " + engName.getText() + " was added as you wish");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -266,6 +250,8 @@ public class MoreActionsController implements Initializable {
 			TripleObject msg = new TripleObject("Add new movie", movietoadd, null);
 			try {
 				SimpleClient.getClient().sendToServer(msg);
+
+				scsess.setText("your movie " + engName.getText() + " was added as you wish");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -279,6 +265,8 @@ public class MoreActionsController implements Initializable {
 		TripleObject msg = new TripleObject("Add exsisting movie to watch at home " + wantedMovie, null, null);
 		try {
 			SimpleClient.getClient().sendToServer(msg);
+
+			scsess.setText("your movie " + wantedMovie + " was added as you wish");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -330,6 +318,8 @@ public class MoreActionsController implements Initializable {
 			TripleObject msg = new TripleObject("Add new movie", movietoadd, null);
 			try {
 				SimpleClient.getClient().sendToServer(msg);
+
+				scsess.setText("your movie " + engName.getText() + " was added as you wish");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -341,8 +331,11 @@ public class MoreActionsController implements Initializable {
 		invalidMovie.setText("");
 		String wantedMovie = movieName.getText();
 		TripleObject msg = new TripleObject("Delete movie " + wantedMovie, null, null);
+
 		try {
 			SimpleClient.getClient().sendToServer(msg);
+
+			scsess.setText("your movie " + wantedMovie + " was Deleted as you wish");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

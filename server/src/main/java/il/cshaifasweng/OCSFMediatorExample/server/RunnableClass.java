@@ -18,7 +18,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.link;
 import il.cshaifasweng.OCSFMediatorExample.entities.messages;
 
 public class RunnableClass {
-	long delay = 10 * 1000 * 6; // delay in milliseconds
+	long delay = 60000; // delay in milliseconds
 	long delay2 = 86400000;
 	long counter = 0;
 	LoopTask task = new LoopTask();

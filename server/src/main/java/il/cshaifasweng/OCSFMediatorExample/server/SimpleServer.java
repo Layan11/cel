@@ -1365,6 +1365,11 @@ public class SimpleServer extends AbstractServer {
 				if (tmp.size() != 0) {
 					movietodelete = tmp.get(0);
 					App.session.remove(movietodelete);
+					try {
+						client.sendToClient(new TripleObject("updated msgs", null, null));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				} else {
 					try {
 						client.sendToClient(new TripleObject("no such msg", null, null));
@@ -1662,6 +1667,14 @@ public class SimpleServer extends AbstractServer {
 								client.sendToClient(
 										new TripleObject("Your Ticket ID is: " + my_Ticket.get_id(), null, null));
 								i = 101;
+								String msg_to_user = "The id of the ticket is: " + my_Ticket.get_id()
+										+ " The movie you choose is: " + my_Ticket.get_movie()
+										+ " It will be represented on:\n " + my_Ticket.gettime() + " at date : "
+										+ my_Ticket.getdate() + " Your seat number is :" + my_Ticket.getChair_num()
+										+ " The branch is: " + my_Ticket.get_hall();
+								messages msgtouser = new messages("server", msg_to_user, my_Ticket.getuser());
+								App.session.save(msgtouser);
+								App.session.flush();
 								Reports allreports = getReports(1).get(0);
 								if (my_Ticket.get_hall().equals("Haifa")) {
 									int tmp2 = allreports.getTicketsInHaifa();
@@ -1722,6 +1735,7 @@ public class SimpleServer extends AbstractServer {
 				User user = getUser(ObjctMsg.substring(16)).get(0);
 				if (user.getPackageId() != -1) {
 					to = new TripleObject("You already have a package", null, null);
+					client.sendToClient(to);
 				} else {
 					Package my_pack = tuple_msg2.getPackage();
 					App.session.save(my_pack);

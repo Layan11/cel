@@ -160,6 +160,9 @@ public class SimpleClient extends AbstractClient {
 			MovieDates = triple_msg.getList();
 			EventBus.getDefault().post(new GotMovieDatesEvent());
 		}
+		if (myMsg.equals("updated msgs")) {
+			EventBus.getDefault().post(new askforupdatedEvent());
+		}
 		if (myMsg.equals("Deleted screening time")) {
 			EventBus.getDefault().post(new GotUpdatedScreeningsEvent());
 		}
@@ -227,7 +230,6 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(msg2);
 		}
 		if (myMsg.startsWith("Your Ticket ID is")) {
-
 			TripleObject msg2 = new TripleObject(myMsg, null, null);
 			EventBus.getDefault().post(msg2);
 		}
