@@ -22,7 +22,7 @@ import javafx.scene.control.TextField;
 
 public class Buy_Ticket implements Initializable {
 	int counter = 0;
-	int counter2 = 0;
+	static int counter2 = 0;
 
 	@FXML
 	private TextField way_to_pay;
@@ -39,6 +39,39 @@ public class Buy_Ticket implements Initializable {
 	@FXML
 	private Label fullHallLabel;
 	static int idCounter = 0;
+	
+	  @FXML
+	    private Button browsemovie;
+	  
+	    @FXML
+	    private Button home;
+	  
+
+	    @FXML
+	    void gotohome(ActionEvent event) {
+	    	Platform.runLater(() -> {
+				try {
+					EventBus.getDefault().unregister(this);
+					App.setRoot("menu");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+	    
+
+	    }
+
+	    @FXML
+	    void gobrowsemovie(ActionEvent event) {
+	    	Platform.runLater(() -> {
+				try {
+					EventBus.getDefault().unregister(this);
+					App.setRoot("choose_type_to_browse");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+	    }
 
 	@FXML
 	void back_btn(ActionEvent event) throws Exception {
@@ -60,6 +93,7 @@ public class Buy_Ticket implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	@FXML
@@ -136,6 +170,8 @@ public class Buy_Ticket implements Initializable {
 				SimpleClient.getClient().sendToServer(mymsg);
 			}
 			msglab.setVisible(true);
+			browsemovie.setVisible(true);
+			home.setVisible(true);
 			counter2++;
 		}
 		if (counter >= 2) {

@@ -350,6 +350,9 @@ public class SimpleClient extends AbstractClient {
 		if (myMsg.equals("The hall is full")) {
 			EventBus.getDefault().post(new FullHalltEvent());
 		}
+		
+	
+		
 
 	}
 

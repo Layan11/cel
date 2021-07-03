@@ -848,6 +848,7 @@ public class show_MapChairController implements Initializable {
 		});
 	}
 
+
 	@FXML
 	void answerno(ActionEvent event) {
 		mybutton.setStyle("-fx-background-color: green;");
