@@ -3,12 +3,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="741.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="741.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.UpdateMoviesController">
    <children>
       <ImageView fitHeight="620.0" fitWidth="768.0" layoutX="-3.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -37,6 +39,38 @@
             <Button fx:id="updateScreening" layoutX="181.0" layoutY="213.0" mnemonicParsing="false" onAction="#gotoupdate" style="-fx-background-color: #3c3c3c;" text="Update Screening" textFill="WHITE" />
             <Button fx:id="addScreening" layoutX="175.0" layoutY="327.0" mnemonicParsing="false" onAction="#gotoadd" style="-fx-background-color: #3c3c3c;" text="Add Screening" textFill="WHITE" />
             <Button layoutX="349.0" layoutY="334.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #3c3c3c;" text="Back" textFill="WHITE" />
+            <Pane fx:id="error_pane" prefHeight="379.0" prefWidth="412.0" style="-fx-background-color: white;" visible="false">
+               <children>
+                  <ImageView fitHeight="386.0" fitWidth="418.0">
+                     <image>
+                        <Image url="@newPics/error.jpg" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="text_error" alignment="TOP_CENTER" layoutX="5.0" layoutY="25.0" prefHeight="31.0" prefWidth="403.0" style="-fx-background-color: white;">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="error_back" layoutX="170.0" layoutY="325.0" mnemonicParsing="false" onAction="#goback" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: black;" text="Back" textFill="WHITE" />
+               </children>
+            </Pane>
+            <Pane fx:id="thank_pane" layoutY="-1.0" prefHeight="380.0" prefWidth="412.0" style="-fx-background-color: white;" visible="false">
+               <children>
+                  <ImageView fitHeight="379.0" fitWidth="412.0" layoutX="2.0">
+                     <image>
+                        <Image url="@newPics/shutterstock_1224244417.jpg" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="text_pane" layoutX="14.0" layoutY="31.0" prefHeight="31.0" prefWidth="297.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="back_pabe" layoutX="357.0" layoutY="323.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: white;" text="Back" />
+                  <Button fx:id="add_pane" layoutX="18.0" layoutY="323.0" mnemonicParsing="false" onAction="#add_newtime" prefHeight="25.0" prefWidth="203.0" style="-fx-background-color: white;" text="Add another new screnning time" />
+                  <Button fx:id="edit_pane" layoutX="18.0" layoutY="323.0" mnemonicParsing="false" onAction="#edit_samemovie" style="-fx-background-color: white;" text="Edit" />
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
    </children>
